@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      html {
+        font-family: "Roboto", sans-serif;
+        background-color: black;
+      }
+
+      body {
+        max-width: 800px;
+        margin: auto;
+        padding: 1rem;
+        transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+      }
+
+      @layer reset {
+        ol, ul {
+          list-style-type: none;
+          margin-block: 0;
+          padding-left: 0;
+        }
+        p {
+          margin-block: 0;
+        }
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Zen+Kaku+Gothic+New:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kurosearch</title>
+    <meta name="referrer" content="no-referrer" />
+  </head>
+  <body class="dark">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
