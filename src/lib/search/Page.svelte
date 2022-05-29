@@ -20,6 +20,5 @@
     flex-direction: column;
     padding-left: 0;
     gap: 1rem;
-    min-height: 200vh;
   }
 </style>

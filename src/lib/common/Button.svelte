@@ -26,6 +26,5 @@ import { createEventDispatcher } from "svelte";
     align-items: center;
     gap: 1rem;
     padding-inline: 1rem;
-    margin: auto;
   }
 </style>

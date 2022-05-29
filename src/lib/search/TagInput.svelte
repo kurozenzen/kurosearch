@@ -124,7 +124,7 @@
     {:catch error}
       <p style="color: red">{error.message}</p>
     {/await}
-    <p class="hint">Learn more about tags</p>
+    <div class="hint-container"><span class="hint">Learn more about tags</span></div>
   </ol>
 </div>
 
@@ -171,6 +171,7 @@
     border-radius: 0 0 22px 22px;
     overflow: hidden;
     z-index: 1;
+    min-height: 22px
   }
 
   li {
@@ -193,9 +194,17 @@
     overflow: hidden;
   }
 
+  .hint-container {
+    display: flex;
+    justify-content: center;
+  }
+
   .hint {
     font-size: 10px;
-    text-align: center;
-    margin-bottom: 8px;
+    user-select: none;
+  }
+
+  .hint:hover {
+    color: var(--accent);
   }
 </style>

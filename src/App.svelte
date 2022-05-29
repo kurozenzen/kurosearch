@@ -33,6 +33,7 @@
     --line-height: 32px;
     --line-height-large: 44px;
     --accent: crimson;
+    --accent-light: rgb(226, 81, 110);
     --text-accent: #fff;
 
     accent-color: var(--accent);

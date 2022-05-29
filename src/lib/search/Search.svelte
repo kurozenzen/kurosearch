@@ -4,34 +4,21 @@
   import TagInput from "./TagInput.svelte";
   import ActiveTag from "./ActiveTag.svelte";
   import ScrollDetector from "../common/ScrollDetector.svelte";
+  import activeTags from "./activeTags";
+  import { formatCount } from "../../formatting/numbers";
+  import NoResults from "./NoResults.svelte";
+  import NoMoreResults from "./NoMoreResults.svelte";
 
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          console.debug(entry.target.getAttribute("data-src"))
-          entry.target.src = entry.target.getAttribute("data-src");
-        } else {
-          console.debug("removing src from ", entry.target)
-          entry.target.src = "";
-        }
+        entry.target.src = entry.isIntersecting
+          ? entry.target.getAttribute("data-src")
+          : "";
       }
     },
     { rootMargin: "1250px" }
   );
-
-  /** @type {import("../../types/tag").Tag[]}*/
-  let activeTags = [];
-
-  /** @param {{detail: import("../../types/tag").Tag}} e */
-  const addTag = (e) => {
-    activeTags = [...activeTags, e.detail];
-  };
-
-  /** @param {import("../../types/tag").Tag} tag */
-  const removeTag = (tag) => () => {
-    activeTags = activeTags.filter((t) => t.name !== tag.name);
-  };
 
   /** @type {AbortController} */
   let abortController = undefined;
@@ -42,10 +29,15 @@
   /** @type {import("../../types/post").PostDTO[][]}*/
   let pages = [];
 
+  let sort = "updated";
+
   let count = null;
+  $: pageCount = count / 20;
   let nextPage = 0;
 
   function search() {
+    pages = [];
+    count = null;
     if (abortController !== undefined) {
       abortController.abort("New search triggered");
     }
@@ -58,10 +50,16 @@
 
   /** @param {number} pid */
   async function getPage(pid) {
+    const parts = [
+      ...$activeTags.map((t) => t.name),
+      `sort:${sort}:desc`,
+    ]
+      .filter((p) => p !== undefined && p !== null && p !== "")
+      .map(p => encodeURIComponent(p))
+      .join("+");
+
     const res = await fetch(
-      `https://r34-json.herokuapp.com/v2/posts?limit=20&pid=${pid}&tags=${activeTags
-        .map((t) => "+" + t.name)
-        .join()}`,
+      `https://r34-json.herokuapp.com/v2/posts?limit=20&pid=${pid}&tags=${parts}`,
       {
         signal: abortController.signal,
       }
@@ -80,31 +78,43 @@
       throw new Error("fuck");
     }
   }
+
+  search();
 </script>
 
 <h1>kurosearch</h1>
-<TagInput on:pick={addTag} />
+<TagInput on:pick={(e) => activeTags.add(e.detail)} />
 <ul>
-  {#each activeTags as tag}
-    <ActiveTag {tag} on:click={removeTag(tag)} />
+  {#each [...$activeTags] as tag, i}
+    <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
   {/each}
 </ul>
-<Button
+<div class="sort-row">
+  <select bind:value={sort}>
+    <option value="updated">New</option>
+    <option value="score">Popular</option>
+  </select>
+  <Button
   title="Click to search with active tags"
   icon="search"
   text="Search"
   on:click={search}
 />
+</div>
 {#if count}
-  <p class="count">{count} results</p>
+  <p class="count">{formatCount(count)} results</p>
   <ol>
-    {#each pages as page, index}
-      <Page posts={page} observer={intersectionObserver}/>
+    {#each pages as page}
+      <Page posts={page} observer={intersectionObserver} />
     {/each}
   </ol>
-  <ScrollDetector on:visible={() => getPage(nextPage++)} />
+  {#if pages.length < pageCount}
+    <ScrollDetector on:visible={() => getPage(nextPage++)} />
+  {:else}
+    <NoMoreResults />
+  {/if}
 {:else if count === 0}
-  <p>No results. Sorry.</p>
+  <NoResults />
 {/if}
 
 <style>
@@ -113,6 +123,7 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-block: 2rem;
+    justify-content: center;
   }
 
   ol {
@@ -133,5 +144,20 @@
   .count {
     margin-block: 2rem;
     text-align: center;
+  }
+
+  select {
+    height: 32px;
+    padding-inline: 8px;
+    box-sizing: border-box;
+    background-color: var(--background-1);
+    border: none;
+    border-radius: 16px;
+  }
+
+  .sort-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
   }
 </style>

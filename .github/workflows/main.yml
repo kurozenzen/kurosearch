@@ -19,7 +19,6 @@ jobs:
           path: ~/node_modules
           key: cache-${{ hashFiles('**/package-lock.json') }}
 
-      # pass --base for application to work under GitHub pages
       - name: Install and build
         run: |
           npm install

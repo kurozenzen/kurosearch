@@ -41,11 +41,11 @@ import { createEventDispatcher } from "svelte";
 
   @media (pointer: fine) {
     li:hover {
-      background-color: rgb(228, 56, 90);
+      background-color: var(--accent-light);
     }
   }
 
   li:active {
-    background-color: rgb(177, 19, 51);
+    background-color: var(--accent-light);
   }
 </style>
