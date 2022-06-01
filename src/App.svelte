@@ -1,14 +1,15 @@
 <script>
   import "@vscode/codicons/dist/codicon.css";
-  import Header from "./lib/Header.svelte";
+  import Header from "./lib/navigation/Header.svelte";
   import currentPage from "./lib/navigation/currentPage";
   import Search from "./lib/search/Search.svelte";
+  import { theme } from "./lib/preferences/preferences";
+  import Preferences from "./lib/preferences/Preferences.svelte";
 
   /** @param {string} t */
   const inverseOfTheme = (t) => (t === "dark" ? "light" : "dark");
 
-  let theme = "dark";
-  $: document.body.classList.replace(inverseOfTheme(theme), theme);
+  $: document.body.classList.replace(inverseOfTheme($theme), $theme);
 </script>
 
 <Header />
@@ -19,7 +20,7 @@
   {:else if $currentPage === "account"}
     <p>account</p>
   {:else if $currentPage === "settings"}
-    <p>settings</p>
+    <Preferences />
   {:else}
     <p>You got lost...</p>
   {/if}
@@ -45,6 +46,7 @@
     --background-0: #000000;
     --background-1: #151520;
     --background-2: #303040;
+    --background-3: #454560;
     --text: #aaa;
   }
 
@@ -54,11 +56,12 @@
     --background-0: #fff;
     --background-1: #ddd;
     --background-2: #bbb;
+    --background-3: #999;
     --text: #000;
   }
 
   :global(html) {
-    height: 100%;
+    min-height: 100vh;
   }
 
   :global(#app) {
@@ -71,6 +74,7 @@
     background-color: var(--background-0);
     color: var(--text);
     overflow-y: scroll;
+    min-height: 100vh;
     height: 100%;
     box-sizing: border-box;
   }

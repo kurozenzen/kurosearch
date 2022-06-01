@@ -1,5 +1,5 @@
 <script>
-  import Post from "./Post.svelte";
+  import Post from "./post/Post.svelte";
 
   /** @type {import("../../types/post").PostDTO[]} */
   export let posts;

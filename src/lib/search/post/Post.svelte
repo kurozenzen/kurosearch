@@ -1,12 +1,14 @@
 <script>
-  /** @type {import("../../types/post").PostDTO} */
+import Details from "./Details.svelte";
+
+
+  /** @type {import("../../../types/post").PostDTO} */
   export let post;
 
   /** @type {IntersectionObserver} */
   export let observer;
 
   let open = false;
-
   let media;
 
   $: {
@@ -58,7 +60,7 @@
     {/if}
   </div>
   {#if open}
-    <div class="details">details {post.type}</div>
+    <Details {post} />
   {/if}
 </div>
 

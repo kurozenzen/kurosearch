@@ -5,20 +5,9 @@
   import Codicon from "../common/Codicon.svelte";
   import ToggleIcon from "../common/ToggleIcon.svelte";
   import TagIcon from "../common/TagIcon.svelte";
+  import { MODIFIERS_ICONS, MODIFIERS_HINTS, MODIFIER_ORDER } from "./modifier";
 
   const dispatch = createEventDispatcher();
-
-  const MODIFIERS_ICONS = {
-    "+": "plus",
-    "-": "circle-slash",
-    "~": "record",
-  };
-  const MODIFIERS_HINTS = {
-    "+": "Included. Tags will be included in the search.",
-    "-": "Blocked. Tags will be blocked.",
-    "~": "Optional. At least one of all optional tags will on each post.",
-  };
-  const MODIFIER_ORDER = Object.keys(MODIFIERS_ICONS);
 
   /** @type {AbortController} */
   let abortController = undefined;
@@ -64,16 +53,10 @@
       }
 
       if (json.message) {
-        if (json.message === "Refine your search") {
-          throw new Error(
-            'Too many tags match your search. Be more specific or use "exact" searching.'
-          );
-        }
-
         throw new Error(json.message);
       }
 
-      throw new Error("Unexpected tag suggestions received");
+      throw new Error("Cannot display tag suggestions");
     } else {
       throw new Error("Failed to get tag suggestions");
     }
@@ -124,7 +107,9 @@
     {:catch error}
       <p style="color: red">{error.message}</p>
     {/await}
-    <div class="hint-container"><span class="hint">Learn more about tags</span></div>
+    <div class="hint-container">
+      <span class="hint">Learn more about tags</span>
+    </div>
   </ol>
 </div>
 
@@ -171,7 +156,7 @@
     border-radius: 0 0 22px 22px;
     overflow: hidden;
     z-index: 1;
-    min-height: 22px
+    min-height: 22px;
   }
 
   li {

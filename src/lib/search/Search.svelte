@@ -9,6 +9,8 @@
   import NoResults from "./NoResults.svelte";
   import NoMoreResults from "./NoMoreResults.svelte";
 
+  const PAGE_SIZE = 20;
+
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -29,10 +31,9 @@
   /** @type {import("../../types/post").PostDTO[][]}*/
   let pages = [];
 
-  let sort = "updated";
-
+  let sort = "id";
   let count = null;
-  $: pageCount = count / 20;
+  $: pageCount = count / PAGE_SIZE;
   let nextPage = 0;
 
   function search() {
@@ -41,25 +42,20 @@
     if (abortController !== undefined) {
       abortController.abort("New search triggered");
     }
-
     nextPage = 0;
-
     abortController = new AbortController();
     searchPromise = getPage(nextPage++);
   }
 
   /** @param {number} pid */
   async function getPage(pid) {
-    const parts = [
-      ...$activeTags.map((t) => t.name),
-      `sort:${sort}:desc`,
-    ]
+    const parts = [...$activeTags.map((t) => t.name), `sort:${sort}:desc`]
       .filter((p) => p !== undefined && p !== null && p !== "")
-      .map(p => encodeURIComponent(p))
+      .map(encodeURIComponent)
       .join("+");
 
     const res = await fetch(
-      `https://r34-json.herokuapp.com/v2/posts?limit=20&pid=${pid}&tags=${parts}`,
+      `https://r34-json.herokuapp.com/v2/posts?limit=${PAGE_SIZE}&pid=${pid}&tags=${parts}`,
       {
         signal: abortController.signal,
       }
@@ -67,8 +63,6 @@
 
     /** @type {import("../../types/post").Page}*/
     const json = await res.json();
-
-    console.log(json);
 
     if (res.ok) {
       count = json.count;
@@ -91,15 +85,15 @@
 </ul>
 <div class="sort-row">
   <select bind:value={sort}>
-    <option value="updated">New</option>
+    <option value="id">New</option>
     <option value="score">Popular</option>
   </select>
   <Button
-  title="Click to search with active tags"
-  icon="search"
-  text="Search"
-  on:click={search}
-/>
+    title="Click to search with active tags"
+    icon="search"
+    text="Search"
+    on:click={search}
+  />
 </div>
 {#if count}
   <p class="count">{formatCount(count)} results</p>
@@ -139,6 +133,7 @@
     color: var(--accent);
     user-select: none;
     margin-top: 2em;
+    margin-bottom: 1rem;
   }
 
   .count {
