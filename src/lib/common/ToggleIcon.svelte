@@ -12,6 +12,7 @@
   {title}
   class={`codicon codicon-${icon} ${active ? "active" : ""}`}
   on:click={() => dispatch("click")}
+  tabindex="0"
 />
 
 <style>

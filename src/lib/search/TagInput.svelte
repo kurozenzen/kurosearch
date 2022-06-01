@@ -94,6 +94,7 @@
             on:click={() => {
               searchTerm = "";
               dispatch("pick", tag);
+              document.activeElement?.blur()
             }}
           >
             <TagIcon type={selectType(tag.types)} />
@@ -140,8 +141,7 @@
     border-radius: 22px 22px 0 0;
   }
 
-  .searchbar:focus-within ol,
-  ol:hover {
+  .searchbar:focus-within ol {
     display: block;
   }
 

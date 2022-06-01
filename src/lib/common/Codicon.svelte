@@ -11,4 +11,5 @@
   {title}
   class={`codicon codicon-${icon}`}
   on:click={() => dispatch("click")}
+  tabindex="0"
 />
