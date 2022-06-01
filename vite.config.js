@@ -14,6 +14,7 @@ export default defineConfig({
         short_name: "KuroSearch",
         description: "Rule34 browsing re-imagined.",
         theme_color: "#000000",
+        background_color: "#000000",
         icons: [
           {
             src: "ks-192.png",
