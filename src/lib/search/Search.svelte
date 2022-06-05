@@ -125,7 +125,7 @@
   }
 
   h1 {
-    font-family: "Zen Kaku Gothic New";
+    font-family: "Zen Kaku Gothic New", sans-serif;
     font-size: 72px;
     text-align: center;
     color: var(--accent);
