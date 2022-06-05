@@ -64,8 +64,8 @@
 </script>
 
 <div class="searchbar">
-  <Codicon icon="search" />
-  <input type="text" bind:value={searchTerm} />
+  <i class="codicon codicon-search" />
+  <input type="text" bind:value={searchTerm} aria-label="Search for tags."/>
   <Codicon
     icon={MODIFIERS_ICONS[modifier]}
     title={MODIFIERS_HINTS[modifier]}
