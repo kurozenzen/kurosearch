@@ -131,8 +131,15 @@
     color: var(--accent);
     user-select: none;
     margin-block: 2em;
-    line-height: 90px;
+    line-height: 72px;
     margin-bottom: 1rem;
+  }
+
+  @media only screen and (max-width: 400px) {
+    h1 {
+      font-size: 18vw;
+      line-height: 18vw;
+    }
   }
 
   .count {

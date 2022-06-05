@@ -134,6 +134,7 @@
     color: var(--text);
     flex-grow: 1;
     outline: none;
+    min-width: 0;
     height: 100%;
   }
 
