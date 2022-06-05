@@ -72,8 +72,6 @@
       throw new Error("fuck");
     }
   }
-
-  search();
 </script>
 
 <h1>kurosearch</h1>
@@ -132,7 +130,8 @@
     text-align: center;
     color: var(--accent);
     user-select: none;
-    margin-top: 2em;
+    margin-block: 2em;
+    line-height: 90px;
     margin-bottom: 1rem;
   }
 
