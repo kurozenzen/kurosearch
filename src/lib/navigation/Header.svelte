@@ -1,5 +1,4 @@
 <script>
-  import Codicon from "../common/Codicon.svelte";
   import currentPage from "./currentPage";
 
   /** @param {string} route */
@@ -10,13 +9,13 @@
 
 <header role="navigation">
   <button title="Search" on:click={navigateTo("search")}>
-    <Codicon icon="search" />
+    <i class="codicon codicon-search"/>
   </button>
   <button title="Settings" on:click={navigateTo("settings")}>
-    <Codicon icon="settings-gear" />
+    <i class="codicon codicon-settings-gear"/>
   </button>
   <button title="Account" on:click={navigateTo("account")}>
-    <Codicon icon="account" />
+    <i class="codicon codicon-account"/>
   </button>
 </header>
 
@@ -33,5 +32,13 @@
     border-radius: 16px;
     border: none;
     background-color: transparent;
+    font-size: 16px;
+    color: var(--text);
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  button:hover {
+    color: var(--text-hover);
   }
 </style>

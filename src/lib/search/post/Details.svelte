@@ -1,16 +1,27 @@
 <script>
-import { formatCreatedAt } from "../../../formatting/date";
+  import { formatCount } from "../../../formatting/numbers";
+  import { formatCreatedAt } from "../../../formatting/date";
+  import SimpleTag from "../SimpleTag.svelte";
+  import Source from "./Source.svelte";
 
-import Codicon from "../../common/Codicon.svelte";
-import SimpleTag from "../SimpleTag.svelte";
-
-   /** @type {import("../../../types/post").PostDTO} */
-   export let post;
+  /** @type {import("../../../types/post").PostDTO} */
+  export let post;
 </script>
 
 <div class="summary">
-  <Codicon title="View on original site" icon="link-external" />
-  {formatCreatedAt(post.created_at)}
+  <div>
+    <i class="codicon codicon-calendar" />
+    <span>{formatCreatedAt(post.created_at)}</span>
+  </div>
+  <div>
+    <i class="codicon codicon-heart" />
+    <span>{formatCount(post.score)}</span>
+  </div>
+  {#if post.source}
+    <div>
+      <Source source={post.source} />
+    </div>
+  {/if}
 </div>
 <ul>
   {#each post.tags as tagname}
@@ -23,6 +34,17 @@ import SimpleTag from "../SimpleTag.svelte";
     display: flex;
     padding: 1rem;
     gap: 1rem;
+  }
+
+  div {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    height: 16px;
+  }
+
+  span {
+    font-size: 14px;
   }
 
   ul {

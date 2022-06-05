@@ -2,10 +2,10 @@
   import { formatCount } from "../../formatting/numbers";
   import { createEventDispatcher } from "svelte";
   import { formatTagname, selectType } from "../../formatting/tags";
-  import Codicon from "../common/Codicon.svelte";
   import ToggleIcon from "../common/ToggleIcon.svelte";
   import TagIcon from "../common/TagIcon.svelte";
-  import { MODIFIERS_ICONS, MODIFIERS_HINTS, MODIFIER_ORDER } from "./modifier";
+  import ModifierSelect from "./ModifierSelect.svelte";
+  import LoadingAnimation from "../common/LoadingAnimation.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -65,14 +65,11 @@
 
 <div class="searchbar">
   <i class="codicon codicon-search" />
-  <input type="text" bind:value={searchTerm} aria-label="Search for tags."/>
-  <Codicon
-    icon={MODIFIERS_ICONS[modifier]}
-    title={MODIFIERS_HINTS[modifier]}
-    on:click={() => {
-      const nextIndex =
-        (MODIFIER_ORDER.indexOf(modifier) + 1) % MODIFIER_ORDER.length;
-      modifier = MODIFIER_ORDER[nextIndex];
+  <input type="text" bind:value={searchTerm} aria-label="Search for tags." />
+
+  <ModifierSelect
+    on:change={(e) => {
+      modifier = e.detail;
     }}
   />
   <ToggleIcon
@@ -85,7 +82,9 @@
   />
   <ol>
     {#await searchPromise}
-      <p>...waiting</p>
+      <div class="hint-container">
+        <LoadingAnimation />
+      </div>
     {:then data}
       {#if data && data.length}
         {#each data as tag}
@@ -94,7 +93,7 @@
             on:click={() => {
               searchTerm = "";
               dispatch("pick", tag);
-              document.activeElement?.blur()
+              document.activeElement?.blur();
             }}
           >
             <TagIcon type={selectType(tag.types)} />
@@ -106,7 +105,9 @@
         {/each}
       {/if}
     {:catch error}
-      <p style="color: red">{error.message}</p>
+      <div class="hint-container">
+        <span>{error.message}</span>
+      </div>
     {/await}
     <div class="hint-container">
       <span class="hint">Learn more about tags</span>
@@ -183,6 +184,7 @@
   .hint-container {
     display: flex;
     justify-content: center;
+    padding-bottom: 4px;
   }
 
   .hint {

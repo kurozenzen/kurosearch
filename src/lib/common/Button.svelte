@@ -1,7 +1,5 @@
 <script>
-import { createEventDispatcher } from "svelte";
-
-  import Codicon from "./Codicon.svelte";
+  import { createEventDispatcher } from "svelte";
 
   /** @type {string} */
   export let icon;
@@ -13,7 +11,9 @@ import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 </script>
 
-<button {title} on:click={() => dispatch("click")}><Codicon {icon} /> {text}</button>
+<button {title} on:click={() => dispatch("click")}
+  ><i class={`codicon codicon-${icon}`} /> {text}
+</button>
 
 <style>
   button {

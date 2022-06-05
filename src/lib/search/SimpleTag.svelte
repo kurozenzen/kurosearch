@@ -1,14 +1,20 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   import { formatTagname } from "../../formatting/tags";
+  import activeTags from "./activeTags";
 
   /** @type {string}*/
   export let name;
 
-  const dispatch = createEventDispatcher();
+  $: index = $activeTags.findIndex((t) => t.name === name)
+  $: active = index >= 0;
 </script>
 
-<li tabindex="0" title="Click to add tag" on:click={() => dispatch("click")}>
+<li
+  tabindex="0"
+  title="Click to add tag"
+  on:click={() => active ? activeTags.removeByIndex(index) : activeTags.addByName(name)}
+  class:active
+>
   {formatTagname(name)}
 </li>
 
@@ -29,9 +35,17 @@
     padding-left: 12px;
   }
 
+  li.active {
+    background-color: var(--accent);
+  }
+
   @media (pointer: fine) {
     li:hover {
       background-color: var(--background-3);
+    }
+
+    li.active:hover {
+      background-color: var(--accent-light);
     }
   }
 

@@ -18,6 +18,11 @@ function createActiveTagsStore() {
         }
         return tags;
       }),
+    addByName: (name) =>
+      update((tags) => {
+        tags.push({ name: name, count: 0, types: [] });
+        return tags;
+      }),
     /** @param {number} i */
     removeByIndex: (i) =>
       update((tags) => {

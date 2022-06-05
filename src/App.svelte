@@ -1,5 +1,4 @@
 <script>
-  import "@vscode/codicons/dist/codicon.css";
   import Header from "./lib/navigation/Header.svelte";
   import currentPage from "./lib/navigation/currentPage";
   import Search from "./lib/search/Search.svelte";
@@ -26,7 +25,7 @@
   {/if}
 </main>
 
-<footer>Copyright © 2022 kurozenzen</footer>
+<!-- <footer>Copyright © 2022 kurozenzen</footer> -->
 
 <style>
   :global(:root) {
@@ -48,6 +47,7 @@
     --background-2: #303040;
     --background-3: #454560;
     --text: #aaa;
+    --text-hover: #fff;
   }
 
   :global(.light) {
@@ -57,7 +57,8 @@
     --background-1: #ddd;
     --background-2: #bbb;
     --background-3: #999;
-    --text: #000;
+    --text: #444;
+    --text-hover: #000;
   }
 
   :global(html) {

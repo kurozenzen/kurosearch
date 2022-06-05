@@ -10,9 +10,10 @@
 
 <i 
   {title}
-  class={`codicon codicon-${icon} ${active ? "active" : ""}`}
-  on:click={() => dispatch("click")}
+  class={`codicon codicon-${icon}`}
+  class:active
   tabindex="0"
+  on:click={() => dispatch("click")}
 />
 
 <style>
