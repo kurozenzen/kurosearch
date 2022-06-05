@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <style>
+      /* ./node_modules/@vscode/codicons/dist/codicon.css */
       html {
         font-family: "Roboto", sans-serif;
         background-color: black;
@@ -18,15 +19,69 @@
         font-family: "Roboto";
         font-weight: 400;
         src: url("Roboto-Regular.woff2") format("woff2"),
-          url("Roboto-Regular.woff") format("woff");
+          url("Roboto-Regular.woff") format("woff"),
+          url("Roboto-Italic.woff2") format("woff2") font-italic,
+          url("Roboto-Italic.woff") format("woff") font-italic;
       }
 
       @font-face {
-        font-family: "Roboto";
-        font-weight: 400;
-        font-style: italic;
-        src: url("Roboto-Italic.woff2") format("woff2"),
-          url("Roboto-Italic.woff") format("woff");
+        font-family: "codicon";
+        src: url("codicon.woff2") format("woff2"),
+          url("codicon.woff") format("woff");
+      }
+
+      .codicon {
+        font-family: codicon;
+        font-style: unset;
+      }
+
+      .codicon-plus:before {
+        content: "\ea60";
+      }
+      .codicon-person:before {
+        content: "\ea67";
+      }
+      .codicon-search:before {
+        content: "\ea6d";
+      }
+      .codicon-edit:before {
+        content: "\ea73";
+      }
+      .codicon-info:before {
+        content: "\ea74";
+      }
+      .codicon-folder:before {
+        content: "\ea83";
+      }
+      .codicon-circle-slash:before {
+        content: "\eabd";
+      }
+      .codicon-calendar:before {
+        content: "\eab0";
+      }
+      .codicon-heart:before {
+        content: "\eb05";
+      }
+      .codicon-link:before {
+        content: "\eb15";
+      }
+      .codicon-settings-gear:before {
+        content: "\eb51";
+      }
+      .codicon-star-full:before {
+        content: "\eb59";
+      }
+      .codicon-unverified:before {
+        content: "\eb76";
+      }
+      .codicon-whole-word:before {
+        content: "\eb7e";
+      }
+      .codicon-record:before {
+        content: "\eba7";
+      }
+      .codicon-account:before {
+        content: "\eb99";
       }
 
       body {
@@ -81,8 +136,8 @@
     <link rel="apple-touch-icon" href="/kurosearch/ks-192.png" sizes="192x192" />
     <link rel="mask-icon" href="/kurosearch/favicon.svg" color="#000000" />
     <meta name="theme-color" content="#000000" />
-    <script type="module" crossorigin src="/kurosearch/assets/index.872623e8.js"></script>
-    <link rel="stylesheet" href="/kurosearch/assets/index.03469252.css">
+    <script type="module" crossorigin src="/kurosearch/assets/index.6b13640b.js"></script>
+    <link rel="stylesheet" href="/kurosearch/assets/index.2d1333f9.css">
   <link rel="manifest" href="/kurosearch/manifest.webmanifest"></head>
   <body class="dark">
     <div id="app"></div>
