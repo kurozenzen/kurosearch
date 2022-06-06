@@ -7,7 +7,7 @@
 
 {#if url}
   <i class="codicon codicon-link" />
-  <a href={url.toString()}>{url.hostname}</a>
+  <a href={url.toString()} target="_newtab">{url.hostname}</a>
 {/if}
 
 <style>

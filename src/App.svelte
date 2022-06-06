@@ -84,8 +84,4 @@
     margin-block: 1rem;
     flex-grow: 1;
   }
-
-  footer {
-    text-align: center;
-  }
 </style>
