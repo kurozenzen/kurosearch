@@ -130,8 +130,8 @@
     text-align: center;
     color: var(--accent);
     user-select: none;
-    margin-block: 2em;
     line-height: 72px;
+    margin-top: 20vh;
     margin-bottom: 1rem;
   }
 
