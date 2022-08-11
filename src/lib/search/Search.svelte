@@ -32,6 +32,7 @@
   let pages = [];
 
   let sort = "id";
+  let minScore = "0";
   let count = null;
   $: pageCount = count / PAGE_SIZE;
   let nextPage = 0;
@@ -49,7 +50,7 @@
 
   /** @param {number} pid */
   async function getPage(pid) {
-    const parts = [...$activeTags.map((t) => t.name), `sort:${sort}:desc`]
+    const parts = [...$activeTags.map((t) => t.name), `sort:${sort}:desc`, `score:>=${minScore}`]
       .filter((p) => p !== undefined && p !== null && p !== "")
       .map(encodeURIComponent)
       .join("+");
@@ -82,16 +83,24 @@
   {/each}
 </ul>
 <div class="sort-row">
-  <select bind:value={sort}>
-    <option value="id">New</option>
-    <option value="score">Popular</option>
-  </select>
   <Button
     title="Click to search with active tags"
     icon="search"
     text="Search"
     on:click={search}
   />
+</div>
+<div class="sort-row">
+    <select bind:value={sort}>
+      <option value="id">New posts</option>
+      <option value="score">Popular posts</option>
+    </select>
+    <select bind:value={minScore}>
+      <option value="0">No minimum score</option>
+      <option value="10">Min 10 likes</option>
+      <option value="100">Min 100 likes</option>
+      <option value="1000">Min 1000 likes</option>
+    </select>
 </div>
 {#if count}
   <p class="count">{formatCount(count)} results</p>

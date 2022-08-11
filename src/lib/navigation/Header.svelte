@@ -1,23 +1,30 @@
 <script>
   import currentPage from "./currentPage";
-  import discordLogo from "../../assets/Discord-Logo-White.svg";
-import DiscordIcon from "./DiscordIcon.svelte";
+  import DiscordIcon from "./DiscordIcon.svelte";
 
   /** @param {string} route */
   const navigateTo = (route) => () => {
-    currentPage.set(route);
+    $currentPage = route;
   };
 </script>
 
 <header role="navigation">
   <div>
-    <a title="Source Code" href="https://github.com/kurozenzen/kurosearch" target="_newtab">
+    <a
+      title="Source Code"
+      href="https://github.com/kurozenzen/kurosearch"
+      target="_newtab"
+    >
       <i class="codicon codicon-github" />
     </a>
     <a title="Sponsor" href="https://ko-fi.com/kurozenzen" target="_newtab">
       <i class="codicon codicon-heart" />
     </a>
-    <a title="Discord Server" href="https://discord.gg/yyJFG5PVBZ" target="_newtab">
+    <a
+      title="Discord Server"
+      href="https://discord.gg/yyJFG5PVBZ"
+      target="_newtab"
+    >
       <DiscordIcon />
     </a>
   </div>

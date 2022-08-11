@@ -11,8 +11,8 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<button {title} on:click={() => dispatch("click")}
-  ><i class={`codicon codicon-${icon}`} /> {text}
+<button {title} on:click={() => dispatch("click")}>
+  <i class={`codicon codicon-${icon}`} /> {text}
 </button>
 
 <style>

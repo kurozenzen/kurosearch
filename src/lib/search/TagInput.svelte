@@ -6,6 +6,8 @@
   import TagIcon from "../common/TagIcon.svelte";
   import ModifierSelect from "./ModifierSelect.svelte";
   import LoadingAnimation from "../common/LoadingAnimation.svelte";
+  import currentPage from "../navigation/currentPage";
+  import onEnterOrSpace from "../common/onEnterOrSpace";
 
   const dispatch = createEventDispatcher();
 
@@ -18,7 +20,14 @@
   let fuzzySearch = true;
   let modifier = "+";
 
+  let focusInside = false;
+  let error = undefined;
+  let tags = [];
+  $: open = focusInside && (error || tags.length > 0);
+
   $: {
+    error = undefined;
+    tags = [];
     if (abortController !== undefined) {
       abortController.abort("Newer search term entered");
     }
@@ -33,6 +42,8 @@
    * @param {string} term
    */
   async function getTagSuggestions(fuzzy, term) {
+    focusInside = true;
+
     const name = fuzzy ? `*${term}*` : term;
     const res = await fetch(
       `https://r34-json.herokuapp.com/v2/tags?limit=20&sort=count&name=${name.replaceAll(
@@ -49,23 +60,48 @@
 
     if (res.ok) {
       if (Array.isArray(json)) {
-        return json;
+        if (json.length == 0) {
+          error = new Error("No tags found");
+        } else {
+          tags = json;
+        }
+      } else if (json.message) {
+        error = new Error(json.message);
+      } else {
+        error = new Error("Cannot display tag suggestions");
       }
-
-      if (json.message) {
-        throw new Error(json.message);
-      }
-
-      throw new Error("Cannot display tag suggestions");
     } else {
-      throw new Error("Failed to get tag suggestions");
+      error = new Error("Failed to get tag suggestions");
     }
+
+    if (error) throw error;
   }
 </script>
 
-<div class="searchbar">
+<div
+  class="searchbar"
+  class:open
+  on:blur={() => {
+    focusInside = false;
+  }}
+>
   <i class="codicon codicon-search" />
-  <input type="text" bind:value={searchTerm} aria-label="Search for tags." />
+  <input
+    type="text"
+    bind:value={searchTerm}
+    aria-label="Search for tags."
+    on:blur={(event) => {
+      if (
+        !event.relatedTarget ||
+        !event.target.parentNode.contains(event.relatedTarget)
+      ) {
+        focusInside = false;
+      }
+    }}
+    on:focus={() => {
+      focusInside = true;
+    }}
+  />
 
   <ModifierSelect
     on:change={(e) => {
@@ -80,38 +116,46 @@
       fuzzySearch = !fuzzySearch;
     }}
   />
-  <ol>
+  <i
+    tabindex="0"
+    class={`codicon codicon-question`}
+    on:click={() => {
+      $currentPage = "help";
+    }}
+    on:keydown={onEnterOrSpace(() => {
+      $currentPage = "help";
+    })}
+  />
+  <ol class:open>
     {#await searchPromise}
       <div class="hint-container">
         <LoadingAnimation />
       </div>
-    {:then data}
-      {#if data && data.length}
-        {#each data as tag}
-          <li
-            tabindex="0"
-            on:click={() => {
-              searchTerm = "";
-              dispatch("pick", tag);
-              document.activeElement?.blur();
-            }}
+    {:then}
+      {#each tags as tag}
+        <li
+          tabindex="0"
+          on:click={() => {
+            dispatch("pick", tag);
+            searchTerm = "";
+            error = undefined;
+            tags = [];
+            focusInside = false;
+          }}
+        >
+          <TagIcon type={selectType(tag.types)} />
+          <span title={tag.name} class="tag-name"
+            >{formatTagname(tag.name)}</span
           >
-            <TagIcon type={selectType(tag.types)} />
-            <span title={tag.name} class="tag-name"
-              >{formatTagname(tag.name)}</span
-            >
-            <span class="tag-count">{formatCount(tag.count)}</span>
-          </li>
-        {/each}
-      {/if}
-    {:catch error}
-      <div class="hint-container">
-        <span>{error.message}</span>
+          <span class="tag-count">{formatCount(tag.count)}</span>
+        </li>
+      {/each}
+    {:catch}
+      <div class="error-container">
+        <i class={`codicon codicon-error`} />
+        <span>{error?.message}</span>
       </div>
     {/await}
-    <div class="hint-container">
-      <span class="hint">Learn more about tags</span>
-    </div>
   </ol>
 </div>
 
@@ -130,6 +174,7 @@
   }
 
   input {
+    font-size: 14px;
     background-color: transparent;
     border: none;
     color: var(--text);
@@ -139,11 +184,11 @@
     height: 100%;
   }
 
-  .searchbar:focus-within {
+  .searchbar.open {
     border-radius: 22px 22px 0 0;
   }
 
-  .searchbar:focus-within ol {
+  ol.open {
     display: block;
   }
 
@@ -169,16 +214,31 @@
     gap: 1rem;
     font-size: 14px;
     padding-inline: 16px;
+    cursor: pointer;
+    user-select: none;
   }
 
   li:hover {
     background-color: var(--background-2);
   }
 
+  li:last-of-type {
+    margin-bottom: 10px;
+  }
+
   .tag-name {
     grid-column: 2;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  .error-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 4px;
+    gap: 4px;
+    padding: 8px;
+    font-size: 13.3333333px;
   }
 
   .hint-container {
@@ -194,5 +254,8 @@
 
   .hint:hover {
     color: var(--accent);
+  }
+  .codicon-question {
+    cursor: pointer;
   }
 </style>

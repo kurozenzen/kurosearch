@@ -22,7 +22,7 @@ import Details from "./Details.svelte";
   }
 </script>
 
-<div class="post">
+<div class="post" tabindex="0">
   <div on:click={toggleOpen} class="content">
     {#if post.type === "image"}
       <img

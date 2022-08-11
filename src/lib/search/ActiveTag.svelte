@@ -1,5 +1,5 @@
 <script>
-import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from "svelte";
 
   import { formatCount } from "../../formatting/numbers";
   import { formatTagname, selectType } from "../../formatting/tags";
@@ -8,12 +8,17 @@ import { createEventDispatcher } from "svelte";
   /** @type {import("../../types/tag").Tag}*/
   export let tag;
 
-  const dispatch = createEventDispatcher()
+  const dispatch = createEventDispatcher();
 
   const type = selectType(tag.types);
 </script>
 
-<li class:no-icon={type === null} tabindex="0" title="Click to remove tag" on:click={() => dispatch("click")}>
+<li
+  class:no-icon={type === null}
+  tabindex="0"
+  title="Click to remove tag"
+  on:click={() => dispatch("click")}
+>
   <TagIcon {type} />
   {formatTagname(tag.name)}
   ({formatCount(tag.count)})
@@ -29,10 +34,11 @@ import { createEventDispatcher } from "svelte";
     height: 24px;
     border-radius: 16px;
     font-size: 12px;
-    padding-left: 4px;
+    padding-left: 6px;
     padding-right: 12px;
-    user-select: none;
     transition: background-color 0.1s linear;
+    cursor: pointer;
+    user-select: none;
   }
 
   .no-icon {

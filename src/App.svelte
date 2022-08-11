@@ -4,6 +4,7 @@
   import Search from "./lib/search/Search.svelte";
   import { theme } from "./lib/preferences/preferences";
   import Preferences from "./lib/preferences/Preferences.svelte";
+import Help from "./lib/help/Help.svelte";
 
   /** @param {string} t */
   const inverseOfTheme = (t) => (t === "dark" ? "light" : "dark");
@@ -20,6 +21,8 @@
     <p>account</p>
   {:else if $currentPage === "settings"}
     <Preferences />
+  {:else if $currentPage === "help"}
+    <Help />
   {:else}
     <p>You got lost...</p>
   {/if}
