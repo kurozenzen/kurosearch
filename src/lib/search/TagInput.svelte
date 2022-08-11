@@ -13,7 +13,7 @@
 
   /** @type {AbortController} */
   let abortController = undefined;
-  /** @type {Promise<import("../../types/tag").Tag[]>}*/
+  /** @type {Promise<void>}*/
   let searchPromise;
 
   let searchTerm = "";
@@ -136,7 +136,7 @@
         <li
           tabindex="0"
           on:click={() => {
-            dispatch("pick", tag);
+            dispatch("pick", {modifier, tag});
             searchTerm = "";
             error = undefined;
             tags = [];
@@ -168,6 +168,7 @@
     padding-inline: 16px;
     gap: 16px;
     border-radius: 22px;
+    width: 100%;
     max-width: 512px;
     margin: auto;
     position: relative;

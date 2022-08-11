@@ -1,28 +1,46 @@
 import { writable } from "svelte/store";
 
+/**
+ * @typedef {import("../../types/modifier").ModifiedTag} ModifiedTag
+ */
+
 function createActiveTagsStore() {
-  /** @type {import("../../types/tag").Tag[]} */
+  /** @type {ModifiedTag[]} */
   const initial = [];
   const { subscribe, update } = writable(initial);
 
   return {
     subscribe,
-    /** @param {import("../../types/tag").Tag} tag */
-    add: (tag) =>
+    /**
+     * @param {ModifiedTag} modifierAndTag
+     */
+    add: (modifierAndTag) =>
       update((tags) => {
-        const i = tags.findIndex((t) => t.name == tag.name);
+        const i = tags.findIndex(
+          (entry) => entry.tag.name === modifierAndTag.tag.name
+        );
         if (i === -1) {
-          tags.push(tag);
+          tags.push(modifierAndTag);
         } else {
-          tags[i] = tag;
+          tags[i] = modifierAndTag;
         }
         return tags;
       }),
+
+    /** @param {string} name */
     addByName: (name) =>
       update((tags) => {
-        tags.push({ name: name, count: 0, types: [] });
+        tags.push({
+          modifier: "+",
+          tag: {
+            name: name,
+            count: 0,
+            types: [],
+          },
+        });
         return tags;
       }),
+
     /** @param {number} i */
     removeByIndex: (i) =>
       update((tags) => {

@@ -4,13 +4,11 @@
   /** @type {import("../../types/post").PostDTO[]} */
   export let posts;
 
-  /** @type {IntersectionObserver} */
-  export let observer;
 </script>
 
 <ol class="page">
   {#each posts as post}
-    <Post {post} {observer} />
+    <Post {post} />
   {/each}
 </ol>
 

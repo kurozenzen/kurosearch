@@ -5,7 +5,7 @@
   /** @type {string}*/
   export let name;
 
-  $: index = $activeTags.findIndex((t) => t.name === name)
+  $: index = $activeTags.findIndex((t) => t.tag.name === name)
   $: active = index >= 0;
 </script>
 

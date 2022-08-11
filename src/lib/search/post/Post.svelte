@@ -1,29 +1,32 @@
 <script>
-import Details from "./Details.svelte";
+  import { postObserver } from "../postObserver";
+  import Details from "./Details.svelte";
 
+  /**
+   * @typedef {import("../../../types/post").PostDTO} PostDTO
+   */
 
-  /** @type {import("../../../types/post").PostDTO} */
+  /** @type {PostDTO} */
   export let post;
 
-  /** @type {IntersectionObserver} */
-  export let observer;
-
-  let open = false;
+  /** @type {HTMLElement}*/
   let media;
-
   $: {
     if (media) {
-      observer.observe(media);
+      postObserver.observe(media);
     }
   }
 
-  function toggleOpen() {
-    open = !open;
-  }
+  let open = false;
 </script>
 
 <div class="post" tabindex="0">
-  <div on:click={toggleOpen} class="content">
+  <div
+    on:click={() => {
+      open = !open;
+    }}
+    class="content"
+  >
     {#if post.type === "image"}
       <img
         loading="lazy"

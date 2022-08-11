@@ -8,19 +8,9 @@
   import { formatCount } from "../../formatting/numbers";
   import NoResults from "./NoResults.svelte";
   import NoMoreResults from "./NoMoreResults.svelte";
+  import { serializeTag } from "./tagParsing";
 
   const PAGE_SIZE = 20;
-
-  const intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        entry.target.src = entry.isIntersecting
-          ? entry.target.getAttribute("data-src")
-          : "";
-      }
-    },
-    { rootMargin: "1250px" }
-  );
 
   /** @type {AbortController} */
   let abortController = undefined;
@@ -33,6 +23,7 @@
 
   let sort = "id";
   let minScore = "0";
+  /** @type {number | null}*/
   let count = null;
   $: pageCount = count / PAGE_SIZE;
   let nextPage = 0;
@@ -50,7 +41,11 @@
 
   /** @param {number} pid */
   async function getPage(pid) {
-    const parts = [...$activeTags.map((t) => t.name), `sort:${sort}:desc`, `score:>=${minScore}`]
+    const parts = [
+      ...$activeTags.map(serializeTag),
+      `sort:${sort}:desc`,
+      `score:>=${minScore}`,
+    ]
       .filter((p) => p !== undefined && p !== null && p !== "")
       .map(encodeURIComponent)
       .join("+");
@@ -75,22 +70,28 @@
   }
 </script>
 
-<h1>kurosearch</h1>
-<TagInput on:pick={(e) => activeTags.add(e.detail)} />
-<ul>
-  {#each [...$activeTags] as tag, i}
-    <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
-  {/each}
-</ul>
-<div class="sort-row">
-  <Button
-    title="Click to search with active tags"
-    icon="search"
-    text="Search"
-    on:click={search}
-  />
-</div>
-<div class="sort-row">
+<div class="search-config">
+  <h1>kurosearch</h1>
+  <TagInput on:pick={(e) => activeTags.add(e.detail)} />
+  {#if $activeTags.length}
+    <ul>
+      {#each [...$activeTags] as tag, i}
+        <ActiveTag
+          modifiedTag={tag}
+          on:click={() => activeTags.removeByIndex(i)}
+        />
+      {/each}
+    </ul>
+  {/if}
+  <div class="sort-row">
+    <Button
+      title="Click to search with active tags"
+      icon="search"
+      text="Search"
+      on:click={search}
+    />
+  </div>
+  <div class="sort-row">
     <select bind:value={sort}>
       <option value="id">New posts</option>
       <option value="score">Popular posts</option>
@@ -101,12 +102,14 @@
       <option value="100">Min 100 likes</option>
       <option value="1000">Min 1000 likes</option>
     </select>
+  </div>
 </div>
+
 {#if count}
   <p class="count">{formatCount(count)} results</p>
   <ol>
     {#each pages as page}
-      <Page posts={page} observer={intersectionObserver} />
+      <Page posts={page} />
     {/each}
   </ol>
   {#if pages.length < pageCount}
@@ -123,7 +126,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-block: 2rem;
     justify-content: center;
   }
 
@@ -169,5 +171,11 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
+  }
+
+  .search-config {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
   }
 </style>
