@@ -3,8 +3,10 @@
 
   /** @type {string} */
   export let icon;
+
   /** @type {string} */
   export let text;
+
   /** @type {string} */
   export let title;
 
@@ -22,9 +24,13 @@
     color: var(--text-accent);
     border: none;
     border-radius: 22px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 1rem;
     padding-inline: 1rem;
+  }
+
+  button:hover {
+    background-color: var(--accent-light);
   }
 </style>

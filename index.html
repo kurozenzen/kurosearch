@@ -44,6 +44,12 @@
       .codicon-search:before {
         content: "\ea6d";
       }
+      .codicon-sign-out:before {
+        content: "\ea6e";
+      }
+      .codicon-sign-in:before {
+        content: "\ea6f";
+      }
       .codicon-edit:before {
         content: "\ea73";
       }
@@ -59,8 +65,8 @@
       .codicon-github:before {
         content: "\ea84";
       }
-      .codicon-chevron-down:before {
-        content: "\eab4";
+      .codicon-arrow-up:before {
+        content: "\eaa1";
       }
       .codicon-circle-slash:before {
         content: "\eabd";
@@ -100,7 +106,6 @@
         max-width: 800px;
         margin: auto;
         padding: 1rem;
-        transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
       }
 
       @layer reset {
@@ -112,6 +117,12 @@
         }
         p {
           margin-block: 0;
+        }
+        * {
+          box-sizing: border-box;
+        }
+        button {
+          border: none;
         }
       }
 

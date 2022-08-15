@@ -6,7 +6,7 @@ export function formatTagname(tagname) {
     .replace(/rating:/g, "");
 }
 
-/** @param {import("../types/tag").TagType[]} types */
+/** @param {import("../types/Tag").TagType[]} types */
 export function selectType(types) {
   for (const type of types) {
     if (type !== "ambiguous" && type !== "general") {

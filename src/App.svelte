@@ -4,7 +4,8 @@
   import Search from "./lib/search/Search.svelte";
   import { theme } from "./lib/preferences/preferences";
   import Preferences from "./lib/preferences/Preferences.svelte";
-import Help from "./lib/help/Help.svelte";
+  import Help from "./lib/help/Help.svelte";
+  import Account from "./lib/account/Account.svelte";
 
   /** @param {string} t */
   const inverseOfTheme = (t) => (t === "dark" ? "light" : "dark");
@@ -18,7 +19,7 @@ import Help from "./lib/help/Help.svelte";
   {#if $currentPage === "search"}
     <Search />
   {:else if $currentPage === "account"}
-    <p>account</p>
+    <Account />
   {:else if $currentPage === "settings"}
     <Preferences />
   {:else if $currentPage === "help"}
@@ -29,7 +30,6 @@ import Help from "./lib/help/Help.svelte";
 </main>
 
 <!-- <footer>Copyright © 2022 kurozenzen</footer> -->
-
 <style>
   :global(:root) {
     --border-radius: 5px;
@@ -75,12 +75,8 @@ import Help from "./lib/help/Help.svelte";
   }
 
   :global(body) {
-    background-color: var(--background-0);
     color: var(--text);
     overflow-y: scroll;
-    min-height: 100vh;
-    height: 100%;
-    box-sizing: border-box;
   }
 
   main {

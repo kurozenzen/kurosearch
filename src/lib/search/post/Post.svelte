@@ -18,15 +18,14 @@
   }
 
   let open = false;
+
+  const toggleOpen = () => {
+    open = !open;
+  };
 </script>
 
 <div class="post" tabindex="0">
-  <div
-    on:click={() => {
-      open = !open;
-    }}
-    class="content"
-  >
+  <div on:click={toggleOpen} class="content">
     {#if post.type === "image"}
       <img
         loading="lazy"

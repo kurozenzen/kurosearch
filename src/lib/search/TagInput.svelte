@@ -8,11 +8,11 @@
   import LoadingAnimation from "../common/LoadingAnimation.svelte";
   import currentPage from "../navigation/currentPage";
   import onEnterOrSpace from "../common/onEnterOrSpace";
+  import { getTagSuggestions } from "../../api-client/tags/tags";
+import ActiveTag from "./ActiveTag.svelte";
 
   const dispatch = createEventDispatcher();
 
-  /** @type {AbortController} */
-  let abortController = undefined;
   /** @type {Promise<void>}*/
   let searchPromise;
 
@@ -21,19 +21,15 @@
   let modifier = "+";
 
   let focusInside = false;
-  let error = undefined;
+
+  /** @type {import("../../tags/Tag").Tag[]}*/
   let tags = [];
-  $: open = focusInside && (error || tags.length > 0);
+  $: open = focusInside;
 
   $: {
-    error = undefined;
     tags = [];
-    if (abortController !== undefined) {
-      abortController.abort("Newer search term entered");
-    }
     if (searchTerm !== "") {
-      abortController = new AbortController();
-      searchPromise = getTagSuggestions(fuzzySearch, searchTerm);
+      searchPromise = getSuggestions(fuzzySearch, searchTerm);
     }
   }
 
@@ -41,40 +37,9 @@
    * @param {boolean} fuzzy
    * @param {string} term
    */
-  async function getTagSuggestions(fuzzy, term) {
+  async function getSuggestions(fuzzy, term) {
     focusInside = true;
-
-    const name = fuzzy ? `*${term}*` : term;
-    const res = await fetch(
-      `https://r34-json.herokuapp.com/v2/tags?limit=20&sort=count&name=${name.replaceAll(
-        " ",
-        "_"
-      )}`,
-      {
-        signal: abortController.signal,
-      }
-    );
-
-    /** @type {import("../../types/tag").Tag[] | {message: string}}*/
-    const json = await res.json();
-
-    if (res.ok) {
-      if (Array.isArray(json)) {
-        if (json.length == 0) {
-          error = new Error("No tags found");
-        } else {
-          tags = json;
-        }
-      } else if (json.message) {
-        error = new Error(json.message);
-      } else {
-        error = new Error("Cannot display tag suggestions");
-      }
-    } else {
-      error = new Error("Failed to get tag suggestions");
-    }
-
-    if (error) throw error;
+    tags = await getTagSuggestions(term, fuzzy);
   }
 </script>
 
@@ -136,24 +101,23 @@
         <li
           tabindex="0"
           on:click={() => {
-            dispatch("pick", {modifier, tag});
+            dispatch("pick", tag.toActiveTag(modifier));
             searchTerm = "";
-            error = undefined;
             tags = [];
             focusInside = false;
           }}
         >
-          <TagIcon type={selectType(tag.types)} />
+          <TagIcon type={tag.type} />
           <span title={tag.name} class="tag-name"
             >{formatTagname(tag.name)}</span
           >
           <span class="tag-count">{formatCount(tag.count)}</span>
         </li>
       {/each}
-    {:catch}
+    {:catch error}
       <div class="error-container">
         <i class={`codicon codicon-error`} />
-        <span>{error?.message}</span>
+        <span>{error.message}</span>
       </div>
     {/await}
   </ol>
@@ -215,7 +179,6 @@
     gap: 1rem;
     font-size: 14px;
     padding-inline: 16px;
-    cursor: pointer;
     user-select: none;
   }
 

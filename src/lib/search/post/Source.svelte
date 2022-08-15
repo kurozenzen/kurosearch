@@ -1,13 +1,16 @@
 <script>
+  import { isValidUrl } from "../../../api-client/fetchAbortPrevious";
+
   /** @type {string} */
   export let source;
-
-  let url = new URL(source);
+  $: url = isValidUrl(source) ? new URL(source) : null;
 </script>
 
+<i class="codicon codicon-link" />
 {#if url}
-  <i class="codicon codicon-link" />
   <a href={url.toString()} target="_newtab">{url.hostname}</a>
+{:else}
+  <span>{source}</span>
 {/if}
 
 <style>

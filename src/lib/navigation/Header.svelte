@@ -68,7 +68,6 @@
     background-color: transparent;
     font-size: 16px;
     color: var(--text);
-    cursor: pointer;
     padding: 8px;
   }
 

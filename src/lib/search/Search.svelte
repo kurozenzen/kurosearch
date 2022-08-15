@@ -8,78 +8,52 @@
   import { formatCount } from "../../formatting/numbers";
   import NoResults from "./NoResults.svelte";
   import NoMoreResults from "./NoMoreResults.svelte";
-  import { serializeTag } from "./tagParsing";
+  import { getPage } from "../../api-client/ApiClient";
+import ScrollUpButton from "./ScrollUpButton.svelte";
 
   const PAGE_SIZE = 20;
-
-  /** @type {AbortController} */
-  let abortController = undefined;
-
-  /** @type {Promise<import("../../types/post").Page>}*/
-  let searchPromise;
 
   /** @type {import("../../types/post").PostDTO[][]}*/
   let pages = [];
 
   let sort = "id";
-  let minScore = "0";
+  let minScore = 0;
   /** @type {number | null}*/
   let count = null;
   $: pageCount = count / PAGE_SIZE;
   let nextPage = 0;
 
-  function search() {
+  const resetSearch = () => {
     pages = [];
     count = null;
-    if (abortController !== undefined) {
-      abortController.abort("New search triggered");
-    }
     nextPage = 0;
-    abortController = new AbortController();
-    searchPromise = getPage(nextPage++);
-  }
+  };
 
-  /** @param {number} pid */
-  async function getPage(pid) {
-    const parts = [
-      ...$activeTags.map(serializeTag),
-      `sort:${sort}:desc`,
-      `score:>=${minScore}`,
-    ]
-      .filter((p) => p !== undefined && p !== null && p !== "")
-      .map(encodeURIComponent)
-      .join("+");
+  const getFirstPage = async () => {
+    resetSearch();
+    return getNextPage();
+  };
 
-    const res = await fetch(
-      `https://r34-json.herokuapp.com/v2/posts?limit=${PAGE_SIZE}&pid=${pid}&tags=${parts}`,
-      {
-        signal: abortController.signal,
-      }
-    );
-
-    /** @type {import("../../types/post").Page}*/
-    const json = await res.json();
-
-    if (res.ok) {
-      count = json.count;
-      pages = [...pages, json.posts];
-      return json;
-    } else {
-      throw new Error("fuck");
+  const getNextPage = async () => {
+    try {
+      const tags = $activeTags.map((t) => t.toSearchableTag());
+      const page = await getPage(nextPage++, tags, sort, minScore);
+      pages.push(page.posts);
+      count = page.count;
+    } catch (e) {
+      //TODO: add error handling and user feedback here
+      console.warn(e);
     }
-  }
+  };
 </script>
 
 <div class="search-config">
   <h1>kurosearch</h1>
-  <TagInput on:pick={(e) => activeTags.add(e.detail)} />
+  <TagInput on:pick={(e) => activeTags.addOrReplace(e.detail)} />
   {#if $activeTags.length}
     <ul>
       {#each [...$activeTags] as tag, i}
-        <ActiveTag
-          modifiedTag={tag}
-          on:click={() => activeTags.removeByIndex(i)}
-        />
+        <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
       {/each}
     </ul>
   {/if}
@@ -88,7 +62,7 @@
       title="Click to search with active tags"
       icon="search"
       text="Search"
-      on:click={search}
+      on:click={() => getFirstPage()}
     />
   </div>
   <div class="sort-row">
@@ -97,10 +71,10 @@
       <option value="score">Popular posts</option>
     </select>
     <select bind:value={minScore}>
-      <option value="0">No minimum score</option>
-      <option value="10">Min 10 likes</option>
-      <option value="100">Min 100 likes</option>
-      <option value="1000">Min 1000 likes</option>
+      <option value={0}>No minimum score</option>
+      <option value={10}>Min 10 likes</option>
+      <option value={100}>Min 100 likes</option>
+      <option value={1000}>Min 1000 likes</option>
     </select>
   </div>
 </div>
@@ -113,13 +87,15 @@
     {/each}
   </ol>
   {#if pages.length < pageCount}
-    <ScrollDetector on:visible={() => getPage(nextPage++)} />
+    <ScrollDetector on:visible={getNextPage} />
   {:else}
     <NoMoreResults />
   {/if}
 {:else if count === 0}
   <NoResults />
 {/if}
+
+<ScrollUpButton />
 
 <style>
   ul {

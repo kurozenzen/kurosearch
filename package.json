@@ -6,16 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@types/jest": "^28.1.6",
+    "jest": "^28.1.3",
     "svelte": "^3.44.0",
     "vite": "^2.9.9",
     "vite-plugin-pwa": "^0.12.0"
   },
   "dependencies": {
     "@vscode/codicons": "^0.0.30",
+    "firebase": "^9.9.2",
     "gh-pages": "^4.0.0"
   }
 }

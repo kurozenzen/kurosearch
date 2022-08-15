@@ -1,28 +1,26 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { formatCount } from "../../formatting/numbers";
-  import { formatTagname, selectType } from "../../formatting/tags";
+  import { formatTagname } from "../../formatting/tags";
   import TagIcon from "../common/TagIcon.svelte";
   import { MODIFIER_NAMES } from "./modifier";
 
-  /** @type {import("../../types/modifier").ModifiedTag}*/
-  export let modifiedTag;
+  /** @type {import("../../tags/ActiveTag").ActiveTag}*/
+  export let tag;
 
   const dispatch = createEventDispatcher();
-
-  const type = selectType(modifiedTag.tag.types);
 </script>
 
 <li
-  class={MODIFIER_NAMES[modifiedTag.modifier]}
-  class:no-icon={type === null}
+  class={MODIFIER_NAMES[tag.modifier]}
+  class:no-icon={tag.type === "general"}
   tabindex="0"
   title="Click to remove tag"
   on:click={() => dispatch("click")}
 >
-  <TagIcon {type} />
-  {formatTagname(modifiedTag.tag.name)}
-  <!-- ({formatCount(modifiedTag.tag.count)}) -->
+  <TagIcon type={tag.type} />
+  {formatTagname(tag.name)}
+  ({formatCount(tag.count)})
 </li>
 
 <style>

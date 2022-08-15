@@ -1,5 +1,5 @@
 /**
- * @typedef {import("../../types/modifier").ModifiedTag} ModifiedTag
+ * @typedef {import("../../tags/modifier/modifier").ModifiedTag} ModifiedTag
  */
 
 const SERIALIZED_MODIFIERS = Object.freeze({
