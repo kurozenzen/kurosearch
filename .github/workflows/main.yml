@@ -23,6 +23,8 @@ jobs:
         run: |
           npm install
           npm run build -- --base=/${{ github.event.repository.name }}/
+      - name: Test
+        run: npm test
       - name: Deploy to github pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
