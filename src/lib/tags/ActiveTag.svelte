@@ -2,8 +2,8 @@
   import { createEventDispatcher } from "svelte";
   import { formatCount } from "../../formatting/numbers";
   import { formatTagname } from "../../formatting/tags";
-  import TagIcon from "../common/TagIcon.svelte";
-  import { MODIFIER_NAMES } from "../search/modifier";
+  import TagIcon from "../tags/TagIcon.svelte";
+  import { MODIFIER_NAMES } from "../modifier/modifierData";
 
   /** @type {import("../../tags/ActiveTag").ActiveTag}*/
   export let tag;

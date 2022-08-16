@@ -9,7 +9,8 @@
   import NoResults from "./NoResults.svelte";
   import NoMoreResults from "./NoMoreResults.svelte";
   import { getPage } from "../../api-client/ApiClient";
-import ScrollUpButton from "./ScrollUpButton.svelte";
+  import ScrollUpButton from "./ScrollUpButton.svelte";
+  import userdata from "../account/userdata";
 
   const PAGE_SIZE = 20;
 
@@ -36,7 +37,11 @@ import ScrollUpButton from "./ScrollUpButton.svelte";
 
   const getNextPage = async () => {
     try {
-      const tags = $activeTags.map((t) => t.toSearchableTag());
+      const tags = $activeTags.flatMap((t) =>
+        t.type === "supertag"
+          ? $userdata.supertags.find((s) => (s.name === t.name)).toSearchableTag()
+          : t.toSearchableTag()
+      );
       const page = await getPage(nextPage++, tags, sort, minScore);
       pages = [...pages, page.posts];
       count = page.count;

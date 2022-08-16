@@ -16,7 +16,7 @@
   class:active
   tabindex="0"
   on:click={dispatchClick}
-  on:keydown={onEnterOrSpace(dispatchClick)}
+  on:keyup={onEnterOrSpace(dispatchClick)}
 />
 
 <style>

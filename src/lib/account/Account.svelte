@@ -1,6 +1,8 @@
 <script>
   import Button from "../common/Button.svelte";
+  import Supertag from "../supertags/Supertag.svelte";
   import account from "./account";
+  import userdata from "./userdata";
 </script>
 
 {#if $account.loggedIn}
@@ -30,6 +32,11 @@
     <div>
       <h2>Your supertags</h2>
       <div class="supertags" />
+      <ul>
+        {#each $userdata.supertags as supertag}
+          <Supertag {supertag} />
+        {/each}
+      </ul>
     </div>
   </div>
 {:else}
@@ -65,6 +72,9 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     column-gap: 1em;
+    background-color: var(--background-1);
+    border-radius: 5px;
+    padding: 0.5rem;
   }
 
   .profile-picture {
@@ -87,5 +97,12 @@
 
   .name-area span {
     font-weight: bold;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-1);
+    border-radius: 5px;
   }
 </style>

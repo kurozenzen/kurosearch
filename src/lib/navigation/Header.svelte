@@ -1,6 +1,7 @@
 <script>
   import currentPage from "./currentPage";
   import DiscordIcon from "./DiscordIcon.svelte";
+  import account from "../account/account";
 
   /** @param {string} route */
   const navigateTo = (route) => () => {
@@ -36,7 +37,15 @@
       <i class="codicon codicon-settings-gear" />
     </button>
     <button title="Account" on:click={navigateTo("account")}>
-      <i class="codicon codicon-account" />
+      {#if $account.loggedIn}
+        <img
+          class="profile-picture"
+          src={$account.user.photoURL}
+          alt="Account"
+        />
+      {:else}
+        <i class="codicon codicon-account" />
+      {/if}
     </button>
   </nav>
 </header>
@@ -69,6 +78,12 @@
     font-size: 16px;
     color: var(--text);
     padding: 8px;
+  }
+
+  .profile-picture {
+    border-radius: 8px;
+    height: 16px;
+    width: 16px;
   }
 
   @media (pointer: fine) {

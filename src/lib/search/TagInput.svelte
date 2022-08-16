@@ -1,15 +1,16 @@
 <script>
   import { formatCount } from "../../formatting/numbers";
   import { createEventDispatcher } from "svelte";
-  import { formatTagname, selectType } from "../../formatting/tags";
+  import { formatTagname } from "../../formatting/tags";
   import ToggleIcon from "../common/ToggleIcon.svelte";
-  import TagIcon from "../common/TagIcon.svelte";
-  import ModifierSelect from "./ModifierSelect.svelte";
+  import TagIcon from "../tags/TagIcon.svelte";
+  import ModifierSelect from "../modifier/ModifierSelect.svelte";
   import LoadingAnimation from "../common/LoadingAnimation.svelte";
   import currentPage from "../navigation/currentPage";
   import onEnterOrSpace from "../common/onEnterOrSpace";
   import { getTagSuggestions } from "../../api-client/tags/tags";
-  import ActiveTag from "../tags/ActiveTag.svelte";
+  import userdata from "../account/userdata";
+import { Tag } from "../../tags/Tag";
 
   const dispatch = createEventDispatcher();
 
@@ -39,7 +40,12 @@
    */
   async function getSuggestions(fuzzy, term) {
     focusInside = true;
-    tags = await getTagSuggestions(term, fuzzy);
+    tags = [
+      ...$userdata.supertags.filter((s) =>
+        s.name.toLowerCase().includes(term.toLowerCase())
+      ).map(s => new Tag(s.name, Object.keys(s.tags).length, "supertag")),
+      ...(await getTagSuggestions(term, fuzzy)),
+    ];
   }
 </script>
 
@@ -58,6 +64,7 @@
     on:blur={(event) => {
       if (
         !event.relatedTarget ||
+        //@ts-expect-error
         !event.target.parentNode.contains(event.relatedTarget)
       ) {
         focusInside = false;
@@ -87,7 +94,7 @@
     on:click={() => {
       $currentPage = "help";
     }}
-    on:keydown={onEnterOrSpace(() => {
+    on:keyup={onEnterOrSpace(() => {
       $currentPage = "help";
     })}
   />

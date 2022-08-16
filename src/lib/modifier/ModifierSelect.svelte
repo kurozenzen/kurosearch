@@ -1,18 +1,17 @@
 <script>
+  import { getNextModifier } from "../../tags/modifier/modifier";
   import { createEventDispatcher } from "svelte";
   import onEnterOrSpace from "../common/onEnterOrSpace";
-  import { MODIFIERS_ICONS, MODIFIERS_HINTS, MODIFIER_ORDER } from "./modifier";
+  import { MODIFIERS_ICONS, MODIFIERS_HINTS } from "./modifierData";
 
   let modifier = "+";
 
   const dispatch = createEventDispatcher();
 
-  function changeModifier() {
-    const nextIndex =
-      (MODIFIER_ORDER.indexOf(modifier) + 1) % MODIFIER_ORDER.length;
-    modifier = MODIFIER_ORDER[nextIndex];
+  const changeModifier = () => {
+    modifier = getNextModifier(modifier);
     dispatch("change", modifier);
-  }
+  };
 </script>
 
 <i
@@ -20,11 +19,5 @@
   class={`codicon codicon-${MODIFIERS_ICONS[modifier]}`}
   title={MODIFIERS_HINTS[modifier]}
   on:click={changeModifier}
-  on:keydown={onEnterOrSpace(changeModifier)}
+  on:keyup={onEnterOrSpace(changeModifier)}
 />
-
-<style>
-  .active {
-    color: var(--accent);
-  }
-</style>
