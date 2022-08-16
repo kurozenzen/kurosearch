@@ -38,7 +38,7 @@ import ScrollUpButton from "./ScrollUpButton.svelte";
     try {
       const tags = $activeTags.map((t) => t.toSearchableTag());
       const page = await getPage(nextPage++, tags, sort, minScore);
-      pages.push(page.posts);
+      pages = [...pages, page.posts];
       count = page.count;
     } catch (e) {
       //TODO: add error handling and user feedback here
