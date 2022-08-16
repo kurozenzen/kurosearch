@@ -26,18 +26,13 @@
 <style>
   button {
     background-color: var(--accent);
-    height: 32px;
-    width: 32px;
-    border-radius: 16px;
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
     position: fixed;
     bottom: -4rem;
+    right: 2rem;
     transition: bottom cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.2s;
-  }
-
-  @media (max-width: 800px) {
-    button {
-      right: 2rem;
-    }
   }
 
   @media (min-width: 800px) {
