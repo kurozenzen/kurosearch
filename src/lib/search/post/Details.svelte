@@ -1,7 +1,7 @@
 <script>
   import { formatCount } from "../../../formatting/numbers";
   import { formatCreatedAt } from "../../../formatting/date";
-  import SimpleTag from "../SimpleTag.svelte";
+  import SimpleTag from "../../tags/SimpleTag.svelte";
   import Source from "./Source.svelte";
 
   /** @type {import("../../../types/post").PostDTO} */

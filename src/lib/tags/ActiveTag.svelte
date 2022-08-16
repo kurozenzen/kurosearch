@@ -3,7 +3,7 @@
   import { formatCount } from "../../formatting/numbers";
   import { formatTagname } from "../../formatting/tags";
   import TagIcon from "../common/TagIcon.svelte";
-  import { MODIFIER_NAMES } from "./modifier";
+  import { MODIFIER_NAMES } from "../search/modifier";
 
   /** @type {import("../../tags/ActiveTag").ActiveTag}*/
   export let tag;
@@ -28,15 +28,13 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background-color: crimson;
-    color: white;
+    background-color: var(--accent);
+    color: var(--text-accent);
     height: 24px;
-    border-radius: 16px;
+    border-radius: 12px;
     font-size: 12px;
     padding-left: 6px;
     padding-right: 12px;
-    transition: background-color 0.1s linear;
-    cursor: pointer;
     user-select: none;
   }
 

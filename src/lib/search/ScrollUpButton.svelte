@@ -45,7 +45,9 @@
     bottom: 2rem;
   }
 
-  button:hover {
-    background-color: var(--accent-light);
+  @media (pointer: fine) {
+    button:hover {
+      background-color: var(--accent-light);
+    }
   }
 </style>

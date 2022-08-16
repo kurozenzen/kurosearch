@@ -71,8 +71,10 @@
     padding: 8px;
   }
 
-  button:hover,
-  a:hover {
-    color: var(--text-hover);
+  @media (pointer: fine) {
+    button:hover,
+    a:hover {
+      color: var(--text-hover);
+    }
   }
 </style>

@@ -1,5 +1,5 @@
 <script>
-  import { postObserver } from "../postObserver";
+  import { postObserver } from "./postObserver";
   import Details from "./Details.svelte";
 
   /**

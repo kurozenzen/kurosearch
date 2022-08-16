@@ -2,7 +2,7 @@
   import Page from "./Page.svelte";
   import Button from "../common/Button.svelte";
   import TagInput from "./TagInput.svelte";
-  import ActiveTag from "./ActiveTag.svelte";
+  import ActiveTag from "../tags/ActiveTag.svelte";
   import ScrollDetector from "../common/ScrollDetector.svelte";
   import activeTags from "./activeTags";
   import { formatCount } from "../../formatting/numbers";

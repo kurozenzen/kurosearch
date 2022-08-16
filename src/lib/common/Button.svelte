@@ -14,7 +14,8 @@
 </script>
 
 <button {title} on:click={() => dispatch("click")}>
-  <i class={`codicon codicon-${icon}`} /> {text}
+  <i class={`codicon codicon-${icon}`} />
+  {text}
 </button>
 
 <style>
@@ -30,7 +31,9 @@
     padding-inline: 1rem;
   }
 
-  button:hover {
-    background-color: var(--accent-light);
+  @media (pointer: fine) {
+    button:hover {
+      background-color: var(--accent-light);
+    }
   }
 </style>

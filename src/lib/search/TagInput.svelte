@@ -9,7 +9,7 @@
   import currentPage from "../navigation/currentPage";
   import onEnterOrSpace from "../common/onEnterOrSpace";
   import { getTagSuggestions } from "../../api-client/tags/tags";
-import ActiveTag from "./ActiveTag.svelte";
+  import ActiveTag from "../tags/ActiveTag.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -182,8 +182,10 @@ import ActiveTag from "./ActiveTag.svelte";
     user-select: none;
   }
 
-  li:hover {
-    background-color: var(--background-2);
+  @media (pointer: fine) {
+    li:hover {
+      background-color: var(--background-2);
+    }
   }
 
   li:last-of-type {
@@ -216,8 +218,10 @@ import ActiveTag from "./ActiveTag.svelte";
     user-select: none;
   }
 
-  .hint:hover {
-    color: var(--accent);
+  @media (pointer: fine) {
+    .hint:hover {
+      color: var(--accent);
+    }
   }
   .codicon-question {
     cursor: pointer;
