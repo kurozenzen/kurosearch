@@ -1,10 +1,10 @@
-import App from "./App.svelte";
-import { registerSW } from "virtual:pwa-register";
+import App from './App.svelte'
+import { registerSW } from 'virtual:pwa-register'
 
 const app = new App({
-  target: document.getElementById("app"),
-});
+  target: document.getElementById('app'),
+})
 
-registerSW();
+registerSW()
 
-export default app;
+export default app

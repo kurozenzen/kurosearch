@@ -1,5 +1,5 @@
-import { SearchableTag } from "./SearchableTag";
-import { isValidName } from "./validation";
+import { SearchableTag } from './SearchableTag'
+import { isValidName } from './validation'
 
 export class Supertag {
   /**
@@ -9,7 +9,7 @@ export class Supertag {
    */
   constructor(name, description, tags) {
     if (!isValidName(name)) {
-      throw new TypeError("Invalid name passed to Supertag");
+      throw new TypeError('Invalid name passed to Supertag')
     }
 
     // NOTE: check disabled because undefined descriptions exist already
@@ -18,14 +18,14 @@ export class Supertag {
     // }
 
     if (!isArrayOfSearchableTags(tags)) {
-      throw new TypeError("Invalid description passed to Supertag");
+      throw new TypeError('Invalid description passed to Supertag')
     }
 
-    this.name = name;
-    this.description = description;
-    this.tags = Object.freeze([...tags]);
+    this.name = name
+    this.description = description
+    this.tags = Object.freeze([...tags])
 
-    Object.freeze(this);
+    Object.freeze(this)
   }
 }
 
@@ -34,5 +34,5 @@ export class Supertag {
 // };
 
 const isArrayOfSearchableTags = (value) => {
-  return Array.isArray(value) && value.every((v) => v instanceof SearchableTag);
-};
+  return Array.isArray(value) && value.every((v) => v instanceof SearchableTag)
+}

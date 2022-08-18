@@ -1,31 +1,26 @@
 <script>
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount } from 'svelte'
 
-  let previousY = 0;
-  let visible = false;
+  let previousY = 0
+  let visible = false
 
   const listener = () => {
-    const currentY = window.scrollY;
-    visible = currentY < previousY && currentY > 1000;
-    previousY = currentY;
-  };
+    const currentY = window.scrollY
+    visible = currentY < previousY && currentY > 1000
+    previousY = currentY
+  }
 
   onMount(() => {
-    document.addEventListener("scroll", listener, { passive: true });
-  });
+    document.addEventListener('scroll', listener, { passive: true })
+  })
 
   onDestroy(() => {
-    document.removeEventListener("scroll", listener);
-  });
+    document.removeEventListener('scroll', listener)
+  })
 </script>
 
-<button
-  aria-label="back to top"
-  title="Go back up"
-  on:click={() => window.scrollTo(0, 0)}
-  class:visible
->
-  <i class={`codicon codicon-arrow-up`} />
+<button aria-label="back to top" title="Go back up" on:click={() => window.scrollTo(0, 0)} class:visible>
+  <i class="codicon codicon-arrow-up" />
 </button>
 
 <style>

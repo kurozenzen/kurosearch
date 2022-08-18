@@ -8,9 +8,9 @@ export class Page {
    * @param {Post[]} posts
    */
   constructor(count, posts) {
-    this.count = count;
-    this.posts = posts;
+    this.count = count
+    this.posts = posts
 
-    Object.freeze(this);
+    Object.freeze(this)
   }
 }

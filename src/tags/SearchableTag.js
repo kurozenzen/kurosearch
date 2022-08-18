@@ -1,6 +1,6 @@
-import { isValidModifier, serializeModifier } from "./modifier/modifier";
-import { isValidTagType } from "./type/tagtype";
-import { isValidName } from "./validation";
+import { isValidModifier, serializeModifier } from './modifier/modifier'
+import { isValidTagType } from './type/tagtype'
+import { isValidName } from './validation'
 
 /**
  * @typedef {import("./modifier/modifier").Modifier} Modifier
@@ -14,20 +14,20 @@ export class SearchableTag {
    */
   constructor(modifier, name) {
     if (!isValidModifier(modifier)) {
-      throw TypeError("Invalid modifier passed to SearchableTag constructor")
+      throw TypeError('Invalid modifier passed to SearchableTag constructor')
     }
 
-    if(!isValidName(name)) {
-      throw TypeError("Invalid name passed to SearchableTag constructor")
+    if (!isValidName(name)) {
+      throw TypeError('Invalid name passed to SearchableTag constructor')
     }
 
-    this.modifier = modifier;
-    this.name = name;
+    this.modifier = modifier
+    this.name = name
 
-    Object.freeze(this);
+    Object.freeze(this)
   }
 
   serialize() {
-    return `${serializeModifier(this.modifier)}${this.name}`;
+    return `${serializeModifier(this.modifier)}${this.name}`
   }
 }

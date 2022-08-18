@@ -1,10 +1,10 @@
-import { writable } from "svelte/store";
-import { ActiveTag } from "../../tags/ActiveTag";
+import { writable } from 'svelte/store'
+import { ActiveTag } from '../../tags/ActiveTag'
 
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */
-  const initial = [];
-  const { subscribe, update, set } = writable(initial);
+  const initial = []
+  const { subscribe, update, set } = writable(initial)
 
   return {
     subscribe,
@@ -13,29 +13,29 @@ function createActiveTagsStore() {
     /** @param {ActiveTag} tag */
     addOrReplace: (tag) =>
       update((tags) => {
-        const i = tags.findIndex((active) => active.name === tag.name);
+        const i = tags.findIndex((active) => active.name === tag.name)
         if (i === -1) {
-          tags.push(tag);
+          tags.push(tag)
         } else {
-          tags[i] = tag;
+          tags[i] = tag
         }
-        return tags;
+        return tags
       }),
 
     /** @param {string} name */
     addByName: (name) =>
       update((tags) => {
-        tags.push(new ActiveTag("+", name, 0, "general"));
-        return tags;
+        tags.push(new ActiveTag('+', name, 0, 'general'))
+        return tags
       }),
 
     /** @param {number} i */
     removeByIndex: (i) =>
       update((tags) => {
-        tags.splice(i, 1);
-        return tags;
+        tags.splice(i, 1)
+        return tags
       }),
-  };
+  }
 }
 
-export default createActiveTagsStore();
+export default createActiveTagsStore()

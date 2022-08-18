@@ -1,6 +1,5 @@
-
 /**
- * @param {number} value 
+ * @param {number} value
  */
 export const formatCount = (value) => {
   if (value / 1e6 >= 1) {

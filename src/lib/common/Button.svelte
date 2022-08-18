@@ -1,21 +1,21 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte'
 
   /** @type {string} */
-  export let icon;
+  export let icon
 
   /** @type {string} */
-  export let text;
+  export let text
 
   /** @type {string} */
-  export let title;
+  export let title
 
-  export let disabled = false;
+  export let disabled = false
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 </script>
 
-<button {title} on:click={() => dispatch("click")} {disabled}>
+<button {title} on:click={() => dispatch('click')} {disabled}>
   <i class={`codicon codicon-${icon}`} />
   {text}
 </button>

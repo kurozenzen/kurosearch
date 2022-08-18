@@ -1,23 +1,23 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting) {
-        console.debug("Triggered infinite loading");
-        dispatch("visible");
+        console.debug('Triggered infinite loading')
+        dispatch('visible')
       }
     },
-    { rootMargin: "1250px" }
-  );
+    { rootMargin: '1250px' }
+  )
 
   /** @type {HTMLDivElement | undefined}*/
-  let ref;
+  let ref
 
   $: {
-    intersectionObserver.disconnect();
+    intersectionObserver.disconnect()
     if (ref) {
-      intersectionObserver.observe(ref);
+      intersectionObserver.observe(ref)
     }
   }
 </script>

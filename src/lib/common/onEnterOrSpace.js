@@ -3,10 +3,10 @@
  */
 export default function (handler) {
   return (event) => {
-    if (event.code === "Space" || event.code === "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
-      handler();
+    if (event.code === 'Space' || event.code === 'Enter') {
+      event.preventDefault()
+      event.stopPropagation()
+      handler()
     }
-  };
+  }
 }

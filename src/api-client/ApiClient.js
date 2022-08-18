@@ -1,1 +1,1 @@
-export { getPage } from "./pages/pages";
+export { getPage } from './pages/pages'

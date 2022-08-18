@@ -1,8 +1,8 @@
 <script>
-  import Button from "../common/Button.svelte";
-  import Supertag from "../supertags/Supertag.svelte";
-  import account from "./account";
-  import userdata from "./userdata";
+  import Button from '../common/Button.svelte'
+  import Supertag from '../supertags/Supertag.svelte'
+  import account from './account'
+  import userdata from './userdata'
 </script>
 
 {#if $account.loggedIn}
@@ -10,19 +10,10 @@
     <div>
       <h2>Signed in as</h2>
       <div class="overview">
-        <img
-          class="profile-picture"
-          src={$account.user.photoURL}
-          alt="Profile"
-        />
+        <img class="profile-picture" src={$account.user.photoURL} alt="Profile" />
         <div class="name-area">
           <span>{$account.user.displayName}</span>
-          <Button
-            icon="sign-out"
-            text="Sign out"
-            title="Click to sign out"
-            on:click={() => account.signOut()}
-          />
+          <Button icon="sign-out" text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
         </div>
 
         <span>{$account.user.email}</span>
@@ -37,10 +28,7 @@
       {/if}
       <ul>
         {#each $userdata.supertags as supertag}
-          <Supertag
-            {supertag}
-            on:remove={(ev) => userdata.deleteSupertag(ev.detail)}
-          />
+          <Supertag {supertag} on:remove={(ev) => userdata.deleteSupertag(ev.detail)} />
         {/each}
       </ul>
     </div>

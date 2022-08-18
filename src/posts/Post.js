@@ -55,33 +55,33 @@ export class Post {
     owner_url,
     type
   ) {
-    this.preview_url = preview_url;
-    this.sample_url = sample_url;
-    this.file_url = file_url;
-    this.created_at = created_at;
-    this.has_children = has_children;
-    this.md5 = md5;
-    this.height = height;
-    this.id = id;
-    this.change = change;
-    this.creator_id = creator_id;
-    this.has_notes = has_notes;
-    this.has_comments = has_comments;
-    this.parent_id = parent_id;
-    this.preview_width = preview_width;
-    this.preview_height = preview_height;
-    this.rating = rating;
-    this.sample_height = sample_height;
-    this.sample_width = sample_width;
-    this.score = score;
-    this.source = source;
-    this.status = status;
-    this.tags = tags;
-    this.width = width;
-    this.comments_url = comments_url;
-    this.owner_url = owner_url;
-    this.type = type;
+    this.preview_url = preview_url
+    this.sample_url = sample_url
+    this.file_url = file_url
+    this.created_at = created_at
+    this.has_children = has_children
+    this.md5 = md5
+    this.height = height
+    this.id = id
+    this.change = change
+    this.creator_id = creator_id
+    this.has_notes = has_notes
+    this.has_comments = has_comments
+    this.parent_id = parent_id
+    this.preview_width = preview_width
+    this.preview_height = preview_height
+    this.rating = rating
+    this.sample_height = sample_height
+    this.sample_width = sample_width
+    this.score = score
+    this.source = source
+    this.status = status
+    this.tags = tags
+    this.width = width
+    this.comments_url = comments_url
+    this.owner_url = owner_url
+    this.type = type
 
-    Object.freeze(this);
+    Object.freeze(this)
   }
 }

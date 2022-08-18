@@ -1,13 +1,13 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import onEnterOrSpace from "./onEnterOrSpace";
+  import { createEventDispatcher } from 'svelte'
+  import onEnterOrSpace from './onEnterOrSpace'
 
-  export let title = undefined;
-  export let icon;
-  export let active;
+  export let title = undefined
+  export let icon
+  export let active
 
-  const dispatch = createEventDispatcher();
-  const dispatchClick = () => dispatch("click");
+  const dispatch = createEventDispatcher()
+  const dispatchClick = () => dispatch('click')
 </script>
 
 <i

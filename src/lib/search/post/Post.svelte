@@ -1,32 +1,32 @@
 <script>
-  import { postObserver } from "./postObserver";
-  import Details from "./Details.svelte";
+  import { postObserver } from './postObserver'
+  import Details from './Details.svelte'
 
   /**
-   * @typedef {import("../../../posts/Post").Post}
+   * @typedef {import("../../../posts/Post").Post} Post
    */
 
   /** @type {Post} */
-  export let post;
+  export let post
 
   /** @type {HTMLElement}*/
-  let media;
+  let media
   $: {
     if (media) {
-      postObserver.observe(media);
+      postObserver.observe(media)
     }
   }
 
-  let open = false;
+  let open = false
 
   const toggleOpen = () => {
-    open = !open;
-  };
+    open = !open
+  }
 </script>
 
 <div class="post" tabindex="0">
   <div on:click={toggleOpen} class="content">
-    {#if post.type === "image"}
+    {#if post.type === 'image'}
       <img
         loading="lazy"
         data-src={post.sample_url}
@@ -36,7 +36,7 @@
         height={post.height}
         bind:this={media}
       />
-    {:else if post.type === "video"}
+    {:else if post.type === 'video'}
       <!-- svelte-ignore a11y-media-has-caption -->
       <video
         preload="metadata"

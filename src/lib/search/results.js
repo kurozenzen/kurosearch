@@ -1,5 +1,5 @@
-import { PAGE_SIZE } from "../../api-client/pages/pages";
-import { derived, writable } from "svelte/store";
+import { PAGE_SIZE } from '../../api-client/pages/pages'
+import { derived, writable } from 'svelte/store'
 
 /**
  * @typedef {import("../../posts/Page").Page} Page
@@ -9,8 +9,8 @@ import { derived, writable } from "svelte/store";
 
 const createResultsStore = () => {
   /** @type {Results} */
-  const initial = { count: null, pages: [], nextPage: 0 };
-  const { subscribe, update, set } = writable(initial);
+  const initial = { count: null, pages: [], nextPage: 0 }
+  const { subscribe, update, set } = writable(initial)
 
   return {
     subscribe,
@@ -19,17 +19,17 @@ const createResultsStore = () => {
      */
     addPage(page) {
       update((results) => {
-        results.count = page.count;
-        results.pages.push(page.posts);
-        results.nextPage = results.nextPage + 1;
-        return results;
-      });
+        results.count = page.count
+        results.pages.push(page.posts)
+        results.nextPage = results.nextPage + 1
+        return results
+      })
     },
 
     reset() {
-      set(initial);
+      set(initial)
     },
-  };
-};
+  }
+}
 
-export default createResultsStore();
+export default createResultsStore()

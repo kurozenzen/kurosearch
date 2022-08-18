@@ -2,7 +2,7 @@
 const config = {
   collectCoverage: true,
   testEnvironment: 'jest-environment-node',
-  transform: {}
-};
+  transform: {},
+}
 
-export default config;
+export default config
