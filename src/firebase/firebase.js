@@ -1,5 +1,9 @@
-import { initializeApp } from 'firebase/app';
-import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const config = {
@@ -9,11 +13,11 @@ const config = {
   projectId: 'r34-react',
   storageBucket: 'r34-react.appspot.com',
   messagingSenderId: '844749417844',
-  appId: '1:844749417844:web:11fa1fda0e14f1ac2dd021',
-  measurementId: 'G-27J3QXZ8YR',
-}
+  appId: '1:844749417844:web:3d1a590b58568e472dd021',
+  measurementId: 'G-H9MD9SS1LS',
+};
 
 export const firebaseApp = initializeApp(config);
 export const firebaseAuth = getAuth(firebaseApp);
 setPersistence(firebaseAuth, browserLocalPersistence);
-export const firestore = getFirestore(firebaseApp)
+export const firestore = getFirestore(firebaseApp);
