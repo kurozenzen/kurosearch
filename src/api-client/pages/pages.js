@@ -1,4 +1,4 @@
-import { logSearch } from '../../firebase/events'
+// import { logSearch } from '../../firebase/events'
 import { Page } from '../../posts/Page'
 import { Post } from '../../posts/Post'
 import { isValidSortProperty } from '../../posts/sort/sort'
@@ -52,7 +52,7 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
     throw new Error(json)
   }
 
-  logSearch(serializedTags)
+  // logSearch(serializedTags)
 
   return new Page(
     json.count,
