@@ -19,7 +19,12 @@
   });
 </script>
 
-<button on:click={() => window.scrollTo(0, 0)} class:visible>
+<button
+  aria-label="back to top"
+  title="Go back up"
+  on:click={() => window.scrollTo(0, 0)}
+  class:visible
+>
   <i class={`codicon codicon-arrow-up`} />
 </button>
 
