@@ -32,9 +32,15 @@
     <div>
       <h2>Your supertags</h2>
       <div class="supertags" />
+      {#if $userdata.supertags.length === 0}
+        <span>You don't have any supertags yet. You can create them when you have more than one tag active.</span>
+      {/if}
       <ul>
         {#each $userdata.supertags as supertag}
-          <Supertag {supertag} />
+          <Supertag
+            {supertag}
+            on:remove={(ev) => userdata.deleteSupertag(ev.detail)}
+          />
         {/each}
       </ul>
     </div>

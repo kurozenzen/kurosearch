@@ -4,13 +4,13 @@ import { ActiveTag } from "../../tags/ActiveTag";
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */
   const initial = [];
-  const { subscribe, update } = writable(initial);
+  const { subscribe, update, set } = writable(initial);
 
   return {
     subscribe,
-    /**
-     * @param {ActiveTag} tag
-     */
+    set,
+
+    /** @param {ActiveTag} tag */
     addOrReplace: (tag) =>
       update((tags) => {
         const i = tags.findIndex((active) => active.name === tag.name);

@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { writable } from "svelte/store";
 import { firebaseAuth, firestore } from "../../firebase/firebase";
-import { collection, doc, onSnapshot, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, query, setDoc } from "firebase/firestore";
 import { Supertag } from "../../tags/Supertag";
 import { SearchableTag } from "../../tags/SearchableTag";
 
@@ -23,10 +23,13 @@ const createAccountStore = () => {
   const initial = { preferences: {}, supertags: [] };
   const { subscribe, update } = writable(initial);
 
+  let currentUser;
+
   let preferencesUnsub = null;
   let supertagsUnsub = null;
 
   onAuthStateChanged(firebaseAuth, async (user) => {
+    currentUser = user;
     if (user) {
       const key = await sha256(user.email);
       preferencesUnsub?.();
@@ -57,7 +60,7 @@ const createAccountStore = () => {
                 supertags.push(
                   new Supertag(
                     doc.id,
-                    data.desciption,
+                    data.description,
                     Object.entries(data.tags).map(
                       (e) => new SearchableTag(e[1], e[0])
                     )
@@ -82,6 +85,39 @@ const createAccountStore = () => {
 
   return {
     subscribe,
+
+    /**
+     * @param {Supertag} supertag
+     */
+    async addSupertag(supertag) {
+      if (!currentUser) {
+        throw new Error("No user");
+      }
+
+      const key = await sha256(currentUser.email);
+
+      debugger;
+
+      return setDoc(doc(firestore, `users/${key}/supertags`, supertag.name), {
+        description: supertag.description,
+        tags: Object.fromEntries(
+          supertag.tags.map((t) => [t.name, t.modifier])
+        ),
+      });
+    },
+
+    /**
+     * @param {Supertag} supertag
+     */
+     async deleteSupertag(supertag) {
+      if (!currentUser) {
+        throw new Error("No user");
+      }
+
+      const key = await sha256(currentUser.email);
+
+      return deleteDoc(doc(firestore, `users/${key}/supertags`, supertag.name));
+    },
   };
 };
 

@@ -10,8 +10,8 @@
 
   const dispatch = createEventDispatcher();
 
-  const emitRemove = () => dispatch("remove", supertag.name);
-  const emitEdit = () => dispatch("edit", supertag.name);
+  const emitRemove = () => dispatch("remove", supertag);
+  const emitEdit = () => dispatch("edit", supertag);
 </script>
 
 <li>

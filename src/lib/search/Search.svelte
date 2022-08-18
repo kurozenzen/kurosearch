@@ -13,9 +13,12 @@
   import userdata from "../account/userdata";
   import results from "./results";
   import { PAGE_SIZE } from "../../api-client/pages/pages";
+  import CreateSupertagDialog from "../supertags/CreateSupertagDialog.svelte";
+  import { ActiveTag as AT } from "../../tags/ActiveTag";
 
   let sort = "id";
   let minScore = 0;
+  let supertagMode = false;
 
   const getFirstPage = async () => {
     results.reset();
@@ -50,6 +53,17 @@
       {#each $activeTags as tag, i}
         <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
       {/each}
+      {#if $activeTags.length > 1}
+        <button
+          class="add-supertag"
+          title="Click to create a new supertag"
+          on:click={() => {
+            supertagMode = true;
+          }}
+        >
+          <i class="codicon codicon-star-full" />
+        </button>
+      {/if}
     </ul>
   {/if}
   <div class="sort-row">
@@ -91,6 +105,19 @@
 {/if}
 
 <ScrollUpButton />
+
+{#if supertagMode}
+  <CreateSupertagDialog
+    tags={$activeTags}
+    on:submit={(ev) => {
+      userdata.addSupertag(ev.detail);
+      activeTags.set([new AT("+", ev.detail.name, ev.detail.tags.length, "supertag")]);
+    }}
+    on:close={() => {
+      supertagMode = false;
+    }}
+  />
+{/if}
 
 <style>
   ul {
@@ -148,5 +175,20 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+  }
+
+  .add-supertag {
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    border-radius: 12px;
+    background-color: var(--accent);
+    color: var(--text-accent);
+  }
+
+  .add-supertag i {
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
   }
 </style>
