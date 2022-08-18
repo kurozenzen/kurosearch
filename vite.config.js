@@ -10,10 +10,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt'],
       manifest: {
-        name: 'KuroSearch',
-        short_name: 'KuroSearch',
-        description: 'Rule34 browsing re-imagined.',
-        theme_color: '#000000',
+        name: 'kurosearch',
+        short_name: 'kurosearch',
+        description: 'Rule34 browsing re-imagined',
+        theme_color: '#dc143c',
         background_color: '#000000',
         icons: [
           {
