@@ -22,7 +22,7 @@ jobs:
       - name: Install and build
         run: |
           npm install
-          npm run build -- --base=/${{ github.event.repository.name }}/
+          npm run build
       - name: Test
         run: npm test
       - name: Deploy to github pages
