@@ -36,5 +36,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/kurosearch/',
+  base: '/',
 })
