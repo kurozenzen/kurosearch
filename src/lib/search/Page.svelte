@@ -1,9 +1,8 @@
 <script>
-  import PostComponent from "./post/Post.svelte";
+  import PostComponent from './post/Post.svelte'
 
   /** @type {import("../../posts/Post").Post[]} */
-  export let posts;
-
+  export let posts
 </script>
 
 <ol class="page">

@@ -1,9 +1,9 @@
 <script>
-  import { isValidUrl } from "../../../api-client/fetchAbortPrevious";
+  import { isValidUrl } from '../../../api-client/fetchAbortPrevious'
 
   /** @type {string} */
-  export let source;
-  $: url = isValidUrl(source) ? new URL(source) : null;
+  export let source
+  $: url = isValidUrl(source) ? new URL(source) : null
 </script>
 
 <i class="codicon codicon-link" />

@@ -1,5 +1,5 @@
 <script>
-  import theme from "../theme/theme";
+  import theme from '../theme/theme'
 </script>
 
 <select bind:value={$theme}>

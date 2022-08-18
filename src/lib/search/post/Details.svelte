@@ -1,11 +1,11 @@
 <script>
-  import { formatCount } from "../../../formatting/numbers";
-  import { formatCreatedAt } from "../../../formatting/date";
-  import SimpleTag from "../../tags/SimpleTag.svelte";
-  import Source from "./Source.svelte";
+  import { formatCount } from '../../../formatting/numbers'
+  import { formatCreatedAt } from '../../../formatting/date'
+  import SimpleTag from '../../tags/SimpleTag.svelte'
+  import Source from './Source.svelte'
 
   /** @type {import("../../../posts/Post").Post} */
-  export let post;
+  export let post
 </script>
 
 <div class="summary">

@@ -1,18 +1,18 @@
 <script>
-  import { formatTagname } from "../../formatting/tags";
-  import activeTags from "../search/activeTags";
+  import { formatTagname } from '../../formatting/tags'
+  import activeTags from '../search/activeTags'
 
   /** @type {string}*/
-  export let name;
+  export let name
 
   $: index = $activeTags.findIndex((t) => t.name === name)
-  $: active = index >= 0;
+  $: active = index >= 0
 </script>
 
 <li
   tabindex="0"
   title="Click to add tag"
-  on:click={() => active ? activeTags.removeByIndex(index) : activeTags.addByName(name)}
+  on:click={() => (active ? activeTags.removeByIndex(index) : activeTags.addByName(name))}
   class:active
 >
   {formatTagname(name)}

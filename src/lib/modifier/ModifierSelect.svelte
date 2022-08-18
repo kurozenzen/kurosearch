@@ -1,17 +1,17 @@
 <script>
-  import { getNextModifier } from "../../tags/modifier/modifier";
-  import { createEventDispatcher } from "svelte";
-  import onEnterOrSpace from "../common/onEnterOrSpace";
-  import { MODIFIERS_ICONS, MODIFIERS_HINTS } from "./modifierData";
+  import { getNextModifier } from '../../tags/modifier/modifier'
+  import { createEventDispatcher } from 'svelte'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import { MODIFIERS_ICONS, MODIFIERS_HINTS } from './modifierData'
 
-  let modifier = "+";
+  let modifier = '+'
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   const changeModifier = () => {
-    modifier = getNextModifier(modifier);
-    dispatch("change", modifier);
-  };
+    modifier = getNextModifier(modifier)
+    dispatch('change', modifier)
+  }
 </script>
 
 <i

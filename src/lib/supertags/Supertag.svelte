@@ -1,40 +1,28 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher } from 'svelte'
 
-  import { ActiveTag } from "../../tags/ActiveTag";
-  import onEnterOrSpace from "../common/onEnterOrSpace";
-  import ActiveTagComponent from "../tags/ActiveTag.svelte";
+  import { ActiveTag } from '../../tags/ActiveTag'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import ActiveTagComponent from '../tags/ActiveTag.svelte'
 
   /** @type {import("../../tags/Supertag").Supertag} */
-  export let supertag;
+  export let supertag
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
-  const emitRemove = () => dispatch("remove", supertag);
-  const emitEdit = () => dispatch("edit", supertag);
+  const emitRemove = () => dispatch('remove', supertag)
+  const emitEdit = () => dispatch('edit', supertag)
 </script>
 
 <li>
   <h3>{supertag.name}</h3>
   <small>{Object.keys(supertag.tags).length} tags</small>
-  <i
-    tabindex="0"
-    class={`codicon codicon-edit`}
-    on:click={emitEdit}
-    on:keyup={onEnterOrSpace(emitEdit)}
-  />
-  <i
-    tabindex="0"
-    class={`codicon codicon-close`}
-    on:click={emitRemove}
-    on:keyup={onEnterOrSpace(emitRemove)}
-  />
+  <i tabindex="0" class="codicon codicon-edit" on:click={emitEdit} on:keyup={onEnterOrSpace(emitEdit)} />
+  <i tabindex="0" class="codicon codicon-close" on:click={emitRemove} on:keyup={onEnterOrSpace(emitRemove)} />
   <span>{supertag.description}</span>
   <ol>
     {#each supertag.tags as tag}
-      <ActiveTagComponent
-        tag={new ActiveTag(tag.modifier, tag.name, 0, "general")}
-      />
+      <ActiveTagComponent tag={new ActiveTag(tag.modifier, tag.name, 0, 'general')} />
     {/each}
   </ol>
 </li>

@@ -1,22 +1,22 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import { formatCount } from "../../formatting/numbers";
-  import { formatTagname } from "../../formatting/tags";
-  import TagIcon from "../tags/TagIcon.svelte";
-  import { MODIFIER_NAMES } from "../modifier/modifierData";
+  import { createEventDispatcher } from 'svelte'
+  import { formatCount } from '../../formatting/numbers'
+  import { formatTagname } from '../../formatting/tags'
+  import TagIcon from '../tags/TagIcon.svelte'
+  import { MODIFIER_NAMES } from '../modifier/modifierData'
 
   /** @type {import("../../tags/ActiveTag").ActiveTag}*/
-  export let tag;
+  export let tag
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 </script>
 
 <li
   class={MODIFIER_NAMES[tag.modifier]}
-  class:no-icon={tag.type === "general"}
+  class:no-icon={tag.type === 'general'}
   tabindex="0"
   title="Click to remove tag"
-  on:click={() => dispatch("click")}
+  on:click={() => dispatch('click')}
 >
   <TagIcon type={tag.type} />
   {formatTagname(tag.name)}
@@ -59,5 +59,4 @@
   .optional {
     font-style: italic;
   }
-
 </style>

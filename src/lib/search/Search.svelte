@@ -1,48 +1,46 @@
 <script>
-  import Page from "./Page.svelte";
-  import Button from "../common/Button.svelte";
-  import TagInput from "../tag-input/TagInput.svelte";
-  import ActiveTag from "../tags/ActiveTag.svelte";
-  import ScrollDetector from "../common/ScrollDetector.svelte";
-  import activeTags from "./activeTags";
-  import { formatCount } from "../../formatting/numbers";
-  import NoResults from "./NoResults.svelte";
-  import NoMoreResults from "./NoMoreResults.svelte";
-  import { getPage } from "../../api-client/ApiClient";
-  import ScrollUpButton from "./ScrollUpButton.svelte";
-  import userdata from "../account/userdata";
-  import results from "./results";
-  import { PAGE_SIZE } from "../../api-client/pages/pages";
-  import CreateSupertagDialog from "../supertags/CreateSupertagDialog.svelte";
-  import { ActiveTag as AT } from "../../tags/ActiveTag";
+  import Page from './Page.svelte'
+  import Button from '../common/Button.svelte'
+  import TagInput from '../tag-input/TagInput.svelte'
+  import ActiveTag from '../tags/ActiveTag.svelte'
+  import ScrollDetector from '../common/ScrollDetector.svelte'
+  import activeTags from './activeTags'
+  import { formatCount } from '../../formatting/numbers'
+  import NoResults from './NoResults.svelte'
+  import NoMoreResults from './NoMoreResults.svelte'
+  import { getPage } from '../../api-client/ApiClient'
+  import ScrollUpButton from './ScrollUpButton.svelte'
+  import userdata from '../account/userdata'
+  import results from './results'
+  import { PAGE_SIZE } from '../../api-client/pages/pages'
+  import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
+  import { ActiveTag as AT } from '../../tags/ActiveTag'
 
-  let sort = "id";
-  let minScore = 0;
-  let supertagMode = false;
+  let sort = 'id'
+  let minScore = 0
+  let supertagMode = false
 
   const getFirstPage = async () => {
-    results.reset();
-    return getNextPage();
-  };
+    results.reset()
+    return getNextPage()
+  }
 
   const getNextPage = async () => {
     try {
-      const tags = getSearchableTags();
-      const page = await getPage($results.nextPage, tags, sort, minScore);
-      results.addPage(page);
+      const tags = getSearchableTags()
+      const page = await getPage($results.nextPage, tags, sort, minScore)
+      results.addPage(page)
     } catch (e) {
       //TODO: add error handling and user feedback here
-      console.warn(e);
+      console.warn(e)
     }
-  };
+  }
 
   const getSearchableTags = () => {
     return $activeTags.flatMap((t) =>
-      t.type === "supertag"
-        ? $userdata.supertags.find((s) => s.name === t.name).tags
-        : t.toSearchableTag()
-    );
-  };
+      t.type === 'supertag' ? $userdata.supertags.find((s) => s.name === t.name).tags : t.toSearchableTag()
+    )
+  }
 </script>
 
 <div class="search-config">
@@ -58,7 +56,7 @@
           class="add-supertag"
           title="Click to create a new supertag"
           on:click={() => {
-            supertagMode = true;
+            supertagMode = true
           }}
         >
           <i class="codicon codicon-star-full" />
@@ -67,12 +65,7 @@
     </ul>
   {/if}
   <div class="sort-row">
-    <Button
-      title="Click to search with active tags"
-      icon="search"
-      text="Search"
-      on:click={() => getFirstPage()}
-    />
+    <Button title="Click to search with active tags" icon="search" text="Search" on:click={() => getFirstPage()} />
   </div>
   <div class="sort-row">
     <select bind:value={sort}>
@@ -110,11 +103,11 @@
   <CreateSupertagDialog
     tags={$activeTags}
     on:submit={(ev) => {
-      userdata.addSupertag(ev.detail);
-      activeTags.set([new AT("+", ev.detail.name, ev.detail.tags.length, "supertag")]);
+      userdata.addSupertag(ev.detail)
+      activeTags.set([new AT('+', ev.detail.name, ev.detail.tags.length, 'supertag')])
     }}
     on:close={() => {
-      supertagMode = false;
+      supertagMode = false
     }}
   />
 {/if}
@@ -134,7 +127,7 @@
   }
 
   h1 {
-    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
     font-size: 72px;
     text-align: center;
     color: var(--accent);

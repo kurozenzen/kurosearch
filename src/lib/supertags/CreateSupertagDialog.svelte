@@ -1,55 +1,40 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "../common/Button.svelte";
-  import onEnterOrSpace from "../common/onEnterOrSpace";
-  import ActiveTagComponent from "../tags/ActiveTag.svelte";
-  import { Supertag } from "../../tags/Supertag";
-  import { isValidName } from "../../tags/validation";
+  import { createEventDispatcher } from 'svelte'
+  import Button from '../common/Button.svelte'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import ActiveTagComponent from '../tags/ActiveTag.svelte'
+  import { Supertag } from '../../tags/Supertag'
+  import { isValidName } from '../../tags/validation'
 
   /**
    * @typedef {import("../../tags/ActiveTag").ActiveTag} ActiveTag
    */
 
-  export let name = "";
-  export let description = "";
+  export let name = ''
+  export let description = ''
 
   /** @type {ActiveTag[]} */
-  export let tags;
+  export let tags
 
-  const dispatch = createEventDispatcher();
-  const closeDialog = () => dispatch("close");
+  const dispatch = createEventDispatcher()
+  const closeDialog = () => dispatch('close')
 
-  $: valid = isValidName(name);
+  $: valid = isValidName(name)
 </script>
 
 <dialog>
   <h3>Create Supertag</h3>
 
-  <i
-    tabindex="0"
-    class={`codicon codicon-close`}
-    on:click={closeDialog}
-    on:keyup={onEnterOrSpace(closeDialog)}
-  />
+  <i tabindex="0" class={`codicon codicon-close`} on:click={closeDialog} on:keyup={onEnterOrSpace(closeDialog)} />
 
   <div>
     <label for="supertag-name"> Name </label>
-    <input
-      type="text"
-      bind:value={name}
-      placeholder="Descriptive name"
-      id="supertag-name"
-    />
+    <input type="text" bind:value={name} placeholder="Descriptive name" id="supertag-name" />
   </div>
 
   <div>
     <label for="supertag-description"> Description </label>
-    <textarea
-      type="text"
-      bind:value={description}
-      placeholder="Short description"
-      id="supertag-description"
-    />
+    <textarea type="text" bind:value={description} placeholder="Short description" id="supertag-description" />
   </div>
 
   <div>
@@ -61,22 +46,20 @@
     </ol>
   </div>
   <Button
-    title={valid
-      ? "Click to create supertag"
-      : "Enter a valid name to continue"}
+    title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
     icon="plus"
     text="Create supertag"
     disabled={!valid}
     on:click={() => {
       dispatch(
-        "submit",
+        'submit',
         new Supertag(
           name,
           description,
           tags.map((t) => t.toSearchableTag())
         )
-      );
-      closeDialog();
+      )
+      closeDialog()
     }}
   />
 </dialog>

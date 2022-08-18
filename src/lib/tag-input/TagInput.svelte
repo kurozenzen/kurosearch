@@ -1,36 +1,36 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import ToggleIcon from "../common/ToggleIcon.svelte";
-  import ModifierSelect from "../modifier/ModifierSelect.svelte";
-  import LoadingAnimation from "../common/LoadingAnimation.svelte";
-  import currentPage from "../navigation/currentPage";
-  import onEnterOrSpace from "../common/onEnterOrSpace";
-  import { getTagSuggestions } from "../../api-client/tags/tags";
-  import userdata from "../account/userdata";
-  import { Tag } from "../../tags/Tag";
-  import TagSuggestion from "./TagSuggestion.svelte";
+  import { createEventDispatcher } from 'svelte'
+  import ToggleIcon from '../common/ToggleIcon.svelte'
+  import ModifierSelect from '../modifier/ModifierSelect.svelte'
+  import LoadingAnimation from '../common/LoadingAnimation.svelte'
+  import currentPage from '../navigation/currentPage'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import { getTagSuggestions } from '../../api-client/tags/tags'
+  import userdata from '../account/userdata'
+  import { Tag } from '../../tags/Tag'
+  import TagSuggestion from './TagSuggestion.svelte'
 
   /**
    * @typedef {import("../../tags/Tag").Tag} Tag
    */
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   /** @type {Promise<void>}*/
-  let searchPromise;
+  let searchPromise
 
-  let searchTerm = "";
-  let fuzzySearch = true;
-  let modifier = "+";
-  let open = false;
+  let searchTerm = ''
+  let fuzzySearch = true
+  let modifier = '+'
+  let open = false
 
   /** @type {Tag[]}*/
-  let tags = [];
+  let tags = []
 
   $: {
-    tags = [];
-    if (searchTerm !== "") {
-      searchPromise = getSuggestions(fuzzySearch, searchTerm);
+    tags = []
+    if (searchTerm !== '') {
+      searchPromise = getSuggestions(fuzzySearch, searchTerm)
     }
   }
 
@@ -39,27 +39,27 @@
    * @param {string} term
    */
   async function getSuggestions(fuzzy, term) {
-    open = true;
+    open = true
     tags = [
       ...$userdata.supertags
         .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
-        .map((s) => new Tag(s.name, Object.keys(s.tags).length, "supertag")),
+        .map((s) => new Tag(s.name, Object.keys(s.tags).length, 'supertag')),
       ...(await getTagSuggestions(term, fuzzy)),
-    ];
+    ]
   }
 
   const resetInput = () => {
-    searchTerm = "";
-    tags = [];
-    open = false;
-  };
+    searchTerm = ''
+    tags = []
+    open = false
+  }
 </script>
 
 <div
   class="searchbar"
-  class:open={open}
+  class:open
   on:blur={() => {
-    open = false;
+    open = false
   }}
 >
   <i class="codicon codicon-search" />
@@ -73,17 +73,17 @@
         //@ts-expect-error
         !event.target.parentNode.contains(event.relatedTarget)
       ) {
-        open = false;
+        open = false
       }
     }}
     on:focus={() => {
-      open = true;
+      open = true
     }}
   />
 
   <ModifierSelect
     on:change={(e) => {
-      modifier = e.detail;
+      modifier = e.detail
     }}
   />
   <ToggleIcon
@@ -91,20 +91,20 @@
     title="Toggle exact search term matching"
     active={!fuzzySearch}
     on:click={() => {
-      fuzzySearch = !fuzzySearch;
+      fuzzySearch = !fuzzySearch
     }}
   />
   <i
     tabindex="0"
     class={`codicon codicon-question`}
     on:click={() => {
-      $currentPage = "help";
+      $currentPage = 'help'
     }}
     on:keyup={onEnterOrSpace(() => {
-      $currentPage = "help";
+      $currentPage = 'help'
     })}
   />
-  <ol class:open={open}>
+  <ol class:open>
     {#await searchPromise}
       <div class="hint-container">
         <LoadingAnimation />
@@ -114,8 +114,8 @@
         <TagSuggestion
           {tag}
           on:click={() => {
-            dispatch("pick", tag.toActiveTag(modifier));
-            resetInput();
+            dispatch('pick', tag.toActiveTag(modifier))
+            resetInput()
           }}
         />
       {/each}

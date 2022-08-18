@@ -1,46 +1,31 @@
 <script>
-  import currentPage from "./currentPage";
-  import DiscordIcon from "./DiscordIcon.svelte";
-  import account from "../account/account";
+  import currentPage from './currentPage'
+  import DiscordIcon from './DiscordIcon.svelte'
+  import account from '../account/account'
 </script>
 
 <header role="navigation">
   <div>
-    <a
-      title="Source Code"
-      href="https://github.com/kurozenzen/kurosearch"
-      target="_newtab"
-    >
+    <a title="Source Code" href="https://github.com/kurozenzen/kurosearch" target="_newtab">
       <i class="codicon codicon-github" />
     </a>
     <a title="Sponsor" href="https://ko-fi.com/kurozenzen" target="_newtab">
       <i class="codicon codicon-heart" />
     </a>
-    <a
-      title="Discord Server"
-      href="https://discord.gg/yyJFG5PVBZ"
-      target="_newtab"
-    >
+    <a title="Discord Server" href="https://discord.gg/yyJFG5PVBZ" target="_newtab">
       <DiscordIcon />
     </a>
   </div>
   <nav>
-    <button title="Search" on:click={() => currentPage.navigateTo("search")}>
+    <button title="Search" on:click={() => currentPage.navigateTo('search')}>
       <i class="codicon codicon-search" />
     </button>
-    <button
-      title="Settings"
-      on:click={() => currentPage.navigateTo("settings")}
-    >
+    <button title="Settings" on:click={() => currentPage.navigateTo('settings')}>
       <i class="codicon codicon-settings-gear" />
     </button>
-    <button title="Account" on:click={() => currentPage.navigateTo("account")}>
+    <button title="Account" on:click={() => currentPage.navigateTo('account')}>
       {#if $account.loggedIn}
-        <img
-          class="profile-picture"
-          src={$account.user.photoURL}
-          alt="Account"
-        />
+        <img class="profile-picture" src={$account.user.photoURL} alt="Account" />
       {:else}
         <i class="codicon codicon-account" />
       {/if}

@@ -1,3 +1,4 @@
+import { logSearch } from '../../firebase/events'
 import { Page } from '../../posts/Page'
 import { Post } from '../../posts/Post'
 import { isValidSortProperty } from '../../posts/sort/sort'
@@ -33,8 +34,11 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
     throw new TypeError('Invalid minimum score passed to getPage')
   }
 
+
+
+  const serializedTags = serializeTags(tags, sortProperty, minScore)
   const response = await fetchAbortPrevious(
-    getPostsUrl(pageNumber, serializeTags(tags, sortProperty, minScore)),
+    getPostsUrl(pageNumber, serializedTags),
     getPageAbortController
   )
 
@@ -47,6 +51,8 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
   if (!Array.isArray(json.posts)) {
     throw new Error(json)
   }
+
+  logSearch(serializedTags)
 
   return new Page(
     json.count,
