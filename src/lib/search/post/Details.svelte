@@ -4,7 +4,7 @@
   import SimpleTag from "../../tags/SimpleTag.svelte";
   import Source from "./Source.svelte";
 
-  /** @type {import("../../../types/post").PostDTO} */
+  /** @type {import("../../../posts/Post").Post} */
   export let post;
 </script>
 

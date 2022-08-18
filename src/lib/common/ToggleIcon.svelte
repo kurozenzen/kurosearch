@@ -20,9 +20,6 @@
 />
 
 <style>
-  i {
-    cursor: pointer;
-  }
   .active {
     color: var(--accent);
   }

@@ -1,7 +1,7 @@
 <script>
   import Page from "./Page.svelte";
   import Button from "../common/Button.svelte";
-  import TagInput from "./TagInput.svelte";
+  import TagInput from "../tag-input/TagInput.svelte";
   import ActiveTag from "../tags/ActiveTag.svelte";
   import ScrollDetector from "../common/ScrollDetector.svelte";
   import activeTags from "./activeTags";
@@ -11,44 +11,34 @@
   import { getPage } from "../../api-client/ApiClient";
   import ScrollUpButton from "./ScrollUpButton.svelte";
   import userdata from "../account/userdata";
-
-  const PAGE_SIZE = 20;
-
-  /** @type {import("../../types/post").PostDTO[][]}*/
-  let pages = [];
+  import results from "./results";
+  import { PAGE_SIZE } from "../../api-client/pages/pages";
 
   let sort = "id";
   let minScore = 0;
-  /** @type {number | null}*/
-  let count = null;
-  $: pageCount = count / PAGE_SIZE;
-  let nextPage = 0;
-
-  const resetSearch = () => {
-    pages = [];
-    count = null;
-    nextPage = 0;
-  };
 
   const getFirstPage = async () => {
-    resetSearch();
+    results.reset();
     return getNextPage();
   };
 
   const getNextPage = async () => {
     try {
-      const tags = $activeTags.flatMap((t) =>
-        t.type === "supertag"
-          ? $userdata.supertags.find((s) => (s.name === t.name)).toSearchableTag()
-          : t.toSearchableTag()
-      );
-      const page = await getPage(nextPage++, tags, sort, minScore);
-      pages = [...pages, page.posts];
-      count = page.count;
+      const tags = getSearchableTags();
+      const page = await getPage($results.nextPage, tags, sort, minScore);
+      results.addPage(page);
     } catch (e) {
       //TODO: add error handling and user feedback here
       console.warn(e);
     }
+  };
+
+  const getSearchableTags = () => {
+    return $activeTags.flatMap((t) =>
+      t.type === "supertag"
+        ? $userdata.supertags.find((s) => s.name === t.name).tags
+        : t.toSearchableTag()
+    );
   };
 </script>
 
@@ -57,7 +47,7 @@
   <TagInput on:pick={(e) => activeTags.addOrReplace(e.detail)} />
   {#if $activeTags.length}
     <ul>
-      {#each [...$activeTags] as tag, i}
+      {#each $activeTags as tag, i}
         <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
       {/each}
     </ul>
@@ -84,19 +74,19 @@
   </div>
 </div>
 
-{#if count}
-  <p class="count">{formatCount(count)} results</p>
+{#if $results.count}
+  <p class="count">{formatCount($results.count)} results</p>
   <ol>
-    {#each pages as page}
+    {#each $results.pages as page}
       <Page posts={page} />
     {/each}
   </ol>
-  {#if pages.length < pageCount}
+  {#if $results.pages.length < $results.count / PAGE_SIZE}
     <ScrollDetector on:visible={getNextPage} />
   {:else}
     <NoMoreResults />
   {/if}
-{:else if count === 0}
+{:else if $results.count === 0}
   <NoResults />
 {/if}
 
@@ -140,7 +130,7 @@
   }
 
   select {
-    height: 32px;
+    height: var(--line-height);
     padding-inline: 8px;
     box-sizing: border-box;
     background-color: var(--background-1);

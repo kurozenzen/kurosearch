@@ -3,6 +3,7 @@ import { writable } from "svelte/store";
 import { firebaseAuth, firestore } from "../../firebase/firebase";
 import { collection, doc, onSnapshot, query } from "firebase/firestore";
 import { Supertag } from "../../tags/Supertag";
+import { SearchableTag } from "../../tags/SearchableTag";
 
 const sha256 = async (value) => {
   const msgBuffer = new TextEncoder().encode(value);
@@ -54,7 +55,13 @@ const createAccountStore = () => {
               querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 supertags.push(
-                  new Supertag(doc.id, data.desciption, data.tags)
+                  new Supertag(
+                    doc.id,
+                    data.desciption,
+                    Object.entries(data.tags).map(
+                      (e) => new SearchableTag(e[1], e[0])
+                    )
+                  )
                 );
               });
               update((state) => {

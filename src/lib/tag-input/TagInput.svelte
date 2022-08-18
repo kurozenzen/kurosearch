@@ -1,16 +1,18 @@
 <script>
-  import { formatCount } from "../../formatting/numbers";
   import { createEventDispatcher } from "svelte";
-  import { formatTagname } from "../../formatting/tags";
   import ToggleIcon from "../common/ToggleIcon.svelte";
-  import TagIcon from "../tags/TagIcon.svelte";
   import ModifierSelect from "../modifier/ModifierSelect.svelte";
   import LoadingAnimation from "../common/LoadingAnimation.svelte";
   import currentPage from "../navigation/currentPage";
   import onEnterOrSpace from "../common/onEnterOrSpace";
   import { getTagSuggestions } from "../../api-client/tags/tags";
   import userdata from "../account/userdata";
-import { Tag } from "../../tags/Tag";
+  import { Tag } from "../../tags/Tag";
+  import TagSuggestion from "./TagSuggestion.svelte";
+
+  /**
+   * @typedef {import("../../tags/Tag").Tag} Tag
+   */
 
   const dispatch = createEventDispatcher();
 
@@ -20,12 +22,10 @@ import { Tag } from "../../tags/Tag";
   let searchTerm = "";
   let fuzzySearch = true;
   let modifier = "+";
+  let open = false;
 
-  let focusInside = false;
-
-  /** @type {import("../../tags/Tag").Tag[]}*/
+  /** @type {Tag[]}*/
   let tags = [];
-  $: open = focusInside;
 
   $: {
     tags = [];
@@ -39,21 +39,27 @@ import { Tag } from "../../tags/Tag";
    * @param {string} term
    */
   async function getSuggestions(fuzzy, term) {
-    focusInside = true;
+    open = true;
     tags = [
-      ...$userdata.supertags.filter((s) =>
-        s.name.toLowerCase().includes(term.toLowerCase())
-      ).map(s => new Tag(s.name, Object.keys(s.tags).length, "supertag")),
+      ...$userdata.supertags
+        .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
+        .map((s) => new Tag(s.name, Object.keys(s.tags).length, "supertag")),
       ...(await getTagSuggestions(term, fuzzy)),
     ];
   }
+
+  const resetInput = () => {
+    searchTerm = "";
+    tags = [];
+    open = false;
+  };
 </script>
 
 <div
   class="searchbar"
-  class:open
+  class:open={open}
   on:blur={() => {
-    focusInside = false;
+    open = false;
   }}
 >
   <i class="codicon codicon-search" />
@@ -67,11 +73,11 @@ import { Tag } from "../../tags/Tag";
         //@ts-expect-error
         !event.target.parentNode.contains(event.relatedTarget)
       ) {
-        focusInside = false;
+        open = false;
       }
     }}
     on:focus={() => {
-      focusInside = true;
+      open = true;
     }}
   />
 
@@ -98,28 +104,20 @@ import { Tag } from "../../tags/Tag";
       $currentPage = "help";
     })}
   />
-  <ol class:open>
+  <ol class:open={open}>
     {#await searchPromise}
       <div class="hint-container">
         <LoadingAnimation />
       </div>
     {:then}
       {#each tags as tag}
-        <li
-          tabindex="0"
+        <TagSuggestion
+          {tag}
           on:click={() => {
             dispatch("pick", tag.toActiveTag(modifier));
-            searchTerm = "";
-            tags = [];
-            focusInside = false;
+            resetInput();
           }}
-        >
-          <TagIcon type={tag.type} />
-          <span title={tag.name} class="tag-name"
-            >{formatTagname(tag.name)}</span
-          >
-          <span class="tag-count">{formatCount(tag.count)}</span>
-        </li>
+        />
       {/each}
     {:catch error}
       <div class="error-container">
@@ -176,33 +174,6 @@ import { Tag } from "../../tags/Tag";
     overflow: hidden;
     z-index: 1;
     min-height: 22px;
-  }
-
-  li {
-    display: grid;
-    align-items: center;
-    height: 24px;
-    grid-template-columns: 16px 1fr auto;
-    gap: 1rem;
-    font-size: 14px;
-    padding-inline: 16px;
-    user-select: none;
-  }
-
-  @media (pointer: fine) {
-    li:hover {
-      background-color: var(--background-2);
-    }
-  }
-
-  li:last-of-type {
-    margin-bottom: 10px;
-  }
-
-  .tag-name {
-    grid-column: 2;
-    white-space: nowrap;
-    overflow: hidden;
   }
 
   .error-container {

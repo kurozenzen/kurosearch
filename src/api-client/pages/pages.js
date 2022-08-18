@@ -1,3 +1,5 @@
+import { Page } from "../../posts/Page";
+import { Post } from "../../posts/Post";
 import { isValidSortProperty } from "../../posts/sort/sort";
 import { SearchableTag } from "../../tags/SearchableTag";
 import { fetchAbortPrevious } from "../fetchAbortPrevious";
@@ -6,7 +8,7 @@ import { fetchAbortPrevious } from "../fetchAbortPrevious";
  * @typedef {import("../../posts/sort/sort").SortProperty} SortProperty
  */
 
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 const BASE_URL = "https://r34-json.herokuapp.com/v2";
 
 /**
@@ -40,10 +42,46 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
     throw new Error(`getPage failed with http status ${response.status}`);
   }
 
-  /** @type {import("../../types/post").Page}*/
   const json = await response.json();
 
-  return json;
+  if (!Array.isArray(json.posts)) {
+    throw new Error(json);
+  }
+
+  return new Page(
+    json.count,
+    json.posts.map(
+      (p) =>
+        new Post(
+          p.preview_url,
+          p.sample_url,
+          p.file_url,
+          p.created_at,
+          p.has_children,
+          p.md5,
+          p.height,
+          p.id,
+          p.change,
+          p.creator_id,
+          p.has_notes,
+          p.has_comments,
+          p.parent_id,
+          p.preview_width,
+          p.preview_height,
+          p.rating,
+          p.sample_height,
+          p.sample_width,
+          p.score,
+          p.source,
+          p.status,
+          p.tags,
+          p.width,
+          p.comments_url,
+          p.owner_url,
+          p.type
+        )
+    )
+  );
 };
 
 export const isValidPageNumber = (value) => {

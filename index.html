@@ -1,11 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <style>
-      /* ./node_modules/@vscode/codicons/dist/codicon.css */
       html {
         font-family: "Roboto", sans-serif;
         background-color: black;
+        min-height: 100vh;
+        overflow-y: scroll;
+        transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        margin: auto;
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      #app {
+        display: contents;
+      }
+
+      @layer reset {
+        ol,
+        ul {
+          list-style-type: unset;
+          margin-block: unset;
+          padding-left: unset;
+        }
+
+        p,
+        h3 {
+          margin-block: unset;
+        }
+
+        button {
+          border: unset;
+        }
+
+        a {
+          text-decoration: unset;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+      }
+
+      @media (pointer: fine) {
+        ::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+          transition: background-color 0.12 ease-in-out;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: var(--background-1);
+          border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--background-2);
+        }
       }
 
       @font-face {
@@ -30,6 +92,7 @@
           url("codicon.woff") format("woff");
       }
 
+      /* ./node_modules/@vscode/codicons/dist/codicon.css */
       .codicon {
         font-family: codicon;
         font-style: unset;
@@ -104,52 +167,6 @@
       .codicon-account:before {
         content: "\eb99";
       }
-
-      body {
-        max-width: 800px;
-        margin: auto;
-        padding: 1rem;
-      }
-
-      @layer reset {
-        ol,
-        ul {
-          list-style-type: none;
-          margin-block: 0;
-          padding-left: 0;
-        }
-        p,
-        h3 {
-          margin-block: 0;
-        }
-        * {
-          box-sizing: border-box;
-        }
-        button {
-          border: none;
-        }
-      }
-
-      @media (pointer: fine) {
-        ::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
-          transition: background-color 0.12 ease-in-out;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: var(--background-1);
-          border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: var(--background-2);
-        }
-      }
     </style>
 
     <title>Kurosearch</title>
@@ -164,7 +181,7 @@
     <link rel="mask-icon" href="/favicon.svg" color="#000000" />
     <meta name="theme-color" content="#000000" />
   </head>
-  <body class="dark">
+  <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

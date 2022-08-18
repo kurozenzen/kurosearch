@@ -1,14 +1,14 @@
 <script>
-  import Post from "./post/Post.svelte";
+  import PostComponent from "./post/Post.svelte";
 
-  /** @type {import("../../types/post").PostDTO[]} */
+  /** @type {import("../../posts/Post").Post[]} */
   export let posts;
 
 </script>
 
 <ol class="page">
   {#each posts as post}
-    <Post {post} />
+    <PostComponent {post} />
   {/each}
 </ol>
 

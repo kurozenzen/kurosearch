@@ -3,10 +3,10 @@
   import Details from "./Details.svelte";
 
   /**
-   * @typedef {import("../../../types/post").PostDTO} PostDTO
+   * @typedef {import("../../../posts/Post").Post}
    */
 
-  /** @type {PostDTO} */
+  /** @type {Post} */
   export let post;
 
   /** @type {HTMLElement}*/

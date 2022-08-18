@@ -2,11 +2,6 @@
   import currentPage from "./currentPage";
   import DiscordIcon from "./DiscordIcon.svelte";
   import account from "../account/account";
-
-  /** @param {string} route */
-  const navigateTo = (route) => () => {
-    $currentPage = route;
-  };
 </script>
 
 <header role="navigation">
@@ -30,13 +25,16 @@
     </a>
   </div>
   <nav>
-    <button title="Search" on:click={navigateTo("search")}>
+    <button title="Search" on:click={() => currentPage.navigateTo("search")}>
       <i class="codicon codicon-search" />
     </button>
-    <button title="Settings" on:click={navigateTo("settings")}>
+    <button
+      title="Settings"
+      on:click={() => currentPage.navigateTo("settings")}
+    >
       <i class="codicon codicon-settings-gear" />
     </button>
-    <button title="Account" on:click={navigateTo("account")}>
+    <button title="Account" on:click={() => currentPage.navigateTo("account")}>
       {#if $account.loggedIn}
         <img
           class="profile-picture"
@@ -53,25 +51,19 @@
 <style>
   header {
     display: flex;
-    gap: 1rem;
     justify-content: space-between;
   }
 
   div,
   nav {
     display: flex;
-    gap: 1rem;
-  }
-
-  a {
-    text-decoration: none;
-    box-sizing: border-box;
+    gap: var(--grid-gap);
   }
 
   button,
   a {
-    height: 32px;
-    width: 32px;
+    height: var(--line-height);
+    width: var(--line-height);
     border-radius: 16px;
     border: none;
     background-color: transparent;

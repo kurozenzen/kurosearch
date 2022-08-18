@@ -73,7 +73,7 @@
     grid-template-rows: auto auto;
     column-gap: 1em;
     background-color: var(--background-1);
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     padding: 0.5rem;
   }
 
@@ -103,6 +103,6 @@
     display: flex;
     flex-direction: column;
     background-color: var(--background-1);
-    border-radius: 5px;
+    border-radius: var(--border-radius);
   }
 </style>

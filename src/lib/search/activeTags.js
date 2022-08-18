@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 import { ActiveTag } from "../../tags/ActiveTag";
 
 function createActiveTagsStore() {
-  /** @type {ActiveTag[]} */
+  /** @type {Array<ActiveTag>} */
   const initial = [];
   const { subscribe, update } = writable(initial);
 
@@ -13,9 +13,7 @@ function createActiveTagsStore() {
      */
     addOrReplace: (tag) =>
       update((tags) => {
-        const i = tags.findIndex(
-          (active) => active.name === tag.name
-        );
+        const i = tags.findIndex((active) => active.name === tag.name);
         if (i === -1) {
           tags.push(tag);
         } else {

@@ -1,28 +1,38 @@
-import { isValidModifier, serializeModifier } from "./modifier/modifier";
 import { SearchableTag } from "./SearchableTag";
-import { isValidTagType } from "./type/tagtype";
 import { isValidName } from "./validation";
-
-/**
- * @typedef {import("./modifier/modifier").Modifier} Modifier
- * @typedef {import("./type/tagtype").TagType} TagType
- */
 
 export class Supertag {
   /**
    * @param {string} name
    * @param {string} description
-   * @param {Record<string, Modifier>} tags
+   * @param {SearchableTag[]} tags
    */
   constructor(name, description, tags) {
+    if (!isValidName(name)) {
+      throw new TypeError("Invalid name passed to Supertag");
+    }
+
+    // NOTE: check disabled because undefined descriptions exist already
+    // if (!isValidDescription(description)) {
+    //   throw new TypeError("Invalid description passed to Supertag");
+    // }
+
+    if (!isArrayOfSearchableTags(tags)) {
+      throw new TypeError("Invalid description passed to Supertag");
+    }
+
     this.name = name;
     this.description = description;
-    this.tags = tags;
+    this.tags = Object.freeze([...tags]);
 
     Object.freeze(this);
   }
-
-  toSearchableTag() {
-    return Object.entries(this.tags).map((e) => new SearchableTag(e[1], e[0]));
-  }
 }
+
+// const isValidDescription = (value) => {
+//   return typeof value === "string";
+// };
+
+const isArrayOfSearchableTags = (value) => {
+  return Array.isArray(value) && value.every((v) => v instanceof SearchableTag);
+};

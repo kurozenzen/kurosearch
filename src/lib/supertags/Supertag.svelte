@@ -31,9 +31,9 @@
   />
   <span>{supertag.description}</span>
   <ol>
-    {#each Object.entries(supertag.tags) as entry}
+    {#each supertag.tags as tag}
       <ActiveTagComponent
-        tag={new ActiveTag(entry[1], entry[0], 0, "general")}
+        tag={new ActiveTag(tag.modifier, tag.name, 0, "general")}
       />
     {/each}
   </ol>
@@ -46,7 +46,7 @@
     gap: 0.5rem;
     align-items: center;
     padding: 0.5rem;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
   }
 
   h3 {

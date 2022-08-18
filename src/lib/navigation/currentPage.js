@@ -1,5 +1,20 @@
 import { writable } from "svelte/store";
+import { isValidRoute } from "./route";
 
-const currentPage = writable("search");
+const createNavigation = () => {
+  const { subscribe, set } = writable("search");
 
-export default currentPage;
+  return {
+    subscribe,
+    navigateTo(route) {
+      if (!isValidRoute(route)) {
+        throw new TypeError("Invalid route passed to navigateTo");
+      }
+
+      set(route);
+    },
+  };
+};
+
+export default createNavigation();
+
