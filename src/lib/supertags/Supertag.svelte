@@ -1,15 +1,12 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-
-  import { ActiveTag } from '../../tags/ActiveTag'
   import onEnterOrSpace from '../common/onEnterOrSpace'
-  import ActiveTagComponent from '../tags/ActiveTag.svelte'
+  import SearchableTag from './SearchableTag.svelte'
 
   /** @type {import("../../tags/Supertag").Supertag} */
   export let supertag
 
   const dispatch = createEventDispatcher()
-
   const emitRemove = () => dispatch('remove', supertag)
   const emitEdit = () => dispatch('edit', supertag)
 </script>
@@ -22,7 +19,7 @@
   <span>{supertag.description}</span>
   <ol>
     {#each supertag.tags as tag}
-      <ActiveTagComponent tag={new ActiveTag(tag.modifier, tag.name, 0, 'general')} />
+      <SearchableTag {tag} />
     {/each}
   </ol>
 </li>
@@ -69,10 +66,6 @@
   @media (pointer: fine) {
     i:hover {
       color: var(--text-hover);
-    }
-
-    li:hover {
-      background-color: var(--background-2);
     }
   }
 </style>
