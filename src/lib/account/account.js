@@ -13,21 +13,13 @@ const googleAuthProvider = new GoogleAuthProvider()
 
 const createAccountStore = () => {
   const initial = { loggedIn: false, user: null }
-  const { subscribe, update } = writable(initial)
+  const { subscribe, set } = writable(initial)
 
   onAuthStateChanged(firebaseAuth, (user) => {
     if (user) {
-      update((account) => {
-        account.loggedIn = true
-        account.user = user
-        return account
-      })
+      set({ loggedIn: true, user })
     } else {
-      update((account) => {
-        account.loggedIn = false
-        account.user = null
-        return account
-      })
+      set(initial)
     }
   })
 

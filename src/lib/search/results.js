@@ -19,10 +19,11 @@ const createResultsStore = () => {
      */
     addPage(page) {
       update((results) => {
-        results.count = page.count
-        results.pages.push(page.posts)
-        results.nextPage = results.nextPage + 1
-        return results
+        return {
+          count: page.count,
+          pages: [...results.pages, page.posts],
+          nextPage: results.nextPage + 1,
+        }
       })
     },
 
