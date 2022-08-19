@@ -15,6 +15,7 @@
   import { PAGE_SIZE } from '../../api-client/pages/pages'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
   import { ActiveTag as AT } from '../../tags/ActiveTag'
+  import { getNextModifier } from '../../tags/modifier/modifier'
 
   let sort = 'id'
   let minScore = 0
@@ -49,7 +50,12 @@
   {#if $activeTags.length}
     <ul>
       {#each $activeTags as tag, i}
-        <ActiveTag {tag} on:click={() => activeTags.removeByIndex(i)} />
+        <ActiveTag
+          {tag}
+          on:click={() => activeTags.removeByIndex(i)}
+          on:contextmenu={() =>
+            activeTags.addOrReplace(new AT(getNextModifier(tag.modifier), tag.name, tag.count, tag.type))}
+        />
       {/each}
       {#if $activeTags.length > 1}
         <button

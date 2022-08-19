@@ -17,6 +17,7 @@
   tabindex="0"
   title="Click to remove tag"
   on:click={() => dispatch('click')}
+  on:contextmenu|preventDefault={() => dispatch('contextmenu')}
 >
   <TagIcon type={tag.type} />
   {formatTagname(tag.name)}
