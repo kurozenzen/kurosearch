@@ -22,6 +22,22 @@
   const toggleOpen = () => {
     open = !open
   }
+
+  let pos = { screenX: 0, screenY: 0 }
+  const onTouchStart = (ev) => {
+    let { screenX, screenY } = ev.changedTouches.item(0)
+    pos = { screenX, screenY }
+  }
+
+  const onTouchEnd = (ev) => {
+    let { screenX, screenY } = ev.changedTouches.item(0)
+
+    if (pos.screenX !== screenX || pos.screenY !== screenY) {
+      return
+    }
+
+    toggleOpen();    
+  }
 </script>
 
 <div class="post" tabindex="0">
@@ -47,7 +63,8 @@
         width={post.width}
         height={post.height}
         controls
-        on:touchend|preventDefault={toggleOpen}
+        on:touchstart={onTouchStart}
+        on:touchend={onTouchEnd}
         bind:this={media}
       />
     {:else}
