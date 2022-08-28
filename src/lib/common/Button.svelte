@@ -11,20 +11,18 @@
 </script>
 
 <button {title} on:click={() => dispatch('click')} {disabled}>
-  <span>{text}</span>
+  {text}
 </button>
 
 <style>
-button {
+  button {
     height: 36px;
+    border-radius: 18px;
+    padding-inline: 36px;
+    border: none;
     background-color: var(--accent);
     color: var(--text-accent);
-    border: none;
-    border-radius: 22px;
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    padding-inline: 36px;
+    text-align: center;
     text-transform: uppercase;
   }
 
@@ -41,14 +39,5 @@ button {
       background-color: var(--background-2);
       cursor: not-allowed;
     }
-  }
-
-  i {
-    width: var(--line-height);
-    height: var(--line-height);
-    line-height: var(--line-height);
-    vertical-align: middle;
-    text-align: center;
-    font-size: 24px;
   }
 </style>
