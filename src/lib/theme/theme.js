@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import userdata from '../account/userdata'
 
 /** @typedef {"dark" | "light"} Theme */
 
@@ -11,6 +12,7 @@ export default {
   set(theme) {
     set(theme)
     updateVisuals(theme)
+    userdata.setTheme(theme)
   },
 }
 

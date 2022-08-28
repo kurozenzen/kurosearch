@@ -1,23 +1,16 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { writable } from 'svelte/store'
 import { firebaseAuth, firestore } from '../../firebase/firebase'
-import { collection, deleteDoc, doc, onSnapshot, query, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
 import { Supertag } from '../../tags/Supertag'
 import { SearchableTag } from '../../tags/SearchableTag'
 
-const sha256 = async (value) => {
-  const msgBuffer = new TextEncoder().encode(value)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
-
-  return hashHex
-}
+/**
+ * @typedef {import("../theme/theme").Theme} Theme
+ */
 
 const createAccountStore = () => {
-  /**
-   * @type {{preferences: any, supertags: Supertag[]}}
-   */
+  /** @type {{preferences: any, supertags: Supertag[]}}*/
   const initial = { preferences: {}, supertags: [] }
   const { subscribe, update } = writable(initial)
 
@@ -29,9 +22,8 @@ const createAccountStore = () => {
   onAuthStateChanged(firebaseAuth, async (user) => {
     currentUser = user
     if (user) {
-      const key = await sha256(user.email)
-      preferencesUnsub?.()
-      preferencesUnsub = onSnapshot(doc(firestore, 'users', key), async (doc) => {
+      console.log(user)
+      preferencesUnsub = onSnapshot(doc(firestore, 'users', user.uid), async (doc) => {
         const data = doc.data()
 
         if (data === undefined) {
@@ -44,27 +36,27 @@ const createAccountStore = () => {
             state.preferences = data.preferences
             return state
           })
-
-          const supertagsQuery = query(collection(firestore, `users/${key}/supertags`))
-          supertagsUnsub?.()
-          supertagsUnsub = onSnapshot(supertagsQuery, (querySnapshot) => {
-            const supertags = []
-            querySnapshot.forEach((doc) => {
-              const data = doc.data()
-              supertags.push(
-                new Supertag(
-                  doc.id,
-                  data.description,
-                  Object.entries(data.tags).map((e) => new SearchableTag(e[1], e[0]))
-                )
-              )
-            })
-            update((state) => {
-              state.supertags = supertags
-              return state
-            })
-          })
         }
+
+        const supertagsQuery = query(collection(firestore, `users/${user.uid}/supertags`))
+        supertagsUnsub?.()
+        supertagsUnsub = onSnapshot(supertagsQuery, (querySnapshot) => {
+          const supertags = []
+          querySnapshot.forEach((doc) => {
+            const data = doc.data()
+            supertags.push(
+              new Supertag(
+                doc.id,
+                data.description,
+                Object.entries(data.tags).map((e) => new SearchableTag(e[1], e[0]))
+              )
+            )
+          })
+          update((state) => {
+            state.supertags = supertags
+            return state
+          })
+        })
       })
     } else {
       preferencesUnsub?.()
@@ -85,11 +77,7 @@ const createAccountStore = () => {
         throw new Error('No user')
       }
 
-      const key = await sha256(currentUser.email)
-
-      debugger
-
-      return setDoc(doc(firestore, `users/${key}/supertags`, supertag.name), {
+      return setDoc(doc(firestore, `users/${currentUser.uid}/supertags`, supertag.name), {
         description: supertag.description,
         tags: Object.fromEntries(supertag.tags.map((t) => [t.name, t.modifier])),
       })
@@ -103,9 +91,18 @@ const createAccountStore = () => {
         throw new Error('No user')
       }
 
-      const key = await sha256(currentUser.email)
+      return deleteDoc(doc(firestore, `users/${currentUser.uid}/supertags`, supertag.name))
+    },
 
-      return deleteDoc(doc(firestore, `users/${key}/supertags`, supertag.name))
+    /**
+     * @param {Theme} theme
+     */
+    async setTheme(theme) {
+      if (!currentUser) {
+        return
+      }
+
+      return setDoc(doc(firestore, 'users', currentUser.uid), { preferences: { theme } }, { merge: true })
     },
   }
 }

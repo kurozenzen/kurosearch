@@ -17,25 +17,25 @@ export default defineConfig({
         background_color: '#000000',
         icons: [
           {
-            src: 'ks-192.png',
+            src: 'icon/ks-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'ks-512.png',
+            src: 'icon/ks-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'ks-192-maskable.png',
+            src: 'icon/ks-192-maskable.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: 'ks-512-maskable.png',
+            src: 'icon/ks-512-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',

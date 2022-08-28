@@ -6,6 +6,9 @@
     --line-height-large: 44px;
     --grid-gap: 1rem;
 
+    /* Text */
+    --text-size: 14px;
+
     /* Accent Color */
     --accent: crimson;
     --accent-light: rgb(226, 81, 110);
@@ -36,5 +39,6 @@
   :global(html) {
     color: var(--text);
     background-color: var(--background-0);
+    font-size: var(--text-size);
   }
 </style>

@@ -2,25 +2,24 @@
 <html lang="en" class="dark">
   <head>
     <style>
-      html {
-        font-family: 'Roboto', sans-serif;
-        background-color: black;
-        min-height: 100vh;
-        overflow-y: scroll;
-        transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+      @font-face {
+        font-family: 'Zen Kaku Gothic New';
+        font-weight: 900;
+        src: url('font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
+          url('font/ZenKakuGothicNew-Black-subset.woff') format('woff');
       }
 
-      body {
-        display: flex;
-        flex-direction: column;
-        max-width: 800px;
-        margin: auto;
-        padding: 1rem;
-        gap: 1rem;
+      @font-face {
+        font-family: 'Roboto';
+        font-weight: 400;
+        src: url('font/Roboto-Regular.woff2') format('woff2'), url('font/Roboto-Regular.woff') format('woff'),
+          url('font/Roboto-Italic.woff2') format('woff2') font-italic,
+          url('font/Roboto-Italic.woff') format('woff') font-italic;
       }
 
-      #app {
-        display: contents;
+      @font-face {
+        font-family: 'codicon';
+        src: url('font/codicon.woff2') format('woff2'), url('font/codicon.woff') format('woff');
       }
 
       @layer reset {
@@ -38,7 +37,7 @@
 
         button {
           border: unset;
-          padding:unset;
+          padding: unset;
         }
 
         a {
@@ -52,6 +51,27 @@
         dialog {
           border: unset;
         }
+      }
+
+      html {
+        background-color: black;
+        min-height: 100vh;
+        overflow-y: scroll;
+        transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        margin: auto;
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      #app {
+        display: contents;
       }
 
       @media (pointer: fine) {
@@ -73,25 +93,6 @@
         ::-webkit-scrollbar-thumb:hover {
           background: var(--background-2);
         }
-      }
-
-      @font-face {
-        font-family: 'Zen Kaku Gothic New';
-        font-weight: 900;
-        src: url('ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
-          url('ZenKakuGothicNew-Black-subset.woff') format('woff');
-      }
-
-      @font-face {
-        font-family: 'Roboto';
-        font-weight: 400;
-        src: url('Roboto-Regular.woff2') format('woff2'), url('Roboto-Regular.woff') format('woff'),
-          url('Roboto-Italic.woff2') format('woff2') font-italic, url('Roboto-Italic.woff') format('woff') font-italic;
-      }
-
-      @font-face {
-        font-family: 'codicon';
-        src: url('codicon.woff2') format('woff2'), url('codicon.woff') format('woff');
       }
 
       /* ./node_modules/@vscode/codicons/dist/codicon.css */

@@ -31,6 +31,7 @@
     align-items: center;
     gap: 1rem;
     padding-inline: 1rem;
+    text-transform: uppercase;
   }
 
   button:disabled {
