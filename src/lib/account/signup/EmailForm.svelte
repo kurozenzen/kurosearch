@@ -23,7 +23,7 @@
 <div>
   <input type="text" bind:value={email} placeholder="Email" autocomplete="email" />
   <input type="password" bind:value={password} placeholder="Password" autocomplete="current-password" />
-  <Button icon="sign-in" text={submitLabel} title="Click to sign in" on:click={attemptSubmit} {disabled} />
+  <Button text={submitLabel} title="Click to sign in" on:click={attemptSubmit} {disabled} />
 </div>
 
 <style>

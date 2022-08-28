@@ -15,7 +15,7 @@
         <img class="profile-picture" src={$account.user.photoURL ?? defaultUser} alt="Profile" />
         <div class="name-area">
           <span>{$account.user.displayName ?? "Anonymous"}</span>
-          <Button icon="sign-out" text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
+          <Button text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
         </div>
         <span>{$account.user.email}</span>
       </div>

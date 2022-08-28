@@ -1,10 +1,10 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  
   const dispatch = createEventDispatcher()
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting) {
-        console.debug('Triggered infinite loading')
         dispatch('visible')
       }
     },

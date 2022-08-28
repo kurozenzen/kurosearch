@@ -1,6 +1,6 @@
 <script>
   import { postObserver } from './postObserver'
-  import Details from './Details.svelte'
+  import Details from './details/Details.svelte'
 
   /**
    * @typedef {import("../../../posts/Post").Post} Post

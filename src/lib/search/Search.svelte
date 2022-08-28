@@ -71,7 +71,7 @@
     </ul>
   {/if}
   <div class="sort-row">
-    <Button title="Click to search with active tags" icon="search" text="Search" on:click={() => getFirstPage()} />
+    <Button title="Click to search with active tags" text="Search" on:click={() => getFirstPage()} />
   </div>
   <div class="sort-row">
     <select bind:value={sort}>

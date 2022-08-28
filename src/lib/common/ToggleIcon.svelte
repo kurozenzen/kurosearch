@@ -20,6 +20,13 @@
 />
 
 <style>
+  i {
+    width: var(--line-height);
+    height: var(--line-height);
+    line-height: var(--line-height);
+    vertical-align: middle;
+    text-align: center;
+  }
   .active {
     color: var(--accent);
   }

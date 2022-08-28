@@ -2,27 +2,21 @@
   import { createEventDispatcher } from 'svelte'
 
   /** @type {string} */
-  export let icon
-
-  /** @type {string} */
   export let text
-
   /** @type {string} */
   export let title
-
   export let disabled = false
 
   const dispatch = createEventDispatcher()
 </script>
 
 <button {title} on:click={() => dispatch('click')} {disabled}>
-  <i class={`codicon codicon-${icon}`} />
-  {text}
+  <span>{text}</span>
 </button>
 
 <style>
-  button {
-    height: var(--line-height);
+button {
+    height: 36px;
     background-color: var(--accent);
     color: var(--text-accent);
     border: none;
@@ -30,7 +24,7 @@
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    padding-inline: 1rem;
+    padding-inline: 36px;
     text-transform: uppercase;
   }
 
@@ -47,5 +41,14 @@
       background-color: var(--background-2);
       cursor: not-allowed;
     }
+  }
+
+  i {
+    width: var(--line-height);
+    height: var(--line-height);
+    line-height: var(--line-height);
+    vertical-align: middle;
+    text-align: center;
+    font-size: 24px;
   }
 </style>

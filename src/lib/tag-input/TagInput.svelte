@@ -62,7 +62,7 @@
     open = false
   }}
 >
-  <i class="codicon codicon-search" />
+  <i class="codicon codicon-search spaced" />
   <input
     type="text"
     bind:value={searchTerm}
@@ -96,13 +96,9 @@
   />
   <i
     tabindex="0"
-    class={`codicon codicon-question`}
-    on:click={() => {
-      $currentPage = 'help'
-    }}
-    on:keyup={onEnterOrSpace(() => {
-      $currentPage = 'help'
-    })}
+    class="codicon codicon-question spaced"
+    on:click={() => currentPage.navigateTo('help')}
+    on:keyup={onEnterOrSpace(() => currentPage.navigateTo('help'))}
   />
   <ol class:open>
     {#await searchPromise}
@@ -134,13 +130,20 @@
     align-items: center;
     height: var(--line-height-large);
     background-color: var(--background-1);
-    padding-inline: 16px;
-    gap: 16px;
+    padding-inline: 6px;
     border-radius: 22px;
     width: 100%;
     max-width: 512px;
     margin: auto;
     position: relative;
+  }
+
+  .spaced {
+    width: var(--line-height);
+    height: var(--line-height);
+    line-height: var(--line-height);
+    vertical-align: middle;
+    text-align: center;
   }
 
   input {
@@ -166,7 +169,7 @@
     display: none;
     box-sizing: border-box;
     position: absolute;
-    top: 44px;
+    top: var(--line-height-large);
     left: 0;
     width: 100%;
     background-color: var(--background-1);
@@ -182,7 +185,7 @@
     padding-bottom: 4px;
     gap: 4px;
     padding: 8px;
-    font-size: 13.3333333px;
+    font-size: 13.3px;
   }
 
   .hint-container {

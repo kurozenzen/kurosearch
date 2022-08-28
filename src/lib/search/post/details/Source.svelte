@@ -1,5 +1,5 @@
 <script>
-  import { isValidUrl } from '../../../api-client/fetchAbortPrevious'
+  import { isValidUrl } from '../../../../api-client/fetchAbortPrevious'
 
   /** @type {string} */
   export let source
@@ -17,5 +17,6 @@
   a {
     font-size: 14px;
     text-decoration: none;
+    white-space: nowrap;
   }
 </style>

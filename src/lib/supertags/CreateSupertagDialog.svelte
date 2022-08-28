@@ -47,7 +47,6 @@
   </div>
   <Button
     title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
-    icon="plus"
     text="Create supertag"
     disabled={!valid}
     on:click={() => {
