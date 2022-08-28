@@ -47,6 +47,7 @@
         width={post.width}
         height={post.height}
         controls
+        on:touchend|preventDefault={toggleOpen}
         bind:this={media}
       />
     {:else}
