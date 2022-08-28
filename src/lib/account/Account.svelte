@@ -2,7 +2,9 @@
   import Button from '../common/Button.svelte'
   import Supertag from '../supertags/Supertag.svelte'
   import account from './account'
+  import SignUp from './signup/SignUp.svelte'
   import userdata from './userdata'
+  import defaultUser from "./default-user.png"
 </script>
 
 {#if $account.loggedIn}
@@ -10,16 +12,14 @@
     <div>
       <h2>Signed in as</h2>
       <div class="overview">
-        <img class="profile-picture" src={$account.user.photoURL} alt="Profile" />
+        <img class="profile-picture" src={$account.user.photoURL ?? defaultUser} alt="Profile" />
         <div class="name-area">
-          <span>{$account.user.displayName}</span>
+          <span>{$account.user.displayName ?? "Anonymous"}</span>
           <Button icon="sign-out" text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
         </div>
-
         <span>{$account.user.email}</span>
       </div>
     </div>
-
     <div>
       <h2>Your supertags</h2>
       <div class="supertags" />
@@ -34,30 +34,7 @@
     </div>
   </div>
 {:else}
-  <div>
-    <p>You are currently not signed in.</p>
-    <br />
-    <Button
-      icon="sign-in"
-      text="Sign in with Google"
-      title="Click to sign in with your Google account"
-      on:click={() => account.signInWithGoogle()}
-    />
-    <!-- <Button
-    icon="sign-in"
-    text="Sign in with Email"
-    title="Click to sign in"
-    on:click={() => account.signInWithEmail()}
-  />
-  <p>Sign up:</p>
-  <Button
-    icon="sign-in"
-    text="Sign up with email"
-    title="Click to create a new account"
-    on:click={() =>
-      account.signUpWithEmail("nico.kandut@gmail.com", "asdfjkl;asdfjkl;")}
-  /> -->
-  </div>
+  <SignUp />
 {/if}
 
 <style>

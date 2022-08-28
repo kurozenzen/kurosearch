@@ -2,6 +2,7 @@
   import currentPage from './currentPage'
   import DiscordIcon from './DiscordIcon.svelte'
   import account from '../account/account'
+  import defaultUser from "../account/default-user.png"
 </script>
 
 <header role="navigation">
@@ -25,7 +26,7 @@
     </button>
     <button title="Account" on:click={() => currentPage.navigateTo('account')}>
       {#if $account.loggedIn}
-        <img class="profile-picture" src={$account.user.photoURL} alt="Account" />
+        <img class="profile-picture" src={$account.user.photoURL ?? defaultUser} alt="Account" />
       {:else}
         <i class="codicon codicon-account" />
       {/if}

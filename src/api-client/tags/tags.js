@@ -2,6 +2,10 @@ import { Tag } from '../../tags/Tag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 
 /**
+ * @typedef {import("../../tags/Tag").TagType} TagType
+ */
+
+/**
  * @type {AbortController | null}
  */
 let getTagSuggestionsAbortController = null
@@ -38,8 +42,8 @@ export const getTagSuggestions = async (term, fuzzy) => {
   }
 }
 
-/** @param {import("../../types/Tag").TagType[]} types */
-export function selectType(types) {
+/** @param {TagType[]} types */
+const selectType = (types) => {
   for (const type of types) {
     if (type !== 'ambiguous' && type !== 'general') {
       return type
