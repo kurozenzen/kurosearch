@@ -29,5 +29,6 @@
     line-height: var(--line-height);
     vertical-align: middle;
     text-align: center;
+    font-size: 16px;
   }
 </style>

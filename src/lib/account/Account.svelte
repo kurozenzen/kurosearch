@@ -4,7 +4,7 @@
   import account from './account'
   import SignUp from './signup/SignUp.svelte'
   import userdata from './userdata'
-  import defaultUser from "./default-user.png"
+  import defaultUser from './default-user.png'
 </script>
 
 {#if $account.loggedIn}
@@ -13,8 +13,8 @@
       <h2>Signed in as</h2>
       <div class="overview">
         <img class="profile-picture" src={$account.user.photoURL ?? defaultUser} alt="Profile" />
-        <div class="name-area">
-          <span>{$account.user.displayName ?? "Anonymous"}</span>
+        <span class="name">{$account.user.displayName ?? 'Anonymous'}</span>
+        <div class="actions">
           <Button text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
         </div>
         <span>{$account.user.email}</span>
@@ -40,9 +40,10 @@
 <style>
   .overview {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: auto auto;
     column-gap: var(--grid-gap);
+    row-gap: 4px;
     background-color: var(--background-1);
     border-radius: var(--border-radius);
     padding: var(--grid-gap);
@@ -60,14 +61,13 @@
     gap: var(--grid-gap);
   }
 
-  .name-area {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .name {
+    font-weight: bold;
+    align-self: flex-end;
   }
 
-  .name-area span {
-    font-weight: bold;
+  .actions {
+    grid-area: 1/3/3/4;
   }
 
   ul {
