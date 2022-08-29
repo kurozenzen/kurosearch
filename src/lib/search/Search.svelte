@@ -102,7 +102,7 @@
     user-select: none;
     line-height: 72px;
     margin-top: 20vh;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
   }
 
   @media only screen and (max-width: 400px) {
@@ -110,15 +110,6 @@
       font-size: 18vw;
       line-height: 18vw;
     }
-  }
-
-  select {
-    height: var(--line-height);
-    padding-inline: 8px;
-    box-sizing: border-box;
-    background-color: var(--background-1);
-    border: none;
-    border-radius: 16px;
   }
 
   .sort-row {

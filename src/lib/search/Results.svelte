@@ -72,6 +72,7 @@
   select {
     background-color: unset;
     border: unset;
+    color: var(--text);
   }
 
   select option {
