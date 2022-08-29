@@ -16,15 +16,15 @@
 
 <style>
   button {
-    background-color: white;
-    color: black;
     display: flex;
     align-items: center;
-    border-radius: 16px;
+    padding-inline-end: var(--icon-size);
+    border-radius: var(--border-radius-full);
     overflow: hidden;
+    color: black;
+    background-color: white;
     text-transform: uppercase;
     font-weight: bold;
-    padding-inline-end: 32px;
   }
 
   span {

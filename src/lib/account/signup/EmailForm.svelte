@@ -30,15 +30,14 @@
   div {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--grid-gap);
   }
 
   input {
     width: 100%;
-    background-color: var(--background-2);
-    border: unset;
-    height: 32px;
-    padding-inline: 16px;
+    height: var(--box-height);
+    padding-inline: var(--grid-gap);
     border-radius: var(--border-radius);
+    background-color: var(--background-2);
   }
 </style>

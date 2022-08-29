@@ -23,24 +23,23 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: var(--background-1);
-    border-radius: var(--border-radius);
+    gap: var(--grid-gap);
     margin: auto;
+    padding: var(--grid-gap);
+    border-radius: var(--border-radius);
     max-width: 400px;
+    background-color: var(--background-1);
   }
 
   .divider {
-    min-width: 1px;
-    min-height: 1px;
+    height: 1px;
     background-color: var(--background-2);
   }
 
   .providerlist {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--grid-gap);
   }
   p {
     text-align: center;

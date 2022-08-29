@@ -63,8 +63,8 @@
         width={post.width}
         height={post.height}
         controls
-        on:touchstart={onTouchStart}
-        on:touchend={onTouchEnd}
+        on:touchstart|passive={onTouchStart}
+        on:touchend|passive={onTouchEnd}
         bind:this={media}
       />
     {:else}

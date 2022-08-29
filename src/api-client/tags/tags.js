@@ -28,21 +28,22 @@ export const getTagSuggestions = async (term, fuzzy) => {
       if (json.length == 0) {
         throw new Error('No tags found')
       } else {
-        const tags = json.map((t) => new Tag(t.name, t.count, selectType(t.types)))
-
-        return tags
+        return json.map((t) => new Tag(t.name, t.count, selectType(t.types)))
       }
     } else if (json.message) {
       throw new Error(json.message)
     } else {
-      throw new Error('Cannot display tag suggestions')
+      throw new Error('Invalid tag suggestions received')
     }
   } else {
     throw new Error('Failed to get tag suggestions')
   }
 }
 
-/** @param {TagType[]} types */
+/** 
+ * @param {TagType[]} types 
+ * @returns {TagType}
+ */
 const selectType = (types) => {
   for (const type of types) {
     if (type !== 'ambiguous' && type !== 'general') {

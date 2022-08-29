@@ -1,6 +1,6 @@
 <script>
   import { formatTagname } from '../../formatting/tags'
-  import activeTags from '../search/activeTags'
+  import activeTags from '../search/activeTagsStore'
 
   /** @type {string}*/
   export let name

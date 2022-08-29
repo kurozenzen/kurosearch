@@ -44,11 +44,22 @@
           text-decoration: unset;
         }
 
-        * {
+        *,
+        *::before,
+        *::after {
           box-sizing: border-box;
         }
 
         dialog {
+          border: unset;
+        }
+
+        input {
+          border: unset;
+        }
+
+        select {
+          background: unset;
           border: unset;
         }
       }

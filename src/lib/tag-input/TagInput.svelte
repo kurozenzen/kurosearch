@@ -5,7 +5,7 @@
   import LoadingAnimation from '../common/LoadingAnimation.svelte'
   import currentPage from '../navigation/currentPage'
   import onEnterOrSpace from '../common/onEnterOrSpace'
-  import { getTagSuggestions } from '../../api-client/tags/tags'
+  import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
   import { Tag } from '../../tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'

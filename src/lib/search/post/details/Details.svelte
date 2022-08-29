@@ -36,14 +36,15 @@
   .details {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--grid-gap);
+    gap: var(--grid-gap);
   }
 
   .summary {
     display: flex;
-    gap: 2rem;
     overflow-x: auto;
+    overflow-y: hidden;
+    gap: 2rem;
   }
 
   ul {

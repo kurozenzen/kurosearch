@@ -48,20 +48,20 @@
 
   button,
   a {
-    height: var(--line-height);
     width: var(--line-height);
-    border-radius: 16px;
+    height: var(--line-height);
+    padding: 8px;
+    border-radius: var(--border-radius-full);
     border: none;
+    color: var(--text);
     background-color: transparent;
     font-size: 16px;
-    color: var(--text);
-    padding: 8px;
   }
 
   .profile-picture {
-    border-radius: 8px;
-    height: 16px;
     width: 16px;
+    height: 16px;
+    border-radius: 8px;
   }
 
   @media (pointer: fine) {

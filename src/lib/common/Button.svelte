@@ -16,12 +16,12 @@
 
 <style>
   button {
-    height: 36px;
-    border-radius: 18px;
-    padding-inline: 36px;
+    height: var(--box-height);
+    padding-inline: var(--box-height);
     border: none;
-    background-color: var(--accent);
+    border-radius: var(--border-radius-full);
     color: var(--text-accent);
+    background-color: var(--accent);
     text-align: center;
     text-transform: uppercase;
   }

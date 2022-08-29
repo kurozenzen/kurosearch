@@ -1,24 +1,18 @@
 <script>
-  import Page from './Page.svelte'
-  import Button from '../common/Button.svelte'
-  import TagInput from '../tag-input/TagInput.svelte'
-  import ActiveTag from '../tags/ActiveTag.svelte'
-  import ScrollDetector from '../common/ScrollDetector.svelte'
-  import activeTags from './activeTags'
-  import { formatCount } from '../../formatting/numbers'
-  import NoResults from './NoResults.svelte'
-  import NoMoreResults from './NoMoreResults.svelte'
   import { getPage } from '../../api-client/ApiClient'
-  import ScrollUpButton from './ScrollUpButton.svelte'
-  import userdata from '../account/userdata'
-  import results from './results'
-  import { PAGE_SIZE } from '../../api-client/pages/pages'
-  import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
   import { ActiveTag as AT } from '../../tags/ActiveTag'
   import { getNextModifier } from '../../tags/modifier/modifier'
+  import userdata from '../account/userdata'
+  import Button from '../common/Button.svelte'
+  import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
+  import TagInput from '../tag-input/TagInput.svelte'
+  import ActiveTag from '../tags/ActiveTag.svelte'
+  import activeTags from './activeTagsStore'
+  import results from './resultsStore'
+  import Results from './Results.svelte'
+  import ScrollUpButton from './ScrollUpButton.svelte'
+  import sortStore from './sortStore'
 
-  let sort = 'id'
-  let minScore = 0
   let supertagMode = false
 
   const getFirstPage = async () => {
@@ -29,7 +23,7 @@
   const getNextPage = async () => {
     try {
       const tags = getSearchableTags()
-      const page = await getPage($results.nextPage, tags, sort, minScore)
+      const page = await getPage($results.nextPage, tags, $sortStore.sortProperty, $sortStore.minScore)
       results.addPage(page)
     } catch (e) {
       //TODO: add error handling and user feedback here
@@ -73,35 +67,9 @@
   <div class="sort-row">
     <Button title="Click to search with active tags" text="Search" on:click={() => getFirstPage()} />
   </div>
-  <div class="sort-row">
-    <select bind:value={sort}>
-      <option value="id">New posts</option>
-      <option value="score">Popular posts</option>
-    </select>
-    <select bind:value={minScore}>
-      <option value={0}>No minimum score</option>
-      <option value={10}>Min 10 likes</option>
-      <option value={100}>Min 100 likes</option>
-      <option value={1000}>Min 1000 likes</option>
-    </select>
-  </div>
 </div>
 
-{#if $results.count}
-  <p class="count">{formatCount($results.count)} results</p>
-  <ol>
-    {#each $results.pages as page}
-      <Page posts={page} />
-    {/each}
-  </ol>
-  {#if $results.pages.length < $results.count / PAGE_SIZE}
-    <ScrollDetector on:visible={getNextPage} />
-  {:else}
-    <NoMoreResults />
-  {/if}
-{:else if $results.count === 0}
-  <NoResults />
-{/if}
+<Results on:endreached={getNextPage} />
 
 <ScrollUpButton />
 
@@ -126,12 +94,6 @@
     justify-content: center;
   }
 
-  ol {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
   h1 {
     font-family: 'Zen Kaku Gothic New', sans-serif;
     font-size: 72px;
@@ -148,11 +110,6 @@
       font-size: 18vw;
       line-height: 18vw;
     }
-  }
-
-  .count {
-    margin-block: 2rem;
-    text-align: center;
   }
 
   select {

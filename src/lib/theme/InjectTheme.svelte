@@ -2,9 +2,12 @@
   :global(:root) {
     /* Dimensions */
     --border-radius: 5px;
+    --border-radius-full: 100px;
     --line-height: 32px;
+    --box-height: 36px;
     --line-height-large: 44px;
     --grid-gap: 1rem;
+    --icon-size: 32px;
 
     /* Text */
     --text-size: 14px;

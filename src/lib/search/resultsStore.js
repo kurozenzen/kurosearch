@@ -1,5 +1,4 @@
-import { PAGE_SIZE } from '../../api-client/pages/pages'
-import { derived, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 
 /**
  * @typedef {import("../../posts/Page").Page} Page

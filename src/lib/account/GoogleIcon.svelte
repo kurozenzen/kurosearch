@@ -2,7 +2,7 @@
 
 <style>
   img {
-    width: 32px;
-    height: 32px;
+    width: var(--icon-size);
+    height: var(--icon-size);
   }
 </style>

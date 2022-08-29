@@ -42,22 +42,22 @@
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
-    column-gap: 1em;
+    column-gap: var(--grid-gap);
     background-color: var(--background-1);
     border-radius: var(--border-radius);
-    padding: 0.5rem;
+    padding: var(--grid-gap);
   }
 
   .profile-picture {
-    border-radius: 50%;
     height: 4em;
+    border-radius: 2em;
     grid-area: 1/1/3/2;
   }
 
   .account-view {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--grid-gap);
   }
 
   .name-area {
