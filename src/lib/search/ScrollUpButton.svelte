@@ -6,7 +6,7 @@
 
   const listener = () => {
     const currentY = window.scrollY
-    visible = currentY < previousY && currentY > 1000
+    visible = currentY < previousY && currentY > 0
     previousY = currentY
   }
 
