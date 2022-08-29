@@ -25,6 +25,7 @@
 
 <style>
   button {
+    color: var(--text-accent);
     background-color: var(--accent);
     height: 44px;
     width: 44px;
