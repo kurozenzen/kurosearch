@@ -22,7 +22,6 @@ const createAccountStore = () => {
   onAuthStateChanged(firebaseAuth, async (user) => {
     currentUser = user
     if (user) {
-      console.log(user)
       preferencesUnsub = onSnapshot(doc(firestore, 'users', user.uid), async (doc) => {
         const data = doc.data()
 
