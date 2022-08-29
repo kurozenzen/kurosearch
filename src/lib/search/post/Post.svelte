@@ -24,6 +24,7 @@
   }
 
   let pos = { screenX: 0, screenY: 0 }
+
   const onTouchStart = (ev) => {
     let { screenX, screenY } = ev.changedTouches.item(0)
     pos = { screenX, screenY }
@@ -32,11 +33,9 @@
   const onTouchEnd = (ev) => {
     let { screenX, screenY } = ev.changedTouches.item(0)
 
-    if (pos.screenX !== screenX || pos.screenY !== screenY) {
-      return
+    if (pos.screenX === screenX && pos.screenY === screenY) {
+      toggleOpen()
     }
-
-    toggleOpen();    
   }
 </script>
 
@@ -71,7 +70,7 @@
     {:else}
       <img
         loading="lazy"
-        data-src={post.sample_url}
+        data-src={post.sample_url.endsWith(".gif") ? post.sample_url : post.file_url}
         alt={post.id.toString()}
         style={`aspect-ratio: ${post.width} / ${post.height}`}
         width={post.width}
@@ -98,7 +97,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     contain: strict style;
   }
 </style>

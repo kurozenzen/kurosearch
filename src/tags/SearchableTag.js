@@ -28,6 +28,6 @@ export class SearchableTag {
   }
 
   serialize() {
-    return `${serializeModifier(this.modifier)}${this.name}`
+    return `${serializeModifier(this.modifier)}${encodeURIComponent(this.name)}`
   }
 }
