@@ -1,5 +1,5 @@
 <script>
-  import { formatCreatedAt } from '../../../../formatting/date'
+  import { formatCreatedAt } from './formatCreatedAt'
 
   export let value
 </script>

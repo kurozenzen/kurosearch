@@ -1,4 +1,4 @@
-import { isValidModifier, serializeModifier } from './modifier'
+import { getNextModifier, isValidModifier, serializeModifier } from './modifier'
 
 describe('modifier', () => {
   describe('isValidModifier', () => {
@@ -40,6 +40,22 @@ describe('modifier', () => {
 
     test('~ is stripped', () => {
       expect(serializeModifier('~')).toBe('')
+    })
+  })
+
+  describe('getNextModifier', () => {
+    test('invalid modifier throws TypeError', () => {
+      expect(() => getNextModifier(undefined)).toThrow(TypeError)
+    })
+
+    test('+ returns -', () => {
+      expect(getNextModifier("+")).toBe("-")
+    })
+    test('- returns ~', () => {
+      expect(getNextModifier("+")).toBe("-")
+    })
+    test('~ returns +', () => {
+      expect(getNextModifier("+")).toBe("-")
     })
   })
 })

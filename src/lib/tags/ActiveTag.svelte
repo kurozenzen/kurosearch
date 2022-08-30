@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { formatCount } from '../../formatting/numbers'
-  import { formatTagname } from '../../formatting/tags'
+  import { formatCount } from '../../formatting/formatCount'
+  import { formatTagname } from '../../formatting/formatTagname'
   import TagIcon from '../tags/TagIcon.svelte'
   import { MODIFIER_NAMES } from '../modifier/modifierData'
 

@@ -4,7 +4,7 @@
   import NoMoreResults from './NoMoreResults.svelte'
   import NoResults from './NoResults.svelte'
   import results from './resultsStore'
-  import { formatCount } from '../../formatting/numbers'
+  import { formatCount } from '../../formatting/formatCount'
   import { createEventDispatcher } from 'svelte'
   import { PAGE_SIZE } from '../../api-client/pages/pages'
   import sortStore from './sortStore'

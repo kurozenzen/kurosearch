@@ -1,5 +1,5 @@
 <script>
-  import { formatTagname } from '../../formatting/tags'
+  import { formatTagname } from '../../formatting/formatTagname'
   import { MODIFIER_NAMES } from '../modifier/modifierData'
 
   /** @type {import("../../tags/SearchableTag").SearchableTag}*/

@@ -1,5 +1,4 @@
 import { isValidModifier, serializeModifier } from './modifier/modifier'
-import { isValidTagType } from './type/tagtype'
 import { isValidName } from './validation'
 
 /**

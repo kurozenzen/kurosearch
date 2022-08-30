@@ -1,6 +1,4 @@
 <script>
-  import { formatCount } from '../../../../formatting/numbers'
-  import { formatCreatedAt } from '../../../../formatting/date'
   import SimpleTag from '../../../tags/SimpleTag.svelte'
   import Source from './Source.svelte'
   import Entry from './Entry.svelte'

@@ -1,5 +1,5 @@
 <script>
-  import { formatTagname } from '../../formatting/tags'
+  import { formatTagname } from '../../formatting/formatTagname'
   import activeTags from '../search/activeTagsStore'
 
   /** @type {string}*/

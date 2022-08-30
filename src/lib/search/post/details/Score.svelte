@@ -1,5 +1,5 @@
 <script>
-  import { formatCount } from '../../../../formatting/numbers'
+  import { formatCount } from '../../../../formatting/formatCount'
 
   export let value
 </script>
