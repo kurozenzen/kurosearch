@@ -1,3 +1,5 @@
+import {getTagSuggestions} from "./tags"
+
 describe('tags', () => {
   describe('some', () => {
     test('1', () => {

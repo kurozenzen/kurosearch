@@ -17,15 +17,13 @@
 </script>
 
 <div class="post" tabindex="0">
-  <div on:click={toggleOpen} class="content">
-    {#if post.type === 'image'}
-      <Image {post} />
-    {:else if post.type === 'video'}
-      <Video {post} on:click={toggleOpen} />
-    {:else}
-      <Gif {post} />
-    {/if}
-  </div>
+  {#if post.type === 'image'}
+    <Image {post} />
+  {:else if post.type === 'video'}
+    <Video {post} on:click={toggleOpen} />
+  {:else}
+    <Gif {post} />
+  {/if}
   {#if open}
     <Details {post} />
   {/if}

@@ -1,8 +1,44 @@
 import { jest } from '@jest/globals'
+import { Post } from '../../posts/Post'
 import { SearchableTag } from '../../tags/SearchableTag'
-import { getPage, getPostsUrl, isValidMinScore, isValidPageNumber, isValidTagsArray, serializeTags } from './pages'
+import {
+  getPage,
+  getPostsUrl,
+  isValidMinScore,
+  isValidPageNumber,
+  isValidTagsArray,
+  serializeSearchParameters,
+} from './pages'
 
 const RESOLVED = true
+const EMPTY_POST = new Post(
+  '',
+  '',
+  '',
+  '',
+  false,
+  '',
+  1,
+  1,
+  1,
+  1,
+  false,
+  false,
+  1,
+  1,
+  1,
+  '',
+  1,
+  1,
+  1,
+  '',
+  '',
+  '',
+  1,
+  '',
+  '',
+  ''
+)
 
 //@ts-expect-error
 global.fetch = jest.fn(() => Promise.resolve(RESOLVED))
@@ -104,6 +140,73 @@ describe('pages', () => {
       expect.assertions(1)
       return getPage(0, [], 'id', undefined).catch((e) => expect(e).toBeInstanceOf(TypeError))
     })
+
+    test('response not ok throws Error', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() => Promise.resolve({ ok: false }))
+
+      expect.assertions(1)
+      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('response missing count throws Error', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ posts: [] }) }))
+
+      expect.assertions(1)
+      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('response with invalid count throws Error', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() =>
+        Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 'asdf', posts: [] }) })
+      )
+
+      expect.assertions(1)
+      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('response missing posts throws Error', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0 }) }))
+
+      expect.assertions(1)
+      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('response with invalid posts throws Error', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0, posts: 1 }) }))
+
+      expect.assertions(1)
+      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('returns a valid Page', () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0, posts: [EMPTY_POST] }) }))
+
+      expect.assertions(2)
+      getPage(0, [], 'id', 0)
+        .then((page) => {
+          expect(page.count).toBe(0)
+          expect(page.posts).toStrictEqual([EMPTY_POST])
+        })
+        .catch((e) => fail(e))
+      global.fetch = originalFetch
+    })
   })
 
   describe('getPostsUrl', () => {
@@ -118,22 +221,22 @@ describe('pages', () => {
 
   describe('serializeTags', () => {
     test('empty tags still include sort and score', () => {
-      expect(serializeTags([], 'id', 0)).toBe('sort:id:desc+score:>=0')
+      expect(serializeSearchParameters([], 'id', 0)).toBe('sort:id:desc+score:>=0')
     })
 
     test('+ tags are included in string', () => {
-      expect(serializeTags([new SearchableTag('+', 'tag1'), new SearchableTag('+', 'tag2')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([new SearchableTag('+', 'tag1'), new SearchableTag('+', 'tag2')], 'id', 0)).toBe(
         'tag1+tag2+sort:id:desc+score:>=0'
       )
     })
 
     test('- tags are included in string', () => {
-      expect(serializeTags([new SearchableTag('+', 'tag1'), new SearchableTag('-', 'tag2')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([new SearchableTag('+', 'tag1'), new SearchableTag('-', 'tag2')], 'id', 0)).toBe(
         'tag1+-tag2+sort:id:desc+score:>=0'
       )
     })
     test('~ tags are included in string', () => {
-      expect(serializeTags([new SearchableTag('~', 'tag2'), new SearchableTag('~', 'tag3')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([new SearchableTag('~', 'tag2'), new SearchableTag('~', 'tag3')], 'id', 0)).toBe(
         'sort:id:desc+score:>=0+( tag2 ~ tag3 )'
       )
     })

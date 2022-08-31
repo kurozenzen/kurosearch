@@ -84,4 +84,35 @@ export class Post {
 
     Object.freeze(this)
   }
+
+  static from(p) {
+    return new Post(
+      p.preview_url,
+      p.sample_url,
+      p.file_url,
+      p.created_at,
+      p.has_children,
+      p.md5,
+      p.height,
+      p.id,
+      p.change,
+      p.creator_id,
+      p.has_notes,
+      p.has_comments,
+      p.parent_id,
+      p.preview_width,
+      p.preview_height,
+      p.rating,
+      p.sample_height,
+      p.sample_width,
+      p.score,
+      p.source,
+      p.status,
+      p.tags,
+      p.width,
+      p.comments_url,
+      p.owner_url,
+      p.type
+    )
+  }
 }
