@@ -1,4 +1,5 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import { postObserver } from '../postObserver'
 
   /**
@@ -7,6 +8,8 @@
 
   /** @type {Post} */
   export let post
+
+  const dispatch = createEventDispatcher()
 
   /** @type {HTMLElement}*/
   let media
@@ -25,6 +28,7 @@
   width={post.width}
   height={post.height}
   bind:this={media}
+  on:click={() => dispatch('click')}
 />
 
 <style>

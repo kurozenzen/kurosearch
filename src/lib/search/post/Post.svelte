@@ -18,11 +18,11 @@
 
 <div class="post" tabindex="0">
   {#if post.type === 'image'}
-    <Image {post} />
+    <Image {post} on:click={toggleOpen} />
   {:else if post.type === 'video'}
     <Video {post} on:click={toggleOpen} />
   {:else}
-    <Gif {post} />
+    <Gif {post} on:click={toggleOpen} />
   {/if}
   {#if open}
     <Details {post} />
