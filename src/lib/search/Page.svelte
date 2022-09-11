@@ -17,5 +17,6 @@
     flex-direction: column;
     padding-left: 0;
     gap: 1rem;
+    contain: content;
   }
 </style>
