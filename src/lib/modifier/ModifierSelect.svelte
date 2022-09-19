@@ -20,6 +20,7 @@
   title={MODIFIERS_HINTS[modifier]}
   on:click={changeModifier}
   on:keyup={onEnterOrSpace(changeModifier)}
+  on:touchend|preventDefault
 />
 
 <style>

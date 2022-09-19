@@ -76,9 +76,6 @@
         open = false
       }
     }}
-    on:focus={() => {
-      open = true
-    }}
   />
 
   <ModifierSelect
