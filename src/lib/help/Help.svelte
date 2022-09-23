@@ -247,6 +247,12 @@
     font-size: 3.75rem;
   }
 
+  @media only screen and (max-width: 420px) {
+    h1 {
+      font-size: 12.5vw;
+    }
+  }
+
   h2 {
     color: var(--text-hover);
     font-size: 2.25em;
@@ -291,6 +297,7 @@
 
   .flex-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
   }
 </style>
