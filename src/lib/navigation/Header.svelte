@@ -2,7 +2,7 @@
   import currentPage from './currentPage'
   import DiscordIcon from './DiscordIcon.svelte'
   import account from '../account/account'
-  import defaultUser from "../account/default-user.png"
+  import defaultUser from '../account/default-user.png'
 </script>
 
 <header role="navigation">
@@ -23,6 +23,9 @@
     </button>
     <button title="Settings" on:click={() => currentPage.navigateTo('settings')}>
       <i class="codicon codicon-settings-gear" />
+    </button>
+    <button title="Documentation" on:click={() => currentPage.navigateTo('help')}>
+      <i class="codicon codicon-book" />
     </button>
     <button title="Account" on:click={() => currentPage.navigateTo('account')}>
       {#if $account.loggedIn}
