@@ -250,12 +250,15 @@
   h2 {
     color: var(--text-hover);
     font-size: 2.25em;
+    padding-block-start: 4rem;
+    padding-block-end: 1rem;
   }
 
   h3 {
     color: var(--text-hover);
     font-size: 1.5em;
-    padding-block: 1rem;
+    padding-block-start: 4rem;
+    padding-block-end: 1rem;
   }
 
   em {
