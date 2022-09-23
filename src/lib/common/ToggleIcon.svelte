@@ -17,6 +17,7 @@
   tabindex="0"
   on:click={dispatchClick}
   on:keyup={onEnterOrSpace(dispatchClick)}
+  on:touchend|preventDefault={dispatchClick}
 />
 
 <style>
