@@ -1,20 +1,18 @@
 <script>
   import currentPage from '../navigation/currentPage'
   import Search from '../search/Search.svelte'
-  import Preferences from '../preferences/Preferences.svelte'
-  import Help from '../help/Help.svelte'
-  import Account from '../account/Account.svelte'
+  import LazyRoute from './LazyRoute.svelte'
 </script>
 
 <main>
   {#if $currentPage === 'search'}
     <Search />
   {:else if $currentPage === 'account'}
-    <Account />
+    <LazyRoute loadComponent={() => import('../account/Account.svelte')} />
   {:else if $currentPage === 'settings'}
-    <Preferences />
+    <LazyRoute loadComponent={() => import('../preferences/Preferences.svelte')} />
   {:else if $currentPage === 'help'}
-    <Help />
+    <LazyRoute loadComponent={() => import('../help/Help.svelte')} />
   {:else}
     <p>You got lost...</p>
   {/if}
