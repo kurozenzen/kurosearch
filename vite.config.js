@@ -24,6 +24,48 @@ export default defineConfig({
         background_color: '#000000',
         icons: [
           {
+            src: 'icon/ks-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-384.png',
+            sizes: '384x384',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-128.png',
+            sizes: '128x128',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-96.png',
+            sizes: '96x96',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-72.png',
+            sizes: '72x72',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'icon/ks-maskable-48.png',
+            sizes: '48x48',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
             src: 'icon/ks-192.png',
             sizes: '192x192',
             type: 'image/png',
@@ -34,18 +76,6 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
-          },
-          {
-            src: 'icon/ks-192-maskable.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'maskable',
-          },
-          {
-            src: 'icon/ks-512-maskable.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
           },
         ],
       },

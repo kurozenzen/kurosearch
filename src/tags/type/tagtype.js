@@ -3,14 +3,14 @@
  */
 
 const VALID_TAG_TYPES = Object.freeze([
-  'general',
-  'character',
   'ambiguous',
   'artist',
+  'character',
   'copyright',
+  'general',
+  'metadata',
   'rating',
   'source',
-  'metadata',
   'supertag',
 ])
 export const isValidTagType = (value) => {
