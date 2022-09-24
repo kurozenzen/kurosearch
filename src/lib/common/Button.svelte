@@ -24,13 +24,14 @@
     background-color: var(--accent);
     text-align: center;
     text-transform: uppercase;
+    transition: background-color var(--default-transition-behaviour);
   }
 
   button:disabled {
     background-color: var(--background-2);
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     button:hover {
       background-color: var(--accent-light);
     }

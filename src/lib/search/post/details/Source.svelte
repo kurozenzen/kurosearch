@@ -15,7 +15,7 @@
 
 <style>
   a {
-    font-size: 14px;
+    font-size: var(--text-size);
     text-decoration: none;
     white-space: nowrap;
   }

@@ -93,7 +93,7 @@
     display: block;
     margin-bottom: 4px;
     color: var(--text);
-    font-size: 12px;
+    font-size: var(--text-size-small);
   }
 
   input,

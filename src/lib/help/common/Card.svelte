@@ -22,11 +22,11 @@
     border-radius: var(--border-radius);
     display: flex;
     gap: 1.5rem;
-    transition: all 0.1s linear;
+    transition: all var(--default-transition-behaviour);
     color: var(--text);
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     .card:hover {
       background-color: var(--background-1);
       border-color: var(--background-2);
@@ -45,16 +45,16 @@
     place-items: center;
     border: 2px solid var(--background-1);
     border-radius: var(--border-radius);
-    transition: border-color 0.1s linear;
+    transition: border-color var(--default-transition-behaviour);
   }
 
   i {
     font-size: 32px;
-    color: var(--text-hover);
+    color: var(--accent);
   }
 
   h3 {
-    color: var(--text-hover);
+    color: var(--text-highlight);
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 0.5rem;

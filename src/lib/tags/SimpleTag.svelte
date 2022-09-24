@@ -27,19 +27,17 @@
     color: white;
     height: 24px;
     border-radius: 16px;
-    font-size: 12px;
-    padding-left: 4px;
-    padding-right: 12px;
+    font-size: var(--text-size-small);
+    padding-inline: 12px;
     user-select: none;
-    transition: background-color 0.1s linear;
-    padding-left: 12px;
+    transition: background-color var(--default-transition-behaviour);
   }
 
   li.active {
     background-color: var(--accent);
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     li:hover {
       background-color: var(--background-3);
     }

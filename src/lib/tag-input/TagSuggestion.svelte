@@ -23,12 +23,13 @@
     height: 24px;
     grid-template-columns: 16px 1fr auto;
     gap: 1rem;
-    font-size: 14px;
+    font-size: var(--text-size);
     padding-inline: 16px;
     user-select: none;
+    transition: background-color var(--default-transition-behaviour);
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     li:hover {
       background-color: var(--background-2);
     }

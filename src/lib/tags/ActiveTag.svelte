@@ -33,17 +33,18 @@
     color: var(--text-accent);
     height: 24px;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: var(--text-size-small);
     padding-left: 6px;
     padding-right: 12px;
     user-select: none;
+    transition: background-color var(--default-transition-behaviour);
   }
 
   .no-icon {
     padding-left: 12px;
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     li:hover {
       background-color: var(--accent-light);
     }

@@ -30,6 +30,13 @@
     line-height: var(--line-height);
     vertical-align: middle;
     text-align: center;
-    font-size: 16px;
+    font-size: var(--text-size-large);
+    transition: color var(--default-transition-behaviour);
+  }
+
+  @media (hover: hover) {
+    i:hover {
+      color: var(--text-highlight);
+    }
   }
 </style>

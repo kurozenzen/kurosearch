@@ -1,3 +1,4 @@
+import { getCurrentBackendBaseUrl } from '../../lib/preferences/currentBackend'
 import { Page } from '../../posts/Page'
 import { Post } from '../../posts/Post'
 import { isValidSortProperty } from '../../posts/sort/sort'
@@ -9,7 +10,6 @@ import { fetchAbortPrevious } from '../fetchAbortPrevious'
  */
 
 export const PAGE_SIZE = 20
-const BASE_URL = 'https://r34-json.herokuapp.com/v2'
 
 /**
  * @type {AbortController | null}
@@ -113,7 +113,7 @@ const serializeTags = (tags) => tags.map((t) => t.serialize())
  * @param {string} serializedTags
  */
 export const getPostsUrl = (pageNumber, serializedTags) => {
-  const url = `${BASE_URL}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`
+  const url = `${getCurrentBackendBaseUrl()}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`
 
   return serializedTags === '' ? url : `${url}&tags=${serializedTags}`
 }

@@ -12,6 +12,7 @@
   import Results from './Results.svelte'
   import ScrollUpButton from './ScrollUpButton.svelte'
   import sortStore from './sortStore'
+  import Title from './Title.svelte'
 
   let supertagMode = false
 
@@ -39,7 +40,7 @@
 </script>
 
 <div class="search-config">
-  <h1>kurosearch</h1>
+  <Title />
   <TagInput on:pick={(e) => activeTags.addOrReplace(e.detail)} />
   {#if $activeTags.length}
     <ul>
@@ -87,6 +88,12 @@
 {/if}
 
 <style>
+  .search-config {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -94,34 +101,10 @@
     justify-content: center;
   }
 
-  h1 {
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 72px;
-    text-align: center;
-    color: var(--accent);
-    user-select: none;
-    line-height: 72px;
-    margin-top: 20vh;
-    margin-bottom: 0;
-  }
-
-  @media only screen and (max-width: 400px) {
-    h1 {
-      font-size: 18vw;
-      line-height: 18vw;
-    }
-  }
-
   .sort-row {
     display: flex;
     justify-content: center;
     gap: 1rem;
-  }
-
-  .search-config {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
   }
 
   .add-supertag {
@@ -131,10 +114,17 @@
     border-radius: 12px;
     background-color: var(--accent);
     color: var(--text-accent);
+    transition: background-color var(--default-transition-behaviour);
+  }
+
+  @media (hover: hover) {
+    .add-supertag:hover {
+      background-color: var(--accent-light);
+    }
   }
 
   .add-supertag i {
-    font-size: 14px;
+    font-size: var(--text-size);
     width: 16px;
     text-align: center;
   }

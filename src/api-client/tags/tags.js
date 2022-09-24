@@ -1,3 +1,4 @@
+import { getCurrentBackendBaseUrl } from '../../lib/preferences/currentBackend'
 import { Tag } from '../../tags/Tag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 
@@ -18,7 +19,7 @@ let getTagSuggestionsAbortController = null
 export const getTagSuggestions = async (term, fuzzy) => {
   const name = fuzzy ? `*${term}*` : term
   const res = await fetchAbortPrevious(
-    `https://r34-json.herokuapp.com/v2/tags?limit=20&sort=count&name=${name.replaceAll(' ', '_')}`,
+    `${getCurrentBackendBaseUrl()}/tags?limit=20&sort=count&name=${name.replaceAll(' ', '_')}`,
     getTagSuggestionsAbortController
   )
 
@@ -40,8 +41,8 @@ export const getTagSuggestions = async (term, fuzzy) => {
   }
 }
 
-/** 
- * @param {TagType[]} types 
+/**
+ * @param {TagType[]} types
  * @returns {TagType}
  */
 const selectType = (types) => {

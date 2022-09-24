@@ -33,7 +33,7 @@
     position: fixed;
     bottom: -4rem;
     right: 2rem;
-    transition: bottom cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.2s;
+    transition: background-color var(--default-transition-behaviour), bottom var(--default-transition-behaviour);
   }
 
   @media (min-width: 800px) {
@@ -46,7 +46,7 @@
     bottom: 2rem;
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     button:hover {
       background-color: var(--accent-light);
     }

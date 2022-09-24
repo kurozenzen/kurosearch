@@ -32,16 +32,17 @@
     align-items: center;
     padding: 0.5rem;
     border-radius: var(--border-radius);
+    transition: color var(--default-transition-behaviour);
   }
 
   h3 {
     font-weight: normal;
-    font-size: 16px;
-    color: var(--text-hover);
+    font-size: var(--text-size-large);
+    color: var(--text-highlight);
   }
 
   small {
-    font-size: 12px;
+    font-size: var(--text-size-small);
   }
 
   span {
@@ -63,9 +64,9 @@
     border-radius: 12px;
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     i:hover {
-      color: var(--text-hover);
+      color: var(--text-highlight);
     }
   }
 </style>

@@ -5,21 +5,21 @@
       @font-face {
         font-family: 'Zen Kaku Gothic New';
         font-weight: 900;
-        src: url('font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
-          url('font/ZenKakuGothicNew-Black-subset.woff') format('woff');
+        src: url('/font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
+          url('/font/ZenKakuGothicNew-Black-subset.woff') format('woff');
       }
 
       @font-face {
         font-family: 'Roboto';
         font-weight: 400;
-        src: url('font/Roboto-Regular.woff2') format('woff2'), url('font/Roboto-Regular.woff') format('woff'),
-          url('font/Roboto-Italic.woff2') format('woff2') font-italic,
-          url('font/Roboto-Italic.woff') format('woff') font-italic;
+        src: url('/font/Roboto-Regular.woff2') format('woff2'), url('/font/Roboto-Regular.woff') format('woff'),
+          url('/font/Roboto-Italic.woff2') format('woff2') font-italic,
+          url('/font/Roboto-Italic.woff') format('woff') font-italic;
       }
 
       @font-face {
         font-family: 'codicon';
-        src: url('font/codicon.woff2') format('woff2'), url('font/codicon.woff') format('woff');
+        src: url('/font/codicon.woff2') format('woff2'), url('/font/codicon.woff') format('woff');
       }
 
       @layer reset {
@@ -31,6 +31,7 @@
         }
 
         p,
+        h1,
         h2,
         h3 {
           margin-block: unset;
@@ -65,21 +66,25 @@
         }
       }
 
+      :root {
+        font-family: 'Roboto', sans-serif;
+      }
+
       html {
-        background-color: black;
         min-height: 100vh;
         overflow-y: scroll;
-        transition: background-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        background-color: black;
+        transition: background-color var(--default-transition-behaviour);
       }
 
       body {
-        font-family: 'Roboto', sans-serif;
         display: flex;
         flex-direction: column;
-        max-width: 800px;
-        margin: auto;
         padding: 1rem;
         gap: 1rem;
+        max-width: 800px;
+        min-height: 100vh;
+        margin: auto;
       }
 
       #app {
@@ -88,9 +93,9 @@
 
       @media (pointer: fine) {
         ::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
-          transition: background-color 0.12 ease-in-out;
+          width: var(--scrollbar-size);
+          height: var(--scrollbar-size);
+          transition: background-color var(--default-transition-behaviour);
         }
 
         ::-webkit-scrollbar-track {
@@ -99,7 +104,7 @@
 
         ::-webkit-scrollbar-thumb {
           background: var(--background-1);
-          border-radius: 10px;
+          border-radius: var(--border-radius-full);
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -107,87 +112,109 @@
         }
       }
 
-      /* ./node_modules/@vscode/codicons/dist/codicon.css */
       .codicon {
-        font-family: codicon;
+        font-family: codicon, serif;
         font-style: unset;
       }
 
       .codicon-plus:before {
         content: '\ea60';
       }
+
       .codicon-tag:before {
         content: '\ea66';
       }
+
       .codicon-person:before {
         content: '\ea67';
       }
+
       .codicon-search:before {
         content: '\ea6d';
       }
+
       .codicon-edit:before {
         content: '\ea73';
       }
+
       .codicon-info:before {
         content: '\ea74';
       }
+
       .codicon-error:before {
         content: '\ea87';
       }
+
       .codicon-folder:before {
         content: '\ea83';
       }
+
       .codicon-github:before {
         content: '\ea84';
       }
+
       .codicon-arrow-up:before {
         content: '\eaa1';
       }
+
       .codicon-book:before {
         content: '\eaa4';
       }
+
       .codicon-close:before {
         content: '\eab8';
       }
+
       .codicon-circle-slash:before {
         content: '\eabd';
       }
+
       .codicon-calendar:before {
         content: '\eab0';
       }
+
       .codicon-code:before {
         content: '\eac4';
       }
+
       .codicon-heart:before {
         content: '\eb05';
       }
+
       .codicon-link:before {
         content: '\eb15';
       }
+
       .codicon-question:before {
         content: '\eb32';
       }
+
       .codicon-settings-gear:before {
         content: '\eb51';
       }
+
       .codicon-star-full:before {
         content: '\eb59';
       }
+
       .codicon-unverified:before {
         content: '\eb76';
       }
+
       .codicon-whole-word:before {
         content: '\eb7e';
       }
+
       .codicon-record:before {
         content: '\eba7';
       }
+
       .codicon-account:before {
         content: '\eb99';
       }
     </style>
 
-    <title>Kurosearch</title>
+    <title>kurosearch</title>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

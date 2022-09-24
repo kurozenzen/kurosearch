@@ -38,6 +38,11 @@
 {/if}
 
 <style>
+  h2 {
+    padding-block-start: 2rem;
+    padding-block-end: 1rem;
+  }
+
   .overview {
     display: grid;
     grid-template-columns: auto 1fr auto;

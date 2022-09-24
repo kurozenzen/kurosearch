@@ -7,15 +7,15 @@
 
 <header role="navigation">
   <div>
-    <a title="Source Code" href="https://github.com/kurozenzen/kurosearch" target="_newtab">
-      <i class="codicon codicon-github" />
-    </a>
     <a title="Sponsor" href="https://ko-fi.com/kurozenzen" target="_newtab">
       <i class="codicon codicon-heart" />
     </a>
     <a title="Discord Server" href="https://discord.gg/yyJFG5PVBZ" target="_newtab">
       <DiscordIcon />
     </a>
+    <button title="Documentation" on:click={() => currentPage.navigateTo('help')}>
+      <i class="codicon codicon-book" />
+    </button>
   </div>
   <nav>
     <button title="Search" on:click={() => currentPage.navigateTo('search')}>
@@ -23,9 +23,6 @@
     </button>
     <button title="Settings" on:click={() => currentPage.navigateTo('settings')}>
       <i class="codicon codicon-settings-gear" />
-    </button>
-    <button title="Documentation" on:click={() => currentPage.navigateTo('help')}>
-      <i class="codicon codicon-book" />
     </button>
     <button title="Account" on:click={() => currentPage.navigateTo('account')}>
       {#if $account.loggedIn}
@@ -58,7 +55,8 @@
     border: none;
     color: var(--text);
     background-color: transparent;
-    font-size: 16px;
+    font-size: var(--text-size-large);
+    transition: color var(--default-transition-behaviour);
   }
 
   .profile-picture {
@@ -67,10 +65,10 @@
     border-radius: 8px;
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     button:hover,
     a:hover {
-      color: var(--text-hover);
+      color: var(--text-highlight);
     }
   }
 </style>

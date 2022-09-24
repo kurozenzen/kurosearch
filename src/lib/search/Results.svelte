@@ -73,6 +73,13 @@
     background-color: unset;
     border: unset;
     color: var(--text);
+    transition: color var(--default-transition-behaviour);
+  }
+
+  @media (hover: hover) {
+    select:hover {
+      color: var(--text-highlight);
+    }
   }
 
   select option {

@@ -5,9 +5,11 @@
   import Card from './common/Card.svelte'
   import SimpleTag from '../tags/SimpleTag.svelte'
   import { MODIFIERS_ICONS } from '../modifier/modifierData'
+    import PageHeading from '../common/text/PageHeading.svelte'
+    import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
 </script>
 
-<h1>Documentation</h1>
+<PageHeading>Documentation</PageHeading>
 
 <div class="cards">
   <Card
@@ -49,7 +51,7 @@
   get all posts.
 </p>
 
-<h3>Number Of Results</h3>
+<ParagraphHeading>Number Of Results</ParagraphHeading>
 
 <p>
   In addition to the posts themselves you can also see how many posts matched your search. The count is located to the
@@ -61,7 +63,7 @@
   will also get a cute error message saying so.
 </p>
 
-<h3>Sorting results</h3>
+<ParagraphHeading>Sorting results</ParagraphHeading>
 
 <p>
   Once you have searched, you can sort your results by using the selector above the first post. At the moment there are
@@ -85,7 +87,7 @@
   </li>
 </ul>
 
-<h3>Filtering results</h3>
+<ParagraphHeading>Filtering results</ParagraphHeading>
 
 <p>
   In addition to sorting kurosearch also support a simple form of filtering. Currently, only filtering by posts is
@@ -121,7 +123,7 @@
   <li>Modifier</li>
 </ul>
 
-<h3>Name</h3>
+<ParagraphHeading>Name</ParagraphHeading>
 
 <p>
   The name of the tag is what you actually search for. It is usually pretty descriptive and well defined. Oftentimes,
@@ -129,7 +131,7 @@
   you.
 </p>
 
-<h3>Type</h3>
+<ParagraphHeading>Type</ParagraphHeading>
 
 <p>
   The type indicates what kind of tag it is. It is displayed in form of an icon right before the name of the tag. the
@@ -179,13 +181,13 @@
   </li>
 </ul>
 
-<h3>Count</h3>
+<ParagraphHeading>Count</ParagraphHeading>
 
 <p>The count of a tag displays how many post are tagged with it.</p>
 
 <p>For supertags the count shows how many tags are in it.</p>
 
-<h3>Modifier</h3>
+<ParagraphHeading>Modifier</ParagraphHeading>
 
 <p>
   In kurosearch tags can have modifiers that change how they influence your search. You can change the modifier directly
@@ -203,7 +205,10 @@
       the results will have every include tag on them. Use this modifier for all things that you definitely want to see.
     </p>
     <div class="flex-row">Icon:<i class={`codicon codicon-${MODIFIERS_ICONS['+']}`} /></div>
-    <div class="flex-row">Example:<ActiveTag tag={new ActiveTagObject('+', 'good', 5, 'general')} /></div>
+    <div class="flex-row">
+      Example:
+      <ActiveTag tag={new ActiveTagObject('+', 'good', 5, 'general')} />
+    </div>
   </li>
   <li>
     <em>Exclude</em> (-)
@@ -217,7 +222,10 @@
       excluding your turnoffs really easy.
     </p>
     <div class="flex-row">Icon:<i class={`codicon codicon-${MODIFIERS_ICONS['-']}`} /></div>
-    <div class="flex-row">Example:<ActiveTag tag={new ActiveTagObject('-', 'bad', 5, 'general')} /></div>
+    <div class="flex-row">
+      Example:
+      <ActiveTag tag={new ActiveTagObject('-', 'bad', 5, 'general')} />
+    </div>
   </li>
   <li>
     <em>Optional</em> (~)
@@ -242,40 +250,22 @@
 <ScrollUpButton />
 
 <style>
-  h1 {
-    color: var(--text-hover);
-    font-size: 3.75rem;
-  }
-
-  @media only screen and (max-width: 420px) {
-    h1 {
-      font-size: 12.5vw;
-    }
-  }
-
   h2 {
-    color: var(--text-hover);
+    color: var(--text-highlight);
     font-size: 2.25em;
     padding-block-start: 4rem;
     padding-block-end: 1rem;
   }
 
-  h3 {
-    color: var(--text-hover);
-    font-size: 1.5em;
-    padding-block-start: 4rem;
-    padding-block-end: 1rem;
-  }
-
   em {
-    color: var(--text-hover);
+    color: var(--text-highlight);
   }
 
   p,
   li {
     line-height: 1.75rem;
     padding-block: 0.5rem;
-    font-size: 16px;
+    font-size: var(--text-size-large);
   }
 
   ul {

@@ -141,11 +141,11 @@
     line-height: var(--line-height);
     vertical-align: middle;
     text-align: center;
-    font-size: 16px;
+    font-size: var(--text-size-large);
   }
 
   input {
-    font-size: 14px;
+    font-size: var(--text-size);
     background-color: transparent;
     border: none;
     color: var(--text);
@@ -195,9 +195,10 @@
   .hint {
     font-size: 10px;
     user-select: none;
+    transition: color var(--default-transition-behaviour);
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     .hint:hover {
       color: var(--accent);
     }
