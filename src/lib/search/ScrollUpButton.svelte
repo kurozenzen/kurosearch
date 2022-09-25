@@ -34,6 +34,7 @@
     bottom: -4rem;
     right: 2rem;
     transition: background-color var(--default-transition-behaviour), bottom var(--default-transition-behaviour);
+    box-shadow: var(--default-shadow);
   }
 
   @media (min-width: 800px) {

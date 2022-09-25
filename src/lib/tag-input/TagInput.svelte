@@ -133,6 +133,8 @@
     max-width: 512px;
     margin: auto;
     position: relative;
+    filter: drop-shadow(0px 3px 5px black);
+    z-index: 2;
   }
 
   .spaced {

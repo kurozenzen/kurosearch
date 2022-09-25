@@ -34,20 +34,21 @@
   .details {
     display: flex;
     flex-direction: column;
-    padding: var(--grid-gap);
-    gap: var(--grid-gap);
+    padding: var(--grid-gap)
   }
 
   .summary {
     display: flex;
+    align-items: center;
     overflow-x: auto;
-    overflow-y: hidden;
     gap: 2rem;
+    padding-block-end: 0.5rem; /* a bit hacky to split the gap here but it places the scrollbar nicely*/
   }
 
   ul {
     display: flex;
     flex-wrap: wrap;
+    padding-block-start: 0.5rem;
     gap: 8px;
   }
 </style>

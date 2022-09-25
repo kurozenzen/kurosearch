@@ -15,6 +15,7 @@
 
 <style>
   a {
+    color: var(--text-link);
     font-size: var(--text-size);
     text-decoration: none;
     white-space: nowrap;
