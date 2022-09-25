@@ -1,11 +1,15 @@
 <footer>
-  <div>
+  <div class="flex left">
     <a title="Source Code" href="https://github.com/kurozenzen/kurosearch" target="_newtab">
       <i class="codicon codicon-github" /> Github
     </a>
   </div>
   <span class="copyright">© 2022 kurozenzen</span>
-  <div />
+  <div class="flex right">
+    <a title="Application Status" href="https://stats.uptimerobot.com/EZVwES34jJ" target="_newtab">
+      <i class="codicon codicon-zap" /> Status
+    </a>
+  </div>
 </footer>
 
 <style>
@@ -14,6 +18,16 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: var(--grid-gap);
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .right {
+    justify-content: flex-end;
   }
 
   .copyright {
