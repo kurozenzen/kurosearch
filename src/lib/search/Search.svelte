@@ -8,13 +8,15 @@
   import TagInput from '../tag-input/TagInput.svelte'
   import ActiveTag from '../tags/ActiveTag.svelte'
   import activeTags from './activeTagsStore'
-  import results from './resultsStore'
   import Results from './Results.svelte'
+  import results from './resultsStore'
   import ScrollUpButton from './ScrollUpButton.svelte'
+  import SearchError from './SearchError.svelte'
   import sortStore from './sortStore'
   import Title from './Title.svelte'
 
   let supertagMode = false
+  let error = undefined
 
   const getFirstPage = async () => {
     results.reset()
@@ -22,12 +24,15 @@
   }
 
   const getNextPage = async () => {
+    error = undefined
+
     try {
       const tags = getSearchableTags()
       const page = await getPage($results.nextPage, tags, $sortStore.sortProperty, $sortStore.minScore)
+
       results.addPage(page)
     } catch (e) {
-      //TODO: add error handling and user feedback here
+      error = e
       console.warn(e)
     }
   }
@@ -70,7 +75,19 @@
   </div>
 </div>
 
-<Results on:endreached={getNextPage} />
+{#if error !== undefined}
+  {#if error.message === 'Failed to fetch'}
+    <SearchError
+      title="Connection Error"
+      icon="debug-disconnect"
+      message="Failed to connect to the server. Make sure you have a stable internet connection."
+    />
+  {:else}
+    <SearchError title="Application Error" icon="error" message={error.message} />
+  {/if}
+{:else}
+  <Results on:endreached={getNextPage} />
+{/if}
 
 <ScrollUpButton />
 
