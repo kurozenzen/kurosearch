@@ -6,7 +6,7 @@
 
   const listener = () => {
     const currentY = window.scrollY
-    visible = currentY < previousY && currentY > 0
+    visible = (currentY < previousY && currentY > 0) || window.innerHeight + currentY >= document.body.scrollHeight
     previousY = currentY
   }
 
@@ -35,6 +35,7 @@
     right: 2rem;
     transition: background-color var(--default-transition-behaviour), bottom var(--default-transition-behaviour);
     box-shadow: var(--default-shadow);
+    z-index: 300;
   }
 
   @media (min-width: 800px) {

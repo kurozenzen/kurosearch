@@ -135,7 +135,6 @@
     margin: auto;
     position: relative;
     filter: drop-shadow(0px 3px 5px black);
-    z-index: 2;
   }
 
   .spaced {
@@ -176,7 +175,7 @@
     background-color: var(--background-1);
     border-radius: 0 0 22px 22px;
     overflow: hidden;
-    z-index: 1;
+    z-index: 300;
     min-height: 22px;
   }
 

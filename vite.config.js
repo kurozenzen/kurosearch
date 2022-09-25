@@ -25,7 +25,7 @@ export default defineConfig({
         name: 'kurosearch',
         short_name: 'kurosearch',
         description: 'Rule34 browsing re-imagined',
-        theme_color: '#dc143c',
+        theme_color: '#000000',
         background_color: '#000000',
         icons: [
           {
