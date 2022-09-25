@@ -99,7 +99,7 @@
   />
   <ol class:open>
     {#await searchPromise}
-      <div class="hint-container">
+      <div class="suggestion-footer">
         <LoadingAnimation />
       </div>
     {:then}
@@ -112,8 +112,9 @@
           }}
         />
       {/each}
+      <div class="suggestion-footer" />
     {:catch error}
-      <div class="error-container">
+      <div class="suggestion-footer">
         <i class={`codicon codicon-error`} />
         <span>{error.message}</span>
       </div>
@@ -179,33 +180,15 @@
     min-height: 22px;
   }
 
-  .error-container {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 4px;
-    gap: 4px;
-    padding: 8px;
-    font-size: 13.3px;
-  }
-
-  .hint-container {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 4px;
-  }
-
-  .hint {
-    font-size: 10px;
-    user-select: none;
-    transition: color var(--default-transition-behaviour);
-  }
-
-  @media (hover: hover) {
-    .hint:hover {
-      color: var(--accent);
-    }
-  }
   .codicon-question {
     cursor: pointer;
+  }
+
+  .suggestion-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    gap: 0.5rem;
   }
 </style>

@@ -35,10 +35,6 @@
     }
   }
 
-  li:last-of-type {
-    margin-bottom: 10px;
-  }
-
   .tag-name {
     grid-column: 2;
     white-space: nowrap;
