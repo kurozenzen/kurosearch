@@ -86,7 +86,7 @@
     <SearchError title="Application Error" icon="error" message={error.message} />
   {/if}
 {:else}
-  <Results on:endreached={getNextPage} />
+  <Results on:endreached={getNextPage} on:configchange={getFirstPage} />
 {/if}
 
 <ScrollUpButton />
