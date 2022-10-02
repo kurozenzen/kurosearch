@@ -38,6 +38,7 @@
   header {
     display: flex;
     justify-content: space-between;
+    contain: strict;
   }
 
   div,

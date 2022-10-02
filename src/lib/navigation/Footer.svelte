@@ -18,6 +18,7 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: var(--grid-gap);
+    contain: strict;
   }
 
   .flex {

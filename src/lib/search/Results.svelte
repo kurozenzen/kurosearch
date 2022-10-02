@@ -49,7 +49,6 @@
 <style>
   .header {
     display: flex;
-    flex-wrap: w;
     align-items: center;
     margin-block-start: 4rem;
     margin-block-end: 8px;
