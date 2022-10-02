@@ -134,7 +134,6 @@
     max-width: 512px;
     margin: auto;
     position: relative;
-    filter: drop-shadow(0px 3px 5px black);
   }
 
   .spaced {
@@ -159,6 +158,7 @@
 
   .searchbar.open {
     border-radius: 22px 22px 0 0;
+    filter: drop-shadow(0px 3px 5px black);
   }
 
   ol.open {
@@ -175,7 +175,7 @@
     background-color: var(--background-1);
     border-radius: 0 0 22px 22px;
     overflow: hidden;
-    z-index: 300;
+    z-index: 2;
     min-height: 22px;
   }
 
