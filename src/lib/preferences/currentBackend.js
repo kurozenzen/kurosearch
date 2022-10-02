@@ -1,4 +1,4 @@
-let currentBackend = 'heroku'
+let currentBackend = 'render'
 
 const BACKEND_URLS = Object.freeze({
   heroku: 'https://r34-json.herokuapp.com/v2',
