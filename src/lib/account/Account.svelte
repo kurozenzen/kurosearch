@@ -14,9 +14,6 @@
       <div class="overview">
         <img class="profile-picture" src={$account.user.photoURL ?? defaultUser} alt="Profile" />
         <span class="name">{$account.user.displayName ?? 'Anonymous'}</span>
-        <div class="actions">
-          <Button text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
-        </div>
         <span>{$account.user.email}</span>
       </div>
     </div>
@@ -32,6 +29,13 @@
         {/each}
       </ul>
     </div>
+
+    <div>
+      <h2>Actions</h2>
+      <div class="actions">
+        <Button text="Sign out" title="Click to sign out" on:click={() => account.signOut()} />
+      </div>
+    </div>
   </div>
 {:else}
   <SignUp />
@@ -45,7 +49,7 @@
 
   .overview {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     column-gap: var(--grid-gap);
     row-gap: 4px;
