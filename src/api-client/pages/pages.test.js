@@ -211,11 +211,11 @@ describe('pages', () => {
 
   describe('getPostsUrl', () => {
     test('does not include tags when they are empty', () => {
-      expect(getPostsUrl(0, '')).toBe('https://r34-json.herokuapp.com/v2/posts?limit=20&pid=0')
+      expect(getPostsUrl(0, '')).toBe('https://json-api.onrender.com/v2/posts?limit=20&pid=0')
     })
 
     test('includes tags when they are not empty', () => {
-      expect(getPostsUrl(0, 'example')).toBe('https://r34-json.herokuapp.com/v2/posts?limit=20&pid=0&tags=example')
+      expect(getPostsUrl(0, 'example')).toBe('https://json-api.onrender.com/v2/posts?limit=20&pid=0&tags=example')
     })
   })
 

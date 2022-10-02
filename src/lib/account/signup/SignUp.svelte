@@ -2,19 +2,69 @@
   import account from '../account'
   import EmailForm from './EmailForm.svelte'
   import GoogleButton from './GoogleButton.svelte'
+
+  const AUTH_ERROR_MESSAGES = {
+    'auth/too-many-requests': 'Too many failed attempts. Try again later.',
+    'auth/wrong-password': 'Wrong username or password.',
+    'auth/user-not-found': 'Wrong username or password.',
+    'auth/email-already-in-use': 'An account with this email already exists.',
+    'auth/invalid-email': 'Invalid email address.',
+  }
+
+  let signInError = ''
+  let signUpError = ''
+
+  /**
+   *
+   * @param {() => Promise<unknown>} authAction
+   * @param {(message: string) => void} handleErrorMessage
+   */
+  const handleAuthError = async (authAction, handleErrorMessage) => {
+    try {
+      signUpError = ''
+      await authAction()
+    } catch (err) {
+      if (err.code in AUTH_ERROR_MESSAGES) {
+        handleErrorMessage(AUTH_ERROR_MESSAGES[err.code])
+      } else {
+        console.error(err)
+        handleErrorMessage(err.message)
+      }
+    }
+  }
 </script>
 
 <div class="container">
   <div class="providerlist">
     <h3>Sign In</h3>
-    <EmailForm submitLabel="Sign In" on:submit={(ev) => account.signInWithEmail(ev.detail.email, ev.detail.password)} />
+    <EmailForm
+      submitLabel="Sign In"
+      error={signInError}
+      on:submit={(ev) =>
+        handleAuthError(
+          () => account.signInWithEmail(ev.detail.email, ev.detail.password),
+          (message) => {
+            signInError = message
+          }
+        )}
+    />
     <p>or</p>
     <GoogleButton content="Sign in With Google" on:click={() => account.signInWithGoogle()} />
   </div>
   <div class="divider" />
   <div class="providerlist">
     <h3>Sign Up</h3>
-    <EmailForm submitLabel="Create Account" on:submit={(ev) => account.signUpWithEmail(ev.detail.email, ev.detail.password)} />
+    <EmailForm
+      submitLabel="Create Account"
+      error={signUpError}
+      on:submit={(ev) =>
+        handleAuthError(
+          () => account.signUpWithEmail(ev.detail.email, ev.detail.password),
+          (message) => {
+            signUpError = message
+          }
+        )}
+    />
   </div>
 </div>
 

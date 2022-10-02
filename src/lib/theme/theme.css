@@ -42,6 +42,7 @@ html.dark {
   --text: #aaa;
   --text-highlight: #fff;
   --text-muted: #555;
+  color-scheme: dark;
 }
 
 html.light {
@@ -52,6 +53,7 @@ html.light {
   --text: #444;
   --text-highlight: #000;
   --text-muted: #888;
+  color-scheme: light;
 }
 
 html {
