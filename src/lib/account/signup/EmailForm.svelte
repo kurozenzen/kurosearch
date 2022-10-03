@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import Button from '../../common/Button.svelte'
+  import PasswordInput from './PasswordInput.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -25,7 +26,7 @@
 
 <form on:submit|preventDefault={attemptSubmit}>
   <input type="text" bind:value={email} placeholder="Email" autocomplete="email" />
-  <input type="password" bind:value={password} placeholder="Password" autocomplete="current-password" />
+  <PasswordInput bind:value={password} />
   {#if typeof error === 'string' && error !== ''}
     <span>{error}</span>
   {/if}
@@ -46,5 +47,4 @@
     border-radius: var(--border-radius);
     background-color: var(--background-2);
   }
-  
 </style>

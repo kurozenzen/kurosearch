@@ -20,7 +20,7 @@
   let searchPromise
 
   let searchTerm = ''
-  let fuzzySearch = true
+  let exact = false
   let modifier = '+'
   let open = false
 
@@ -30,21 +30,21 @@
   $: {
     tags = []
     if (searchTerm !== '') {
-      searchPromise = getSuggestions(fuzzySearch, searchTerm)
+      searchPromise = getSuggestions(exact, searchTerm)
     }
   }
 
   /**
-   * @param {boolean} fuzzy
+   * @param {boolean} exact
    * @param {string} term
    */
-  async function getSuggestions(fuzzy, term) {
+  async function getSuggestions(exact, term) {
     open = true
     tags = [
       ...$userdata.supertags
         .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
         .map((s) => new Tag(s.name, Object.keys(s.tags).length, 'supertag')),
-      ...(await getTagSuggestions(term, fuzzy)),
+      ...(await getTagSuggestions(term, exact)),
     ]
   }
 
@@ -86,10 +86,7 @@
   <ToggleIcon
     icon="whole-word"
     title="Toggle exact search term matching"
-    active={!fuzzySearch}
-    on:click={() => {
-      fuzzySearch = !fuzzySearch
-    }}
+    bind:active={exact}
   />
   <i
     tabindex="0"

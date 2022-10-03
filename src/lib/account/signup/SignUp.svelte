@@ -9,6 +9,7 @@
     'auth/user-not-found': 'Wrong username or password.',
     'auth/email-already-in-use': 'An account with this email already exists.',
     'auth/invalid-email': 'Invalid email address.',
+    "auth/password-too-short": "Password to short. Must be at least 8 letters."
   }
 
   let signInError = ''

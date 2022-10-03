@@ -62,6 +62,7 @@
     height: 4em;
     border-radius: 2em;
     grid-area: 1/1/3/2;
+    aspect-ratio: 1/1;
   }
 
   .account-view {

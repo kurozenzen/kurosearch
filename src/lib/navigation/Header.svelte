@@ -21,7 +21,7 @@
     <button title="Search" on:click={() => currentPage.navigateTo('search')}>
       <i class="codicon codicon-search" />
     </button>
-    <button title="Settings" on:click={() => currentPage.navigateTo('settings')}>
+    <button title="Settings" on:click={() => currentPage.navigateTo('settings')} id="settings-gear">
       <i class="codicon codicon-settings-gear" />
     </button>
     <button title="Account" on:click={() => currentPage.navigateTo('account')}>
@@ -57,7 +57,6 @@
     color: var(--text);
     background-color: transparent;
     font-size: var(--text-size-large);
-    transition: color var(--default-transition-behaviour);
   }
 
   .profile-picture {
@@ -67,9 +66,24 @@
   }
 
   @media (hover: hover) {
+    button,
+    a {
+      transition: color var(--default-transition-behaviour);
+    }
+
     button:hover,
     a:hover {
       color: var(--text-highlight);
+    }
+
+    @media not (prefers-reduced-motion) {
+      #settings-gear {
+        transition: transform 0.5s ease-out;
+      }
+
+      #settings-gear:hover {
+        transform: rotate(180deg);
+      }
     }
   }
 </style>

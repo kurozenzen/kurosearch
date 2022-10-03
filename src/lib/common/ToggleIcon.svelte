@@ -1,13 +1,18 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
   import onEnterOrSpace from './onEnterOrSpace'
 
-  export let title = undefined
+  /** @type {string} */
+  export let title
+
+  /** @type {string} */
   export let icon
+
+  /** @type {boolean} */
   export let active
 
-  const dispatch = createEventDispatcher()
-  const dispatchClick = () => dispatch('click')
+  const toggleActive = () => {
+    active = !active
+  }
 </script>
 
 <i
@@ -15,9 +20,9 @@
   class={`codicon codicon-${icon}`}
   class:active
   tabindex="0"
-  on:click={dispatchClick}
-  on:keyup={onEnterOrSpace(dispatchClick)}
-  on:touchend|preventDefault={dispatchClick}
+  on:click={toggleActive}
+  on:keyup={onEnterOrSpace(toggleActive)}
+  on:touchend|preventDefault={toggleActive}
 />
 
 <style>

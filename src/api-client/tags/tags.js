@@ -13,11 +13,11 @@ let getTagSuggestionsAbortController = null
 
 /**
  * @param {string} term
- * @param {boolean} fuzzy
+ * @param {boolean} exact
  * @return {Promise<Tag[]>}
  */
-export const getTagSuggestions = async (term, fuzzy) => {
-  const name = fuzzy ? `*${term}*` : term
+export const getTagSuggestions = async (term, exact) => {
+  const name = exact ? term : `*${term}*`
   const res = await fetchAbortPrevious(
     `${getCurrentBackendBaseUrl()}/tags?limit=20&sort=count&name=${name.replaceAll(' ', '_')}`,
     getTagSuggestionsAbortController

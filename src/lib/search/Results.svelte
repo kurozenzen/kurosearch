@@ -18,14 +18,14 @@
 
 {#if $results.count}
   <div class="header">
-    <span>{formatCount($results.count)} results</span>
+    <span title={`${$results.count} results`}>{formatCount($results.count)} results</span>
 
-    <select bind:value={$sortStore.sortProperty} title="Sort results by" on:change={() => dispatch("configchange")}>
+    <select bind:value={$sortStore.sortProperty} title="Sort results by" on:change={() => dispatch('configchange')}>
       <option value="id">Date</option>
       <option value="score">Score</option>
     </select>
 
-    <select bind:value={$sortStore.minScore} on:change={() => dispatch("configchange")}>
+    <select bind:value={$sortStore.minScore} title="Filter by score" on:change={() => dispatch('configchange')}>
       <option value={0}>Any Score</option>
       <option value={10}>Score > 10</option>
       <option value={100}>Score > 100</option>
