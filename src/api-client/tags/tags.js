@@ -16,10 +16,10 @@ let getTagSuggestionsAbortController = null
  * @param {boolean} exact
  * @return {Promise<Tag[]>}
  */
-export const getTagSuggestions = async (term, exact) => {
+export const getTagSuggestions = async (term, exact, limit = 20) => {
   const name = exact ? term : `*${term}*`
   const res = await fetchAbortPrevious(
-    `${getCurrentBackendBaseUrl()}/tags?limit=20&sort=count&name=${name.replaceAll(' ', '_')}`,
+    `${getCurrentBackendBaseUrl()}/tags?limit=${limit}&sort=count&name=${name.replaceAll(' ', '_')}`,
     getTagSuggestionsAbortController
   )
 

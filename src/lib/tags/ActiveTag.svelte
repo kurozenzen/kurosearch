@@ -38,6 +38,7 @@
     padding-right: 12px;
     user-select: none;
     transition: background-color var(--default-transition-behaviour);
+    contain: content;
   }
 
   .no-icon {
