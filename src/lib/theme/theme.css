@@ -31,7 +31,11 @@
   --text-link: #58a6ff;
 
   /* Shadows */
-  --default-shadow: 0px 3px 10px 3px rgba(0,0,0,0.75);
+  --default-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.75);
+
+  /* z-index */
+  --above-page: 1;
+  --above-ads: 300;
 }
 
 html.dark {

@@ -134,6 +134,8 @@
     max-width: 512px;
     margin: auto;
     position: relative;
+    isolation: isolate;
+    z-index: var(--above-page);
   }
 
   .spaced {
@@ -175,7 +177,6 @@
     background-color: var(--background-1);
     border-radius: 0 0 22px 22px;
     overflow: hidden;
-    z-index: 2;
     min-height: 22px;
   }
 

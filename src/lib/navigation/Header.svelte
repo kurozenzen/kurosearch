@@ -38,7 +38,7 @@
   header {
     display: flex;
     justify-content: space-between;
-    contain: strict;
+    contain: content;
   }
 
   div,
