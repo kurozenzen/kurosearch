@@ -21,7 +21,7 @@ export class Post {
    * @param {number} score
    * @param {string} source
    * @param {string} status
-   * @param {string} tags
+   * @param {string[]} tags
    * @param {number} width
    * @param {string} comments_url
    * @param {string} owner_url

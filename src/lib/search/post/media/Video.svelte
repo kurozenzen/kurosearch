@@ -49,6 +49,7 @@
   on:touchstart|passive={onTouchStart}
   on:touchend|passive={onTouchEnd}
   bind:this={media}
+  loop={post.tags.includes("loop")}
 />
 
 <style>
