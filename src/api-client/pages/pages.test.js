@@ -196,7 +196,9 @@ describe('pages', () => {
     test('returns a valid Page', () => {
       const originalFetch = global.fetch
       //@ts-expect-error
-      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0, posts: [EMPTY_POST] }) }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0, posts: [EMPTY_POST] }) })
+      )
 
       expect.assertions(2)
       getPage(0, [], 'id', 0)

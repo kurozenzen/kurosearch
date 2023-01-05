@@ -8,8 +8,17 @@
   import { createEventDispatcher } from 'svelte'
   import { PAGE_SIZE } from '../../api-client/pages/pages'
   import sortStore from './sortStore'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
 
   const dispatch = createEventDispatcher()
+
+  /** @type {"custom" | Number}*/
+  let selectedMinScore = 0
+  let customMinScore = 0
+
+  $: {
+    $sortStore.minScore = selectedMinScore !== 'custom' ? selectedMinScore : customMinScore
+  }
 
   $: pageCount = $results.count / PAGE_SIZE
   $: morePagesAvailable = $results.pages.length < pageCount
@@ -25,12 +34,33 @@
       <option value="score">Score</option>
     </select>
 
-    <select bind:value={$sortStore.minScore} title="Filter by score" on:change={() => dispatch('configchange')}>
+    <select
+      bind:value={selectedMinScore}
+      title="Filter by score"
+      on:change={() => {
+        if (selectedMinScore !== 'custom') {
+          dispatch('configchange')
+        }
+      }}
+    >
       <option value={0}>Any Score</option>
       <option value={10}>Score > 10</option>
       <option value={100}>Score > 100</option>
       <option value={1000}>Score > 1K</option>
+      <option value={'custom'}>Custom</option>
     </select>
+
+    {#if selectedMinScore === 'custom'}
+      <input
+        type="number"
+        min="0"
+        max="100000"
+        step="1"
+        bind:value={customMinScore}
+        on:keyup={onEnterOrSpace((event) => event.target.blur())}
+        on:blur={() => dispatch('configchange')}
+      />
+    {/if}
   </div>
   <ol>
     {#each $results.pages as page}
@@ -84,5 +114,9 @@
   select option {
     background-color: var(--background-1);
     border-color: var(--background-2);
+  }
+
+  input {
+    width: 4rem;
   }
 </style>
