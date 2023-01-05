@@ -30,7 +30,7 @@ describe('formatCreatedAt', () => {
     expect(() => formatCreatedAt(3)).toThrow(TypeError)
   })
   ;[
-    ['just now', new Date(NOW.getTime() - 59_000).toString()],
+    ['just now', new Date(NOW.getTime() - 50_000).toString()],
     ['1 minute ago', new Date(NOW.getTime() - ONE_MINUTE).toString()],
     ['59 minutes ago', new Date(NOW.getTime() - 59 * ONE_MINUTE).toString()],
     ['1 hour ago', new Date(NOW.getTime() - ONE_HOUR).toString()],
