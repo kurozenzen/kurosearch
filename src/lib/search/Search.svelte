@@ -1,12 +1,12 @@
 <script>
   import { getPage } from '../../api-client/ApiClient'
   import { ActiveTag as AT } from '../../tags/ActiveTag'
-  import { getNextModifier } from '../../tags/modifier/modifier'
+
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
   import TagInput from '../tag-input/TagInput.svelte'
-  import ActiveTag from '../tags/ActiveTag.svelte'
+
   import activeTags from './activeTagsStore'
   import Results from './Results.svelte'
   import results from './resultsStore'
@@ -14,6 +14,8 @@
   import SearchError from './SearchError.svelte'
   import sortStore from './sortStore'
   import Title from './Title.svelte'
+  import ActiveTagList from './ActiveTagList.svelte'
+
 
   let supertagMode = false
   let error = undefined
@@ -47,29 +49,9 @@
 <div class="search-config">
   <Title />
   <TagInput on:pick={(e) => activeTags.addOrReplace(e.detail)} />
-  {#if $activeTags.length}
-    <ul>
-      {#each $activeTags as tag, i}
-        <ActiveTag
-          {tag}
-          on:click={() => activeTags.removeByIndex(i)}
-          on:contextmenu={() =>
-            activeTags.addOrReplace(new AT(getNextModifier(tag.modifier), tag.name, tag.count, tag.type))}
-        />
-      {/each}
-      {#if $activeTags.length > 1}
-        <button
-          class="add-supertag"
-          title="Click to create a new supertag"
-          on:click={() => {
-            supertagMode = true
-          }}
-        >
-          <i class="codicon codicon-star-full" />
-        </button>
-      {/if}
-    </ul>
-  {/if}
+  <ActiveTagList on:supertag={() => {
+    supertagMode = true
+  }}/>
   <div class="sort-row">
     <Button title="Click to search with active tags" text="Search" on:click={() => getFirstPage()} />
   </div>
@@ -109,40 +91,12 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
+    padding-inline: 1rem;
   }
 
   .sort-row {
     display: flex;
     justify-content: center;
     gap: 1rem;
-  }
-
-  .add-supertag {
-    width: 24px;
-    height: 24px;
-    padding: 4px;
-    border-radius: 12px;
-    background-color: var(--accent);
-    color: var(--text-accent);
-    transition: background-color var(--default-transition-behaviour);
-  }
-
-  @media (hover: hover) {
-    .add-supertag:hover {
-      background-color: var(--accent-light);
-    }
-  }
-
-  .add-supertag i {
-    font-size: var(--text-size);
-    width: 16px;
-    text-align: center;
   }
 </style>

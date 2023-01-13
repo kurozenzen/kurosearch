@@ -1,8 +1,8 @@
 /**
- * @typedef {"id" | "score"} SortProperty
+ * @typedef {"id" | "score" | "updated"} SortProperty
  */
 
-const VALID_SORT_PROPERTIES = Object.freeze(['id', 'score'])
+const VALID_SORT_PROPERTIES = Object.freeze(['id', 'score', 'updated'])
 export const isValidSortProperty = (value) => {
   return VALID_SORT_PROPERTIES.includes(value)
 }

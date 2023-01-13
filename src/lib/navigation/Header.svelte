@@ -39,6 +39,7 @@
     display: flex;
     justify-content: space-between;
     contain: content;
+    padding: 1rem;
   }
 
   div,

@@ -1,4 +1,3 @@
-import { getCurrentBackendBaseUrl } from '../../lib/preferences/currentBackend'
 import { Tag } from '../../tags/Tag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 
@@ -40,10 +39,9 @@ let getTagSuggestionsAbortController = null
 
 /**
  * @param {string} term
- * @param {boolean} exact
  * @return {Promise<Tag[]>}
  */
-export const getTagSuggestions = async (term, exact, limit = 20) => {
+export const getTagSuggestions = async (term) => {
   const baseUrl = 'https://api.rule34.xxx/autocomplete.php?q='
   const name = term.replaceAll(' ', '_')
   const res = await fetchAbortPrevious(`${baseUrl}${name}`, getTagSuggestionsAbortController)

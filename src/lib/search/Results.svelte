@@ -32,6 +32,7 @@
     <select bind:value={$sortStore.sortProperty} title="Sort results by" on:change={() => dispatch('configchange')}>
       <option value="id">Date</option>
       <option value="score">Score</option>
+      <option value="updated">Updated</option>
     </select>
 
     <select
@@ -85,6 +86,7 @@
     gap: var(--grid-gap);
     height: var(--line-height);
     overflow-x: scroll;
+    padding-inline: 1rem;
   }
 
   ol {

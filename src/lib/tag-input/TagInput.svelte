@@ -20,7 +20,6 @@
   let searchPromise
 
   let searchTerm = ''
-  let exact = false
   let modifier = '+'
   let open = false
 
@@ -30,21 +29,20 @@
   $: {
     tags = []
     if (searchTerm !== '') {
-      searchPromise = getSuggestions(exact, searchTerm)
+      searchPromise = getSuggestions(searchTerm)
     }
   }
 
   /**
-   * @param {boolean} exact
    * @param {string} term
    */
-  async function getSuggestions(exact, term) {
+  async function getSuggestions(term) {
     open = true
     tags = [
       ...$userdata.supertags
         .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
         .map((s) => new Tag(s.name, Object.keys(s.tags).length, 'supertag')),
-      ...(await getTagSuggestions(term, exact)),
+      ...(await getTagSuggestions(term)),
     ]
   }
 
@@ -82,11 +80,6 @@
     on:change={(e) => {
       modifier = e.detail
     }}
-  />
-  <ToggleIcon
-    icon="whole-word"
-    title="Toggle exact search term matching"
-    bind:active={exact}
   />
   <i
     tabindex="0"

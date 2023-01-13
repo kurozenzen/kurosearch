@@ -49,15 +49,18 @@
   on:touchstart|passive={onTouchStart}
   on:touchend|passive={onTouchEnd}
   bind:this={media}
-  loop={post.tags.includes("loop")}
+  loop={post.tags.includes('loop')}
 />
 
 <style>
-  video {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    contain: strict;
+
+  @media not (display-mode: fullscreen) {
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      contain: strict;
+    }
   }
 </style>

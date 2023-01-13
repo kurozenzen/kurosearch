@@ -1,4 +1,3 @@
-import { getCurrentBackendBaseUrl } from '../../lib/preferences/currentBackend'
 import { Page } from '../../posts/Page'
 import { Post } from '../../posts/Post'
 import { isValidSortProperty } from '../../posts/sort/sort'

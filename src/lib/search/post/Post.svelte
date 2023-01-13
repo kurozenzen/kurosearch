@@ -32,8 +32,13 @@
 <style>
   .post {
     background-color: var(--background-1);
-    border-radius: var(--border-radius);
     overflow: hidden;
     contain: content;
+  }
+
+  @media (min-width: 800px) {
+    .post {
+      border-radius: var(--border-radius);
+    }
   }
 </style>
