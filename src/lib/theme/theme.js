@@ -1,10 +1,11 @@
 import { writable } from 'svelte/store'
 import userdata from '../account/userdata'
+import { createPersistentStore } from '../common/persistentStore'
 
 /** @typedef {"dark" | "light"} Theme */
 
 /** @type {import('svelte/store').Writable<Theme>} */
-const { subscribe, set } = writable('dark')
+const { subscribe, set } = createPersistentStore('theme', 'dark')
 
 export default {
   subscribe,

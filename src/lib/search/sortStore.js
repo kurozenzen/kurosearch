@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import { createPersistentStore } from '../common/persistentStore'
 
 /**
  * @typedef {import('../../posts/sort/sort').SortProperty} SortProperty
@@ -9,7 +10,7 @@ import { writable } from 'svelte/store'
 const initial = { sortProperty: 'id', minScore: 0 }
 
 const createSortStore = () => {
-  const { subscribe, set } = writable(initial)
+  const { subscribe, set } = createPersistentStore('sort', initial)
 
   return {
     subscribe,

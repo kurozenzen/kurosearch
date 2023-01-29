@@ -1,15 +1,23 @@
 import { writable } from 'svelte/store'
+import { createPersistentStore } from '../common/persistentStore'
 
 /**
  * @typedef {import("../../posts/Page").Page} Page
  * @typedef {import("../../posts/Post").Post} Post
- * @typedef {{ count: null | number, pages: Post[][], nextPage: number, ids: Set<number> }} Results
+ */
+
+/**
+ * @typedef Results
+ * @property {null | number} count
+ * @property {Post[][]} pages
+ * @property {number} nextPage
+ * @property {Set<number>} ids
  */
 
 const createResultsStore = () => {
   /** @type {Results} */
   const initial = { count: null, pages: [], nextPage: 0, ids: new Set() }
-  const { subscribe, update, set } = writable(initial)
+  const { subscribe, update, set } = createPersistentStore('results', initial)
 
   return {
     subscribe,
@@ -18,15 +26,15 @@ const createResultsStore = () => {
      */
     addPage(page) {
       update((results) => {
-        const filteredPosts = page.posts.filter(p => !results.ids.has(p.id))
+        const filteredPosts = page.posts.filter((p) => !results.ids.has(p.id))
 
-        filteredPosts.forEach(p => results.ids.add(p.id))
+        filteredPosts.forEach((p) => results.ids.add(p.id))
 
         return {
           count: page.count,
           pages: [...results.pages, filteredPosts],
           nextPage: results.nextPage + 1,
-          ids: results.ids
+          ids: results.ids,
         }
       })
     },

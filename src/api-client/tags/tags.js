@@ -49,7 +49,7 @@ export const getTagSuggestions = async (term) => {
   if (res.ok) {
     const json = await res.json()
     if (Array.isArray(json)) {
-      if (json.length == 0) {
+      if (json.length === 0) {
         throw new Error('No tags found')
       } else {
         return json.map(
@@ -65,18 +65,4 @@ export const getTagSuggestions = async (term) => {
   } else {
     throw new Error('Failed to get tag suggestions')
   }
-}
-
-/**
- * @param {TagType[]} types
- * @returns {TagType}
- */
-const selectType = (types) => {
-  for (const type of types) {
-    if (type !== 'ambiguous' && type !== 'general') {
-      return type
-    }
-  }
-
-  return 'general'
 }

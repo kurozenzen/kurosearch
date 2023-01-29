@@ -1,13 +1,14 @@
 import { getTagSuggestions } from '../../api-client/ApiClient'
 import { writable } from 'svelte/store'
 import { ActiveTag } from '../../tags/ActiveTag'
+import { createPersistentStore } from '../common/persistentStore'
 
 /** @typedef {import("../../tags/Tag").Tag} Tag */
 
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */
   const initial = []
-  const { subscribe, update, set } = writable(initial)
+  const { subscribe, update, set } = createPersistentStore('activeTags', initial)
 
   return {
     subscribe,
@@ -44,7 +45,7 @@ function createActiveTagsStore() {
           })
         }
       } catch {
-        console.warn("Failed to load type and count for tag.", name)
+        console.warn('Failed to load type and count for tag.', name)
       }
     },
 
