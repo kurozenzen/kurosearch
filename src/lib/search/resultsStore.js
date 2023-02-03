@@ -13,10 +13,38 @@ import { createDependentPersistentStore } from '../common/persistentStore'
  * @property {Set<number>} ids
  */
 
+/**
+ * @param {Results} value
+ * @returns {string}
+ */
+const serializer = (value) => {
+  const simplified = {
+    count: value.count,
+    pages: value.pages,
+    nextPage: value.nextPage,
+    ids: [...value.ids.values()],
+  }
+  return JSON.stringify(simplified)
+}
+
+/**
+ * @param {string} value
+ * @returns {Results}
+ */
+const parser = (value) => {
+  const parsed = JSON.parse(value)
+  return {
+    count: parsed.count,
+    pages: parsed.pages,
+    nextPage: parsed.nextPage,
+    ids: new Set(parsed.ids),
+  }
+}
+
 const createResultsStore = () => {
   /** @type {Results} */
   const initial = { count: null, pages: [], nextPage: 0, ids: new Set() }
-  const { subscribe, update, set } = createDependentPersistentStore('results', initial)
+  const { subscribe, update, set } = createDependentPersistentStore('results', initial, serializer, parser)
 
   return {
     subscribe,
