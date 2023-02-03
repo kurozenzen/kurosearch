@@ -10,33 +10,6 @@ import { fetchAbortPrevious } from '../fetchAbortPrevious'
  */
 let getTagSuggestionsAbortController = null
 
-// $("table[class='highlightable'] tr").each((i, elem) => {
-//   if (elem.childNodes.length === 2) {
-//     const text = $(elem.childNodes[1]).text();
-//     tooManyResults = Number(text.split(" results found")[0]);
-//   } else if (elem.childNodes.length === 3) {
-//     data.push({
-//       count: Number($(elem.childNodes[0]).text()),
-//       name: $(elem.childNodes[1]).text(),
-//       types: $(elem.childNodes[2])
-//         .text()
-//         .replace(" (edit)", "")
-//         .split(", ") as TagType[],
-//     });
-//   }
-// });
-
-// if (limit && limit < data.length) data.length = limit;
-
-// if (tooManyResults > 0) {
-//   res.json({
-//     message: "Refine your search",
-//     results: tooManyResults,
-//   });
-// } else {
-//   res.json(data);
-// }
-
 /**
  * @param {string} term
  * @return {Promise<Tag[]>}
