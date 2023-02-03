@@ -5,6 +5,7 @@
   import ActiveTagComponent from '../tags/ActiveTag.svelte'
   import { Supertag } from '../../tags/Supertag'
   import { isValidName } from '../../tags/validation'
+  import { toSearchableTag } from '../../tags/ActiveTag'
 
   /**
    * @typedef {import("../../tags/ActiveTag").ActiveTag} ActiveTag
@@ -50,14 +51,7 @@
     text="Create supertag"
     disabled={!valid}
     on:click={() => {
-      dispatch(
-        'submit',
-        new Supertag(
-          name,
-          description,
-          tags.map((t) => t.toSearchableTag())
-        )
-      )
+      dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
       closeDialog()
     }}
   />

@@ -53,7 +53,6 @@
 />
 
 <style>
-
   @media not (display-mode: fullscreen) {
     video {
       display: block;

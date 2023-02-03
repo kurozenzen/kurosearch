@@ -7,11 +7,12 @@
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
-  import { Tag } from '../../tags/Tag'
+  import { Tag, toActiveTag } from '../../tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
 
   /**
    * @typedef {import("../../tags/Tag").Tag} Tag
+   * @typedef {import("../../tags/modifier/modifier").Modifier} Modifier
    */
 
   const dispatch = createEventDispatcher()
@@ -20,6 +21,7 @@
   let searchPromise
 
   let searchTerm = ''
+  /** @type {Modifier}*/
   let modifier = '+'
   let open = false
 
@@ -97,7 +99,7 @@
         <TagSuggestion
           {tag}
           on:click={() => {
-            dispatch('pick', tag.toActiveTag(modifier))
+            dispatch('pick', toActiveTag(tag, modifier))
             resetInput()
           }}
         />

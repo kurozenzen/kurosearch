@@ -17,6 +17,7 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    padding: var(--grid-gap);
     gap: var(--grid-gap);
     contain: content;
   }

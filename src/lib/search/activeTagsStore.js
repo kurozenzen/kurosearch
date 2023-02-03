@@ -1,14 +1,14 @@
 import { getTagSuggestions } from '../../api-client/ApiClient'
-import { writable } from 'svelte/store'
 import { ActiveTag } from '../../tags/ActiveTag'
-import { createPersistentStore } from '../common/persistentStore'
+import { createDependentPersistentStore } from '../common/persistentStore'
 
 /** @typedef {import("../../tags/Tag").Tag} Tag */
 
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */
   const initial = []
-  const { subscribe, update, set } = createPersistentStore('activeTags', initial)
+
+  const { subscribe, update, set } = createDependentPersistentStore('activeTags', initial)
 
   return {
     subscribe,

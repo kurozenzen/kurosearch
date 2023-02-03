@@ -9,7 +9,7 @@
     'auth/user-not-found': 'Wrong username or password.',
     'auth/email-already-in-use': 'An account with this email already exists.',
     'auth/invalid-email': 'Invalid email address.',
-    "auth/password-too-short": "Password to short. Must be at least 8 letters."
+    'auth/password-too-short': 'Password to short. Must be at least 8 letters.',
   }
 
   let signInError = ''
@@ -77,6 +77,7 @@
     gap: var(--grid-gap);
     margin: auto;
     padding: var(--grid-gap);
+    margin: var(--grid-gap);
     border-radius: var(--border-radius);
     max-width: 400px;
     background-color: var(--background-1);

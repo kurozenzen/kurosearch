@@ -1,4 +1,4 @@
-import { ActiveTag } from './ActiveTag'
+import { ActiveTag, toSearchableTag } from './ActiveTag'
 
 describe('ActiveTag', () => {
   describe('constructor', () => {
@@ -58,7 +58,7 @@ describe('ActiveTag', () => {
 
     describe('toSearchableTag', () => {
       test('contains same modifier and name', () => {
-        const searchableTag = new ActiveTag('+', 'example', 10, 'general').toSearchableTag()
+        const searchableTag = toSearchableTag(new ActiveTag('+', 'example', 10, 'general'))
         expect(searchableTag.modifier).toBe('+')
         expect(searchableTag.name).toBe('example')
       })

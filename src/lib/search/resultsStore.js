@@ -1,5 +1,4 @@
-import { writable } from 'svelte/store'
-import { createPersistentStore } from '../common/persistentStore'
+import { createDependentPersistentStore } from '../common/persistentStore'
 
 /**
  * @typedef {import("../../posts/Page").Page} Page
@@ -17,7 +16,7 @@ import { createPersistentStore } from '../common/persistentStore'
 const createResultsStore = () => {
   /** @type {Results} */
   const initial = { count: null, pages: [], nextPage: 0, ids: new Set() }
-  const { subscribe, update, set } = createPersistentStore('results', initial)
+  const { subscribe, update, set } = createDependentPersistentStore('results', initial)
 
   return {
     subscribe,

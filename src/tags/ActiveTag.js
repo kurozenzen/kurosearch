@@ -39,8 +39,10 @@ export class ActiveTag {
 
     Object.freeze(this)
   }
-
-  toSearchableTag() {
-    return new SearchableTag(this.modifier, this.name)
-  }
+}
+/**
+ * @param {ActiveTag} tag
+ */
+export const toSearchableTag = (tag) => {
+  return new SearchableTag(tag.modifier, tag.name)
 }

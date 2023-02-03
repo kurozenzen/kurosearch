@@ -32,8 +32,12 @@ export class Tag {
 
     Object.freeze(this)
   }
+}
 
-  toActiveTag(modifier) {
-    return new ActiveTag(modifier, this.name, this.count, this.type)
-  }
+/**
+ * @param {Tag} tag
+ * @param {Modifier} modifier
+ */
+export const toActiveTag = (tag, modifier) => {
+  return new ActiveTag(modifier, tag.name, tag.count, tag.type)
 }

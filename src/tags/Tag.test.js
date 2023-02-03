@@ -1,4 +1,4 @@
-import { Tag } from './Tag'
+import { Tag, toActiveTag } from './Tag'
 
 describe('Tag', () => {
   describe('constructor', () => {
@@ -52,20 +52,20 @@ describe('Tag', () => {
     describe('toActiveTag', () => {
       describe('modifier', () => {
         test('undefined throws TypeError', () => {
-          expect(() => new Tag('example', 10, 'general').toActiveTag(undefined)).toThrow(TypeError)
+          expect(() => toActiveTag(new Tag('example', 10, 'general'), undefined)).toThrow(TypeError)
         })
 
         test('null throws TypeError', () => {
-          expect(() => new Tag('example', 10, 'general').toActiveTag(null)).toThrow(TypeError)
+          expect(() => toActiveTag(new Tag('example', 10, 'general'), null)).toThrow(TypeError)
         })
 
         test('invalid string TypeError', () => {
-          expect(() => new Tag('example', 10, 'general').toActiveTag('a')).toThrow(TypeError)
+          expect(() => toActiveTag(new Tag('example', 10, 'general'), 'a')).toThrow(TypeError)
         })
       })
 
       test('contains same modifier and name', () => {
-        const searchableTag = new Tag('example', 10, 'general').toActiveTag('+')
+        const searchableTag = toActiveTag(new Tag('example', 10, 'general'), '+')
         expect(searchableTag.modifier).toBe('+')
         expect(searchableTag.name).toBe('example')
         expect(searchableTag.count).toBe(10)

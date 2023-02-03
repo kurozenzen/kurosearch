@@ -1,6 +1,6 @@
 <script>
   import { getPage } from '../../api-client/ApiClient'
-  import { ActiveTag as AT } from '../../tags/ActiveTag'
+  import { ActiveTag as AT, toSearchableTag } from '../../tags/ActiveTag'
 
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
@@ -15,7 +15,6 @@
   import sortStore from './sortStore'
   import Title from './Title.svelte'
   import ActiveTagList from './ActiveTagList.svelte'
-
 
   let supertagMode = false
   let error = undefined
@@ -41,7 +40,7 @@
 
   const getSearchableTags = () => {
     return $activeTags.flatMap((t) =>
-      t.type === 'supertag' ? $userdata.supertags.find((s) => s.name === t.name).tags : t.toSearchableTag()
+      t.type === 'supertag' ? $userdata.supertags.find((s) => s.name === t.name).tags : toSearchableTag(t)
     )
   }
 </script>
@@ -49,9 +48,11 @@
 <div class="search-config">
   <Title />
   <TagInput on:pick={(e) => activeTags.addOrReplace(e.detail)} />
-  <ActiveTagList on:supertag={() => {
-    supertagMode = true
-  }}/>
+  <ActiveTagList
+    on:supertag={() => {
+      supertagMode = true
+    }}
+  />
   <div class="sort-row">
     <Button title="Click to search with active tags" text="Search" on:click={() => getFirstPage()} />
   </div>

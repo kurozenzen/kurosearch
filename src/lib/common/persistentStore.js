@@ -16,6 +16,22 @@ export const createPersistentStore = (key, initial) => {
 
 /**
  * @template T
+ * @param {string} key Key in localstorage
+ * @param {T} initial Backup value if it isn't set
+ */
+export const createDependentPersistentStore = (key, initial) => {
+  const enabled = localStorage.getItem('isPersistedLocally') === 'true'
+
+  /** @type {null | T} */
+  const loaded = enabled ? tryLoad(key) : null
+  const store = writable(loaded ?? initial)
+  store.subscribe((value) => localStorage.setItem(key, JSON.stringify(value)))
+
+  return store
+}
+
+/**
+ * @template T
  * @returns {T | null}
  * @param {string} key
  */
