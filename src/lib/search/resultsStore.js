@@ -41,10 +41,11 @@ const parser = (value) => {
   }
 }
 
+/** @returns {Results} */
+const getInitialResults = () => ({ count: null, pages: [], nextPage: 0, ids: new Set() })
+
 const createResultsStore = () => {
-  /** @type {Results} */
-  const initial = { count: null, pages: [], nextPage: 0, ids: new Set() }
-  const { subscribe, update, set } = createDependentPersistentStore('results', initial, serializer, parser)
+  const { subscribe, update, set } = createDependentPersistentStore('results', getInitialResults(), serializer, parser)
 
   return {
     subscribe,
@@ -67,7 +68,7 @@ const createResultsStore = () => {
     },
 
     reset() {
-      set(initial)
+      set(getInitialResults())
     },
   }
 }
