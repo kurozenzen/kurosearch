@@ -1,7 +1,7 @@
 /** @type {import('@jest/types').Config.InitialOptions} */
 const config = {
   collectCoverage: true,
-  testEnvironment: 'jest-environment-node',
+  testEnvironment: 'jsdom',
   transform: {},
 }
 

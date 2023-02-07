@@ -13,6 +13,14 @@ import { createDependentPersistentStore } from '../common/persistentStore'
  * @property {Set<number>} ids
  */
 
+/** @returns {Results} */
+const getInitialResults = () => ({
+  count: null,
+  pages: [],
+  nextPage: 0,
+  ids: new Set(),
+})
+
 /**
  * @param {Results} value
  * @returns {string}
@@ -41,17 +49,12 @@ const parser = (value) => {
   }
 }
 
-/** @returns {Results} */
-const getInitialResults = () => ({ count: null, pages: [], nextPage: 0, ids: new Set() })
-
 const createResultsStore = () => {
   const { subscribe, update, set } = createDependentPersistentStore('results', getInitialResults(), serializer, parser)
 
   return {
     subscribe,
-    /**
-     * @param {Page} page
-     */
+    /** @param {Page} page */
     addPage(page) {
       update((results) => {
         const filteredPosts = page.posts.filter((p) => !results.ids.has(p.id))

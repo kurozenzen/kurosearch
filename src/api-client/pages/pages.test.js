@@ -193,21 +193,21 @@ describe('pages', () => {
       global.fetch = originalFetch
     })
 
-    // test('returns a valid Page', async () => {
-    //   const originalFetch = global.fetch
-    //   //@ts-expect-error
-    //   global.fetch = jest.fn(() =>
-    //     Promise.resolve({ ok: true, text: () => Promise.resolve('<posts count="17"></posts>') })
-    //   )
+    test('returns a valid Page', async () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() =>
+        Promise.resolve({ ok: true, text: () => Promise.resolve('<posts count="17"></posts>') })
+      )
 
-    //   expect.assertions(2)
-    //   const page = await getPage(0, [], 'id', 0)
+      expect.assertions(2)
+      const page = await getPage(0, [], 'id', 0)
 
-    //   expect(page.count).toBe(17)
-    //   expect(page.posts).toStrictEqual([EMPTY_POST])
+      expect(page.count).toBe(17)
+      expect(page.posts).toStrictEqual([])
 
-    //   global.fetch = originalFetch
-    // })
+      global.fetch = originalFetch
+    })
   })
 
   describe('getPostsUrl', () => {
