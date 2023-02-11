@@ -21,7 +21,9 @@
 >
   <TagIcon type={tag.type} />
   {formatTagname(tag.name)}
-  ({formatCount(tag.count)})
+  {#if tag.count}
+    ({formatCount(tag.count)})
+  {/if}
 </li>
 
 <style>

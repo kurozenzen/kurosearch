@@ -27,7 +27,11 @@ export const getTagSuggestions = async (term) => {
       } else {
         return json.map(
           (t) =>
-            new Tag(t.value, Number(t.label.substring(t.label.lastIndexOf('(') + 1, t.label.length - 1)), 'ambiguous')
+            new Tag(
+              replaceHtmlEntities(t.value),
+              Number(t.label.substring(t.label.lastIndexOf('(') + 1, t.label.length - 1)),
+              'ambiguous'
+            )
         )
       }
     } else if (json.message) {
@@ -38,4 +42,12 @@ export const getTagSuggestions = async (term) => {
   } else {
     throw new Error('Failed to get tag suggestions')
   }
+}
+
+/** @param {string} raw */
+const replaceHtmlEntities = (raw) => {
+  return raw
+    .replaceAll('&#034;', '"')
+    .replaceAll('&#038;', "&")
+    .replaceAll('&#039;', "'")
 }
