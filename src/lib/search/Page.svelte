@@ -1,5 +1,4 @@
 <script>
-  import Ad from './ads/Ad.svelte'
   import PostComponent from './post/Post.svelte'
 
   /** @type {import("../../posts/Post").Post[]} */
@@ -11,8 +10,6 @@
     <PostComponent {post} />
   {/each}
 </ol>
-
-<Ad />
 
 <style>
   .page {
