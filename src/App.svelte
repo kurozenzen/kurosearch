@@ -5,7 +5,7 @@
   import theme from './lib/theme/theme'
   import './lib/theme/theme.css'
 
-  // set theme and immediatelly unsubscribe
+  // set theme and immediately unsubscribe
   theme.subscribe((value) => theme.set(value))()
 </script>
 

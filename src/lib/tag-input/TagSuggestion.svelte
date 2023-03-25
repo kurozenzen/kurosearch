@@ -10,7 +10,7 @@
   const dispatch = createEventDispatcher()
 </script>
 
-<li tabindex="0" on:click={() => dispatch('click', tag)} title={tag.name}>
+<li tabindex="0" role="button" on:click={() => dispatch('click', tag)} title={tag.name}>
   <TagIcon type={tag.type} />
   <span class="tag-name">{formatTagname(tag.name)}</span>
   <span class="tag-count">{formatCount(tag.count)}</span>

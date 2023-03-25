@@ -85,6 +85,7 @@
   />
   <i
     tabindex="0"
+    role="button"
     class="codicon codicon-question spaced"
     on:click={() => currentPage.navigateTo('help')}
     on:keyup={onEnterOrSpace(() => currentPage.navigateTo('help'))}

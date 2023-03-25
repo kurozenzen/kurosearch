@@ -26,7 +26,13 @@
 <dialog>
   <h3>Create Supertag</h3>
 
-  <i tabindex="0" class={`codicon codicon-close`} on:click={closeDialog} on:keyup={onEnterOrSpace(closeDialog)} />
+  <i
+    tabindex="0"
+    role="button"
+    class={`codicon codicon-close`}
+    on:click={closeDialog}
+    on:keyup={onEnterOrSpace(closeDialog)}
+  />
 
   <div>
     <label for="supertag-name"> Name </label>

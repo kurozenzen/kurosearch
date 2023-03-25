@@ -20,6 +20,7 @@
   class={`codicon codicon-${icon}`}
   class:active
   tabindex="0"
+  role="button"
   on:click={toggleActive}
   on:keyup={onEnterOrSpace(toggleActive)}
   on:touchend|preventDefault={toggleActive}

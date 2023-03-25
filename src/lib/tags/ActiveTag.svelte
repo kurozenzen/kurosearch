@@ -15,6 +15,7 @@
   class={MODIFIER_NAMES[tag.modifier]}
   class:no-icon={tag.type === 'general'}
   tabindex="0"
+  role="button"
   title="Click to remove tag"
   on:click={() => dispatch('click')}
   on:contextmenu|preventDefault={() => dispatch('contextmenu')}

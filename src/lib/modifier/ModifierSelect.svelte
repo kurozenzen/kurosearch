@@ -16,6 +16,7 @@
 
 <i
   tabindex="0"
+  role="button"
   class={`codicon codicon-${MODIFIERS_ICONS[modifier]}`}
   title={MODIFIERS_HINTS[modifier]}
   on:click={changeModifier}
