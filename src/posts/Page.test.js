@@ -2,21 +2,14 @@ import { Page } from './Page'
 
 describe('Page', () => {
   describe('constructor', () => {
-    test('invalid count throws TypeError', () => {
-      expect(() => new Page(undefined, [])).toThrow(TypeError)
-    })
-
     test('invalid post array throws TypeError', () => {
       // @ts-expect-error: passing number ar post here
-      expect(() => new Page(1, [12])).toThrow(TypeError)
+      expect(() => new Page([12])).toThrow(TypeError)
     })
 
     test('returns immutable object', () => {
-      const page = new Page(1, [])
+      const page = new Page([])
 
-      expect(() => {
-        page.count = 2
-      }).toThrow(TypeError)
       expect(() => {
         page.posts = []
       }).toThrow(TypeError)

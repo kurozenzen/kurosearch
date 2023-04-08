@@ -28,7 +28,7 @@ export const formatCreatedAt = (createdAt) => {
 }
 
 const isValidDate = (value) => {
-  return typeof value === 'string' && new Date(value).toString() !== 'Invalid Date'
+  return ['number', 'string'].includes(typeof value) && new Date(value).toString() !== 'Invalid Date'
 }
 
 /**

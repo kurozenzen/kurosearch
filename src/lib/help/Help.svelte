@@ -5,8 +5,9 @@
   import Card from './common/Card.svelte'
   import SimpleTag from '../tags/SimpleTag.svelte'
   import { MODIFIERS_ICONS } from '../modifier/modifierData'
-    import PageHeading from '../common/text/PageHeading.svelte'
-    import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
+  import PageHeading from '../common/text/PageHeading.svelte'
+  import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
+  import { Tag } from '../../tags/Tag'
 </script>
 
 <PageHeading>Documentation</PageHeading>
@@ -111,7 +112,7 @@
 
 <div class="flex-row">
   <ActiveTag tag={new ActiveTagObject('+', 'some_tag_you_search_for', 124232, 'copyright')} />
-  <SimpleTag name="some_tag_you_search_for" />
+  <SimpleTag tag={new Tag('some_tag_you_search_for', 1, "ambiguous")} />
 </div>
 
 <p>A tag is characterised by four things.</p>

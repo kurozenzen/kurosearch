@@ -7,19 +7,13 @@ const isValidPostArray = (posts) => {
 
 export class Page {
   /**
-   * @param {number} count
    * @param {Post[]} posts
    */
-  constructor(count, posts) {
-    if (!isValidCount(count)) {
-      throw new TypeError('Invalid count passed to Page constructor')
-    }
-
+  constructor(posts) {
     if (!isValidPostArray(posts)) {
       throw new TypeError('Invalid posts passed to Page constructor')
     }
 
-    this.count = count
     this.posts = Object.freeze(posts)
 
     Object.freeze(this)

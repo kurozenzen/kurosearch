@@ -39,7 +39,7 @@
 <video
   preload="metadata"
   loading="lazy"
-  data-src={post.sample_url}
+  data-src={post.file_url}
   alt={post.id.toString()}
   style={`aspect-ratio: ${post.width} / ${post.height}`}
   width={post.width}

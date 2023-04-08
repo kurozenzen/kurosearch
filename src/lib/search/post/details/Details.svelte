@@ -16,14 +16,17 @@
 
 <div class="details">
   <div class="summary">
-    <i
-      on:click={() => {
-        tab = 'tags'
-      }}
-      class:active={tab === 'tags'}
-      class="codicon codicon-tag"
-    />
-    {#if post.has_comments}
+    {#if post.comment_count > 0}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <i
+        on:click={() => {
+          tab = 'tags'
+        }}
+        class:active={tab === 'tags'}
+        class="codicon codicon-tag"
+      />
+
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <i
         on:click={() => {
           tab = 'comments'
@@ -33,7 +36,7 @@
       />
     {/if}
     <Entry>
-      <CreatedAt value={post.created_at} />
+      <CreatedAt value={post.change} />
     </Entry>
     <Entry>
       <Score value={post.score} />
@@ -46,8 +49,8 @@
   </div>
   {#if tab === 'tags'}
     <ul class="tags">
-      {#each post.tags as tagname}
-        <SimpleTag name={tagname} />
+      {#each post.tags as tag}
+        <SimpleTag {tag} />
       {/each}
     </ul>
   {:else}
@@ -55,11 +58,11 @@
       <LoadingAnimation />
     {:then comments}
       {#if comments.length > 0}
-      <ul class="comments">
-        {#each comments as comment}
-          <Comment {comment} />
-        {/each}
-      </ul>
+        <ul class="comments">
+          {#each comments as comment}
+            <Comment {comment} />
+          {/each}
+        </ul>
       {:else}
         <span class="no-comments">Comments for this post are no longer available</span>
       {/if}

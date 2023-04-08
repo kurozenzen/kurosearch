@@ -24,6 +24,57 @@ describe('pages', () => {
       global.fetch = originalFetch
     })
 
+    test('missing created_at throws error', async () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          text: () =>
+            Promise.resolve(
+              '<comments type="array"><comment post_id="3" body="comment" creator="kurozenzen" id="2" creator_id="1"/></comments>'
+            ),
+        })
+      )
+
+      getComments(0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('missing body throws error', async () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          text: () =>
+            Promise.resolve(
+              '<comments type="array"><comment created_at="2023-01-01 10:20" post_id="3" creator="kurozenzen" id="2" creator_id="1"/></comments>'
+            ),
+        })
+      )
+
+      getComments(0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
+    test('missing creator throws error', async () => {
+      const originalFetch = global.fetch
+      //@ts-expect-error
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          text: () =>
+            Promise.resolve(
+              '<comments type="array"><comment created_at="2023-01-01 10:20" post_id="3" body="comment" id="2" creator_id="1"/></comments>'
+            ),
+        })
+      )
+
+      getComments(0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = originalFetch
+    })
+
     test('parses comments with postId', async () => {
       const originalFetch = global.fetch
       //@ts-expect-error

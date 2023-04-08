@@ -1,26 +1,30 @@
 <script>
   import { getPage } from '../../api-client/ApiClient'
   import { ActiveTag as AT, toSearchableTag } from '../../tags/ActiveTag'
-
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
   import TagInput from '../tag-input/TagInput.svelte'
-
   import activeTags from './activeTagsStore'
   import Results from './Results.svelte'
   import results from './resultsStore'
   import ScrollUpButton from './ScrollUpButton.svelte'
   import SearchError from './SearchError.svelte'
   import sortStore from './sortStore'
+  import countStore from './countStore'
   import Title from './Title.svelte'
   import ActiveTagList from './ActiveTagList.svelte'
+  import { getCount } from '../../api-client/pages/pages'
 
   let supertagMode = false
   let error = undefined
 
   const getFirstPage = async () => {
     results.reset()
+    
+    const tags = getSearchableTags()
+    const count = await getCount(tags, $sortStore.sortProperty, $sortStore.minScore)
+    countStore.set(count)
     return getNextPage()
   }
 

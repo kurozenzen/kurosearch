@@ -1,11 +1,16 @@
-import { Page } from '../../posts/Page'
+import { isValidCount } from '../../tags/validation'
 import { Post } from '../../posts/Post'
 import { isValidSortProperty } from '../../posts/sort/sort'
 import { SearchableTag } from '../../tags/SearchableTag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
+import { Tag } from '../../tags/Tag'
+import { getTagTypePriority } from '../../tags/type/tagtype'
+import { replaceHtmlEntities } from '../tags/tags'
 
 /**
  * @typedef {import('../../posts/sort/sort').SortProperty} SortProperty
+ * @typedef {import('../../tags/type/tagtype').TagType} TagType
+ * @typedef {{tag: string, count: number, type: TagType}} ApiTag
  */
 
 export const PAGE_SIZE = 20
@@ -32,6 +37,28 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
 
   const serializedTags = serializeSearchParameters(tags, sortProperty, minScore)
   const response = await fetchAbortPrevious(getPostsUrl(pageNumber, serializedTags), getPageAbortController)
+
+  throwOnUnexpectedStatus(response)
+
+  const data = await response.json()
+  const posts = data.map(parsePost)
+
+  throwOnInvalidResponse(posts)
+
+  return posts
+}
+
+/**
+ * @param {SearchableTag[]} tags
+ * @param {SortProperty} sortProperty
+ * @param {number} minScore
+ */
+export const getCount = async (tags, sortProperty, minScore) => {
+  throwOnInvalidParameter(0, tags, sortProperty, minScore)
+
+  const serializedTags = serializeSearchParameters(tags, sortProperty, minScore)
+  const response = await fetchAbortPrevious(getCountUrl(serializedTags), getPageAbortController)
+
   throwOnUnexpectedStatus(response)
 
   const text = await response.text()
@@ -39,68 +66,58 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
   const xml = parser.parseFromString(text, 'text/xml')
 
   const count = Number(xml.getElementsByTagName('posts')[0].getAttribute('count'))
-  const posts = []
 
-  for (const post of xml.getElementsByTagName('post')) {
-    posts.push(parsePost(post.attributes))
-  }
+  throwOnInvalidCount(count)
 
-  return new Page(count, posts)
+  return count
 }
 
 const parsePost = (post) => {
-  const height = post.getNamedItem('height').value
-  const score = post.getNamedItem('score').value
-  const file_url = post.getNamedItem('file_url').value
-  const parent_id = post.getNamedItem('parent_id').value
-  const sample_url = post.getNamedItem('sample_url').value
-  const sample_width = post.getNamedItem('sample_width').value
-  const sample_height = post.getNamedItem('sample_height').value
-  const preview_url = post.getNamedItem('preview_url').value
-  const rating = post.getNamedItem('rating').value
-  const tags = post.getNamedItem('tags').value
-  const id = post.getNamedItem('id').value
-  const width = post.getNamedItem('width').value
-  const change = post.getNamedItem('change').value
-  const md5 = post.getNamedItem('md5').value
-  const creator_id = post.getNamedItem('creator_id').value
-  const has_children = post.getNamedItem('has_children').value
-  const created_at = post.getNamedItem('created_at').value
-  const status = post.getNamedItem('status').value
-  const source = post.getNamedItem('source').value
-  const has_notes = post.getNamedItem('has_notes').value
-  const has_comments = post.getNamedItem('has_comments').value
-  const preview_width = post.getNamedItem('preview_width').value
-  const preview_height = post.getNamedItem('preview_height').value
+  const height = post.height
+  const score = post.score
+  const preview_url = post.preview_url
+  const file_url = post.file_url
+  const parent_id = post.parent_id
+  const sample_url = post.sample_url
+  const sample_width = post.sample_width
+  const sample_height = post.sample_height
+  const rating = post.rating
+  const tagInfo = post.tag_info
+  const id = post.id
+  const width = post.width
+  const change = post.change
+  const comment_count = post.comment_count
+  const status = post.status
+  const source = post.source
 
   return new Post(
     preview_url,
     sample_url,
     file_url,
-    created_at,
-    has_children === 'true',
-    md5,
+    Number(comment_count),
     Number(height),
     Number(id),
-    Number(change),
-    Number(creator_id),
-    has_notes === 'true',
-    has_comments === 'true',
+    Number(change) * 1000,
     parent_id ? Number(parent_id) : null,
-    Number(preview_width),
-    Number(preview_height),
     rating,
     Number(sample_height),
     Number(sample_width),
     Number(score),
     source,
     status,
-    tags.split(' ').filter((tag, index, array) => tag !== '' && array.indexOf(tag) == index),
+    parseTagInfo(tagInfo),
     Number(width),
-    '',
-    '',
     file_url.endsWith('.webm') || file_url.endsWith('.mp4') ? 'video' : file_url.includes('.gif') ? 'gif' : 'image'
   )
+}
+
+/**
+ * @param {Array<ApiTag>} tagInfo
+ */
+const parseTagInfo = (tagInfo) => {
+  return tagInfo
+    .map((t) => new Tag(replaceHtmlEntities(t.tag), t.count, t.type))
+    .sort((a, b) => getTagTypePriority(a.type) - getTagTypePriority(b.type))
 }
 
 const throwOnInvalidParameter = (pageNumber, tags, sortProperty, minScore) => {
@@ -154,8 +171,8 @@ export const serializeSearchParameters = (tags, sortProperty, minScore) => {
   const tagsByModifier = partitionTagsByModifier(tags)
   const tagsString = [
     ...serializeTags([...tagsByModifier['+'], ...tagsByModifier['-']]),
-    `sort:${sortProperty}:desc`,
     `score:>=${minScore}`,
+    `sort:${sortProperty}:desc`,
   ].join('+')
 
   return tagsByModifier['~'].length === 0
@@ -173,14 +190,27 @@ const serializeTags = (tags) => tags.map((t) => t.serialize())
  * @param {string} serializedTags
  */
 export const getPostsUrl = (pageNumber, serializedTags) => {
-  const baseApiPostsUrl = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index`
+  const baseApiPostsUrl = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1`
   const url = `${baseApiPostsUrl}&limit=${PAGE_SIZE}&pid=${pageNumber}`
+  return serializedTags === '' ? url : `${url}&tags=${serializedTags}`
+}
 
+/**
+ * @param {string} serializedTags
+ */
+export const getCountUrl = (serializedTags) => {
+  const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=0`
   return serializedTags === '' ? url : `${url}&tags=${serializedTags}`
 }
 
 const throwOnInvalidResponse = (json) => {
-  if (typeof json.count !== 'number' || !Array.isArray(json.posts)) {
+  if (!Array.isArray(json)) {
+    throw new Error('Unexpected response received in getPage')
+  }
+}
+
+const throwOnInvalidCount = (count) => {
+  if (!isValidCount(count)) {
     throw new Error('Unexpected response received in getPage')
   }
 }

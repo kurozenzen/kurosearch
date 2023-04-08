@@ -11,6 +11,8 @@
   const dispatch = createEventDispatcher()
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <li
   class={MODIFIER_NAMES[tag.modifier]}
   class:no-icon={tag.type === 'general'}

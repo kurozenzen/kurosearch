@@ -25,10 +25,6 @@ describe('formatCreatedAt', () => {
     expect(() => formatCreatedAt('asdf')).toThrow(TypeError)
   })
 
-  test('number throws TypeError', () => {
-    // @ts-expect-error: passing number to string here
-    expect(() => formatCreatedAt(3)).toThrow(TypeError)
-  })
   ;[
     ['just now', new Date(NOW.getTime() - 50_000).toString()],
     ['1 minute ago', new Date(NOW.getTime() - ONE_MINUTE).toString()],

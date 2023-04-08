@@ -8,6 +8,7 @@
   import { createEventDispatcher } from 'svelte'
   import { PAGE_SIZE } from '../../api-client/pages/pages'
   import sortStore from './sortStore'
+  import countStore from './countStore'
   import onEnterOrSpace from '../common/onEnterOrSpace'
 
   const dispatch = createEventDispatcher()
@@ -20,14 +21,14 @@
     $sortStore.minScore = selectedMinScore !== 'custom' ? selectedMinScore : customMinScore
   }
 
-  $: pageCount = $results.count / PAGE_SIZE
+  $: pageCount = $countStore / PAGE_SIZE
   $: morePagesAvailable = $results.pages.length < pageCount
-  $: noResultsFound = $results.count === 0
+  $: noResultsFound = $countStore === 0
 </script>
 
-{#if $results.count}
+{#if $countStore}
   <div class="header">
-    <span title={`${$results.count} results`}>{formatCount($results.count)} results</span>
+    <span title={`${$countStore} results`}>{formatCount($countStore)} results</span>
 
     <select bind:value={$sortStore.sortProperty} title="Sort results by" on:change={() => dispatch('configchange')}>
       <option value="id">Date</option>
