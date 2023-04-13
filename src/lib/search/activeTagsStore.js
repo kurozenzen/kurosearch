@@ -32,21 +32,6 @@ function createActiveTagsStore() {
         tags.push(new ActiveTag('+', name, 0, 'general'))
         return tags
       })
-
-      try {
-        const suggestions = await getTagSuggestions(name, true, 1)
-        if (Array.isArray(suggestions) && suggestions.length === 1) {
-          const suggestion = suggestions.at(0)
-
-          update((tags) => {
-            const index = tags.findIndex((t) => t.name === suggestion.name)
-            tags[index] = new ActiveTag('+', suggestion.name, suggestion.count, suggestion.type)
-            return tags
-          })
-        }
-      } catch {
-        console.warn('Failed to load type and count for tag.', name)
-      }
     },
 
     /** @param {number} i */

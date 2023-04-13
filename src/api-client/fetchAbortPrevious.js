@@ -22,6 +22,9 @@ export const fetchAbortPrevious = (url, abortController) => {
   })
 }
 
+/**
+ * @param {string} value 
+ */
 export const isValidUrl = (value) => {
   try {
     new URL(value)
@@ -31,6 +34,9 @@ export const isValidUrl = (value) => {
   }
 }
 
+/**
+ * @param {unknown} value 
+ */
 const isValidAbortController = (value) => {
   return value === null || value instanceof AbortController
 }
