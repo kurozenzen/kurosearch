@@ -1,9 +1,9 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { getNextModifier } from '../../tags/modifier/modifier'
+  import { getNextModifier } from '../../types/tag-modifier/modifier'
   import ActiveTag from '../tags/ActiveTag.svelte'
   import activeTags from './activeTagsStore'
-  import { ActiveTag as AT } from '../../tags/ActiveTag'
+  import { ActiveTag as AT } from '../../types/tags/ActiveTag'
 
   const dispatch = createEventDispatcher()
 </script>

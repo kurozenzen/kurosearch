@@ -7,12 +7,12 @@
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
-  import { Tag, toActiveTag } from '../../tags/Tag'
+  import { Tag, toActiveTag } from '../../types/tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
 
   /**
-   * @typedef {import("../../tags/Tag").Tag} Tag
-   * @typedef {import("../../tags/modifier/modifier").Modifier} Modifier
+   * @typedef {import("../../types/tags/Tag").Tag} Tag
+   * @typedef {import("../../types/tag-modifier/modifier").Modifier} Modifier
    */
 
   const dispatch = createEventDispatcher()

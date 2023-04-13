@@ -1,8 +1,8 @@
-import { Tag } from '../../tags/Tag'
+import { Tag } from '../../types/tags/Tag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 
 /**
- * @typedef {import("../../tags/Tag").TagType} TagType
+ * @typedef {import("../../types/tags/Tag").TagType} TagType
  */
 
 /**

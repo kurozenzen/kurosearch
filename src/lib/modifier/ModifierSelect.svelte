@@ -1,10 +1,10 @@
 <script>
-  import { getNextModifier } from '../../tags/modifier/modifier'
+  import { getNextModifier } from '../../types/tag-modifier/modifier'
   import { createEventDispatcher } from 'svelte'
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import { MODIFIERS_ICONS, MODIFIERS_HINTS } from './modifierData'
 
-  /** @type {import("../../tags/modifier/modifier").Modifier} */
+  /** @type {import("../../types/tag-modifier/modifier").Modifier} */
   let modifier = '+'
 
   const dispatch = createEventDispatcher()

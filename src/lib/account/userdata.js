@@ -2,8 +2,8 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { writable } from 'svelte/store'
 import { firebaseAuth, firestore } from '../../firebase/firebase'
 import { collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
-import { Supertag } from '../../tags/Supertag'
-import { SearchableTag } from '../../tags/SearchableTag'
+import { Supertag } from '../../types/tags/Supertag'
+import { SearchableTag } from '../../types/tags/SearchableTag'
 
 /**
  * @typedef {import("../theme/theme").Theme} Theme

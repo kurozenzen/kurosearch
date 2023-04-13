@@ -1,8 +1,8 @@
 import { createDependentPersistentStore } from '../common/persistentStore'
 
 /**
- * @typedef {import("../../posts/Page").Page} Page
- * @typedef {import("../../posts/Post").Post} Post
+ * @typedef {import("../../types/page/Page").Page} Page
+ * @typedef {import("../../types/post/Post").Post} Post
  */
 
 /**

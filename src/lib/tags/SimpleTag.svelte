@@ -1,5 +1,5 @@
 <script>
-  import { hasIcon } from '../../tags/type/tagtype'
+  import { hasIcon } from '../../types/tag-type/tagtype'
   import { formatTagname } from '../../formatting/formatTagname'
   import activeTags from '../search/activeTagsStore'
   import TagIcon from './TagIcon.svelte'

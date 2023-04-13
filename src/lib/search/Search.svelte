@@ -1,6 +1,6 @@
 <script>
   import { getPage } from '../../api-client/ApiClient'
-  import { ActiveTag as AT, toSearchableTag } from '../../tags/ActiveTag'
+  import { ActiveTag as AT, toSearchableTag } from '../../types/tags/ActiveTag'
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
@@ -18,18 +18,37 @@
 
   let supertagMode = false
   let error = undefined
+  let loading = false
 
   const getFirstPage = async () => {
+    error = undefined
+    loading = true
+
     results.reset()
-    
-    const tags = getSearchableTags()
-    const count = await getCount(tags, $sortStore.sortProperty, $sortStore.minScore)
-    countStore.set(count)
-    return getNextPage()
+
+    try {
+      const tags = getSearchableTags()
+      const countPromise = getCount(tags, $sortStore.sortProperty, $sortStore.minScore)
+      const pagePromise = getPage($results.nextPage, tags, $sortStore.sortProperty, $sortStore.minScore)
+      const [count, page] = await Promise.all([countPromise, pagePromise])
+
+      countStore.set(count)
+      results.addPage(page)
+    } catch (e) {
+      error = e
+      console.warn(e)
+    } finally {
+      loading = false
+    }
   }
 
   const getNextPage = async () => {
+    if (loading) {
+      return
+    }
+
     error = undefined
+    loading = true
 
     try {
       const tags = getSearchableTags()
@@ -39,6 +58,8 @@
     } catch (e) {
       error = e
       console.warn(e)
+    } finally {
+      loading = false
     }
   }
 
@@ -58,7 +79,7 @@
     }}
   />
   <div class="sort-row">
-    <Button title="Click to search with active tags" text="Search" on:click={() => getFirstPage()} />
+    <Button title="Click to search with active tags" text="Search" on:click={getFirstPage} />
   </div>
 </div>
 

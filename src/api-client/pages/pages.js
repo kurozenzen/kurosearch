@@ -1,15 +1,15 @@
-import { isValidCount } from '../../tags/validation'
-import { Post } from '../../posts/Post'
-import { isValidSortProperty } from '../../posts/sort/sort'
-import { SearchableTag } from '../../tags/SearchableTag'
+import { isValidCount } from '../../types/tags/validation'
+import { Post } from '../../types/post/Post'
+import { isValidSortProperty } from '../../types/post-sort/sort'
+import { SearchableTag } from '../../types/tags/SearchableTag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
-import { Tag } from '../../tags/Tag'
-import { getTagTypePriority } from '../../tags/type/tagtype'
+import { Tag } from '../../types/tags/Tag'
+import { getTagTypePriority } from '../../types/tag-type/tagtype'
 import { replaceHtmlEntities } from '../tags/tags'
 
 /**
- * @typedef {import('../../posts/sort/sort').SortProperty} SortProperty
- * @typedef {import('../../tags/type/tagtype').TagType} TagType
+ * @typedef {import('../../types/post-sort/sort').SortProperty} SortProperty
+ * @typedef {import('../../types/tag-type/tagtype').TagType} TagType
  * @typedef {{tag: string, count: number, type: TagType}} ApiTag
  */
 

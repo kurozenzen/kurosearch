@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
-import { Post } from '../../posts/Post'
-import { SearchableTag } from '../../tags/SearchableTag'
+import { Post } from '../../types/post/Post'
+import { SearchableTag } from '../../types/tags/SearchableTag'
 import {
   getPage,
   getPostsUrl,

@@ -1,9 +1,9 @@
-import { isValidModifier, serializeModifier } from './modifier/modifier'
+import { isValidModifier, serializeModifier } from '../tag-modifier/modifier'
 import { isValidName } from './validation'
 
 /**
- * @typedef {import("./modifier/modifier").Modifier} Modifier
- * @typedef {import("./type/tagtype").TagType} TagType
+ * @typedef {import("../tag-modifier/modifier").Modifier} Modifier
+ * @typedef {import("../tag-type/tagtype").TagType} TagType
  */
 
 export class SearchableTag {

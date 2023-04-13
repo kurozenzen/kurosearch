@@ -1,4 +1,4 @@
-import { Comment } from '../../comments/Comment'
+import { Comment } from '../../types/comment/Comment'
 
 const baseUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=comment&q=index&json=1'
 

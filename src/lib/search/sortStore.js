@@ -2,7 +2,7 @@ import { writable } from 'svelte/store'
 import { createPersistentStore } from '../common/persistentStore'
 
 /**
- * @typedef {import('../../posts/sort/sort').SortProperty} SortProperty
+ * @typedef {import('../../types/post-sort/sort').SortProperty} SortProperty
  * @typedef {{sortProperty: SortProperty, minScore: number}} SortAndFilter
  */
 

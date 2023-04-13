@@ -1,4 +1,4 @@
-import { isValidCount } from '../tags/validation'
+import { isValidCount } from '../types/tags/validation'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 

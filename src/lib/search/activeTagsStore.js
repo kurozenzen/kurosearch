@@ -1,8 +1,8 @@
 import { getTagSuggestions } from '../../api-client/ApiClient'
-import { ActiveTag } from '../../tags/ActiveTag'
+import { ActiveTag } from '../../types/tags/ActiveTag'
 import { createDependentPersistentStore } from '../common/persistentStore'
 
-/** @typedef {import("../../tags/Tag").Tag} Tag */
+/** @typedef {import("../../types/tags/Tag").Tag} Tag */
 
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */

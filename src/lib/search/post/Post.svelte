@@ -4,7 +4,7 @@
   import Video from './media/Video.svelte'
   import Gif from './media/Gif.svelte'
 
-  /** @typedef {import("../../../posts/Post").Post} Post */
+  /** @typedef {import("../../../types/post/Post").Post} Post */
 
   /** @type {Post} */
   export let post

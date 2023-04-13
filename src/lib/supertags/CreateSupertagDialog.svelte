@@ -3,12 +3,12 @@
   import Button from '../common/Button.svelte'
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import ActiveTagComponent from '../tags/ActiveTag.svelte'
-  import { Supertag } from '../../tags/Supertag'
-  import { isValidName } from '../../tags/validation'
-  import { toSearchableTag } from '../../tags/ActiveTag'
+  import { Supertag } from '../../types/tags/Supertag'
+  import { isValidName } from '../../types/tags/validation'
+  import { toSearchableTag } from '../../types/tags/ActiveTag'
 
   /**
-   * @typedef {import("../../tags/ActiveTag").ActiveTag} ActiveTag
+   * @typedef {import("../../types/tags/ActiveTag").ActiveTag} ActiveTag
    */
 
   export let name = ''
