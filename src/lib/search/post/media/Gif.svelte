@@ -2,8 +2,8 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { postObserver } from '../postObserver'
   import onEnterOrSpace from '../../../common/onEnterOrSpace'
-  import LoadingAnimation from '../../../common/LoadingAnimation.svelte'
   import playSvg from '../../../../assets/play.svg'
+  import loadSvg from '../../../../assets/load.svg'
   import pauseSvg from '../../../../assets/pause.svg'
 
   /**
@@ -53,7 +53,7 @@
 
   <button on:click={togglePlaying} class:play={playing && !loading}>
     {#if loading}
-      <LoadingAnimation />
+      <img src={loadSvg} alt="Loading GIF" width="16" height="32" />
     {:else if playing}
       <img src={pauseSvg} alt="Stop GIF" width="16" height="32" />
     {:else}
