@@ -7,8 +7,9 @@
   import LoadingAnimation from '../../../common/LoadingAnimation.svelte'
   import { getComments } from '../../../../api-client/ApiClient'
   import Comment from './Comment.svelte'
+    import Rule34Source from './Rule34Source.svelte'
 
-  /** @type {import("../../../../posts/Post").Post} */
+  /** @type {import("../../../../types/post/Post").Post} */
   export let post
 
   let tab = 'tags'
@@ -40,6 +41,9 @@
     </Entry>
     <Entry>
       <Score value={post.score} />
+    </Entry>
+    <Entry>
+      <Rule34Source url={post.file_url} />
     </Entry>
     {#if post.source}
       <Entry>
