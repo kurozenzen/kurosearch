@@ -1,9 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { postObserver } from '../postObserver'
 
   /**
-   * @typedef {import("../../../../posts/Post").Post} Post
+   * @typedef {import("../../../../types/post/Post").Post} Post
    */
 
   /** @type {Post} */
@@ -13,11 +13,6 @@
 
   /** @type {HTMLElement}*/
   let media
-  $: {
-    if (media) {
-      postObserver.observe(media)
-    }
-  }
 
   let pos = { screenX: 0, screenY: 0 }
 
@@ -33,6 +28,9 @@
       dispatch('click')
     }
   }
+
+  onMount(() => postObserver.observe(media))
+  onDestroy(() => postObserver.unobserve(media))
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
@@ -40,7 +38,6 @@
   preload="metadata"
   loading="lazy"
   data-src={post.file_url}
-  alt={post.id.toString()}
   style={`aspect-ratio: ${post.width} / ${post.height}`}
   width={post.width}
   height={post.height}

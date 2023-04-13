@@ -1,9 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { postObserver } from '../postObserver'
 
   /**
-   * @typedef {import("../../../../posts/Post").Post} Post
+   * @typedef {import("../../../../types/post/Post").Post} Post
    */
 
   /** @type {Post} */
@@ -13,11 +13,9 @@
 
   /** @type {HTMLElement}*/
   let media
-  $: {
-    if (media) {
-      postObserver.observe(media)
-    }
-  }
+
+  onMount(() => postObserver.observe(media))
+  onDestroy(() => postObserver.unobserve(media))
 </script>
 
 <img
