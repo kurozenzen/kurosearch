@@ -1,13 +1,13 @@
 <script>
   import ScrollUpButton from '../search/ScrollUpButton.svelte'
   import ActiveTag from '../tags/ActiveTag.svelte'
-  import { ActiveTag as ActiveTagObject } from '../../tags/ActiveTag'
+  import { ActiveTag as ActiveTagObject } from '../../types/tags/ActiveTag'
   import Card from './common/Card.svelte'
   import SimpleTag from '../tags/SimpleTag.svelte'
   import { MODIFIERS_ICONS } from '../modifier/modifierData'
   import PageHeading from '../common/text/PageHeading.svelte'
   import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
-  import { Tag } from '../../tags/Tag'
+  import { Tag } from '../../types/tags/Tag'
 </script>
 
 <PageHeading>Documentation</PageHeading>
