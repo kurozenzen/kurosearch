@@ -1,6 +1,5 @@
 <script>
-    import { hasIcon } from '../../tags/type/tagtype'
-  import { formatCount } from '../../formatting/formatCount'
+  import { hasIcon } from '../../tags/type/tagtype'
   import { formatTagname } from '../../formatting/formatTagname'
   import activeTags from '../search/activeTagsStore'
   import TagIcon from './TagIcon.svelte'
@@ -10,6 +9,7 @@
 
   $: index = $activeTags.findIndex((t) => t.name === tag.name)
   $: active = index >= 0
+  $: icon = hasIcon(tag.type)
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
@@ -20,9 +20,10 @@
   title="Click to add tag"
   on:click={() => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name))}
   class:active
+  class:icon
   class={tag.type}
 >
-  {#if hasIcon(tag.type)}
+  {#if icon}
     <TagIcon type={tag.type} />
   {/if}
   {formatTagname(tag.name)}
@@ -44,6 +45,10 @@
     padding-inline: 12px;
     user-select: none;
     transition: background-color var(--default-transition-behaviour);
+  }
+
+  .icon {
+    padding-inline: 6px 12px;
   }
 
   li.active {

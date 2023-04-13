@@ -15,14 +15,16 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <li
   class={MODIFIER_NAMES[tag.modifier]}
-  class:no-icon={tag.type === 'general'}
+  class:no-icon={tag.type !== 'supertag'}
   tabindex="0"
   role="button"
   title="Click to remove tag"
   on:click={() => dispatch('click')}
   on:contextmenu|preventDefault={() => dispatch('contextmenu')}
 >
-  <TagIcon type={tag.type} />
+  {#if tag.type == 'supertag'}
+    <TagIcon type={tag.type} />
+  {/if}
   {formatTagname(tag.name)}
   {#if tag.count}
     ({formatCount(tag.count)})
