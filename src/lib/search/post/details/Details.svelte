@@ -1,13 +1,13 @@
 <script>
   import SimpleTag from '../../../tags/SimpleTag.svelte'
-  import Source from './Source.svelte'
+  import Source from './source/Source.svelte'
   import Entry from './Entry.svelte'
   import CreatedAt from './CreatedAt.svelte'
   import Score from './Score.svelte'
   import LoadingAnimation from '../../../common/LoadingAnimation.svelte'
   import { getComments } from '../../../../api-client/ApiClient'
   import Comment from './Comment.svelte'
-    import Rule34Source from './Rule34Source.svelte'
+  import Rule34Source from './source/Rule34Source.svelte'
 
   /** @type {import("../../../../types/post/Post").Post} */
   export let post

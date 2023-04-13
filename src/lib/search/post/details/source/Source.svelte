@@ -1,5 +1,5 @@
 <script>
-  import { isValidUrl } from '../../../../api-client/fetchAbortPrevious'
+  import { isValidUrl } from '../../../../../api-client/fetchAbortPrevious'
   import ExternalSource from './ExternalSource.svelte'
 
   /** @type {string} */
