@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    name: Build and deploy main
+    name: Build and Deploy main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,7 +15,7 @@ jobs:
 
       - name: Install, Build and Test
         run: |
-          npm ci
+          npm install
           npm run build
           npm run test
 
