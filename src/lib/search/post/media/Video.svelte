@@ -46,7 +46,8 @@
   on:touchstart|passive={onTouchStart}
   on:touchend|passive={onTouchEnd}
   bind:this={media}
-  loop={post.tags.includes('loop')}
+  loop={post.tags.some(t => t.name == 'loop')}
+  tabindex="0"
 />
 
 <style>

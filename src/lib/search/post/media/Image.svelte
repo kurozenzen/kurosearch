@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { postObserver } from '../postObserver'
+  import onEnterOrSpace from '../../../common/onEnterOrSpace'
 
   /**
    * @typedef {import("../../../../types/post/Post").Post} Post
@@ -18,6 +19,7 @@
   onDestroy(() => postObserver.unobserve(media))
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <img
   loading="lazy"
   data-src={post.sample_url}
@@ -26,7 +28,9 @@
   width={post.width}
   height={post.height}
   bind:this={media}
+  tabindex="0"
   on:click={() => dispatch('click')}
+  on:keyup={onEnterOrSpace(() => dispatch('click'))}
 />
 
 <style>
