@@ -3,7 +3,7 @@
 </script>
 
 <div>
-  <img src={shironekoConfused} alt="No results." />
+  <img src={shironekoConfused} alt="No results" />
   <span>No results found</span>
 </div>
 

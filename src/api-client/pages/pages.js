@@ -34,13 +34,14 @@ export const getPage = async (pageNumber, tags) => {
   const response = await fetchAbortPrevious(getPostsUrl(pageNumber, tags), getPageAbortController)
 
   throwOnUnexpectedStatus(response)
-
-  const data = await response.json()
-  const posts = data.map(parsePost)
-
-  throwOnInvalidResponse(posts)
-
-  return posts
+  try {
+    const data = await response.json()
+    const posts = data.map(parsePost)
+    throwOnInvalidResponse(posts)
+    return posts
+  } catch (error) {
+    return []
+  }
 }
 
 /**
