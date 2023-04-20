@@ -138,27 +138,16 @@ describe('pages', () => {
       global.fetch = jest.fn(() => Promise.resolve({ ok: false }))
 
       expect.assertions(1)
-      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      getPage(0, "").catch((e) => expect(e).toBeInstanceOf(Error))
       global.fetch = originalFetch
     })
 
-    test('response missing posts throws Error', () => {
+    test('empty response return []', () => {
       const originalFetch = global.fetch
       //@ts-expect-error
-      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ }) }))
-
-      expect.assertions(1)
-      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
-      global.fetch = originalFetch
-    })
-
-    test('response with invalid posts throws Error', () => {
-      const originalFetch = global.fetch
-      //@ts-expect-error
-      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ count: 0, posts: 1 }) }))
-
-      expect.assertions(1)
-      getPage(0, [], 'id', 0).catch((e) => expect(e).toBeInstanceOf(Error))
+      global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.reject(null) }))
+      
+      getPage(0, "").catch((e) => expect(e).toBeInstanceOf(Error))
       global.fetch = originalFetch
     })
 

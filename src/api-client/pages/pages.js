@@ -34,12 +34,13 @@ export const getPage = async (pageNumber, tags) => {
   const response = await fetchAbortPrevious(getPostsUrl(pageNumber, tags), getPageAbortController)
 
   throwOnUnexpectedStatus(response)
+
   try {
     const data = await response.json()
     const posts = data.map(parsePost)
-    throwOnInvalidResponse(posts)
+
     return posts
-  } catch (error) {
+  } catch {
     return []
   }
 }
@@ -111,20 +112,6 @@ const parseTagInfo = (tagInfo) => {
     .sort((a, b) => getTagTypePriority(a.type) - getTagTypePriority(b.type))
 }
 
-const throwOnInvalidParameter = (pageNumber, tags, sortProperty, minScore) => {
-  if (!isValidPageNumber(pageNumber)) {
-    throw new TypeError('Invalid pageNumber passed to getPage')
-  }
-
-  if (!isValidSortProperty(sortProperty)) {
-    throw new TypeError('Invalid sort property passed to getPage')
-  }
-
-  if (!isValidMinScore(minScore)) {
-    throw new TypeError('Invalid minimum score passed to getPage')
-  }
-}
-
 export const isValidPageNumber = (value) => {
   return typeof value === 'number' && value >= 0
 }
@@ -188,12 +175,6 @@ export const getPostsUrl = (pageNumber, serializedTags) => {
 export const getCountUrl = (serializedTags) => {
   const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=0`
   return serializedTags === '' ? url : `${url}&tags=${serializedTags}`
-}
-
-const throwOnInvalidResponse = (json) => {
-  if (!Array.isArray(json)) {
-    throw new Error('Unexpected response received in getPage')
-  }
 }
 
 const throwOnInvalidCount = (count) => {
