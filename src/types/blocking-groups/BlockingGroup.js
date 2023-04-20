@@ -1,12 +1,12 @@
 /** @typedef {"Loli" | "Animal-Related" | "Non-Consentual"} BlockingGroup */
 
-/** @type {BlockingGroup[]} */
-export const ALL_BLOCKING_GROUPS = ['Loli', 'Animal-Related', 'Non-Consentual']
+/** @type {readonly BlockingGroup[]} */
+export const ALL_BLOCKING_GROUPS = Object.freeze(['Loli', 'Animal-Related', 'Non-Consentual'])
 
-/** @type {Record<BlockingGroup, string[]>} */
-export const BLOCKING_GROUP_TAGS = {
-  Loli: ['young', 'younger', 'younger_*', 'young_*', 'lolita_*', 'loli*'],
-  'Animal-Related': [
+/** @type {Readonly<Record<BlockingGroup, readonly string[]>>} */
+export const BLOCKING_GROUP_TAGS = Object.freeze({
+  Loli: Object.freeze(['young', 'younger', 'younger_*', 'young_*', 'lolita_*', 'loli*']),
+  'Animal-Related': Object.freeze([
     'zoophilia',
     'zoo',
     'canine*',
@@ -16,8 +16,8 @@ export const BLOCKING_GROUP_TAGS = {
     'bestiality*',
     'zoophilia*',
     'animal',
-  ],
-  'Non-Consentual': [
+  ]),
+  'Non-Consentual': Object.freeze([
     'captive',
     'captured',
     'defeated',
@@ -31,5 +31,5 @@ export const BLOCKING_GROUP_TAGS = {
     'non-con',
     'scared',
     'forced',
-  ],
-}
+  ]),
+})
