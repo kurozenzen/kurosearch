@@ -8,8 +8,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   server: {
     watch: {
-      ignored: ['**/coverage/**']
-    }
+      ignored: ['**/coverage/**'],
+    },
   },
   build: {
     reportCompressedSize: true,
@@ -27,6 +27,7 @@ export default defineConfig({
         description: 'Rule34 browsing re-imagined',
         theme_color: '#000000',
         background_color: '#000000',
+        orientation: 'any',
         icons: [
           {
             src: 'icon/ks-maskable-512.png',
