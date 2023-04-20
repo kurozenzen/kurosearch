@@ -2,12 +2,17 @@
   import { hasIcon } from '../../types/tag-type/tagtype'
   import { formatTagname } from '../../formatting/formatTagname'
   import activeTags from '../search/activeTagsStore'
+  import userdata from '../account/userdata'
   import TagIcon from './TagIcon.svelte'
 
-  /** @type {import("../../tags/Tag").Tag}*/
+  /** @type {import("../../types/tags/Tag").Tag}*/
   export let tag
 
+  $: activeSupertags = $userdata.supertags
+    .filter((s) => $activeTags.find((at) => s.name === at.name))
+    .flatMap((s) => s.tags)
   $: index = $activeTags.findIndex((t) => t.name === tag.name)
+  $: isActivatedBySupertag = activeSupertags.find((t) => t.name === tag.name) !== undefined
   $: active = index >= 0
   $: icon = hasIcon(tag.type)
 </script>
@@ -18,8 +23,9 @@
   tabindex="0"
   role="button"
   title="Click to add tag"
-  on:click={() => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name))}
+  on:click={index >= 0 ? () => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name)) : () => {}}
   class:active
+  class:supertag={isActivatedBySupertag}
   class:icon
   class={tag.type}
 >
@@ -57,33 +63,39 @@
     --background-color-hover: var(--accent-light);
   }
 
-  li:not(.active).artist {
+  li.supertag {
+    color: var(--text-accent);
+    --background-color: var(--accent);
+    border: dashed 2px var(--text-accent);
+  }
+
+  .artist {
     --background-color: var(--artist-background);
     --background-color-hover: var(--artist-background-hover);
   }
 
-  li:not(.active).character {
+  .character {
     --background-color: var(--character-background);
     --background-color-hover: var(--character-background-hover);
   }
 
-  li:not(.active).copyright {
+  .copyright {
     --background-color: var(--copyright-background);
     --background-color-hover: var(--copyright-background-hover);
   }
 
-  li:not(.active).metadata {
+  .metadata {
     --background-color: var(--metadata-background);
     --background-color-hover: var(--metadata-background-hover);
   }
 
   @media (hover: hover) {
-    li:hover {
+    li:not(.supertag):hover {
       background-color: var(--background-color-hover);
     }
   }
 
-  li:active {
+  li:not(.supertag):active {
     background-color: var(--background-1);
   }
 </style>

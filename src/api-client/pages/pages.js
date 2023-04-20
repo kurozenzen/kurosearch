@@ -28,15 +28,10 @@ const throwOnUnexpectedStatus = (response) => {
 
 /**
  * @param {number} pageNumber
- * @param {SearchableTag[]} tags
- * @param {SortProperty} sortProperty
- * @param {number} minScore
+ * @param {string} tags
  */
-export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
-  throwOnInvalidParameter(pageNumber, tags, sortProperty, minScore)
-
-  const serializedTags = serializeSearchParameters(tags, sortProperty, minScore)
-  const response = await fetchAbortPrevious(getPostsUrl(pageNumber, serializedTags), getPageAbortController)
+export const getPage = async (pageNumber, tags) => {
+  const response = await fetchAbortPrevious(getPostsUrl(pageNumber, tags), getPageAbortController)
 
   throwOnUnexpectedStatus(response)
 
@@ -49,15 +44,10 @@ export const getPage = async (pageNumber, tags, sortProperty, minScore) => {
 }
 
 /**
- * @param {SearchableTag[]} tags
- * @param {SortProperty} sortProperty
- * @param {number} minScore
+ * @param {string} tags
  */
-export const getCount = async (tags, sortProperty, minScore) => {
-  throwOnInvalidParameter(0, tags, sortProperty, minScore)
-
-  const serializedTags = serializeSearchParameters(tags, sortProperty, minScore)
-  const response = await fetchAbortPrevious(getCountUrl(serializedTags), getPageAbortController)
+export const getCount = async (tags) => {
+  const response = await fetchAbortPrevious(getCountUrl(tags), getPageAbortController)
 
   throwOnUnexpectedStatus(response)
 
@@ -123,10 +113,6 @@ const parseTagInfo = (tagInfo) => {
 const throwOnInvalidParameter = (pageNumber, tags, sortProperty, minScore) => {
   if (!isValidPageNumber(pageNumber)) {
     throw new TypeError('Invalid pageNumber passed to getPage')
-  }
-
-  if (!isValidTagsArray(tags)) {
-    throw new TypeError('Invalid array of tags passed to getPage')
   }
 
   if (!isValidSortProperty(sortProperty)) {

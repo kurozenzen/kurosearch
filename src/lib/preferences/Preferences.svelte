@@ -1,6 +1,9 @@
 <script>
+  import { ALL_BLOCKING_GROUPS } from '../..//types/blocking-groups/BlockingGroup'
   import PageHeading from '../common/text/PageHeading.svelte'
   import theme from '../theme/theme'
+  import blockedContent from './blockedContentStore'
+  import Checkbox from './Checkbox.svelte'
   import { isPersistedLocally } from './persistLocally'
   import Preference from './Preference.svelte'
   import Selection from './Selection.svelte'
@@ -21,6 +24,20 @@
 
   <Preference title="Save Tags & Posts" description="Tags and posts will be saved when you close the app.">
     <Selection bind:value={isPersistedLocallyString} options={{ true: 'Save', false: "Don't Save" }} />
+  </Preference>
+
+  <Preference
+    title="Blocked Content"
+    description="Completely prevent certain types of posts without cluttering your search."
+  >
+    {#each ALL_BLOCKING_GROUPS as groupName}
+      <Checkbox
+        id={`checkbox-${groupName}`}
+        checked={$blockedContent.includes(groupName)}
+        label={groupName}
+        on:change={() => blockedContent.toggle(groupName)}
+      />
+    {/each}
   </Preference>
 </section>
 

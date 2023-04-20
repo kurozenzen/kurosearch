@@ -1,6 +1,5 @@
 <script>
-  import { getPage } from '../../api-client/ApiClient'
-  import { ActiveTag as AT, toSearchableTag } from '../../types/tags/ActiveTag'
+  import { ActiveTag as AT } from '../../types/tags/ActiveTag'
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
@@ -14,7 +13,8 @@
   import countStore from './countStore'
   import Title from './Title.svelte'
   import ActiveTagList from './ActiveTagList.svelte'
-  import { getCount } from '../../api-client/pages/pages'
+  import { createSearch } from './searchBuilder'
+  import blockedContent from '../preferences/blockedContentStore'
 
   let supertagMode = false
   let error = undefined
@@ -27,13 +27,17 @@
     results.reset()
 
     try {
-      const tags = getSearchableTags()
-      const countPromise = getCount(tags, $sortStore.sortProperty, $sortStore.minScore)
-      const pagePromise = getPage($results.nextPage, tags, $sortStore.sortProperty, $sortStore.minScore)
-      const [count, page] = await Promise.all([countPromise, pagePromise])
+      const [page, count] = await createSearch()
+        .withPid($results.nextPage)
+        .withTags($activeTags)
+        .withSupertags($userdata.supertags)
+        .withSortProperty($sortStore.sortProperty)
+        .withMinScore($sortStore.minScore)
+        .withBlockedContent($blockedContent)
+        .getPageAndCount()
 
-      countStore.set(count)
       results.addPage(page)
+      countStore.set(count)
     } catch (e) {
       error = e
       console.warn(e)
@@ -51,8 +55,14 @@
     loading = true
 
     try {
-      const tags = getSearchableTags()
-      const page = await getPage($results.nextPage, tags, $sortStore.sortProperty, $sortStore.minScore)
+      const page = await createSearch()
+        .withPid($results.nextPage)
+        .withTags($activeTags)
+        .withSupertags($userdata.supertags)
+        .withSortProperty($sortStore.sortProperty)
+        .withMinScore($sortStore.minScore)
+        .withBlockedContent($blockedContent)
+        .getPage()
 
       results.addPage(page)
     } catch (e) {
@@ -61,12 +71,6 @@
     } finally {
       loading = false
     }
-  }
-
-  const getSearchableTags = () => {
-    return $activeTags.flatMap((t) =>
-      t.type === 'supertag' ? $userdata.supertags.find((s) => s.name === t.name).tags : toSearchableTag(t)
-    )
   }
 </script>
 
