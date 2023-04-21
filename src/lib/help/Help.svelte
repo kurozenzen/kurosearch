@@ -86,22 +86,20 @@
       first. This is useful if you are interested in the most popular posts.
     </p>
   </li>
+  <li>
+    <em>Updated</em>
+    <p>Orders posts by when they were last update. More recent means higher up in the search</p>
+  </li>
 </ul>
 
 <ParagraphHeading>Filtering results</ParagraphHeading>
 
 <p>
-  In addition to sorting kurosearch also support a simple form of filtering. Currently, only filtering by posts is
+  In addition to sorting kurosearch also support a simple form of filtering. Currently, only filtering by score is
   supported.
 </p>
 
 <p>The filter selection is located at the top right of the first post</p>
-
-<p>
-  <em>NOTE:</em> Because I could not figure out a good User Experience for a number input, I have decided to provide a
-  few predefined options for now. Let me know on Discord if you would like to have the number input from
-  <em>r34-react</em> back :)
-</p>
 
 <h2 id="tags">Tags</h2>
 
@@ -112,7 +110,7 @@
 
 <div class="flex-row">
   <ActiveTag tag={new ActiveTagObject('+', 'some_tag_you_search_for', 124232, 'copyright')} />
-  <SimpleTag tag={new Tag('some_tag_you_search_for', 1, "ambiguous")} />
+  <SimpleTag tag={new Tag('some_tag', 1, 'ambiguous')} />
 </div>
 
 <p>A tag is characterised by four things.</p>
@@ -143,22 +141,34 @@
   <li>
     <em>Artist</em>
     <p>Target artists or content creators.</p>
-    <ActiveTag tag={new ActiveTagObject('+', 'aroma_sensei', 3000, 'artist')} />
+    <div class="flex-row">
+      <ActiveTag tag={new ActiveTagObject('+', 'aroma_sensei', 3000, 'artist')} />
+      <SimpleTag tag={new Tag('aroma_sensei', 3000, 'artist')} />
+    </div>
   </li>
   <li>
     <em>Character</em>
     <p>Indicates that the tag is targeting a character of some sort.</p>
-    <ActiveTag tag={new ActiveTagObject('+', 'samus_aran', 16000, 'character')} />
+    <div class="flex-row">
+      <ActiveTag tag={new ActiveTagObject('+', 'samus_aran', 16000, 'character')} />
+      <SimpleTag tag={new Tag('samus_aran', 16000, 'character')} />
+    </div>
   </li>
   <li>
     <em>Copyright</em>
     <p>Targets a certain franchise or similar.</p>
-    <ActiveTag tag={new ActiveTagObject('+', 'harry_potter', 5800, 'copyright')} />
+    <div class="flex-row">
+      <ActiveTag tag={new ActiveTagObject('+', 'harry_potter', 5800, 'copyright')} />
+      <SimpleTag tag={new Tag('harry_potter', 5800, 'copyright')} />
+    </div>
   </li>
   <li>
     <em>Metadata</em>
     <p>Tags of this type are information about the post itself and not the content.</p>
-    <ActiveTag tag={new ActiveTagObject('+', 'animated', 294000, 'metadata')} />
+    <div class="flex-row">
+      <ActiveTag tag={new ActiveTagObject('+', 'animated', 294000, 'metadata')} />
+      <SimpleTag tag={new Tag('animated', 294000, 'metadata')} />
+    </div>
   </li>
   <!-- <li>
     <em>Rating</em>
