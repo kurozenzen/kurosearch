@@ -3,7 +3,7 @@
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import SearchableTag from './SearchableTag.svelte'
 
-  /** @type {import("../../tags/Supertag").Supertag} */
+  /** @type {import("../../types/tags/Supertag").Supertag} */
   export let supertag
 
   const dispatch = createEventDispatcher()
@@ -14,9 +14,11 @@
 <li>
   <h3>{supertag.name}</h3>
   <small>{Object.keys(supertag.tags).length} tags</small>
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <i tabindex="0" class="codicon codicon-edit" on:click={emitEdit} on:keyup={onEnterOrSpace(emitEdit)} />
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <i tabindex="0" class="codicon codicon-close" on:click={emitRemove} on:keyup={onEnterOrSpace(emitRemove)} />
-  <span>{supertag.description}</span>
+  <span>{supertag.description || supertag.name}</span>
   <ol>
     {#each supertag.tags as tag}
       <SearchableTag {tag} />
@@ -30,9 +32,14 @@
     grid-template-columns: auto 1fr auto auto;
     gap: 0.5rem;
     align-items: center;
-    padding: 0.5rem;
+    padding: var(--grid-gap);
     border-radius: var(--border-radius);
     transition: color var(--default-transition-behaviour);
+  }
+
+  li:not(:first-of-type) {
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    border-block-start: 1px solid var(--background-2);
   }
 
   h3 {
