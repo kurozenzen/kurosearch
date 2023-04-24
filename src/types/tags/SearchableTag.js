@@ -27,6 +27,6 @@ export class SearchableTag {
   }
 
   serialize() {
-    return `${serializeModifier(this.modifier)}${encodeURIComponent(this.name)}`
+    return `${serializeModifier(this.modifier)}${encodeURIComponent(this.name.replaceAll(' ', '_'))}`
   }
 }

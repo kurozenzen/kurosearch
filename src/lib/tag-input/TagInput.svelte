@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import ToggleIcon from '../common/ToggleIcon.svelte'
   import ModifierSelect from '../modifier/ModifierSelect.svelte'
   import LoadingAnimation from '../common/LoadingAnimation.svelte'
   import currentPage from '../navigation/currentPage'
@@ -33,6 +32,11 @@
     if (searchTerm !== '') {
       searchPromise = getSuggestions(searchTerm)
     }
+  }
+
+  const pick = (tag) => () => {
+    dispatch('pick', toActiveTag(tag, modifier))
+    resetInput()
   }
 
   /**
@@ -68,12 +72,14 @@
     bind:value={searchTerm}
     aria-label="Search for tags."
     on:blur={(event) => {
-      if (
-        !event.relatedTarget ||
-        //@ts-expect-error
-        !event.target.parentNode.contains(event.relatedTarget)
-      ) {
+      // @ts-expect-error
+      if (!event.relatedTarget || !event.target.parentNode.contains(event.relatedTarget)) {
         open = false
+      }
+    }}
+    on:keyup={(event) => {
+      if (event.code === 'Enter') {
+        pick(tags.length > 0 ? tags[0] : new Tag(searchTerm, 0, 'ambiguous'))()
       }
     }}
   />
@@ -97,13 +103,7 @@
       </div>
     {:then}
       {#each tags as tag}
-        <TagSuggestion
-          {tag}
-          on:click={() => {
-            dispatch('pick', toActiveTag(tag, modifier))
-            resetInput()
-          }}
-        />
+        <TagSuggestion {tag} on:click={pick(tag)} />
       {/each}
       <div class="suggestion-footer" />
     {:catch error}
