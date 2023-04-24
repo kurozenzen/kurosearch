@@ -2,6 +2,7 @@
  * @typedef {import("../../types/blocking-groups/BlockingGroup").BlockingGroup} BlockingGroup
  * @typedef {import("../../types/tags/ActiveTag").ActiveTag} ActiveTag
  * @typedef {import("../../types/post-sort/sort").SortProperty} SortProperty
+ * @typedef {import("../../types/post-sort/sort").SortDirection} SortDirection
  * @typedef {import("../../types/tags/Supertag").Supertag} Supertag
  */
 
@@ -19,6 +20,8 @@ class SearchBuilder {
     this.blockedContent = []
     /** @type {SortProperty} */
     this.sortProperty = 'id'
+    /** @type {SortDirection} */
+    this.sortDirection = 'desc'
     this.minScore = 0
 
     this.tagString = null
@@ -48,6 +51,12 @@ class SearchBuilder {
     return this
   }
 
+  /** @param {SortDirection} sortDirection */
+  withSortDirection(sortDirection) {
+    this.sortDirection = sortDirection
+    return this
+  }
+
   /** @param {number} minScore */
   withMinScore(minScore) {
     this.minScore = minScore
@@ -61,7 +70,7 @@ class SearchBuilder {
   }
 
   async getPageAndCount() {
-    this.tagString = serializeAllTags(this.tags, this.sortProperty, this.minScore, this.blockedContent, this.supertags)
+    this.tagString = serializeAllTags(this.tags, this.sortProperty, this.sortDirection, this.minScore, this.blockedContent, this.supertags)
     return Promise.all([this.getPage(), this.getCount()])
   }
 
@@ -69,6 +78,7 @@ class SearchBuilder {
     this.tagString ||= serializeAllTags(
       this.tags,
       this.sortProperty,
+      this.sortDirection,
       this.minScore,
       this.blockedContent,
       this.supertags
@@ -80,6 +90,7 @@ class SearchBuilder {
     this.tagString ||= serializeAllTags(
       this.tags,
       this.sortProperty,
+      this.sortDirection,
       this.minScore,
       this.blockedContent,
       this.supertags
@@ -95,15 +106,16 @@ export const createSearch = () => {
 /**
  * @param {ActiveTag[]} tags
  * @param {SortProperty} sortProperty
+ * @param {SortDirection} sortDirection
  * @param {number} minScore
  * @param {BlockingGroup[]} blockedContent
  * @param {Supertag[]} availableSupertags
  */
-const serializeAllTags = (tags, sortProperty, minScore, blockedContent, availableSupertags) => {
+const serializeAllTags = (tags, sortProperty, sortDirection, minScore, blockedContent, availableSupertags) => {
   const activeSupertags = tags.filter((t) => t.type === 'supertag')
   const activeNormalTags = tags.filter((t) => t.type !== 'supertag')
 
-  const parts = [`score:>=${minScore}`, `sort:${sortProperty}:desc`]
+  const parts = [`score:>=${minScore}`, `sort:${sortProperty}:${sortDirection}`]
 
   if (activeNormalTags.length > 0) {
     const activeTagString = serializeSearchableTags(activeNormalTags.map((t) => toSearchableTag(t)))
