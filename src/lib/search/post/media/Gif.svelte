@@ -34,7 +34,7 @@
   onDestroy(() => postObserver.unobserve(media))
 </script>
 
-<div>
+<div class="container">
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <img
     class="media-img"
@@ -52,13 +52,15 @@
   />
 
   <button on:click={togglePlaying} class:play={playing && !loading}>
-    {#if loading}
-      <img src={loadSvg} alt="Loading GIF" width="16" height="32" />
-    {:else if playing}
-      <img src={pauseSvg} alt="Stop GIF" width="16" height="32" />
-    {:else}
-      <img src={playSvg} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
-    {/if}
+    <div class="circle">
+      {#if loading}
+        <img src={loadSvg} alt="Loading GIF" width="16" height="32" />
+      {:else if playing}
+        <img src={pauseSvg} alt="Stop GIF" width="16" height="32" />
+      {:else}
+        <img src={playSvg} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
+      {/if}
+    </div>
   </button>
 </div>
 
@@ -87,17 +89,23 @@
   }
 
   button {
+    position: absolute;
+    background-color: unset;
+    padding: 20px;
+    border-radius: 34px;
+  }
+
+  .circle {
     color: black;
     background-color: white;
-    border-radius: 30px;
-    position: absolute;
+    border-radius: 24px;
     width: 48px;
     height: 48px;
     padding: 6px;
     padding-top: 8px;
   }
 
-  div {
+  .container {
     position: relative;
     display: grid;
     place-items: center;

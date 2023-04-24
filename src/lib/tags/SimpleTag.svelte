@@ -23,7 +23,9 @@
   tabindex="0"
   role="button"
   title="Click to add tag"
-  on:click={index >= 0 ? () => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name)) : () => {}}
+  on:click={isActivatedBySupertag
+    ? () => {}
+    : () => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name))}
   class:active
   class:supertag={isActivatedBySupertag}
   class:icon
