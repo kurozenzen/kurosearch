@@ -3,14 +3,18 @@
   import { formatTagname } from '../../formatting/formatTagname'
   import { createEventDispatcher } from 'svelte'
   import TagIcon from '../tags/TagIcon.svelte'
+  import onEnterOrSpace from '../common/onEnterOrSpace'
 
-  /** @type {import("../../tags/Tag").Tag} */
+  /** @type {import("../../types/tags/Tag").Tag} */
   export let tag
+  export let selected = false
 
   const dispatch = createEventDispatcher()
+  const onClick = () => dispatch('click', tag)
 </script>
 
-<li tabindex="0" role="button" on:click={() => dispatch('click', tag)} title={tag.name}>
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<li tabindex="0" on:click={onClick} on:keypress={onEnterOrSpace(onClick)} title={tag.name} class:selected>
   <TagIcon type={tag.type} />
   <span class="tag-name">{formatTagname(tag.name)}</span>
   <span class="tag-count">{formatCount(tag.count)}</span>
@@ -27,6 +31,11 @@
     padding-inline: 16px;
     user-select: none;
     transition: background-color var(--default-transition-behaviour);
+  }
+
+  li:focus, .selected {
+    background-color: var(--background-2);
+    outline: none;
   }
 
   @media (hover: hover) {

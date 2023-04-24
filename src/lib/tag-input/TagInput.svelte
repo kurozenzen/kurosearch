@@ -8,6 +8,7 @@
   import userdata from '../account/userdata'
   import { Tag, toActiveTag } from '../../types/tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
+  import { prevent_default } from 'svelte/internal'
 
   /**
    * @typedef {import("../../types/tags/Tag").Tag} Tag
@@ -20,6 +21,7 @@
   let searchPromise
 
   let searchTerm = ''
+  let selectedIndex = 0
   /** @type {Modifier}*/
   let modifier = '+'
   let open = false
@@ -78,8 +80,20 @@
       }
     }}
     on:keyup={(event) => {
-      if (event.code === 'Enter') {
-        pick(tags.length > 0 ? tags[0] : new Tag(searchTerm, 0, 'ambiguous'))()
+      switch (event.code) {
+        case 'Enter':
+          pick(tags.length > selectedIndex ? tags[selectedIndex] : new Tag(searchTerm, 0, 'ambiguous'))()
+          break
+        case 'ArrowUp':
+          if (tags.length > 0) {
+            selectedIndex = (selectedIndex + tags.length - 1) % tags.length
+          }
+          break
+        case 'ArrowDown':
+          if (tags.length > 0) {
+            selectedIndex = (selectedIndex + 1) % tags.length
+          }
+          break
       }
     }}
   />
@@ -102,8 +116,8 @@
         <LoadingAnimation />
       </div>
     {:then}
-      {#each tags as tag}
-        <TagSuggestion {tag} on:click={pick(tag)} />
+      {#each tags as tag, index}
+        <TagSuggestion {tag} on:click={pick(tag)} selected={index === selectedIndex} />
       {/each}
       <div class="suggestion-footer" />
     {:catch error}
