@@ -6,77 +6,54 @@
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
-
-  /** @type {"custom" | Number}*/
-  let selectedMinScore = 0
-  let customMinScore = 0
-
-  $: {
-    $sortStore.minScore = selectedMinScore !== 'custom' ? selectedMinScore : customMinScore
-  }
 </script>
 
 <div class="container">
   <span title={`${$countStore} results`}>{formatCount($countStore)} results</span>
 
-  <div class="group">
-    <i class="codicon codicon-list-ordered" />
-    <select
-      class="select-sort-property"
-      bind:value={$sortStore.sortProperty}
-      title="Sort results by"
-      on:change={() => dispatch('configchange')}
-    >
-      <option value="id">Upload</option>
-      <option value="score">Score</option>
-      <option value="updated">Change</option>
-    </select>
+  <div class="config">
+    <div class="group">
+      <i class="codicon codicon-list-ordered" />
+      <select
+        class="select-sort-property"
+        bind:value={$sortStore.sortProperty}
+        title="Sort results by"
+        on:change={() => dispatch('configchange')}
+      >
+        <option value="id">Upload</option>
+        <option value="score">Score</option>
+        <option value="updated">Change</option>
+      </select>
+    </div>
+
+    <div class="group">
+      <i class="codicon codicon-arrow-swap" />
+      <select
+        class="select-sort-direction"
+        bind:value={$sortStore.sortDirection}
+        title="Order ascening or descenfing"
+        on:change={() => dispatch('configchange')}
+      >
+        <option value="desc">Desc</option>
+        <option value="asc">Asc</option>
+      </select>
+    </div>
+
+    <div class="group">
+      <i class="codicon codicon-filter" />
+
+      <span>Score ≥ &ThinSpace;</span>
+      <input
+        type="number"
+        min={0}
+        max={100000}
+        step={1}
+        bind:value={$sortStore.minScore}
+        on:keyup={onEnterOrSpace((event) => event.target.blur())}
+        on:blur={() => dispatch('configchange')}
+      />
+    </div>
   </div>
-
-  <div class="group">
-    <i class="codicon codicon-arrow-swap" />
-    <select
-      class="select-sort-direction"
-      bind:value={$sortStore.sortDirection}
-      title="Order ascening or descenfing"
-      on:change={() => dispatch('configchange')}
-    >
-      <option value="desc">Desc</option>
-      <option value="asc">Asc</option>
-    </select>
-  </div>
-
-  <div class="group">
-    <i class="codicon codicon-filter" />
-
-    <select
-      bind:value={selectedMinScore}
-      title="Filter by score"
-      on:change={() => {
-        if (selectedMinScore !== 'custom') {
-          dispatch('configchange')
-        }
-      }}
-    >
-      <option value={0}>Unfiltered</option>
-      <option value={10}>Score > 10</option>
-      <option value={100}>Score > 100</option>
-      <option value={1000}>Score > 1K</option>
-      <option value={'custom'}>Custom</option>
-    </select>
-  </div>
-
-  {#if selectedMinScore === 'custom'}
-    <input
-      type="number"
-      min="0"
-      max="100000"
-      step="1"
-      bind:value={customMinScore}
-      on:keyup={onEnterOrSpace((event) => event.target.blur())}
-      on:blur={() => dispatch('configchange')}
-    />
-  {/if}
 </div>
 
 <style>
@@ -85,10 +62,14 @@
     align-items: center;
     margin-block-start: 4rem;
     margin-block-end: 8px;
-    gap: var(--grid-gap);
-    height: var(--line-height);
-    overflow-x: scroll;
     padding-inline: 1rem;
+    gap: var(--grid-gap);
+    flex-wrap: wrap;
+  }
+
+  .config {
+    display: flex;
+    gap: var(--grid-gap);
   }
 
   select {
@@ -132,6 +113,7 @@
   }
 
   input {
-    width: 4rem;
+    width: 3rem;
+    background-color: transparent;
   }
 </style>

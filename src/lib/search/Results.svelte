@@ -17,7 +17,7 @@
 </script>
 
 {#if $countStore}
-  <ResultsHeader />
+  <ResultsHeader on:configchange={() => dispatch('configchange')} />
   <ol>
     {#each $results.pages as page}
       <Page posts={page} />
