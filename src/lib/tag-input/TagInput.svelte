@@ -3,12 +3,11 @@
   import ModifierSelect from '../modifier/ModifierSelect.svelte'
   import LoadingAnimation from '../common/LoadingAnimation.svelte'
   import currentPage from '../navigation/currentPage'
-  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import onEnterOrSpace, { isEnter } from '../common/onEnterOrSpace'
   import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
   import { Tag, toActiveTag } from '../../types/tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
-  import { prevent_default } from 'svelte/internal'
 
   /**
    * @typedef {import("../../types/tags/Tag").Tag} Tag
@@ -31,11 +30,13 @@
 
   $: {
     tags = []
+    selectedIndex = 0
     if (searchTerm !== '') {
       searchPromise = getSuggestions(searchTerm)
     }
   }
 
+  /** @param {Tag} tag */
   const pick = (tag) => () => {
     dispatch('pick', toActiveTag(tag, modifier))
     resetInput()
@@ -80,20 +81,12 @@
       }
     }}
     on:keyup={(event) => {
-      switch (event.code) {
-        case 'Enter':
-          pick(tags.length > selectedIndex ? tags[selectedIndex] : new Tag(searchTerm, 0, 'ambiguous'))()
-          break
-        case 'ArrowUp':
-          if (tags.length > 0) {
-            selectedIndex = (selectedIndex + tags.length - 1) % tags.length
-          }
-          break
-        case 'ArrowDown':
-          if (tags.length > 0) {
-            selectedIndex = (selectedIndex + 1) % tags.length
-          }
-          break
+      if (isEnter(event)) {
+        pick(tags.length > selectedIndex ? tags[selectedIndex] : new Tag(searchTerm, 0, 'ambiguous'))()
+      } else if (event.code === 'ArrowUp' && tags.length > 0) {
+        selectedIndex = (selectedIndex + tags.length - 1) % tags.length
+      } else if (event.code === 'ArrowDown' && tags.length > 0) {
+        selectedIndex = (selectedIndex + 1) % tags.length
       }
     }}
   />
