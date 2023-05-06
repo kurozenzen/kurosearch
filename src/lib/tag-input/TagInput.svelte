@@ -74,6 +74,7 @@
     type="text"
     bind:value={searchTerm}
     aria-label="Search for tags."
+    on:focus={() => {console.log("asf"); document.getElementById("title").scrollIntoView()}}
     on:blur={(event) => {
       // @ts-expect-error
       if (!event.relatedTarget || !event.target.parentNode.contains(event.relatedTarget)) {

@@ -1,4 +1,4 @@
-<h1>kurosearch</h1>
+<h1 id="title">kurosearch</h1>
 
 <style>
   h1 {
