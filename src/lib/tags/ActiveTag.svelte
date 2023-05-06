@@ -2,10 +2,9 @@
   import { createEventDispatcher } from 'svelte'
   import { formatCount } from '../../formatting/formatCount'
   import { formatTagname } from '../../formatting/formatTagname'
-  import TagIcon from '../tags/TagIcon.svelte'
   import { MODIFIER_NAMES } from '../modifier/modifierData'
 
-  /** @type {import("../../tags/ActiveTag").ActiveTag}*/
+  /** @type {import("../../types/tags/ActiveTag").ActiveTag}*/
   export let tag
 
   const dispatch = createEventDispatcher()
@@ -22,9 +21,6 @@
   on:click={() => dispatch('click')}
   on:contextmenu|preventDefault={() => dispatch('contextmenu')}
 >
-  {#if tag.type == 'supertag'}
-    <TagIcon type={tag.type} />
-  {/if}
   {formatTagname(tag.name)}
   {#if tag.count}
     ({formatCount(tag.count)})

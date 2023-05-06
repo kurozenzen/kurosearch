@@ -3,7 +3,7 @@
   import { formatTagname } from '../../formatting/formatTagname'
   import activeTags from '../search/activeTagsStore'
   import userdata from '../account/userdata'
-  import TagIcon from './TagIcon.svelte'
+  import { getClassForTagType } from './tagIconData'
 
   /** @type {import("../../types/tags/Tag").Tag}*/
   export let tag
@@ -17,28 +17,22 @@
   $: icon = hasIcon(tag.type)
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<li
+<button
   tabindex="0"
-  role="button"
   title="Click to add tag"
   on:click={isActivatedBySupertag
     ? () => {}
     : () => (active ? activeTags.removeByIndex(index) : activeTags.addByName(tag.name))}
   class:active
-  class:supertag={isActivatedBySupertag}
   class:icon
-  class={tag.type}
+  class:supertag={isActivatedBySupertag}
+  class={getClassForTagType(tag.type)}
 >
-  {#if icon}
-    <TagIcon type={tag.type} />
-  {/if}
   {formatTagname(tag.name)}
-</li>
+</button>
 
 <style>
-  li {
+  button {
     --background-color: var(--background-2);
     --background-color-hover: var(--background-3);
 
@@ -59,45 +53,45 @@
     padding-inline: 6px 12px;
   }
 
-  li.active {
+  button.active {
     color: var(--text-accent);
     --background-color: var(--accent);
     --background-color-hover: var(--accent-light);
   }
 
-  li.supertag {
+  button.supertag {
     color: var(--text-accent);
     --background-color: var(--accent);
     border: dashed 2px var(--text-accent);
   }
 
-  .artist {
+  .codicon-edit {
     --background-color: var(--artist-background);
     --background-color-hover: var(--artist-background-hover);
   }
 
-  .character {
+  .codicon-person {
     --background-color: var(--character-background);
     --background-color-hover: var(--character-background-hover);
   }
 
-  .copyright {
+  .codicon-folder {
     --background-color: var(--copyright-background);
     --background-color-hover: var(--copyright-background-hover);
   }
 
-  .metadata {
+  .codicon-info {
     --background-color: var(--metadata-background);
     --background-color-hover: var(--metadata-background-hover);
   }
 
   @media (hover: hover) {
-    li:not(.supertag):hover {
+    button:not(.supertag):hover {
       background-color: var(--background-color-hover);
     }
   }
 
-  li:not(.supertag):active {
+  button:not(.supertag):active {
     background-color: var(--background-1);
   }
 </style>

@@ -4,6 +4,7 @@
   import ActiveTag from '../tags/ActiveTag.svelte'
   import activeTags from './activeTagsStore'
   import { ActiveTag as AT } from '../../types/tags/ActiveTag'
+  import account from '../account/account'
 
   const dispatch = createEventDispatcher()
 </script>
@@ -18,7 +19,7 @@
           activeTags.addOrReplace(new AT(getNextModifier(tag.modifier), tag.name, tag.count, tag.type))}
       />
     {/each}
-    {#if $activeTags.length > 1}
+    {#if $activeTags.length > 1 && $account.loggedIn}
       <button class="add-supertag" title="Click to create a new supertag" on:click={() => dispatch('supertag')}>
         <i class="codicon codicon-star-full" />
       </button>
@@ -28,9 +29,10 @@
 
 <style>
   ul {
+    min-height: 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--small-gap);
     justify-content: center;
   }
 

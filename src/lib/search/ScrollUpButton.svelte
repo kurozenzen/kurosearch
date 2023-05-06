@@ -35,7 +35,7 @@
     right: 2rem;
     transition: background-color var(--default-transition-behaviour), bottom var(--default-transition-behaviour);
     box-shadow: var(--default-shadow);
-    z-index: var(--above-ads);
+    z-index: var(--above-above-content);
   }
 
   @media (min-width: 800px) {

@@ -6,6 +6,7 @@
   import { Supertag } from '../../types/tags/Supertag'
   import { isValidName } from '../../types/tags/validation'
   import { toSearchableTag } from '../../types/tags/ActiveTag'
+  import Dialog from '../dialog/Dialog.svelte'
 
   /**
    * @typedef {import("../../types/tags/ActiveTag").ActiveTag} ActiveTag
@@ -23,61 +24,56 @@
   $: valid = isValidName(name)
 </script>
 
-<dialog>
-  <h3>Create Supertag</h3>
+<Dialog on:close={closeDialog}>
+  <section>
+    <h3>Create Supertag</h3>
 
-  <i
-    tabindex="0"
-    role="button"
-    class={`codicon codicon-close`}
-    on:click={closeDialog}
-    on:keyup={onEnterOrSpace(closeDialog)}
-  />
+    <i
+      tabindex="0"
+      role="button"
+      class={`codicon codicon-close`}
+      on:click={closeDialog}
+      on:keyup={onEnterOrSpace(closeDialog)}
+    />
 
-  <div>
-    <label for="supertag-name"> Name </label>
-    <input type="text" bind:value={name} placeholder="Descriptive name" id="supertag-name" />
-  </div>
+    <div>
+      <label for="supertag-name"> Name </label>
+      <input type="text" bind:value={name} placeholder="Descriptive name" id="supertag-name" />
+    </div>
 
-  <div>
-    <label for="supertag-description"> Description </label>
-    <textarea type="text" bind:value={description} placeholder="Short description" id="supertag-description" />
-  </div>
+    <div>
+      <label for="supertag-description"> Description </label>
+      <textarea type="text" bind:value={description} placeholder="Short description" id="supertag-description" />
+    </div>
 
-  <div>
-    <span> Tags</span>
-    <ol>
-      {#each tags as tag}
-        <ActiveTagComponent {tag} />
-      {/each}
-    </ol>
-  </div>
-  <Button
-    title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
-    text="Create supertag"
-    disabled={!valid}
-    on:click={() => {
-      dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
-      closeDialog()
-    }}
-  />
-</dialog>
+    <div>
+      <span> Tags</span>
+      <ol>
+        {#each tags as tag}
+          <ActiveTagComponent {tag} />
+        {/each}
+      </ol>
+    </div>
+    <Button
+      title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
+      text="Create supertag"
+      disabled={!valid}
+      on:click={() => {
+        dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
+        closeDialog()
+      }}
+    />
+  </section>
+</Dialog>
 
 <style>
-  dialog {
+  section {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 0.5rem;
+    gap: var(--small-gap);
 
     border-radius: var(--border-radius);
     background-color: var(--background-1);
-    position: fixed;
-    top: 50%;
-  }
-
-  dialog::backdrop {
-    background-color: black;
-    opacity: 0.5;
   }
 
   i {

@@ -1,9 +1,14 @@
-export const TAG_TYPE_ICON_NAMES = Object.freeze({
-  artist: 'edit',
-  character: 'person',
-  copyright: 'folder',
-  metadata: 'info',
-  rating: 'unverified',
-  source: 'link',
-  supertag: 'star-full',
+const TAG_TYPE_CSS_CLASSES = Object.freeze({
+  artist: 'codicon codicon-edit',
+  character: 'codicon codicon-person',
+  copyright: 'codicon codicon-folder',
+  metadata: 'codicon codicon-info',
+  rating: 'codicon codicon-unverified',
+  source: 'codicon codicon-link',
+  supertag: 'codicon codicon-star-full',
 })
+
+/** @param {string} type */
+export const getClassForTagType = (type) => {
+  return TAG_TYPE_CSS_CLASSES[type] ?? ''
+}

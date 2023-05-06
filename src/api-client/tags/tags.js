@@ -46,8 +46,5 @@ export const getTagSuggestions = async (term) => {
 
 /** @param {string} raw */
 export const replaceHtmlEntities = (raw) => {
-  return raw
-    .replaceAll('&#034;', '"')
-    .replaceAll('&#038;', "&")
-    .replaceAll('&#039;', "'")
+  return raw.replaceAll('&#034;', '"').replaceAll('&#038;', '&').replaceAll('&#039;', "'").replaceAll('&eacute;', 'é')
 }

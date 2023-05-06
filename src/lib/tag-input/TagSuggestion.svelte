@@ -2,7 +2,6 @@
   import { formatCount } from '../../formatting/formatCount'
   import { formatTagname } from '../../formatting/formatTagname'
   import { createEventDispatcher } from 'svelte'
-  import TagIcon from '../tags/TagIcon.svelte'
   import onEnterOrSpace from '../common/onEnterOrSpace'
 
   /** @type {import("../../types/tags/Tag").Tag} */
@@ -15,7 +14,6 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <li tabindex="0" on:click={onClick} on:keypress={onEnterOrSpace(onClick)} title={tag.name} class:selected>
-  <TagIcon type={tag.type} />
   <span class="tag-name">{formatTagname(tag.name)}</span>
   <span class="tag-count">{formatCount(tag.count)}</span>
 </li>
@@ -33,7 +31,8 @@
     transition: background-color var(--default-transition-behaviour);
   }
 
-  li:focus, .selected {
+  li:focus,
+  .selected {
     background-color: var(--background-2);
     outline: none;
   }

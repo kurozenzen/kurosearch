@@ -4,6 +4,7 @@
   --box-height: 36px;
   --line-height-large: 44px;
   --grid-gap: 1rem;
+  --small-gap: .5rem;
   --icon-size: 32px;
 
   /* Rounding */
@@ -35,7 +36,8 @@
 
   /* z-index */
   --above-page: 1;
-  --above-ads: 300;
+  --above-above-content: 300;
+  --above-everything: 999;
 }
 
 html.dark {

@@ -62,9 +62,15 @@
     align-items: center;
     margin-block-start: 4rem;
     margin-block-end: 8px;
-    padding-inline: 1rem;
+    padding-inline: var(--grid-gap);
     gap: var(--grid-gap);
     flex-wrap: wrap;
+  }
+
+  @media (min-width: 800px) {
+    .container {
+      padding-inline: unset;
+    }
   }
 
   .config {

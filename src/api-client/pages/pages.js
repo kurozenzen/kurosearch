@@ -1,6 +1,5 @@
 import { isValidCount } from '../../types/tags/validation'
 import { Post } from '../../types/post/Post'
-import { isValidSortProperty } from '../../types/post-sort/sort'
 import { SearchableTag } from '../../types/tags/SearchableTag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 import { Tag } from '../../types/tags/Tag'
@@ -45,9 +44,7 @@ export const getPage = async (pageNumber, tags) => {
   }
 }
 
-/**
- * @param {string} tags
- */
+/** @param {string} tags */
 export const getCount = async (tags) => {
   const response = await fetchAbortPrevious(getCountUrl(tags), getPageAbortController)
 
@@ -56,7 +53,6 @@ export const getCount = async (tags) => {
   const text = await response.text()
   const parser = new DOMParser()
   const xml = parser.parseFromString(text, 'text/xml')
-
   const count = Number(xml.getElementsByTagName('posts')[0].getAttribute('count'))
 
   throwOnInvalidCount(count)
@@ -103,9 +99,7 @@ const parsePost = (post) => {
   )
 }
 
-/**
- * @param {Array<ApiTag>} tagInfo
- */
+/** @param {Array<ApiTag>} tagInfo */
 const parseTagInfo = (tagInfo) => {
   return tagInfo
     .map((t) => new Tag(replaceHtmlEntities(t.tag), t.count, t.type))
