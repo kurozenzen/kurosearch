@@ -2,12 +2,12 @@
   import { createEventDispatcher } from 'svelte'
   import ModifierSelect from '../modifier/ModifierSelect.svelte'
   import LoadingAnimation from '../common/LoadingAnimation.svelte'
-  import currentPage from '../navigation/currentPage'
-  import onEnterOrSpace, { isEnter } from '../common/onEnterOrSpace'
+  import { isEnter } from '../common/onEnterOrSpace'
   import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
   import { Tag, toActiveTag } from '../../types/tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
+  import HelpButton from './HelpButton.svelte'
 
   /**
    * @typedef {import("../../types/tags/Tag").Tag} Tag
@@ -99,13 +99,7 @@
       modifier = e.detail
     }}
   />
-  <i
-    tabindex="0"
-    role="button"
-    class="codicon codicon-question spaced"
-    on:click={() => currentPage.navigateTo('help')}
-    on:keyup={onEnterOrSpace(() => currentPage.navigateTo('help'))}
-  />
+  <HelpButton />
   <ol class:open>
     {#await searchPromise}
       <div class="suggestion-footer">
@@ -181,10 +175,6 @@
     border-radius: 0 0 22px 22px;
     overflow: hidden;
     min-height: 22px;
-  }
-
-  .codicon-question {
-    cursor: pointer;
   }
 
   .suggestion-footer {
