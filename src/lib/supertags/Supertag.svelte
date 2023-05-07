@@ -2,13 +2,19 @@
   import { createEventDispatcher } from 'svelte'
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import SearchableTag from './SearchableTag.svelte'
+  import Dialog from '../dialog/Dialog.svelte'
+  import Button from '../common/Button.svelte'
 
   /** @type {import("../../types/tags/Supertag").Supertag} */
   export let supertag
 
+  let deleting = false
+
   const dispatch = createEventDispatcher()
   const emitRemove = () => dispatch('remove', supertag)
   const emitEdit = () => dispatch('edit', supertag)
+  const openDeleteDialog = () => (deleting = true)
+  const closeDeleteDialog = () => (deleting = false)
 </script>
 
 <li>
@@ -17,7 +23,12 @@
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <i tabindex="0" class="codicon codicon-edit" on:click={emitEdit} on:keyup={onEnterOrSpace(emitEdit)} />
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <i tabindex="0" class="codicon codicon-close" on:click={emitRemove} on:keyup={onEnterOrSpace(emitRemove)} />
+  <i
+    tabindex="0"
+    class="codicon codicon-close"
+    on:click={openDeleteDialog}
+    on:keyup={onEnterOrSpace(openDeleteDialog)}
+  />
   <span>{supertag.description || supertag.name}</span>
   <ol>
     {#each supertag.tags as tag}
@@ -25,6 +36,16 @@
     {/each}
   </ol>
 </li>
+
+{#if deleting}
+  <Dialog on:close={closeDeleteDialog}>
+    <div>
+      <span>Are you sure? This action cannot be undone.</span>
+      <Button text="Yes, delete" title="Delete supertag" on:click={emitRemove} />
+      <Button text="No, keep it" title="Cancel" on:click={closeDeleteDialog} />
+    </div>
+  </Dialog>
+{/if}
 
 <style>
   li {
@@ -75,5 +96,11 @@
     i:hover {
       color: var(--text-highlight);
     }
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--grid-gap);
   }
 </style>

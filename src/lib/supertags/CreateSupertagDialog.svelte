@@ -43,7 +43,7 @@
 
     <div>
       <label for="supertag-description"> Description </label>
-      <textarea type="text" bind:value={description} placeholder="Short description" id="supertag-description" />
+      <input type="text" bind:value={description} placeholder="Short description" id="supertag-description" />
     </div>
 
     <div>
@@ -54,15 +54,17 @@
         {/each}
       </ol>
     </div>
-    <Button
-      title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
-      text="Create supertag"
-      disabled={!valid}
-      on:click={() => {
-        dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
-        closeDialog()
-      }}
-    />
+    <div class="last">
+      <Button
+        title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
+        text="Create supertag"
+        disabled={!valid}
+        on:click={() => {
+          dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
+          closeDialog()
+        }}
+      />
+    </div>
   </section>
 </Dialog>
 
@@ -73,7 +75,6 @@
     gap: var(--small-gap);
 
     border-radius: var(--border-radius);
-    background-color: var(--background-1);
   }
 
   i {
@@ -84,6 +85,11 @@
     grid-column: span 2;
   }
 
+  .last {
+    display: grid;
+    place-items: center;
+  }
+
   label,
   span {
     display: block;
@@ -92,13 +98,13 @@
     font-size: var(--text-size-small);
   }
 
-  input,
-  textarea {
+  input {
     width: 100%;
     background-color: var(--background-1);
     border: unset;
-    height: 24px;
-    padding-inline: 4px;
+    height: var(--line-height);
+    padding-inline: var(--small-gap);
+    border-radius: var(--border-radius);
   }
 
   ol {
