@@ -1,6 +1,7 @@
 /**
  * @typedef {"id" | "score" | "updated"} SortProperty
  * @typedef {"asc" | "desc"} SortDirection
+ * @typedef {">=" | "<="} ScoreComparator
  */
 
 const VALID_SORT_PROPERTIES = Object.freeze(['id', 'score', 'updated'])

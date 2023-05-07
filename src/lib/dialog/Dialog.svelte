@@ -21,7 +21,7 @@
 <style>
   .dialog {
     border-radius: var(--border-radius);
-    background-color: var(--background-1);
+    background-color: var(--background-0);
     z-index: var(--above-everything);
     padding: var(--grid-gap);
   }
@@ -35,8 +35,8 @@
     contain: strict;
     height: 100vh;
     width: 100vw;
-    background-color: #000a;
-    backdrop-filter: blur(10px);
+    background-color: #1118;
+    backdrop-filter: blur(5px);
     z-index: var(--above-everything);
   }
 </style>

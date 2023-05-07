@@ -40,8 +40,8 @@ describe('validation', () => {
       expect(isValidCount('')).toBe(false)
     })
 
-    test('negative number returns false', () => {
-      expect(isValidCount(-1)).toBe(false)
+    test('negative number returns true', () => {
+      expect(isValidCount(-1)).toBe(true)
     })
 
     test('zero returns true', () => {

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 
-const defaultParser = JSON.parse;
-const defaultSerializer = JSON.stringify;
+const defaultParser = JSON.parse
+const defaultSerializer = JSON.stringify
 
 /**
  * @template T
@@ -26,7 +26,12 @@ export const createPersistentStore = (key, initial, serializer = defaultSerializ
  * @param {(value: T) => string} serializer
  * @param {(value: string) => T} parser
  */
-export const createDependentPersistentStore = (key, initial, serializer = defaultSerializer, parser = defaultParser) => {
+export const createDependentPersistentStore = (
+  key,
+  initial,
+  serializer = defaultSerializer,
+  parser = defaultParser
+) => {
   const enabled = localStorage.getItem('isPersistedLocally') === 'true'
 
   /** @type {null | T} */

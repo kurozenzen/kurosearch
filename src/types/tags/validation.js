@@ -3,5 +3,5 @@ export const isValidName = (value) => {
 }
 
 export const isValidCount = (value) => {
-  return typeof value === 'number' && value >= 0
+  return typeof value === 'number'
 }

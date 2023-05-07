@@ -215,7 +215,7 @@
       This is the default modifier. Using it with tags will make the search include them. This means that all posts in
       the results will have every include tag on them. Use this modifier for all things that you definitely want to see.
     </p>
-    <div class="flex-row">Icon:<i class={`codicon codicon-${MODIFIERS_ICONS['+']}`} /></div>
+    <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['+']} /></div>
     <div class="flex-row">
       Example:
       <ActiveTag tag={new ActiveTagObject('+', 'good', 5, 'general')} />
@@ -232,7 +232,7 @@
       <em>TIP:</em> You can create a supertag with all your exclude tags so they are saved between site visits. That makes
       excluding your turnoffs really easy.
     </p>
-    <div class="flex-row">Icon:<i class={`codicon codicon-${MODIFIERS_ICONS['-']}`} /></div>
+    <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['-']} /></div>
     <div class="flex-row">
       Example:
       <ActiveTag tag={new ActiveTagObject('-', 'bad', 5, 'general')} />
@@ -254,7 +254,7 @@
       <ActiveTag tag={new ActiveTagObject('~', 'princess_daisy', 6900, 'character')} />
     </div>
     <p>...then all results will have at least one of the princesses in them, but not neccessarily all of them.</p>
-    <div class="flex-row">Icon:<i class={`codicon codicon-${MODIFIERS_ICONS['~']}`} /></div>
+    <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['~']} /></div>
   </li>
 </ul>
 

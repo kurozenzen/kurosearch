@@ -1,7 +1,7 @@
 export const MODIFIERS_ICONS = Object.freeze({
-  '+': 'plus',
-  '-': 'circle-slash',
-  '~': 'record',
+  '+': 'codicon codicon-plus',
+  '-': 'codicon codicon-circle-slash',
+  '~': 'codicon codicon-record',
 })
 export const MODIFIERS_HINTS = Object.freeze({
   '+': 'Included. Tags will be included in the search.',

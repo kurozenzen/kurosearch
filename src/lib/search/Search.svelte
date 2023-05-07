@@ -19,6 +19,7 @@
   let supertagMode = false
   let error = undefined
   let loading = false
+  let previousSortStore = JSON.stringify($sortStore)
 
   const getFirstPage = async () => {
     error = undefined
@@ -33,7 +34,8 @@
         .withSupertags($userdata.supertags)
         .withSortProperty($sortStore.sortProperty)
         .withSortDirection($sortStore.sortDirection)
-        .withMinScore($sortStore.minScore)
+        .withScoreValue($sortStore.scoreValue)
+        .withScoreComparator($sortStore.scoreComparator)
         .withBlockedContent($blockedContent)
         .getPageAndCount()
 
@@ -62,7 +64,8 @@
         .withSupertags($userdata.supertags)
         .withSortProperty($sortStore.sortProperty)
         .withSortDirection($sortStore.sortDirection)
-        .withMinScore($sortStore.minScore)
+        .withScoreValue($sortStore.scoreValue)
+        .withScoreComparator($sortStore.scoreComparator)
         .withBlockedContent($blockedContent)
         .getPage()
 
@@ -72,6 +75,14 @@
       console.warn(e)
     } finally {
       loading = false
+    }
+  }
+
+  $: {
+    const currentSortStore = JSON.stringify($sortStore)
+    if (previousSortStore !== currentSortStore) {
+      previousSortStore = currentSortStore
+      getFirstPage()
     }
   }
 </script>

@@ -94,11 +94,7 @@
     }}
   />
 
-  <ModifierSelect
-    on:change={(e) => {
-      modifier = e.detail
-    }}
-  />
+  <ModifierSelect bind:modifier />
   <HelpButton />
   <ol class:open>
     {#await searchPromise}

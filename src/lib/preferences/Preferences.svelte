@@ -3,10 +3,10 @@
   import PageHeading from '../common/text/PageHeading.svelte'
   import theme from '../theme/theme'
   import blockedContent from './blockedContentStore'
-  import Checkbox from './Checkbox.svelte'
+  import Checkbox from '../common/Checkbox.svelte'
   import { isPersistedLocally } from './persistLocally'
   import Preference from './Preference.svelte'
-  import Selection from './Selection.svelte'
+  import Selection from '../common/Selection.svelte'
 
   let isPersistedLocallyString = $isPersistedLocally ? 'true' : 'false'
 
