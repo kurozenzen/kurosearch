@@ -15,7 +15,7 @@
 
   const OPTIONS_SORT_PROPERTY = Object.freeze({ id: 'Upload', score: 'Score', updated: 'Change' })
   const OPTIONS_SORT_DIRECTION = Object.freeze({ desc: 'codicon codicon-arrow-down', asc: 'codicon codicon-arrow-up' })
-  const OPTIONS_SCORE_COMPARATOR = Object.freeze({ '>=': '>=', '<=': '<=' })
+  const OPTIONS_SCORE_COMPARATOR = Object.freeze({ '>=': '≥', '<=': '≤' })
 
   /** @type {Record<SortProperty, Record<SortDirection, string>>} */
   const LABELS_SORT = Object.freeze({
