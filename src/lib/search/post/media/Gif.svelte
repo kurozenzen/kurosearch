@@ -2,9 +2,7 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { postObserver } from '../postObserver'
   import onEnterOrSpace from '../../../common/onEnterOrSpace'
-  import playSvg from '../../../../assets/play.svg'
-  import loadSvg from '../../../../assets/load.svg'
-  import pauseSvg from '../../../../assets/pause.svg'
+  import PlayButton from '../../../player/PlayButton.svelte'
 
   /**
    * @typedef {import("../../../../types/post/Post").Post} Post
@@ -24,10 +22,8 @@
   $: animated_src = post.sample_url.endsWith('.gif') ? post.sample_url : post.file_url
   $: data_src = playing ? animated_src : image_src
 
-  const togglePlaying = () => {
-    loading = true
-    playing = !playing
-    media.src = playing ? animated_src : image_src
+  $: {
+    if (media) media.src = playing ? animated_src : image_src
   }
 
   onMount(() => postObserver.observe(media))
@@ -51,63 +47,28 @@
     on:load={() => (loading = false)}
   />
 
-  <button on:click={togglePlaying} class:play={playing && !loading}>
-    <div class="circle">
-      {#if loading}
-        <img src={loadSvg} alt="Loading GIF" width="16" height="32" />
-      {:else if playing}
-        <img src={pauseSvg} alt="Stop GIF" width="16" height="32" />
-      {:else}
-        <img src={playSvg} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
-      {/if}
-    </div>
-  </button>
+  <PlayButton bind:playing bind:loading class="center" />
 </div>
 
 <style>
   .media-img {
     display: block;
     width: 100%;
-    height: 100%;
     object-fit: contain;
     contain: strict;
-  }
-
-  @keyframes fade {
-    from {
-      opacity: 1;
-    }
-
-    to {
-      opacity: 0;
-    }
-  }
-
-  .play {
-    animation: fade 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    opacity: 0;
-  }
-
-  button {
-    position: absolute;
-    background-color: unset;
-    padding: 20px;
-    border-radius: 34px;
-  }
-
-  .circle {
-    color: black;
-    background-color: white;
-    border-radius: 24px;
-    width: 48px;
-    height: 48px;
-    padding: 6px;
-    padding-top: 8px;
+    grid-area: 1/1/4/4;
   }
 
   .container {
     position: relative;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr auto 1fr;
     display: grid;
     place-items: center;
+  }
+
+  .container :global(.center) {
+    z-index: 15;
+    grid-area: 2/2/3/3;
   }
 </style>

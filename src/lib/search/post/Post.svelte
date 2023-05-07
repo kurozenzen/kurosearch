@@ -3,6 +3,7 @@
   import Image from './media/Image.svelte'
   import Video from './media/Video.svelte'
   import Gif from './media/Gif.svelte'
+  import Player from '../../../lib/player/Player.svelte'
 
   /** @typedef {import("../../../types/post/Post").Post} Post */
 
@@ -20,7 +21,13 @@
   {#if post.type === 'image'}
     <Image {post} on:click={toggleOpen} />
   {:else if post.type === 'video'}
-    <Video {post} on:click={toggleOpen} />
+    <Player
+      src={post.file_url}
+      poster={post.sample_url}
+      width={post.width}
+      height={post.height}
+      on:click={toggleOpen}
+    />
   {:else}
     <Gif {post} on:click={toggleOpen} />
   {/if}
