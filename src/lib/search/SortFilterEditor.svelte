@@ -3,7 +3,6 @@
   import sortStore from './sortStore'
   import Button from '../common/Button.svelte'
   import Dialog from '../dialog/Dialog.svelte'
-  import { createEventDispatcher } from 'svelte'
   import Selection from '../common/Selection.svelte'
   import RotatingIconSelection from '../common/RotatingIconSelection.svelte'
   import RotatingTextSelection from '../common/RotatingTextSelection.svelte'

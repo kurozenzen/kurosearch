@@ -12,7 +12,7 @@ const defaultSerializer = JSON.stringify
  */
 export const createPersistentStore = (key, initial, serializer = defaultSerializer, parser = defaultParser) => {
   /** @type {null | T} */
-  const loaded = tryLoad(key, parser)
+  const loaded = tryLoad(key, parser, initial)
   const store = writable(loaded ?? initial)
   store.subscribe((value) => localStorage.setItem(key, serializer(value)))
 
@@ -47,10 +47,17 @@ export const createDependentPersistentStore = (
  * @returns {T | null}
  * @param {string} key
  * @param {(value: string) => T} parser
+ * @param {T} initial
  */
-const tryLoad = (key, parser) => {
+const tryLoad = (key, parser, initial) => {
   try {
-    return parser(localStorage.getItem(key))
+    const result = parser(localStorage.getItem(key))
+
+    if (typeof result === 'object' && typeof initial === 'object') {
+      return { ...initial, ...result }
+    }
+
+    return result
   } catch {
     return null
   }
