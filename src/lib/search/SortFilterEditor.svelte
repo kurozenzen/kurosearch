@@ -1,13 +1,4 @@
-<script>
-  import onEnterOrSpace from '../common/onEnterOrSpace'
-  import sortStore from './sortStore'
-  import Button from '../common/Button.svelte'
-  import Dialog from '../dialog/Dialog.svelte'
-  import Selection from '../common/Selection.svelte'
-  import RotatingIconSelection from '../common/RotatingIconSelection.svelte'
-  import RotatingTextSelection from '../common/RotatingTextSelection.svelte'
-  import { formatCount } from '../../formatting/formatCount'
-
+<script context="module">
   /**
    * @typedef {import('src/types/post-sort/sort').SortProperty} SortProperty
    * @typedef {import('src/types/post-sort/sort').SortDirection} SortDirection
@@ -32,27 +23,34 @@
       desc: 'Active',
     },
   })
+</script>
+
+<script>
+  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import sortStore from './sortStore'
+  import Button from '../common/Button.svelte'
+  import Dialog from '../dialog/Dialog.svelte'
+  import Selection from '../common/Selection.svelte'
+  import RotatingIconSelection from '../common/RotatingIconSelection.svelte'
+  import RotatingTextSelection from '../common/RotatingTextSelection.svelte'
+  import { formatCount } from '../../formatting/formatCount'
 
   let editSortFilter = false
+  const openDialog = () => (editSortFilter = true)
+  const closeDialog = () => (editSortFilter = false)
 
-  const openDialog = () => {
-    editSortFilter = true
-  }
-  const closeDialog = () => {
-    editSortFilter = false
-  }
+  $: filterLabel =
+    $sortStore.scoreValue === 0 && $sortStore.scoreComparator === '>='
+      ? 'All'
+      : `Score${$sortStore.scoreComparator}${formatCount($sortStore.scoreValue)}`
+  $: sortLabel = LABELS_SORT[$sortStore.sortProperty][$sortStore.sortDirection]
 </script>
 
 <button on:click={openDialog} on:keypress={onEnterOrSpace(openDialog)}>
   <i class="codicon codicon-filter" />
-  <span
-    >{$sortStore.scoreValue === 0 && $sortStore.scoreComparator === '>='
-      ? 'All'
-      : `Score${$sortStore.scoreComparator}${formatCount($sortStore.scoreValue)}`}</span
-  >
-
+  <span>{filterLabel}</span>
   <i class="codicon codicon-arrow-swap" />
-  <span>{LABELS_SORT[$sortStore.sortProperty][$sortStore.sortDirection]}</span>
+  <span>{sortLabel}</span>
 </button>
 
 {#if editSortFilter}
