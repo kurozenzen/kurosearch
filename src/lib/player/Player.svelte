@@ -7,17 +7,18 @@
   export let poster
   export let width
   export let height
+  export let loop
 
   let container
   let playing = false
   let loading = false
-  let intersecting = false
   let currentTime = 0
   let duration = 0
   /** @type {HTMLVideoElement}*/
   let video
 
-  $: paused = !playing
+  let displayVideo = false
+
   $: percent = (currentTime / duration) * 98 + 1
 
   const dispatch = createEventDispatcher()
@@ -26,7 +27,14 @@
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        intersecting = entry.isIntersecting
+        if (entry.isIntersecting) {
+          displayVideo = true
+        } else {
+          video.src = ''
+          playing = false
+          loading = false
+          video.addEventListener('error', () => (displayVideo = false), { once: true })
+        }
       }
     },
     { rootMargin: '0px' }
@@ -35,7 +43,13 @@
   onMount(() => observer.observe(container))
   onDestroy(() => observer.unobserve(container))
 
-  $: playing = intersecting && playing
+  $: playing = displayVideo && playing
+  $: paused = !playing
+  $: {
+    if (video && displayVideo) {
+      video.src = src
+    }
+  }
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -47,16 +61,23 @@
   on:keypress={onEnterOrSpace(dispatchClick)}
   style={`aspect-ratio: ${width} / ${height}`}
 >
-  {#if intersecting}
+  {#if displayVideo}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video
+      preload="metadata"
       bind:this={video}
       {poster}
-      {src}
       style={`aspect-ratio: ${width} / ${height}`}
       on:waiting={() => (loading = true)}
       on:playing={() => (loading = false)}
       on:pause={() => (loading = false)}
+      on:ended={() => {
+        if (!loop) {
+          loading = false
+          playing = false
+        }
+      }}
+      {loop}
       bind:paused
       bind:currentTime
       bind:duration

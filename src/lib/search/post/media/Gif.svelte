@@ -54,6 +54,7 @@
   .media-img {
     display: block;
     width: 100%;
+    height: auto;
     object-fit: contain;
     contain: strict;
     grid-area: 1/1/4/4;

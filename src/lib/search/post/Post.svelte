@@ -26,6 +26,7 @@
       poster={post.sample_url}
       width={post.width}
       height={post.height}
+      loop={post.tags.some(t => t.name == 'loop')}
       on:click={toggleOpen}
     />
   {:else}
