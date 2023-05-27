@@ -26,9 +26,10 @@
 
   /** @type {(event: KeyboardEvent) => void} */
   const handleKeyDown = (event) => {
+    console.log("event: " + event.key)
     if (isEnter(event)) {
       dispatchClick()
-    } else if (event.key === 'Space') {
+    } else if (event.key === ' ') {
       playing = !playing
     } else if (event.key === 'ArrowLeft') {
       currentTime = Math.max(0, currentTime - SKIP_TIME)
@@ -74,7 +75,7 @@
   tabindex="0"
   bind:this={container}
   on:click={dispatchClick}
-  on:keydown={handleKeyDown}
+  on:keydown|preventDefault={handleKeyDown}
   style={`aspect-ratio: ${width} / ${height}`}
 >
   {#if displayVideo}
