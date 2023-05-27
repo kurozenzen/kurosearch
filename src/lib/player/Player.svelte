@@ -26,7 +26,6 @@
 
   /** @type {(event: KeyboardEvent) => void} */
   const handleKeyDown = (event) => {
-    console.log("event: " + event.key)
     if (isEnter(event)) {
       dispatchClick()
     } else if (event.key === ' ') {
@@ -59,6 +58,7 @@
   onMount(() => observer.observe(container))
   onDestroy(() => observer.unobserve(container))
 
+  $: timeLeft = duration - currentTime
   $: playing = displayVideo && playing
   $: paused = !playing
   $: percent = (currentTime / duration) * 98 + 1
@@ -67,6 +67,16 @@
       video.src = src
     }
   }
+
+  const formatDuration = (time) => {
+    const floored = Math.floor(time)
+    const seconds = floored % 60
+    const minutes = Math.floor(floored / 60)
+
+    return `${pad(minutes)}:${pad(seconds)}`
+  }
+
+  const pad = (x) => `${x < 10 ? '0' : ''}${x}`
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -99,6 +109,7 @@
       bind:currentTime
       bind:duration
     />
+    <span class:play={playing}>{formatDuration(timeLeft)}</span>
     <input
       type="range"
       min={0}
@@ -129,6 +140,19 @@
   .player :global(.center) {
     z-index: 15;
     grid-area: 2/2/3/3;
+  }
+
+  span {
+    z-index: 15;
+    grid-area: 3/3/4/4;
+    place-self: end;
+    margin-bottom: 26px;
+    margin-inline: 12px;
+    font-size: 12px;
+    background-color: #0008;
+    border-radius: 4px;
+    padding: 4px;
+    color: white;
   }
 
   input[type='range'] {
