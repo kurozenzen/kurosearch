@@ -1,7 +1,9 @@
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import onEnterOrSpace from '../common/onEnterOrSpace'
+  import { isEnter } from '../common/onEnterOrSpace'
   import PlayButton from './PlayButton.svelte'
+
+  const SKIP_TIME = 5
 
   export let src
   export let poster
@@ -19,10 +21,21 @@
 
   let displayVideo = false
 
-  $: percent = (currentTime / duration) * 98 + 1
-
   const dispatch = createEventDispatcher()
   const dispatchClick = () => dispatch('click')
+
+  /** @type {(event: KeyboardEvent) => void} */
+  const handleKeyDown = (event) => {
+    if (isEnter(event)) {
+      dispatchClick()
+    } else if (event.key === 'Space') {
+      playing = !playing
+    } else if (event.key === 'ArrowLeft') {
+      currentTime = Math.max(0, currentTime - SKIP_TIME)
+    } else if (event.key === 'ArrowRight') {
+      currentTime = Math.min(duration, currentTime + SKIP_TIME)
+    }
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -30,10 +43,12 @@
         if (entry.isIntersecting) {
           displayVideo = true
         } else {
-          video.src = ''
-          playing = false
-          loading = false
-          video.addEventListener('error', () => (displayVideo = false), { once: true })
+          if (video) {
+            video.src = ''
+            playing = false
+            loading = false
+            video.addEventListener('error', () => (displayVideo = false), { once: true })
+          }
         }
       }
     },
@@ -45,6 +60,7 @@
 
   $: playing = displayVideo && playing
   $: paused = !playing
+  $: percent = (currentTime / duration) * 98 + 1
   $: {
     if (video && displayVideo) {
       video.src = src
@@ -58,7 +74,7 @@
   tabindex="0"
   bind:this={container}
   on:click={dispatchClick}
-  on:keypress={onEnterOrSpace(dispatchClick)}
+  on:keydown={handleKeyDown}
   style={`aspect-ratio: ${width} / ${height}`}
 >
   {#if displayVideo}
