@@ -44,10 +44,16 @@
           displayVideo = true
         } else {
           if (video) {
-            video.src = ''
             playing = false
             loading = false
-            video.addEventListener('error', () => (displayVideo = false), { once: true })
+            video.addEventListener(
+              'error',
+              () => {
+                displayVideo = false
+              },
+              { once: true }
+            )
+            video.src = ''
           }
         }
       }
@@ -62,11 +68,6 @@
   $: playing = displayVideo && playing
   $: paused = !playing
   $: percent = (currentTime / duration) * 98 + 1
-  $: {
-    if (video && displayVideo) {
-      video.src = src
-    }
-  }
 
   const formatDuration = (time) => {
     const floored = Math.floor(time)
@@ -108,6 +109,7 @@
       bind:paused
       bind:currentTime
       bind:duration
+      {src}
     />
     <span class:play={playing}>{formatDuration(timeLeft)}</span>
     <input
@@ -135,6 +137,7 @@
   video {
     width: 100%;
     grid-area: 1/1/4/4;
+    contain: strict;
   }
 
   .player :global(.center) {
