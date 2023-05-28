@@ -9,7 +9,4 @@
 
 {#if url}
   <ExternalSource {url} />
-{:else}
-  <i class="codicon codicon-link" />
-  <span>{source}</span>
 {/if}

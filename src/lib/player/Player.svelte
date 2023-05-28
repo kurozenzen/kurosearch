@@ -1,3 +1,17 @@
+<script context="module">
+  /** @param  {number} time */
+  const formatDuration = (time) => {
+    const floored = Math.floor(time)
+    const seconds = floored % 60
+    const minutes = Math.floor(floored / 60)
+
+    return `${pad(minutes)}:${pad(seconds)}`
+  }
+
+  /** @param  {number} x */
+  const pad = (x) => `${x < 10 ? '0' : ''}${x}`
+</script>
+
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { isEnter } from '../common/onEnterOrSpace'
@@ -5,20 +19,26 @@
 
   const SKIP_TIME = 5
 
+  /** @type {string} */
   export let src
+  /** @type {string} */
   export let poster
+  /** @type {number} */
   export let width
+  /** @type {number} */
   export let height
+  /** @type {boolean} */
   export let loop
 
+  /** @type {HTMLDivElement}*/
   let container
+  /** @type {HTMLVideoElement}*/
+  let video
+
   let playing = false
   let loading = false
   let currentTime = 0
   let duration = 0
-  /** @type {HTMLVideoElement}*/
-  let video
-
   let displayVideo = false
 
   const dispatch = createEventDispatcher()
@@ -68,59 +88,57 @@
   $: playing = displayVideo && playing
   $: paused = !playing
   $: percent = (currentTime / duration) * 98 + 1
+  $: hideOverlay = playing && !loading
 
-  const formatDuration = (time) => {
-    const floored = Math.floor(time)
-    const seconds = floored % 60
-    const minutes = Math.floor(floored / 60)
-
-    return `${pad(minutes)}:${pad(seconds)}`
+  const startLoading = () => {
+    loading = true
   }
-
-  const pad = (x) => `${x < 10 ? '0' : ''}${x}`
+  const stopLoading = () => {
+    loading = false
+  }
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
-  class="player"
-  tabindex="0"
   bind:this={container}
   on:click={dispatchClick}
   on:keydown|preventDefault={handleKeyDown}
+  tabindex="0"
+  class="player"
   style={`aspect-ratio: ${width} / ${height}`}
 >
   {#if displayVideo}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video
-      preload="metadata"
-      bind:this={video}
       {poster}
-      style={`aspect-ratio: ${width} / ${height}`}
-      on:waiting={() => (loading = true)}
-      on:playing={() => (loading = false)}
-      on:pause={() => (loading = false)}
+      {loop}
+      {src}
+      bind:this={video}
+      bind:paused
+      bind:currentTime
+      bind:duration
+      on:waiting={startLoading}
+      on:playing={stopLoading}
+      on:pause={stopLoading}
       on:ended={() => {
         if (!loop) {
           loading = false
           playing = false
         }
       }}
-      {loop}
-      bind:paused
-      bind:currentTime
-      bind:duration
-      {src}
+      preload="metadata"
+      style={`aspect-ratio: ${width} / ${height}`}
     />
-    <span class:play={playing}>{formatDuration(timeLeft)}</span>
+    <span class:hide={hideOverlay}>{formatDuration(timeLeft)}</span>
     <input
-      type="range"
-      min={0}
-      step={0.0166666}
-      max={duration}
       bind:value={currentTime}
       on:click|stopPropagation={() => {}}
-      class:play={playing && !loading}
-      style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
+      type="range"
+      min={0}
+      max={duration}
+      step={0.0166666}
+      class:hide={hideOverlay}
+      style={`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}
     />
     <PlayButton bind:playing bind:loading class="center" />
   {/if}
@@ -133,6 +151,7 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: 1fr auto 1fr;
+    z-index: var(--z-media);
   }
   video {
     width: 100%;
@@ -214,7 +233,7 @@
     }
   }
 
-  .play {
+  .hide {
     animation: fade 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     opacity: 0;
   }

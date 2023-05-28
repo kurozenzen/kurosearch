@@ -40,5 +40,6 @@
     height: 100%;
     object-fit: contain;
     contain: strict;
+    z-index: var(--z-media);
   }
 </style>

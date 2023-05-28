@@ -128,7 +128,7 @@
     margin: auto;
     position: relative;
     isolation: isolate;
-    z-index: var(--above-page);
+    z-index: var(--z-searchbar);
   }
 
   .spaced {

@@ -4,7 +4,7 @@
   export let value
 </script>
 
-<i class="codicon codicon-calendar" />
+<!-- <i class="codicon codicon-calendar" /> -->
 <span>{formatCreatedAt(value)}</span>
 
 <style>

@@ -65,7 +65,9 @@
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: 1fr auto 1fr;
     display: grid;
+    contain: strict;
     place-items: center;
+    z-index: var(--z-media);
   }
 
   .container :global(.center) {

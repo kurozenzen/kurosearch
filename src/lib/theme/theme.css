@@ -35,9 +35,10 @@
   --default-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.75);
 
   /* z-index */
-  --above-page: 1;
-  --above-above-content: 300;
-  --above-everything: 999;
+  --z-searchbar: 2;
+  --z-media: 1;
+  --z-scroll-up: 300;
+  --z-dialog: 999;
 }
 
 html.dark {
