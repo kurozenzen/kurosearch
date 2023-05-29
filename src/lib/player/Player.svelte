@@ -44,6 +44,13 @@
   const dispatch = createEventDispatcher()
   const dispatchClick = () => dispatch('click')
 
+  const skipBackward = () => {
+    currentTime = Math.max(0, currentTime - SKIP_TIME)
+  }
+  const skipForward = () => {
+    currentTime = Math.min(duration, currentTime + SKIP_TIME)
+  }
+
   /** @type {(event: KeyboardEvent) => void} */
   const handleKeyDown = (event) => {
     if (isEnter(event)) {
@@ -51,9 +58,9 @@
     } else if (event.key === ' ') {
       playing = !playing
     } else if (event.key === 'ArrowLeft') {
-      currentTime = Math.max(0, currentTime - SKIP_TIME)
+      skipBackward()
     } else if (event.key === 'ArrowRight') {
-      currentTime = Math.min(duration, currentTime + SKIP_TIME)
+      skipForward()
     }
   }
 
@@ -126,6 +133,13 @@
           playing = false
         }
       }}
+      on:dblclick|stopPropagation|preventDefault={(event) => {
+        if (event.offsetX < event.target.clientWidth / 2) {
+          skipBackward()
+        } else {
+          skipForward()
+        }
+      }}
       preload="metadata"
       style={`aspect-ratio: ${width} / ${height}`}
     />
@@ -138,7 +152,7 @@
       max={duration}
       step={0.0166666}
       class:hide={hideOverlay}
-      style={`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}
+      style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
     />
     <PlayButton bind:playing bind:loading class="center" />
   {/if}
