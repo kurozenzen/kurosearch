@@ -101,12 +101,12 @@
   .tags {
     display: flex;
     flex-wrap: wrap;
-    padding-block-start: 0.5rem;
+    padding-block-start: var(--grid-gap);
     gap: 8px;
   }
 
   .comments {
-    padding-block-start: 0.5rem;
+    padding-block-start: var(--grid-gap);
     display: flex;
     flex-direction: column;
     gap: var(--grid-gap);

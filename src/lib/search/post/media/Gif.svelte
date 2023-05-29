@@ -30,14 +30,13 @@
   onDestroy(() => postObserver.unobserve(media))
 </script>
 
-<div class="container">
+<div class="container" style={`aspect-ratio: ${post.width} / ${post.height}`}>
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <img
     class="media-img"
     loading="lazy"
     data-src={data_src}
     alt={post.id.toString()}
-    style={`aspect-ratio: ${post.width} / ${post.height}`}
     width={post.width}
     height={post.height}
     bind:this={media}
@@ -71,7 +70,7 @@
   }
 
   .container :global(.center) {
-    z-index: 15;
+    z-index: calc(var(--z-media) + 1);
     grid-area: 2/2/3/3;
   }
 </style>
