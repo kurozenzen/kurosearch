@@ -75,8 +75,9 @@
     name="searchbar"
     bind:value={searchTerm}
     aria-label="Search for tags."
-    on:focus={() => {
-      document.getElementById('title').scrollIntoView()
+    on:focus={(e) => {
+      // @ts-expect-error
+      e.target.scrollIntoView({ block: 'center', behavior: 'smooth' })
     }}
     on:blur={(event) => {
       // @ts-expect-error

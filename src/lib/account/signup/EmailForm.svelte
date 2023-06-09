@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import Button from '../../common/Button.svelte'
   import PasswordInput from './PasswordInput.svelte'
+  import TextInput from '../../common/text/TextInput.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -25,7 +26,7 @@
 </script>
 
 <form on:submit|preventDefault={attemptSubmit}>
-  <input type="text" bind:value={email} placeholder="Email" autocomplete="email" />
+  <TextInput bind:value={email} placeholder="Email" autocomplete="email" />
   <PasswordInput bind:value={password} />
   {#if typeof error === 'string' && error !== ''}
     <span>{error}</span>
@@ -38,13 +39,5 @@
     display: flex;
     flex-direction: column;
     gap: var(--grid-gap);
-  }
-
-  input {
-    width: 100%;
-    height: var(--box-height);
-    padding-inline: var(--grid-gap);
-    border-radius: var(--border-radius);
-    background-color: var(--background-2);
   }
 </style>

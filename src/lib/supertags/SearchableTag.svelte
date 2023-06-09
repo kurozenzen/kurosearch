@@ -2,11 +2,12 @@
   import { formatTagname } from '../../formatting/formatTagname'
   import { MODIFIER_NAMES } from '../modifier/modifierData'
 
-  /** @type {import("../../tags/SearchableTag").SearchableTag}*/
+  /** @type {import("../../types/tags/SearchableTag").SearchableTag}*/
   export let tag
 </script>
 
-<li class={MODIFIER_NAMES[tag.modifier]}>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<li class={MODIFIER_NAMES[tag.modifier]} on:click>
   {formatTagname(tag.name)}
 </li>
 

@@ -83,6 +83,26 @@ const createAccountStore = () => {
     },
 
     /**
+     * @param {Supertag} newSupertag
+     */
+    async updateSupertag(oldName, newSupertag) {
+      if (!currentUser) {
+        throw new Error('No user')
+      }
+
+      const result = await setDoc(doc(firestore, `users/${currentUser.uid}/supertags`, newSupertag.name), {
+        description: newSupertag.description,
+        tags: Object.fromEntries(newSupertag.tags.map((t) => [t.name, t.modifier])),
+      })
+
+      if (oldName === newSupertag.name) {
+        return result
+      }
+
+      return deleteDoc(doc(firestore, `users/${currentUser.uid}/supertags`, oldName))
+    },
+
+    /**
      * @param {Supertag} supertag
      */
     async deleteSupertag(supertag) {

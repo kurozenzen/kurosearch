@@ -25,7 +25,13 @@
       {/if}
       <ul>
         {#each $userdata.supertags as supertag}
-          <Supertag {supertag} on:remove={(ev) => userdata.deleteSupertag(ev.detail)} />
+          <Supertag
+            {supertag}
+            on:remove={(ev) => userdata.deleteSupertag(ev.detail)}
+            on:edit={(ev) => {
+              userdata.updateSupertag(ev.detail.oldName, ev.detail.newSupertag)
+            }}
+          />
         {/each}
       </ul>
     </div>

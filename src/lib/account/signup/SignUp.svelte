@@ -74,18 +74,17 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: var(--grid-gap);
+    gap: 2rem;
     margin: auto;
     padding: var(--grid-gap);
     margin: var(--grid-gap);
     border-radius: var(--border-radius);
     max-width: 400px;
-    background-color: var(--background-1);
   }
 
   .divider {
     height: 1px;
-    background-color: var(--background-2);
+    background-color: var(--background-1);
   }
 
   .providerlist {
