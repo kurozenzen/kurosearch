@@ -72,6 +72,7 @@
   <i class="codicon codicon-search spaced" />
   <input
     type="text"
+    name="searchbar"
     bind:value={searchTerm}
     aria-label="Search for tags."
     on:focus={() => {
