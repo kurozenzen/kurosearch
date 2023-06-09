@@ -1,7 +1,6 @@
 <script>
   import Details from './details/Details.svelte'
   import Image from './media/Image.svelte'
-  import Video from './media/Video.svelte'
   import Gif from './media/Gif.svelte'
   import Player from '../../../lib/player/Player.svelte'
 

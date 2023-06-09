@@ -3,9 +3,7 @@
   import { postObserver } from '../postObserver'
   import onEnterOrSpace from '../../../common/onEnterOrSpace'
 
-  /**
-   * @typedef {import("../../../../types/post/Post").Post} Post
-   */
+  /** @typedef {import("../../../../types/post/Post").Post} Post */
 
   /** @type {Post} */
   export let post

@@ -4,9 +4,7 @@
   import onEnterOrSpace from '../../../common/onEnterOrSpace'
   import PlayButton from '../../../player/PlayButton.svelte'
 
-  /**
-   * @typedef {import("../../../../types/post/Post").Post} Post
-   */
+  /** @typedef {import("../../../../types/post/Post").Post} Post */
 
   /** @type {Post} */
   export let post
@@ -23,7 +21,9 @@
   $: data_src = playing ? animated_src : image_src
 
   $: {
-    if (media) media.src = playing ? animated_src : image_src
+    if (media) {
+      media.src = playing ? animated_src : image_src
+    }
   }
 
   onMount(() => postObserver.observe(media))
