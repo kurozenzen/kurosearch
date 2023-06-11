@@ -5,10 +5,7 @@
   import Dialog from '../dialog/Dialog.svelte'
   import Button from '../common/Button.svelte'
   import TagInput from '../tag-input/TagInput.svelte'
-  import { SearchableTag as ST } from '../../types/tags/SearchableTag'
-  import { Tag } from '../../types/tags/Tag'
-  import SimpleTag from '../tags/SimpleTag.svelte'
-  import { getNextModifier } from '../../types/tag-modifier/modifier'
+  import { createSearchableTag } from '../../types/tags/SearchableTag'
   import TextInput from '../common/text/TextInput.svelte'
 
   /**  @typedef {import("../../types/tags/Supertag").Supertag} Supertag */
@@ -68,7 +65,10 @@
     <div>
       <TextInput bind:value={newSupertag.name} placeholder="Name" autocomplete="none" />
       <TextInput bind:value={newSupertag.description} placeholder="Description" autocomplete="none" />
-      <TagInput on:pick={(e) => (newSupertag.tags = [...newSupertag.tags, new ST(e.detail.modifier, e.detail.name)])} />
+      <TagInput
+        on:pick={(e) =>
+          (newSupertag.tags = [...newSupertag.tags, createSearchableTag(e.detail.modifier, e.detail.name)])}
+      />
       <ul>
         {#each newSupertag.tags as tag, i}
           <SearchableTag
