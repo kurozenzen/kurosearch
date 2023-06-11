@@ -13,7 +13,7 @@
 </script>
 
 <script>
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import { isEnter, isSpace } from '../common/onEnterOrSpace'
   import PlayButton from './PlayButton.svelte'
 
@@ -52,7 +52,7 @@
   const handleKeyDown = (event) => {
     if (isEnter(event)) {
       event.target.click()
-    } else if (event.key === ' ') {
+    } else if (isSpace(event)) {
       event.preventDefault()
       playing = !playing
     } else if (event.key === 'ArrowLeft') {

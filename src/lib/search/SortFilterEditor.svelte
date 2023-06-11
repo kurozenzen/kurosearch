@@ -46,7 +46,7 @@
   $: sortLabel = LABELS_SORT[$sortStore.sortProperty][$sortStore.sortDirection]
 </script>
 
-<button on:click={openDialog} on:keypress={onEnterOrSpace(openDialog)}>
+<button on:click={openDialog}>
   <i class="codicon codicon-filter" />
   <span>{filterLabel}</span>
   <i class="codicon codicon-arrow-swap" />

@@ -1,5 +1,6 @@
 :root {
   /* Dimensions */
+  --line-height-small: 24px;
   --line-height: 32px;
   --box-height: 36px;
   --line-height-large: 44px;

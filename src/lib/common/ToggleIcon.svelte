@@ -1,12 +1,8 @@
 <script>
-  import onEnterOrSpace from './onEnterOrSpace'
-
   /** @type {string} */
   export let title
-
   /** @type {string} */
   export let icon
-
   /** @type {boolean} */
   export let active
 
@@ -15,19 +11,12 @@
   }
 </script>
 
-<i
-  {title}
-  class={`codicon codicon-${icon}`}
-  class:active
-  tabindex="0"
-  role="button"
-  on:click={toggleActive}
-  on:keyup={onEnterOrSpace(toggleActive)}
-  on:touchend|preventDefault={toggleActive}
-/>
+<button {title} class={`codicon codicon-${icon}`} class:active on:click={toggleActive} />
 
 <style>
-  i {
+  button {
+    color: var(--text);
+    background-color: unset;
     width: var(--line-height);
     height: var(--line-height);
     line-height: var(--line-height);
@@ -42,10 +31,10 @@
   }
 
   @media (hover: hover) {
-    i:hover {
+    button:hover {
       color: var(--text-highlight);
     }
-    i.active:hover {
+    button.active:hover {
       color: var(--accent-light);
     }
   }

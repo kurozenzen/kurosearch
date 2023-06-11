@@ -88,7 +88,7 @@
     on:keydown={(event) => {
       if (isEnter(event)) {
         pick(tags.length > selectedIndex ? tags[selectedIndex] : createTag(searchTerm, 0, 'ambiguous'))()
-      }  else if (event.code === "Escape") {
+      } else if (event.code === 'Escape') {
         event.target.blur()
       } else if (event.code === 'ArrowUp' && tags.length > 0) {
         selectedIndex = (selectedIndex + tags.length - 1) % tags.length

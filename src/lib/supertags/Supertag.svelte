@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import onEnterOrSpace from '../common/onEnterOrSpace'
   import SearchableTag from './SearchableTag.svelte'
   import Dialog from '../dialog/Dialog.svelte'
   import Button from '../common/Button.svelte'
@@ -33,15 +32,8 @@
 <li>
   <h3>{supertag.name}</h3>
   <small>{Object.keys(supertag.tags).length} tags</small>
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <i tabindex="0" class="codicon codicon-edit" on:click={openEditDialog} on:keyup={onEnterOrSpace(openEditDialog)} />
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <i
-    tabindex="0"
-    class="codicon codicon-close"
-    on:click={openDeleteDialog}
-    on:keyup={onEnterOrSpace(openDeleteDialog)}
-  />
+  <button class="codicon codicon-edit" on:click={openEditDialog} />
+  <button class="codicon codicon-close" on:click={openDeleteDialog} />
   <span>{supertag.description || supertag.name}</span>
   <ol>
     {#each supertag.tags as tag}
@@ -138,16 +130,17 @@
     gap: 8px;
   }
 
-  i {
-    height: 24px;
-    width: 24px;
-    line-height: 24px;
-    text-align: center;
-    border-radius: 12px;
+  button {
+    color: var(--text);
+    background-color: unset;
+    height: var(--line-height-small);
+    width: var(--line-height-small);
+    line-height: var(--line-height-small);
+    border-radius: var(--line-height-small);
   }
 
   @media (hover: hover) {
-    i:hover {
+    button:hover {
       color: var(--text-highlight);
     }
   }

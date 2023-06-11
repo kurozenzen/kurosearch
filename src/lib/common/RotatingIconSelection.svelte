@@ -1,6 +1,4 @@
 <script>
-  import onEnterOrSpace from './onEnterOrSpace'
-
   /** @type {Record<string, string>} keys to icons*/
   export let options
   export let value
@@ -16,7 +14,7 @@
   }
 </script>
 
-<button class={icon} on:click={rotate} on:keyup={onEnterOrSpace(rotate)} />
+<button class={icon} on:click={rotate} />
 
 <style>
   button {

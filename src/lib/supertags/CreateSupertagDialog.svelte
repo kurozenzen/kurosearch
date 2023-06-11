@@ -28,13 +28,7 @@
   <section>
     <h3>Create Supertag</h3>
 
-    <i
-      tabindex="0"
-      role="button"
-      class={`codicon codicon-close`}
-      on:click={closeDialog}
-      on:keyup={onEnterOrSpace(closeDialog)}
-    />
+    <button class={`codicon codicon-close`} on:click={closeDialog} />
 
     <div>
       <label for="supertag-name"> Name </label>
@@ -73,11 +67,11 @@
     display: grid;
     grid-template-columns: 1fr auto;
     gap: var(--small-gap);
-
     border-radius: var(--border-radius);
   }
 
-  i {
+  button {
+    background-color: unset;
     justify-self: end;
   }
 
