@@ -1,7 +1,7 @@
 <script context="module">
   /**
-   * @typedef {import('src/types/post-sort/sort').SortProperty} SortProperty
-   * @typedef {import('src/types/post-sort/sort').SortDirection} SortDirection
+   * @typedef {import('../../types/definitions').SortProperty} SortProperty
+   * @typedef {import('../../types/definitions').SortDirection} SortDirection
    */
 
   const OPTIONS_SORT_PROPERTY = Object.freeze({ id: 'Upload', score: 'Score', updated: 'Change' })

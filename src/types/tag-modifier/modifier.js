@@ -1,6 +1,7 @@
 /**
- * @typedef {"+" | "-" | "~"} Modifier
+ * @typedef {import("../definitions").Modifier} Modifier
  */
+
 
 /** @type {readonly Modifier[]} */
 const VALID_MODIFIERS = Object.freeze(['+', '-', '~'])

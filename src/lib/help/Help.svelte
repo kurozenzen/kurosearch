@@ -1,13 +1,13 @@
 <script>
   import ScrollUpButton from '../search/ScrollUpButton.svelte'
   import ActiveTag from '../tags/ActiveTag.svelte'
-  import { ActiveTag as ActiveTagObject } from '../../types/tags/ActiveTag'
   import Card from './common/Card.svelte'
   import SimpleTag from '../tags/SimpleTag.svelte'
   import { MODIFIERS_ICONS } from '../modifier/modifierData'
   import PageHeading from '../common/text/PageHeading.svelte'
   import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
-  import { Tag } from '../../types/tags/Tag'
+  import { createTag } from '../../types/tags/Tag'
+    import { createActiveTag } from '../../types/tags/ActiveTag'
 </script>
 
 <PageHeading>Documentation</PageHeading>
@@ -109,8 +109,8 @@
 </p>
 
 <div class="flex-row">
-  <ActiveTag tag={new ActiveTagObject('+', 'some_tag_you_search_for', 124232, 'copyright')} />
-  <SimpleTag tag={new Tag('some_tag', 1, 'ambiguous')} />
+  <ActiveTag tag={createActiveTag('+', 'some_tag_you_search_for', 124232, 'copyright')} />
+  <SimpleTag tag={createTag('some_tag', 1, 'ambiguous')} />
 </div>
 
 <p>A tag is characterised by four things.</p>
@@ -142,32 +142,32 @@
     <em>Artist</em>
     <p>Target artists or content creators.</p>
     <div class="flex-row">
-      <ActiveTag tag={new ActiveTagObject('+', 'aroma_sensei', 3000, 'artist')} />
-      <SimpleTag tag={new Tag('aroma_sensei', 3000, 'artist')} />
+      <ActiveTag tag={createActiveTag('+', 'aroma_sensei', 3000, 'artist')} />
+      <SimpleTag tag={createTag('aroma_sensei', 3000, 'artist')} />
     </div>
   </li>
   <li>
     <em>Character</em>
     <p>Indicates that the tag is targeting a character of some sort.</p>
     <div class="flex-row">
-      <ActiveTag tag={new ActiveTagObject('+', 'samus_aran', 16000, 'character')} />
-      <SimpleTag tag={new Tag('samus_aran', 16000, 'character')} />
+      <ActiveTag tag={createActiveTag('+', 'samus_aran', 16000, 'character')} />
+      <SimpleTag tag={createTag('samus_aran', 16000, 'character')} />
     </div>
   </li>
   <li>
     <em>Copyright</em>
     <p>Targets a certain franchise or similar.</p>
     <div class="flex-row">
-      <ActiveTag tag={new ActiveTagObject('+', 'harry_potter', 5800, 'copyright')} />
-      <SimpleTag tag={new Tag('harry_potter', 5800, 'copyright')} />
+      <ActiveTag tag={createActiveTag('+', 'harry_potter', 5800, 'copyright')} />
+      <SimpleTag tag={createTag('harry_potter', 5800, 'copyright')} />
     </div>
   </li>
   <li>
     <em>Metadata</em>
     <p>Tags of this type are information about the post itself and not the content.</p>
     <div class="flex-row">
-      <ActiveTag tag={new ActiveTagObject('+', 'animated', 294000, 'metadata')} />
-      <SimpleTag tag={new Tag('animated', 294000, 'metadata')} />
+      <ActiveTag tag={createActiveTag('+', 'animated', 294000, 'metadata')} />
+      <SimpleTag tag={createTag('animated', 294000, 'metadata')} />
     </div>
   </li>
   <!-- <li>
@@ -175,7 +175,7 @@
     <p>
       Gives information about how explicit the content is. This tag is really unreliable though.
     </p>
-    <ActiveTag tag={new ActiveTagObject('+', 'safe', 294000, 'rating')} />
+    <ActiveTag tag={createActiveTag('+', 'safe', 294000, 'rating')} />
   </li> -->
   <!-- <li>
     <em>Source</em>
@@ -183,12 +183,12 @@
       Usually, the source of a post is used to provide a link to the creators primary account or similar. Therefore,
       searching for source tags is not that useful but it is still possible.
     </p>
-    <ActiveTag tag={new ActiveTagObject('+', 'patreon', 294000, 'source')} />
+    <ActiveTag tag={createActiveTag('+', 'patreon', 294000, 'source')} />
   </li> -->
   <li>
     <em>Supertag</em>
     <p>Indicates that the tag is not a simple tag, but rather a collection of tags called a supertag.</p>
-    <ActiveTag tag={new ActiveTagObject('+', 'my_tag_collection', 5, 'supertag')} />
+    <ActiveTag tag={createActiveTag('+', 'my_tag_collection', 5, 'supertag')} />
   </li>
 </ul>
 
@@ -218,7 +218,7 @@
     <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['+']} /></div>
     <div class="flex-row">
       Example:
-      <ActiveTag tag={new ActiveTagObject('+', 'good', 5, 'general')} />
+      <ActiveTag tag={createActiveTag('+', 'good', 5, 'general')} />
     </div>
   </li>
   <li>
@@ -235,7 +235,7 @@
     <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['-']} /></div>
     <div class="flex-row">
       Example:
-      <ActiveTag tag={new ActiveTagObject('-', 'bad', 5, 'general')} />
+      <ActiveTag tag={createActiveTag('-', 'bad', 5, 'general')} />
     </div>
   </li>
   <li>
@@ -248,10 +248,10 @@
     </p>
     <p>To understand it better here is an example. If you search for the following tags...</p>
     <div class="flex-row">
-      <ActiveTag tag={new ActiveTagObject('~', 'princess_peach', 16000, 'character')} />
-      <ActiveTag tag={new ActiveTagObject('~', 'princess_zelda', 13000, 'character')} />
-      <ActiveTag tag={new ActiveTagObject('~', 'princess_rosalina', 7400, 'character')} />
-      <ActiveTag tag={new ActiveTagObject('~', 'princess_daisy', 6900, 'character')} />
+      <ActiveTag tag={createActiveTag('~', 'princess_peach', 16000, 'character')} />
+      <ActiveTag tag={createActiveTag('~', 'princess_zelda', 13000, 'character')} />
+      <ActiveTag tag={createActiveTag('~', 'princess_rosalina', 7400, 'character')} />
+      <ActiveTag tag={createActiveTag('~', 'princess_daisy', 6900, 'character')} />
     </div>
     <p>...then all results will have at least one of the princesses in them, but not neccessarily all of them.</p>
     <div class="flex-row">Icon:<i class={MODIFIERS_ICONS['~']} /></div>

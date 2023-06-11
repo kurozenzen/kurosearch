@@ -2,31 +2,40 @@ import { isValidModifier, serializeModifier } from '../tag-modifier/modifier'
 import { isValidName } from './validation'
 
 /**
- * @typedef {import("../tag-modifier/modifier").Modifier} Modifier
- * @typedef {import("../tag-type/tagtype").TagType} TagType
+ * @typedef {import("../definitions").Modifier} Modifier
+ * @typedef {import("../definitions").TagType} TagType
+ * @typedef {import("../definitions").SearchableTag} SearchableTag
  */
 
-export class SearchableTag {
-  /**
-   * @param {Modifier} modifier
-   * @param {string} name
-   */
-  constructor(modifier, name) {
-    if (!isValidModifier(modifier)) {
-      throw TypeError('Invalid modifier passed to SearchableTag constructor')
-    }
+/**
+ * @param {Modifier} modifier
+ * @param {string} name
+ * @returns {SearchableTag}
+ */
+export const createSearchableTag = (modifier, name) => {
+  let tag = Object.freeze({ modifier, name });
+  validatSearchableTag(tag)
 
-    if (!isValidName(name)) {
-      throw TypeError('Invalid name passed to SearchableTag constructor')
-    }
+  return tag;
+}
 
-    this.modifier = modifier
-    this.name = name
-
-    Object.freeze(this)
+/**
+ * @param {any} object
+ */
+export const validatSearchableTag = (object) => {
+  if (!isValidModifier(object.modifier)) {
+    throw TypeError('Invalid modifier passed to SearchableTag constructor')
   }
 
-  serialize() {
-    return `${serializeModifier(this.modifier)}${encodeURIComponent(this.name.replaceAll(' ', '_'))}`
+  if (!isValidName(object.name)) {
+    throw TypeError('Invalid name passed to SearchableTag constructor')
   }
+}
+
+/**
+ * @param {SearchableTag} tag
+ * @returns {string}
+ */
+export const serializeSearchableTag = (tag) => {
+  return `${serializeModifier(tag.modifier)}${encodeURIComponent(tag.name.replaceAll(' ', '_'))}`
 }

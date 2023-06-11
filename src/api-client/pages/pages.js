@@ -1,15 +1,16 @@
 import { isValidCount } from '../../types/tags/validation'
 import { Post } from '../../types/post/Post'
-import { SearchableTag } from '../../types/tags/SearchableTag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
-import { Tag } from '../../types/tags/Tag'
+import { createTag } from '../../types/tags/Tag'
 import { getTagTypePriority } from '../../types/tag-type/tagtype'
 import { replaceHtmlEntities } from '../tags/tags'
+import { serializeSearchableTag } from '../../types/tags/SearchableTag'
 
 /**
- * @typedef {import('../../types/post-sort/sort').SortProperty} SortProperty
- * @typedef {import('../../types/tag-type/tagtype').TagType} TagType
- * @typedef {{tag: string, count: number, type: TagType}} ApiTag
+ * @typedef {import('../../types/definitions').SortProperty} SortProperty
+ * @typedef {import('../../types/definitions').TagType} TagType
+ * @typedef {import('../../types/definitions').ApiTag} ApiTag
+ * @typedef {import('../../types/definitions').SearchableTag} SearchableTag
  */
 
 export const PAGE_SIZE = 20
@@ -102,21 +103,11 @@ const parsePost = (post) => {
 /** @param {Array<ApiTag>} tagInfo */
 const parseTagInfo = (tagInfo) => {
   return tagInfo
-    .map((t) => new Tag(replaceHtmlEntities(t.tag), t.count, t.type))
+    .map((t) => createTag(replaceHtmlEntities(t.tag), t.count, t.type))
     .sort((a, b) => getTagTypePriority(a.type) - getTagTypePriority(b.type))
 }
 
-export const isValidPageNumber = (value) => {
-  return typeof value === 'number' && value >= 0
-}
 
-export const isValidTagsArray = (value) => {
-  return Array.isArray(value) && (value.length === 0 || value.every((t) => t instanceof SearchableTag))
-}
-
-export const isValidMinScore = (value) => {
-  return typeof value === 'number' && value >= 0
-}
 
 const partitionTagsByModifier = (tags) => {
   const partitions = {
@@ -151,7 +142,7 @@ export const serializeSearchParameters = (tags, sortProperty, minScore) => {
 /**
  * @param {SearchableTag[]} tags
  */
-const serializeTags = (tags) => tags.map((t) => t.serialize())
+const serializeTags = (tags) => tags.map(serializeSearchableTag)
 
 /**
  * @param {number} pageNumber

@@ -14,7 +14,7 @@
 
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import { isEnter } from '../common/onEnterOrSpace'
+  import { isEnter, isSpace } from '../common/onEnterOrSpace'
   import PlayButton from './PlayButton.svelte'
 
   const SKIP_TIME = 5
@@ -41,9 +41,6 @@
   let duration = 0
   let displayVideo = false
 
-  const dispatch = createEventDispatcher()
-  const dispatchClick = () => dispatch('click')
-
   const skipBackward = () => {
     currentTime = Math.max(0, currentTime - SKIP_TIME)
   }
@@ -54,8 +51,9 @@
   /** @type {(event: KeyboardEvent) => void} */
   const handleKeyDown = (event) => {
     if (isEnter(event)) {
-      dispatchClick()
+      event.target.click()
     } else if (event.key === ' ') {
+      event.preventDefault()
       playing = !playing
     } else if (event.key === 'ArrowLeft') {
       skipBackward()
@@ -108,8 +106,8 @@
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
   bind:this={container}
-  on:click={dispatchClick}
-  on:keydown|preventDefault={handleKeyDown}
+  on:click
+  on:keydown={handleKeyDown}
   tabindex="0"
   class="player"
   style={`aspect-ratio: ${width} / ${height}`}
@@ -160,17 +158,18 @@
 
 <style>
   div {
-    contain: strict;
     position: relative;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: 1fr auto 1fr;
     z-index: var(--z-media);
+    border-radius: var(--border-radius);
   }
   video {
     width: 100%;
     grid-area: 1/1/4/4;
     contain: strict;
+    border-radius: var(--border-radius);
   }
 
   .player :global(.center) {

@@ -1,34 +1,28 @@
 import { jest } from '@jest/globals'
 import { Post } from '../../types/post/Post'
-import { SearchableTag } from '../../types/tags/SearchableTag'
-import {
-  getPage,
-  getPostsUrl,
-  isValidMinScore,
-  isValidPageNumber,
-  isValidTagsArray,
-  serializeSearchParameters,
-} from './pages'
+import { getPage, getPostsUrl, serializeSearchParameters } from './pages'
+import { isValidMinScore, isValidPageNumber, isValidSearchableTagsArray } from '../../types/tags/validation'
+import { createSearchableTag } from '../../types/tags/SearchableTag'
 
 const RESOLVED = true
 const EMPTY_POST = new Post(
-  '',  // preview_url
-  '',  // sample_url
-  '',  // file_url
-  1,  // comment_count
-  1,  // height
-  1,  // id
-  1,  // change
-  1,  // parent_id
-  'explicit',  // rating
-  1,  // sample_height
-  1,  // sample_width
-  1,  // score
-  '',  // source
-  'active',  // status
-  [],  // tags
-  1,  // width
-  ''  // type
+  '', // preview_url
+  '', // sample_url
+  '', // file_url
+  1, // comment_count
+  1, // height
+  1, // id
+  1, // change
+  1, // parent_id
+  'explicit', // rating
+  1, // sample_height
+  1, // sample_width
+  1, // score
+  '', // source
+  'active', // status
+  [], // tags
+  1, // width
+  '' // type
 )
 
 //@ts-expect-error
@@ -64,23 +58,23 @@ describe('pages', () => {
 
   describe('isValidTagsArray', () => {
     test('undefined returns false', () => {
-      expect(isValidTagsArray(undefined)).toBe(false)
+      expect(isValidSearchableTagsArray(undefined)).toBe(false)
     })
 
     test('null returns false', () => {
-      expect(isValidTagsArray(null)).toBe(false)
+      expect(isValidSearchableTagsArray(null)).toBe(false)
     })
 
     test('string returns false', () => {
-      expect(isValidTagsArray('a')).toBe(false)
+      expect(isValidSearchableTagsArray('a')).toBe(false)
     })
 
     test('number[] returns false', () => {
-      expect(isValidTagsArray([1, 2, 3])).toBe(false)
+      expect(isValidSearchableTagsArray([1, 2, 3])).toBe(false)
     })
 
     test('SearchableTag[] return true', () => {
-      expect(isValidTagsArray([new SearchableTag('+', 'example')])).toBe(true)
+      expect(isValidSearchableTagsArray([createSearchableTag('+', 'example')])).toBe(true)
     })
   })
 
@@ -138,7 +132,7 @@ describe('pages', () => {
       global.fetch = jest.fn(() => Promise.resolve({ ok: false }))
 
       expect.assertions(1)
-      getPage(0, "").catch((e) => expect(e).toBeInstanceOf(Error))
+      getPage(0, '').catch((e) => expect(e).toBeInstanceOf(Error))
       global.fetch = originalFetch
     })
 
@@ -146,8 +140,8 @@ describe('pages', () => {
       const originalFetch = global.fetch
       //@ts-expect-error
       global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.reject(null) }))
-      
-      getPage(0, "").catch((e) => expect(e).toBeInstanceOf(Error))
+
+      getPage(0, '').catch((e) => expect(e).toBeInstanceOf(Error))
       global.fetch = originalFetch
     })
 
@@ -168,7 +162,9 @@ describe('pages', () => {
 
   describe('getPostsUrl', () => {
     test('does not include tags when they are empty', () => {
-      expect(getPostsUrl(0, '')).toBe('https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0')
+      expect(getPostsUrl(0, '')).toBe(
+        'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0'
+      )
     })
 
     test('includes tags when they are not empty', () => {
@@ -184,18 +180,18 @@ describe('pages', () => {
     })
 
     test('+ tags are included in string', () => {
-      expect(serializeSearchParameters([new SearchableTag('+', 'tag1'), new SearchableTag('+', 'tag2')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([createSearchableTag('+', 'tag1'), createSearchableTag('+', 'tag2')], 'id', 0)).toBe(
         'tag1+tag2+score:>=0+sort:id:desc'
       )
     })
 
     test('- tags are included in string', () => {
-      expect(serializeSearchParameters([new SearchableTag('+', 'tag1'), new SearchableTag('-', 'tag2')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([createSearchableTag('+', 'tag1'), createSearchableTag('-', 'tag2')], 'id', 0)).toBe(
         'tag1+-tag2+score:>=0+sort:id:desc'
       )
     })
     test('~ tags are included in string', () => {
-      expect(serializeSearchParameters([new SearchableTag('~', 'tag2'), new SearchableTag('~', 'tag3')], 'id', 0)).toBe(
+      expect(serializeSearchParameters([createSearchableTag('~', 'tag2'), createSearchableTag('~', 'tag3')], 'id', 0)).toBe(
         'score:>=0+sort:id:desc+( tag2 ~ tag3 )'
       )
     })

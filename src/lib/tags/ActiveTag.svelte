@@ -12,23 +12,22 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<li
+<button
   class={MODIFIER_NAMES[tag.modifier]}
   class:no-icon={tag.type !== 'supertag'}
   tabindex="0"
-  role="button"
   title="Click to remove tag"
-  on:click={() => dispatch('click')}
+  on:click
   on:contextmenu|preventDefault={() => dispatch('contextmenu')}
 >
   {formatTagname(tag.name)}
   {#if tag.count}
     ({formatCount(tag.count)})
   {/if}
-</li>
+</button>
 
 <style>
-  li {
+  button {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -49,12 +48,12 @@
   }
 
   @media (hover: hover) {
-    li:hover {
+    button:hover {
       background-color: var(--accent-light);
     }
   }
 
-  li:active {
+  button:active {
     background-color: var(--accent-light);
   }
 

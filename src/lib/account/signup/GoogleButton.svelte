@@ -1,15 +1,11 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
-
   import GoogleIcon from '../GoogleIcon.svelte'
 
   /** @type {string} */
   export let content
-
-  const dispatch = createEventDispatcher()
 </script>
 
-<button on:click={() => dispatch('click')}>
+<button on:click>
   <GoogleIcon />
   <span>{content}</span>
 </button>

@@ -1,14 +1,12 @@
 <script>
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import { postObserver } from '../postObserver'
-  import onEnterOrSpace from '../../../common/onEnterOrSpace'
+  import { onDestroy, onMount } from 'svelte'
+  import { postObserver } from '../search/post/postObserver'
+  import { triggerClickOnEnter } from '../common/onEnterOrSpace'
 
-  /** @typedef {import("../../../../types/post/Post").Post} Post */
+  /** @typedef {import("../../types/post/Post").Post} Post */
 
   /** @type {Post} */
   export let post
-
-  const dispatch = createEventDispatcher()
 
   /** @type {HTMLElement}*/
   let media
@@ -18,6 +16,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <img
   loading="lazy"
   data-src={post.sample_url}
@@ -27,8 +26,8 @@
   height={post.height}
   bind:this={media}
   tabindex="0"
-  on:click={() => dispatch('click')}
-  on:keyup={onEnterOrSpace(() => dispatch('click'))}
+  on:click
+  on:keydown={triggerClickOnEnter}
 />
 
 <style>
@@ -40,5 +39,6 @@
     object-fit: contain;
     contain: strict;
     z-index: var(--z-media);
+    border-radius: var(--border-radius);
   }
 </style>

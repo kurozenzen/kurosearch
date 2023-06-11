@@ -3,13 +3,13 @@
   import Button from '../common/Button.svelte'
   import onEnterOrSpace from '../common/onEnterOrSpace'
   import ActiveTagComponent from '../tags/ActiveTag.svelte'
-  import { Supertag } from '../../types/tags/Supertag'
+  import { createSupertag } from '../../types/tags/Supertag'
   import { isValidName } from '../../types/tags/validation'
-  import { toSearchableTag } from '../../types/tags/ActiveTag'
+  import { createSearchableTagFromActiveTag } from '../../types/tags/ActiveTag'
   import Dialog from '../dialog/Dialog.svelte'
 
   /**
-   * @typedef {import("../../types/tags/ActiveTag").ActiveTag} ActiveTag
+   * @typedef {import("../../types/definitions").ActiveTag} ActiveTag
    */
 
   export let name = ''
@@ -60,7 +60,7 @@
         text="Create supertag"
         disabled={!valid}
         on:click={() => {
-          dispatch('submit', new Supertag(name, description, tags.map(toSearchableTag)))
+          dispatch('submit', createSupertag(name, description, tags.map(createSearchableTagFromActiveTag)))
           closeDialog()
         }}
       />

@@ -1,16 +1,17 @@
 /**
- * @typedef {import("../../types/blocking-groups/BlockingGroup").BlockingGroup} BlockingGroup
- * @typedef {import("../../types/tags/ActiveTag").ActiveTag} ActiveTag
- * @typedef {import("../../types/post-sort/sort").SortProperty} SortProperty
- * @typedef {import("../../types/post-sort/sort").SortDirection} SortDirection
- * @typedef {import("../../types/post-sort/sort").ScoreComparator} ScoreComparator
- * @typedef {import("../../types/tags/Supertag").Supertag} Supertag
+ * @typedef {import("../../types/definitions").BlockingGroup} BlockingGroup
+ * @typedef {import("../../types/definitions").ActiveTag} ActiveTag
+ * @typedef {import("../../types/definitions").SortProperty} SortProperty
+ * @typedef {import("../../types/definitions").SortDirection} SortDirection
+ * @typedef {import("../../types/definitions").ScoreComparator} ScoreComparator
+ * @typedef {import("../../types/definitions").Supertag} Supertag
+ * @typedef {import("../../types/definitions").SearchableTag} SearchableTag
  */
 
 import { getCount, getPage } from '../../api-client/pages/pages'
 import { BLOCKING_GROUP_TAGS } from '../../types/blocking-groups/BlockingGroup'
-import { toSearchableTag } from '../../types/tags/ActiveTag'
-import { SearchableTag } from '../../types/tags/SearchableTag'
+import { createSearchableTagFromActiveTag } from '../../types/tags/ActiveTag'
+import { createSearchableTag, serializeSearchableTag } from '../../types/tags/SearchableTag'
 
 class SearchBuilder {
   constructor() {
@@ -146,7 +147,7 @@ const serializeAllTags = (
   const parts = [`score:${scoreComparator}${scoreValue}`, `sort:${sortProperty}:${sortDirection}`]
 
   if (activeNormalTags.length > 0) {
-    const activeTagString = serializeSearchableTags(activeNormalTags.map((t) => toSearchableTag(t)))
+    const activeTagString = serializeSearchableTags(activeNormalTags.map(createSearchableTagFromActiveTag))
     parts.push(activeTagString)
   }
   if (activeSupertags.length > 0) {
@@ -159,7 +160,7 @@ const serializeAllTags = (
   if (blockedContent.length > 0) {
     const blockedTags = blockedContent
       .flatMap((groupName) => BLOCKING_GROUP_TAGS[groupName])
-      .map((name) => new SearchableTag('-', name))
+      .map((name) => createSearchableTag('-', name))
     const blockedString = serializeSearchableTags(blockedTags)
 
     parts.push(blockedString)
@@ -167,16 +168,11 @@ const serializeAllTags = (
 
   const result = parts.join('+')
 
-  console.log('searching for', result)
-
-  // https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=dog+score:%3E=0+sort:score:desc+(%20lulu_the_fae_sorceress%20~%20poppy%20~%20tristana%20)
-  // https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=dog+(poppy%20~%20lulu_the_fae_sorceress%20~%20tristana)
-
   return result
 }
 
 /**
- * @param {readonly SearchableTag[]} tags
+ * @param {SearchableTag[]} tags
  */
 const serializeSearchableTags = (tags) => {
   const tagsByModifier = partitionTagsByModifier(tags)
@@ -202,5 +198,5 @@ const partitionTagsByModifier = (tags) => {
   return partitions
 }
 
-/** @param {readonly SearchableTag[]} tags */
-const serializeTags = (tags) => tags.map((t) => t.serialize())
+/** @param {SearchableTag[]} tags */
+const serializeTags = (tags) => tags.map(serializeSearchableTag)

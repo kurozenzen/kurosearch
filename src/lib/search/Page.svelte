@@ -1,7 +1,11 @@
 <script>
   import PostComponent from './post/Post.svelte'
 
-  /** @type {import("../../posts/Post").Post[]} */
+  /**
+   * @typedef {import("../../types/post/Post").Post[]} PostObject
+   */
+
+  /** @type {PostObject} */
   export let posts
 </script>
 
@@ -15,8 +19,7 @@
   .page {
     display: flex;
     flex-direction: column;
-    padding-left: 0;
-    gap: 1rem;
-    contain: content;
+    padding-left: unset;
+    gap: var(--grid-gap);
   }
 </style>

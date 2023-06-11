@@ -13,7 +13,14 @@ export default (handler) => {
 }
 
 /** @param {KeyboardEvent} event */
-export const isSpace = (event) => event.code === 'Space'
+export const isSpace = (event) => event.key === ' '
 
 /** @param {KeyboardEvent} event */
-export const isEnter = (event) => event.code === 'Enter' || event.key === 'Enter' // for mobile enter button
+export const isEnter = (event) => event.key === 'Enter' // for mobile enter button
+
+/** @param {KeyboardEvent} event */
+export const triggerClickOnEnter = (event) => {
+  if (isEnter(event)) {
+    event.target.click()
+  }
+}

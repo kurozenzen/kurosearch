@@ -1,32 +1,32 @@
-import { SearchableTag } from './SearchableTag'
+import { validatSearchableTag } from './SearchableTag'
 import { isValidName } from './validation'
 
-export class Supertag {
-  /**
-   * @param {string} name
-   * @param {string} description
-   * @param {SearchableTag[]} tags
-   */
-  constructor(name, description, tags) {
-    if (!isValidName(name)) {
-      throw new TypeError('Invalid name passed to Supertag')
-    }
+/**
+ * @typedef {import("../definitions").SearchableTag} SearchableTag
+ * @typedef {import("../definitions").Supertag} Supertag
+ */
 
-    // NOTE: check disabled because undefined descriptions exist already
-    // if (!isValidDescription(description)) {
-    //   throw new TypeError("Invalid description passed to Supertag");
-    // }
-
-    if (!isArrayOfSearchableTags(tags)) {
-      throw new TypeError('Invalid description passed to Supertag')
-    }
-
-    this.name = name
-    this.description = description
-    this.tags = Object.freeze([...tags])
-
-    Object.freeze(this)
+/**
+ * @param {string} name
+ * @param {string} description
+ * @param {SearchableTag[]} tags
+ * @returns {Supertag}
+ */
+export const createSupertag = (name, description, tags) => {
+  if (!isValidName(name)) {
+    throw new TypeError('Invalid name passed to Supertag')
   }
+
+  // NOTE: check disabled because undefined descriptions exist already
+  // if (!isValidDescription(description)) {
+  //   throw new TypeError("Invalid description passed to Supertag");
+  // }
+
+  if (!isArrayOfSearchableTags(tags)) {
+    throw new TypeError('Invalid description passed to Supertag')
+  }
+
+  return Object.freeze({ name, description, tags: [...tags] })
 }
 
 // const isValidDescription = (value) => {
@@ -34,5 +34,15 @@ export class Supertag {
 // };
 
 const isArrayOfSearchableTags = (value) => {
-  return Array.isArray(value) && value.every((v) => v instanceof SearchableTag)
+  return (
+    Array.isArray(value) &&
+    value.every((v) => {
+      try {
+        validatSearchableTag(v)
+        return true
+      } catch {
+        return false
+      }
+    })
+  )
 }

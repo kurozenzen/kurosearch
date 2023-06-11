@@ -3,7 +3,7 @@
   import { getNextModifier } from '../../types/tag-modifier/modifier'
   import ActiveTag from '../tags/ActiveTag.svelte'
   import activeTags from './activeTagsStore'
-  import { ActiveTag as AT } from '../../types/tags/ActiveTag'
+  import { createActiveTag } from '../../types/tags/ActiveTag'
   import account from '../account/account'
 
   const dispatch = createEventDispatcher()
@@ -16,7 +16,7 @@
         {tag}
         on:click={() => activeTags.removeByIndex(i)}
         on:contextmenu={() =>
-          activeTags.addOrReplace(new AT(getNextModifier(tag.modifier), tag.name, tag.count, tag.type))}
+          activeTags.addOrReplace(createActiveTag(getNextModifier(tag.modifier), tag.name, tag.count, tag.type))}
       />
     {/each}
     {#if $activeTags.length > 1 && $account.loggedIn}

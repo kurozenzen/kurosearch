@@ -1,5 +1,5 @@
 <script>
-  import shironekoX from '../../assets/shironeko-x.png'
+  import shironekoX from '../../../assets/shironeko-x.png'
 </script>
 
 <div>

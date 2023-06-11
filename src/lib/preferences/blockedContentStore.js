@@ -1,7 +1,7 @@
 import { createDependentPersistentStore } from '../common/persistentStore'
 
 const createBlockListStore = () => {
-  /** @type {import('src/types/blocking-groups/BlockingGroup').BlockingGroup[]} */
+  /** @type {import('../../types/blocking-groups/BlockingGroup').BlockingGroup[]} */
   const initial = []
   const { subscribe, update } = createDependentPersistentStore('blockedContent', initial)
 

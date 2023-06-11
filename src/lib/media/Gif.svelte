@@ -1,10 +1,10 @@
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import { postObserver } from '../postObserver'
-  import onEnterOrSpace from '../../../common/onEnterOrSpace'
-  import PlayButton from '../../../player/PlayButton.svelte'
+  import { postObserver } from '../search/post/postObserver'
+  import { triggerClickOnEnter } from '../common/onEnterOrSpace'
+  import PlayButton from './PlayButton.svelte'
 
-  /** @typedef {import("../../../../types/post/Post").Post} Post */
+  /** @typedef {import("../../types/post/Post").Post} Post */
 
   /** @type {Post} */
   export let post
@@ -41,8 +41,8 @@
     height={post.height}
     bind:this={media}
     tabindex="0"
-    on:click={() => dispatch('click')}
-    on:keyup={onEnterOrSpace(() => dispatch('click'))}
+    on:click
+    on:keydown={triggerClickOnEnter}
     on:load={() => (loading = false)}
   />
 
@@ -56,6 +56,7 @@
     height: auto;
     object-fit: contain;
     contain: strict;
+    border-radius: var(--border-radius);
     grid-area: 1/1/4/4;
   }
 
@@ -64,9 +65,9 @@
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: 1fr auto 1fr;
     display: grid;
-    contain: strict;
     place-items: center;
     z-index: var(--z-media);
+    border-radius: var(--border-radius);
   }
 
   .container :global(.center) {

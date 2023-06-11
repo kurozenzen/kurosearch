@@ -1,8 +1,12 @@
+import { createActiveTagFromTag } from '../../types/tags/Tag'
 import { getTagSuggestions } from '../../api-client/ApiClient'
-import { ActiveTag } from '../../types/tags/ActiveTag'
+import { createActiveTag } from '../../types/tags/ActiveTag'
 import { createDependentPersistentStore } from '../common/persistentStore'
 
-/** @typedef {import("../../types/tags/Tag").Tag} Tag */
+/**
+ * @typedef {import("../../types/definitions").Tag} Tag
+ * @typedef {import("../../types/definitions").ActiveTag} ActiveTag
+ */
 
 function createActiveTagsStore() {
   /** @type {Array<ActiveTag>} */
@@ -28,8 +32,19 @@ function createActiveTagsStore() {
 
     /** @param {string} name */
     addByName: async (name) => {
+      let newTag = createActiveTag('+', name, 0, 'general')
+
+      try {
+        const suggestions = await getTagSuggestions(name)
+        if (suggestions.length > 0) {
+          newTag = createActiveTagFromTag(suggestions[0], '+')
+        }
+      } catch {
+        // ignore
+      }
+
       update((tags) => {
-        tags.push(new ActiveTag('+', name, 0, 'general'))
+        tags.push(newTag)
         return tags
       })
     },

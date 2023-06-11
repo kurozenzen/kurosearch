@@ -1,12 +1,13 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import { writable } from 'svelte/store'
 import { firebaseAuth, firestore } from '../../firebase/firebase'
-import { collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
-import { Supertag } from '../../types/tags/Supertag'
-import { SearchableTag } from '../../types/tags/SearchableTag'
+import { collection, deleteDoc, doc, onSnapshot, query, setDoc } from 'firebase/firestore'
+import { createSupertag } from '../../types/tags/Supertag'
+import { createSearchableTag } from '../../types/tags/SearchableTag'
 
 /**
  * @typedef {import("../theme/theme").Theme} Theme
+ * @typedef {import("../../types/definitions").Supertag} Supertag
  */
 
 const createAccountStore = () => {
@@ -44,10 +45,10 @@ const createAccountStore = () => {
           querySnapshot.forEach((doc) => {
             const data = doc.data()
             supertags.push(
-              new Supertag(
+              createSupertag(
                 doc.id,
                 data.description,
-                Object.entries(data.tags).map((e) => new SearchableTag(e[1], e[0]))
+                Object.entries(data.tags).map((e) => createSearchableTag(e[1], e[0]))
               )
             )
           })

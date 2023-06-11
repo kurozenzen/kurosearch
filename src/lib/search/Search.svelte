@@ -1,11 +1,11 @@
 <script>
-  import { ActiveTag as AT } from '../../types/tags/ActiveTag'
+  import { createActiveTag } from '../../types/tags/ActiveTag'
   import userdata from '../account/userdata'
   import Button from '../common/Button.svelte'
   import CreateSupertagDialog from '../supertags/CreateSupertagDialog.svelte'
   import TagInput from '../tag-input/TagInput.svelte'
   import activeTags from './activeTagsStore'
-  import Results from './Results.svelte'
+  import Results from './results/Results.svelte'
   import results from './resultsStore'
   import ScrollUpButton from './ScrollUpButton.svelte'
   import SearchError from './SearchError.svelte'
@@ -19,37 +19,21 @@
   let supertagMode = false
   let error = undefined
   let loading = false
-  let previousSortStore = JSON.stringify($sortStore)
+  let previousSortStore = JSON.stringify($sortStore) // for changes
 
-  const getFirstPage = async () => {
-    error = undefined
-    loading = true
+  const createDefaultSearch = () =>
+    createSearch()
+      .withPid($results.nextPage)
+      .withTags($activeTags)
+      .withSupertags($userdata.supertags)
+      .withSortProperty($sortStore.sortProperty)
+      .withSortDirection($sortStore.sortDirection)
+      .withScoreValue($sortStore.scoreValue)
+      .withScoreComparator($sortStore.scoreComparator)
+      .withBlockedContent($blockedContent)
 
-    results.reset()
-
-    try {
-      const [page, count] = await createSearch()
-        .withPid($results.nextPage)
-        .withTags($activeTags)
-        .withSupertags($userdata.supertags)
-        .withSortProperty($sortStore.sortProperty)
-        .withSortDirection($sortStore.sortDirection)
-        .withScoreValue($sortStore.scoreValue)
-        .withScoreComparator($sortStore.scoreComparator)
-        .withBlockedContent($blockedContent)
-        .getPageAndCount()
-
-      results.addPage(page)
-      countStore.set(count)
-    } catch (e) {
-      error = e
-      console.warn(e)
-    } finally {
-      loading = false
-    }
-  }
-
-  const getNextPage = async () => {
+  /** @param {() => Promise<void>} operation */
+  const executeSearch = async (operation) => {
     if (loading) {
       return
     }
@@ -58,18 +42,7 @@
     loading = true
 
     try {
-      const page = await createSearch()
-        .withPid($results.nextPage)
-        .withTags($activeTags)
-        .withSupertags($userdata.supertags)
-        .withSortProperty($sortStore.sortProperty)
-        .withSortDirection($sortStore.sortDirection)
-        .withScoreValue($sortStore.scoreValue)
-        .withScoreComparator($sortStore.scoreComparator)
-        .withBlockedContent($blockedContent)
-        .getPage()
-
-      results.addPage(page)
+      await operation()
     } catch (e) {
       error = e
       console.warn(e)
@@ -78,7 +51,25 @@
     }
   }
 
+  const getFirstPage = async () => {
+    results.reset()
+
+    executeSearch(async () => {
+      const [page, count] = await createDefaultSearch().getPageAndCount()
+      results.addPage(page)
+      countStore.set(count)
+    })
+  }
+
+  const getNextPage = async () => {
+    executeSearch(async () => {
+      const page = await createDefaultSearch().getPage()
+      results.addPage(page)
+    })
+  }
+
   $: {
+    // update results when sort prefences change
     const currentSortStore = JSON.stringify($sortStore)
     if (previousSortStore !== currentSortStore) {
       previousSortStore = currentSortStore
@@ -111,7 +102,7 @@
     <SearchError title="Application Error" icon="error" message={error.message} />
   {/if}
 {:else}
-  <Results on:endreached={getNextPage} on:configchange={getFirstPage} />
+  <Results on:endreached={getNextPage} />
 {/if}
 
 <ScrollUpButton />
@@ -121,7 +112,7 @@
     tags={$activeTags}
     on:submit={(ev) => {
       userdata.addSupertag(ev.detail)
-      activeTags.set([new AT('+', ev.detail.name, ev.detail.tags.length, 'supertag')])
+      activeTags.set([createActiveTag('+', ev.detail.name, ev.detail.tags.length, 'supertag')])
     }}
     on:close={() => {
       supertagMode = false

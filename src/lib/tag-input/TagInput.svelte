@@ -5,7 +5,7 @@
   import { isEnter } from '../common/onEnterOrSpace'
   import { getTagSuggestions } from '../../api-client/ApiClient'
   import userdata from '../account/userdata'
-  import { Tag, toActiveTag } from '../../types/tags/Tag'
+  import { createActiveTagFromTag, createTag } from '../../types/tags/Tag'
   import TagSuggestion from './TagSuggestion.svelte'
   import HelpButton from './HelpButton.svelte'
 
@@ -38,7 +38,7 @@
 
   /** @param {Tag} tag */
   const pick = (tag) => () => {
-    dispatch('pick', toActiveTag(tag, modifier))
+    dispatch('pick', createActiveTagFromTag(tag, modifier))
     resetInput()
   }
 
@@ -50,7 +50,7 @@
     tags = [
       ...$userdata.supertags
         .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
-        .map((s) => new Tag(s.name, Object.keys(s.tags).length, 'supertag')),
+        .map((s) => createTag(s.name, Object.keys(s.tags).length, 'supertag')),
       ...(await getTagSuggestions(term)),
     ]
   }
@@ -87,7 +87,7 @@
     }}
     on:keyup={(event) => {
       if (isEnter(event)) {
-        pick(tags.length > selectedIndex ? tags[selectedIndex] : new Tag(searchTerm, 0, 'ambiguous'))()
+        pick(tags.length > selectedIndex ? tags[selectedIndex] : createTag(searchTerm, 0, 'ambiguous'))()
       } else if (event.code === 'ArrowUp' && tags.length > 0) {
         selectedIndex = (selectedIndex + tags.length - 1) % tags.length
       } else if (event.code === 'ArrowDown' && tags.length > 0) {

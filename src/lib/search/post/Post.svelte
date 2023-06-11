@@ -1,8 +1,8 @@
 <script>
   import Details from './details/Details.svelte'
-  import Image from './media/Image.svelte'
-  import Gif from './media/Gif.svelte'
-  import Player from '../../../lib/player/Player.svelte'
+  import Image from '../../media/Image.svelte'
+  import Gif from '../../media/Gif.svelte'
+  import Player from '../../media/Player.svelte'
 
   /** @typedef {import("../../../types/post/Post").Post} Post */
 
@@ -16,7 +16,8 @@
   }
 </script>
 
-<div class="post">
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<div>
   {#if post.type === 'image'}
     <Image {post} on:click={toggleOpen} />
   {:else if post.type === 'video'}
@@ -25,7 +26,7 @@
       poster={post.sample_url}
       width={post.width}
       height={post.height}
-      loop={post.tags.some(t => t.name == 'loop')}
+      loop={post.tags.some((t) => t.name == 'loop')}
       on:click={toggleOpen}
     />
   {:else}
@@ -37,14 +38,12 @@
 </div>
 
 <style>
-  .post {
+  div {
     background-color: var(--background-1);
-    overflow: hidden;
-    contain: content;
   }
 
   @media (min-width: 800px) {
-    .post {
+    div {
       border-radius: var(--border-radius);
     }
   }

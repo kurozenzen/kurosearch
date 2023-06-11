@@ -1,8 +1,10 @@
-import { Tag } from '../../types/tags/Tag'
+import { createTag } from '../../types/tags/Tag'
 import { fetchAbortPrevious } from '../fetchAbortPrevious'
 
 /**
- * @typedef {import("../../types/tags/Tag").TagType} TagType
+ * @typedef {import("../../types/definitions").TagType} TagType
+ * @typedef {import("../../types/definitions").Tag} Tag
+ * @typedef {import("../../types/definitions").Suggestion} Suggestion
  */
 
 /**
@@ -25,14 +27,7 @@ export const getTagSuggestions = async (term) => {
       if (json.length === 0) {
         throw new Error('No tags found')
       } else {
-        return json.map(
-          (t) =>
-            new Tag(
-              replaceHtmlEntities(t.value),
-              Number(t.label.substring(t.label.lastIndexOf('(') + 1, t.label.length - 1)),
-              'ambiguous'
-            )
-        )
+        return json.map(createTagFromSuggestion)
       }
     } else if (json.message) {
       throw new Error(json.message)
@@ -45,6 +40,21 @@ export const getTagSuggestions = async (term) => {
 }
 
 /** @param {string} raw */
-export const replaceHtmlEntities = (raw) => {
-  return raw.replaceAll('&#034;', '"').replaceAll('&#038;', '&').replaceAll('&#039;', "'").replaceAll('&eacute;', 'é')
+export const replaceHtmlEntities = (raw) =>
+  raw.replaceAll('&#034;', '"').replaceAll('&#038;', '&').replaceAll('&#039;', "'").replaceAll('&eacute;', 'é')
+
+/**
+ *
+ * @param {Suggestion} suggestion
+ * @returns {Tag}
+ */
+const createTagFromSuggestion = (suggestion) =>
+  createTag(replaceHtmlEntities(suggestion.value), extractCount(suggestion.label), 'ambiguous')
+
+/**
+ * @param {string} label
+ * @returns {Number}
+ */
+const extractCount = (label) => {
+  return Number(label.substring(label.lastIndexOf('(') + 1, label.length - 1))
 }

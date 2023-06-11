@@ -1,6 +1,4 @@
 import { jest } from '@jest/globals'
-import { Post } from '../../types/post/Post'
-import { SearchableTag } from '../../types/tags/SearchableTag'
 import { getComments } from './comments'
 
 const RESOLVED = true

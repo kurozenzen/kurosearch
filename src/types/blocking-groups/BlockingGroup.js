@@ -1,4 +1,4 @@
-/** @typedef {"Loli" | "Animal-Related" | "Non-Consentual"} BlockingGroup */
+/** @typedef {import("../definitions").BlockingGroup} BlockingGroup */
 
 /** @type {readonly BlockingGroup[]} */
 export const ALL_BLOCKING_GROUPS = Object.freeze(['Loli', 'Animal-Related', 'Non-Consentual'])

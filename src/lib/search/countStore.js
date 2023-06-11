@@ -1,7 +1,9 @@
 import { createDependentPersistentStore } from '../common/persistentStore'
 
 const createCountStore = () => {
-  const { subscribe, set } = createDependentPersistentStore('count', null)
+  /** @type {null | number} */
+  const initial = null;
+  const { subscribe, set } = createDependentPersistentStore('count', initial)
 
   return {
     subscribe,

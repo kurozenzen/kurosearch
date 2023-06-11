@@ -3,8 +3,6 @@
 </script>
 
 <script>
-  import { createEventDispatcher } from 'svelte'
-
   /** @type {string} */
   export let text
   /** @type {string} */
@@ -12,11 +10,9 @@
   export let disabled = false
   /** @type {ButtonType} */
   export let type = 'primary'
-
-  const dispatch = createEventDispatcher()
 </script>
 
-<button {title} class={type} on:click={() => dispatch('click')} {disabled}>
+<button {title} class={type} on:click {disabled}>
   {text}
 </button>
 

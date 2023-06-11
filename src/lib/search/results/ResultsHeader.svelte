@@ -1,14 +1,11 @@
 <script>
-  import { formatCount } from '../../formatting/formatCount'
-
-  import countStore from './countStore'
-
-  import SortFilterEditor from './SortFilterEditor.svelte'
+  import { formatCount } from '../../../formatting/formatCount'
+  import countStore from '../countStore'
+  import SortFilterEditor from '../SortFilterEditor.svelte'
 </script>
 
 <div class="container">
   <span title={`${$countStore} results`}>{formatCount($countStore)} results</span>
-
   <SortFilterEditor />
 </div>
 
