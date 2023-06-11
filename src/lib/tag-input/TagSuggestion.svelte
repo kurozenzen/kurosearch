@@ -22,7 +22,7 @@
   li {
     display: grid;
     align-items: center;
-    height: 24px;
+    height: var(--line-height-small);
     grid-template-columns: 16px 1fr auto;
     gap: 1rem;
     font-size: var(--text-size);

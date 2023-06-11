@@ -18,8 +18,8 @@
     gap: 4px;
     background-color: var(--background-2);
     color: var(--text-accent);
-    height: 24px;
-    border-radius: 12px;
+    height: var(--line-height-small);
+    border-radius: var(--line-height-small);
     font-size: var(--text-size-small);
     padding-left: 12px;
     padding-right: 12px;

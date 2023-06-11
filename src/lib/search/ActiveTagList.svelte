@@ -29,7 +29,7 @@
 
 <style>
   ul {
-    min-height: 24px;
+    min-height: var(--line-height-small);
     display: flex;
     flex-wrap: wrap;
     gap: var(--small-gap);
@@ -37,10 +37,10 @@
   }
 
   .add-supertag {
-    width: 24px;
-    height: 24px;
+    width: var(--line-height-small);
+    height: var(--line-height-small);
+    border-radius: var(--line-height-small);
     padding: 4px;
-    border-radius: 12px;
     background-color: var(--accent);
     color: var(--text-accent);
     transition: background-color var(--default-transition-behaviour);
