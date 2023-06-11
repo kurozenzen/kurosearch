@@ -3,7 +3,7 @@
   import countStore from '../countStore'
   import SomeResults from './SomeResults.svelte'
 
-  $: hasResults = $countStore >= 0
+  $: hasResults = $countStore !== null
   $: noResultsFound = $countStore === 0
 </script>
 
