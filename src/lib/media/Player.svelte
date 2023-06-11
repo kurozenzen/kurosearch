@@ -1,21 +1,8 @@
-<script context="module">
-  /** @param  {number} time */
-  const formatDuration = (time) => {
-    const floored = Math.floor(time)
-    const seconds = floored % 60
-    const minutes = Math.floor(floored / 60)
-
-    return `${pad(minutes)}:${pad(seconds)}`
-  }
-
-  /** @param  {number} x */
-  const pad = (x) => `${x < 10 ? '0' : ''}${x}`
-</script>
-
 <script>
   import { onDestroy, onMount } from 'svelte'
   import { isEnter, isSpace } from '../common/onEnterOrSpace'
   import PlayButton from './PlayButton.svelte'
+  import { formatVideoTime } from '../../formatting/formatTime'
 
   const SKIP_TIME = 5
 
@@ -141,7 +128,7 @@
       preload="metadata"
       style={`aspect-ratio: ${width} / ${height}`}
     />
-    <span class:hide={hideOverlay}>{formatDuration(timeLeft)}</span>
+    <span class:hide={hideOverlay}>{formatVideoTime(timeLeft)}</span>
     <input
       bind:value={currentTime}
       on:click|stopPropagation={() => {}}

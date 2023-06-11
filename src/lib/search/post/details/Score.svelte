@@ -13,7 +13,4 @@
     gap: 4px;
     align-items: center;
   }
-  i {
-    padding-block-start: 1px;
-  }
 </style>

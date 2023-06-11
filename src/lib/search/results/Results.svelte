@@ -2,15 +2,12 @@
   import NoResults from './NoResults.svelte'
   import countStore from '../countStore'
   import SomeResults from './SomeResults.svelte'
-
-  $: hasResults = $countStore !== null
-  $: noResultsFound = $countStore === 0
 </script>
 
-{#if noResultsFound}
-  <NoResults />
-{:else if hasResults}
-  <SomeResults on:endreached />
+{#if $countStore !== null}
+  {#if $countStore === 0}
+    <NoResults />
+  {:else}
+    <SomeResults on:endreached />
+  {/if}
 {/if}
-
-<!-- else (not searched yet) don't render anything-->

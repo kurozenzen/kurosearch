@@ -28,7 +28,7 @@
     width: 100%;
     height: var(--box-height);
     border-radius: var(--border-radius);
-    background-color: var(--background-2);
+    background-color: var(--background-1);
   }
 
   input {

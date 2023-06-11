@@ -7,19 +7,20 @@
   /** @type {import("../../types/tags/ActiveTag").ActiveTag}*/
   export let tag
 
-  const dispatch = createEventDispatcher()
+  $: isSupertag = tag.type === 'supertag'
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <button
   class={MODIFIER_NAMES[tag.modifier]}
-  class:no-icon={tag.type !== 'supertag'}
+  class:no-icon={!isSupertag}
   tabindex="0"
   title="Click to remove tag"
   on:click
-  on:contextmenu|preventDefault={() => dispatch('contextmenu')}
+  on:contextmenu|preventDefault
 >
+  {#if isSupertag}
+    <i class="codicon codicon-star-full" />
+  {/if}
   {formatTagname(tag.name)}
   {#if tag.count}
     ({formatCount(tag.count)})
