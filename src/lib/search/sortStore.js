@@ -21,7 +21,11 @@ const createSortStore = () => {
 
   return {
     subscribe,
-    set,
+    /** @param {SortAndFilter} value */
+    set(value) {
+      const scoreValue = value.scoreValue ?? 0
+      set({ ...value, scoreValue })
+    },
     reset() {
       set({ ...initial })
     },

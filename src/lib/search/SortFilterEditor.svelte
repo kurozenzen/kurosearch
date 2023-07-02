@@ -40,6 +40,20 @@
   const closeDialog = () => (editSortFilter = false)
   const reset = () => {
     sortStore.reset()
+    internalScoreValue = $sortStore.scoreValue
+  }
+
+  let internalScoreValue
+
+  $: {
+    if (internalScoreValue === undefined) {
+      internalScoreValue = $sortStore.scoreValue
+    }
+
+    let scoreValue = Number(internalScoreValue)
+    if (!isNaN(scoreValue)) {
+      $sortStore.scoreValue = scoreValue
+    }
   }
 
   $: filterLabel =
@@ -78,7 +92,7 @@
             min={0}
             max={100000}
             step={1}
-            bind:value={$sortStore.scoreValue}
+            bind:value={internalScoreValue}
             on:keyup={onEnterOrSpace((event) => event.target.blur())}
           />
         </div>
