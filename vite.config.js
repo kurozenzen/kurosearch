@@ -27,7 +27,7 @@ export default defineConfig({
         description: 'Rule34 browsing re-imagined',
         theme_color: '#000000',
         background_color: '#000000',
-        orientation: 'any',
+        orientation: 'natural',
         icons: [
           {
             src: 'icon/ks-maskable-512.png',

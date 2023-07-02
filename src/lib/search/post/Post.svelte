@@ -17,9 +17,9 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div>
+<div class:open>
   {#if post.type === 'image'}
-    <Image {post} on:click={toggleOpen} />
+    <Image {post} on:click={toggleOpen} {open} />
   {:else if post.type === 'video'}
     <Player
       src={post.file_url}
