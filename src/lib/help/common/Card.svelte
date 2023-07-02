@@ -50,6 +50,7 @@
 
   i {
     font-size: 32px;
+    height: 32px;
     color: var(--accent);
   }
 

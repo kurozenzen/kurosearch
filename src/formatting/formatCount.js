@@ -7,7 +7,7 @@ const formatter = Intl.NumberFormat('en', { notation: 'compact' })
  */
 export const formatCount = (value) => {
   if (!isValidCount(value)) {
-    throw new TypeError(`Invalid value passed to formatCount: ${value}`)
+    return "-"
   }
 
   return formatter.format(value)

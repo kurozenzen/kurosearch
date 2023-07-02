@@ -9,6 +9,8 @@
   import TagSuggestion from './TagSuggestion.svelte'
   import HelpButton from './HelpButton.svelte'
 
+  export let excludeSupertags = false
+
   /**
    * @typedef {import("../../types/tags/Tag").Tag} Tag
    * @typedef {import("../../types/tag-modifier/modifier").Modifier} Modifier
@@ -48,9 +50,11 @@
   async function getSuggestions(term) {
     open = true
     tags = [
-      ...$userdata.supertags
-        .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
-        .map((s) => createTag(s.name, Object.keys(s.tags).length, 'supertag')),
+      ...(excludeSupertags
+        ? []
+        : $userdata.supertags
+            .filter((s) => s.name.toLowerCase().includes(term.toLowerCase()))
+            .map((s) => createTag(s.name, Object.keys(s.tags).length, 'supertag'))),
       ...(await getTagSuggestions(term)),
     ]
   }
@@ -129,7 +133,7 @@
     border-radius: 22px;
     width: 100%;
     max-width: 512px;
-    margin: auto;
+    margin: 0 auto;
     position: relative;
     isolation: isolate;
     z-index: var(--z-searchbar);

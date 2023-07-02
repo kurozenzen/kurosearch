@@ -7,7 +7,7 @@
   import PageHeading from '../common/text/PageHeading.svelte'
   import ParagraphHeading from '../common/text/ParagraphHeading.svelte'
   import { createTag } from '../../types/tags/Tag'
-    import { createActiveTag } from '../../types/tags/ActiveTag'
+  import { createActiveTag } from '../../types/tags/ActiveTag'
 </script>
 
 <PageHeading>Documentation</PageHeading>

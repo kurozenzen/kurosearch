@@ -4,7 +4,7 @@
    * @typedef {import('../../types/definitions').SortDirection} SortDirection
    */
 
-  const OPTIONS_SORT_PROPERTY = Object.freeze({ id: 'Upload', score: 'Score', updated: 'Change' })
+  const OPTIONS_SORT_PROPERTY = Object.freeze({ id: 'Uploaded', score: 'Score', updated: 'Updated' })
   const OPTIONS_SORT_DIRECTION = Object.freeze({ desc: 'codicon codicon-arrow-down', asc: 'codicon codicon-arrow-up' })
   const OPTIONS_SCORE_COMPARATOR = Object.freeze({ '>=': '≥', '<=': '≤' })
 
@@ -38,6 +38,9 @@
   let editSortFilter = false
   const openDialog = () => (editSortFilter = true)
   const closeDialog = () => (editSortFilter = false)
+  const reset = () => {
+    sortStore.reset()
+  }
 
   $: filterLabel =
     $sortStore.scoreValue === 0 && $sortStore.scoreComparator === '>='
@@ -56,6 +59,7 @@
 {#if editSortFilter}
   <Dialog on:close={closeDialog}>
     <div class="container">
+      <h3>Sorting and Filtering</h3>
       <!-- svelte-ignore a11y-label-has-associated-control -->
       <label>
         <b>Sorting</b>
@@ -80,6 +84,7 @@
         </div>
       </label>
       <Button text="Done" title="Return to searching." on:click={closeDialog} />
+      <Button text="Reset" title="Reset sort and filter." type="secondary" on:click={reset} />
     </div>
   </Dialog>
 {/if}

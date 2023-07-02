@@ -24,6 +24,7 @@
     padding-left: 12px;
     padding-right: 12px;
     user-select: none;
+    transition: background-color var(--default-transition-behaviour);
   }
 
   .exclude {
@@ -32,5 +33,11 @@
 
   .optional {
     font-style: italic;
+  }
+
+  @media (hover: hover) {
+    li:hover {
+      background-color: var(--background-3);
+    }
   }
 </style>

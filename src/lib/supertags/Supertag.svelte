@@ -1,32 +1,20 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
   import SearchableTag from './SearchableTag.svelte'
-  import Dialog from '../dialog/Dialog.svelte'
-  import Button from '../common/Button.svelte'
-  import TagInput from '../tag-input/TagInput.svelte'
-  import { createSearchableTag } from '../../types/tags/SearchableTag'
-  import TextInput from '../common/text/TextInput.svelte'
+  import EditSupertagDialog from './EditSupertagDialog.svelte'
+  import SupertagDeleteDialog from './SupertagDeleteDialog.svelte'
 
   /**  @typedef {import("../../types/tags/Supertag").Supertag} Supertag */
+
+  const openDeleteDialog = () => (deleting = true)
+  const closeDeleteDialog = () => (deleting = false)
+  const openEditDialog = () => (editing = true)
+  const closeEditDialog = () => (editing = false)
 
   /** @type {Supertag} */
   export let supertag
 
   let deleting = false
   let editing = false
-
-  let newSupertag = { ...supertag, tags: [...supertag.tags] }
-
-  const dispatch = createEventDispatcher()
-  const emitRemove = () => dispatch('remove', supertag)
-  const emitEdit = () => dispatch('edit', { oldName: supertag.name, newSupertag })
-  const openDeleteDialog = () => (deleting = true)
-  const closeDeleteDialog = () => (deleting = false)
-  const openEditDialog = () => {
-    editing = true
-    newSupertag = { ...supertag, tags: [...supertag.tags] }
-  }
-  const closeEditDialog = () => (editing = false)
 </script>
 
 <li>
@@ -43,57 +31,14 @@
 </li>
 
 {#if deleting}
-  <Dialog on:close={closeDeleteDialog}>
-    <div>
-      <span>Are you sure? This action cannot be undone.</span>
-      <Button text="Yes, delete" title="Delete supertag" on:click={emitRemove} />
-      <Button type="secondary" text="No, keep it" title="Cancel" on:click={closeDeleteDialog} />
-    </div>
-  </Dialog>
+  <SupertagDeleteDialog {supertag} on:close={closeDeleteDialog} on:remove />
 {/if}
 
 {#if editing}
-  <Dialog on:close={closeEditDialog}>
-    <div>
-      <TextInput bind:value={newSupertag.name} placeholder="Name" autocomplete="none" />
-      <TextInput bind:value={newSupertag.description} placeholder="Description" autocomplete="none" />
-      <TagInput
-        on:pick={(e) =>
-          (newSupertag.tags = [...newSupertag.tags, createSearchableTag(e.detail.modifier, e.detail.name)])}
-      />
-      <ul>
-        {#each newSupertag.tags as tag, i}
-          <SearchableTag
-            {tag}
-            on:click={() => {
-              newSupertag.tags.splice(i, 1)
-              newSupertag.tags = [...newSupertag.tags]
-            }}
-          />
-        {/each}
-      </ul>
-      <Button
-        text="Save"
-        title="Save changes"
-        on:click={() => {
-          emitEdit()
-          closeEditDialog()
-        }}
-      />
-      <Button type="secondary" text="Cancel" title="Cancel" on:click={closeEditDialog} />
-    </div>
-  </Dialog>
+  <EditSupertagDialog {supertag} on:close={closeEditDialog} on:edit />
 {/if}
 
 <style>
-  ul {
-    min-height: 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    justify-content: center;
-  }
-
   li {
     display: grid;
     grid-template-columns: auto 1fr auto auto;
@@ -143,11 +88,5 @@
     button:hover {
       color: var(--text-highlight);
     }
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: var(--grid-gap);
   }
 </style>

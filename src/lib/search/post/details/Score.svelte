@@ -4,7 +4,7 @@
   export let value
 </script>
 
-<span>{formatCount(value)} <i class="codicon codicon-heart" /></span>
+<span data-testid="score" class="codicon codicon-heart">{formatCount(value)}</span>
 
 <style>
   span {
