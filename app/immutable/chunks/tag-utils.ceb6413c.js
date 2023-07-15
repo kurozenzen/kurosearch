@@ -1,0 +1,1 @@
+const s=(a,e,c,t)=>({modifier:a,name:e,count:c,type:t}),r=(a,e,c)=>({name:a,count:e,type:c}),o=(a,e,c)=>({name:a,description:e,tags:c}),g=(a,e)=>({modifier:a,name:e});export{g as a,s as b,o as c,r as d};

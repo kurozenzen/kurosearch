@@ -1,0 +1,1 @@
+const r=Intl.NumberFormat("en",{notation:"compact"}),e=t=>typeof t=="number"?r.format(t):"-",a=t=>t.replace(/_/g," "),m=t=>{if(typeof t.name!="string")return"error";const n=a(t.name);if(typeof t.count!="number")return n;const o=e(t.count);return`${n} (${o})`};export{a,m as b,e as f};
