@@ -45,6 +45,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import { SearchBuilder } from '$lib/logic/search-builder';
+	import { logSearch } from '$lib/logic/firebase/analytics';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -95,7 +96,9 @@
 		loading = true;
 
 		try {
+			const pid = $results.pageCount;
 			await operation();
+			logSearch(pid).catch(() => {});
 		} catch (e) {
 			error = e as Error;
 			console.warn(e);
@@ -118,7 +121,6 @@
 	const getNextPage = async () => {
 		executeSearch(async () => {
 			const page = await createDefaultSearch().getPage();
-			console.log(page);
 			results.addPage(page);
 		});
 	};

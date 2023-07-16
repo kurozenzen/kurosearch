@@ -10,23 +10,32 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import { StoreKey } from '$lib/store/store-keys';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
+	import firebaseUser from '$lib/store/firebase-user-store';
+	import '$lib/logic/firebase/firebase';
+	import { signOut, signIn } from '$lib/logic/firebase/authentication';
+	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
 
 	let deleting = false;
+	let pullingFromCloud = false;
+	let pushingToCloud = false;
 
 	const reset = () => {
 		supertags.reset();
 	};
 
+	const getSettingsObject = () => ({
+		[StoreKey.LocalstorageEnabled]: $localstorageEnabled,
+		[StoreKey.Theme]: $theme,
+		[StoreKey.BlockedContent]: $blockedContent,
+		[StoreKey.ResultColumns]: $resultColumns,
+		[StoreKey.Supertags]: $supertags
+	});
+
 	const exportConfig = async () => {
-		const config = {
-			[StoreKey.LocalstorageEnabled]: $localstorageEnabled,
-			[StoreKey.Theme]: $theme,
-			[StoreKey.BlockedContent]: $blockedContent,
-			[StoreKey.ResultColumns]: $resultColumns,
-			[StoreKey.Supertags]: $supertags
-		};
+		const config = getSettingsObject();
 
 		try {
+			// @ts-expect-error - too new i guess
 			const handle = await showSaveFilePicker({ suggestedName: 'kurosearch-config.json' });
 			const writable = await handle.createWritable();
 			const content = JSON.stringify(config, undefined, 2);
@@ -40,6 +49,7 @@
 
 	const importConfig = async () => {
 		try {
+			// @ts-expect-error - too new i guess
 			const [handle] = await showOpenFilePicker();
 			const file = await handle.getFile();
 			const content = await file.text();
@@ -56,9 +66,8 @@
 	};
 </script>
 
-<Heading1>Account</Heading1>
-
-<div>
+<section>
+	<Heading1>Account</Heading1>
 	<Heading3>Supertags</Heading3>
 	<div class="supertags">
 		{#if $supertags.items.length === 0}
@@ -81,23 +90,112 @@
 		</ul>
 	</div>
 
-	<Heading3>Manage Data</Heading3>
-	<div>
+	<Heading3>Import/Export Data</Heading3>
+	<div class="button-row">
 		<TextButton type="secondary" title="Save your data to a file." on:click={exportConfig}>
-			Download Config File
+			<span class="codicon codicon-file">Download Config File</span>
 		</TextButton>
 		<TextButton
 			type="secondary"
 			title="Restore your settings from a config file."
 			on:click={importConfig}
 		>
-			Load Config File
-		</TextButton>
-		<TextButton title="Delete all your data." on:click={() => (deleting = true)}>
-			Delete Data
+			<span class="codicon codicon-file">Load Config File</span>
 		</TextButton>
 	</div>
-</div>
+
+	<Heading3>Google Account Syncing</Heading3>
+	<div class="button-row">
+		{#if $firebaseUser === undefined}
+			<TextButton
+				title="Sign in with google to backup data"
+				on:click={async () => {
+					const credentials = await signIn();
+					$firebaseUser = credentials;
+				}}
+			>
+				Connect Google User
+			</TextButton>
+		{:else}
+			<TextButton
+				type="secondary"
+				title="Save your data to a file."
+				on:click={() => (pullingFromCloud = true)}
+			>
+				<span class="codicon codicon-cloud">Load Config</span>
+			</TextButton>
+			<TextButton
+				type="secondary"
+				title="Restore your settings from a config file."
+				on:click={() => (pushingToCloud = true)}
+			>
+				<span class="codicon codicon-cloud">Save config</span>
+			</TextButton>
+			<TextButton
+				title="Sign out"
+				on:click={async () => {
+					await signOut();
+					$firebaseUser = undefined;
+				}}
+			>
+				Sign Out
+			</TextButton>
+		{/if}
+	</div>
+
+	<Heading3>Delete Data</Heading3>
+	<TextButton title="Delete all your data." on:click={() => (deleting = true)}>
+		Delete Data
+	</TextButton>
+</section>
+
+{#if pullingFromCloud}
+	<ConfirmDialog
+		title="Load Data"
+		warning="This will replace all your current settings with settings save online. Are you sure you want to do that?"
+		labelConfirm="Yes, load settings."
+		labelCancel="Cancel"
+		on:confirm={async () => {
+			const backup = await getSettingsAndSupertags();
+
+			if (backup.settings) {
+				if (backup.settings[StoreKey.LocalstorageEnabled]) {
+					$localstorageEnabled = backup.settings[StoreKey.LocalstorageEnabled];
+				}
+				if (backup.settings[StoreKey.Theme]) {
+					$theme = backup.settings[StoreKey.Theme];
+				}
+				if (backup.settings[StoreKey.BlockedContent]) {
+					$blockedContent = backup.settings[StoreKey.BlockedContent];
+				}
+				if (backup.settings[StoreKey.ResultColumns]) {
+					$resultColumns = backup.settings[StoreKey.ResultColumns];
+				}
+				if (backup.settings[StoreKey.Supertags]) {
+					$supertags = backup.settings[StoreKey.Supertags];
+				}
+			}
+
+			if (backup.supertags) {
+				$supertags.items = backup.supertags;
+			}
+		}}
+		on:close={() => (pullingFromCloud = false)}
+	/>
+{/if}
+
+{#if pushingToCloud}
+	<ConfirmDialog
+		title="Save data online"
+		warning="This will save the current settings and supertags online. BUT it will also overwrite anything currently stored in the cloud. Are you sure you want to do this?"
+		labelConfirm="Yes, backup online"
+		labelCancel="Cancel"
+		on:confirm={async () => {
+			await saveSettingsAndSupertags(getSettingsObject(), $supertags.items);
+		}}
+		on:close={() => (pushingToCloud = false)}
+	/>
+{/if}
 
 {#if deleting}
 	<ConfirmDialog
@@ -109,3 +207,19 @@
 		on:close={() => (deleting = false)}
 	/>
 {/if}
+
+<style>
+	section {
+		padding-inline: 8px;
+	}
+
+	.button-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.codicon::before {
+		margin-right: 4px;
+	}
+</style>

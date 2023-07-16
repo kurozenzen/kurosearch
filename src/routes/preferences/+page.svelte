@@ -24,6 +24,9 @@
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
 	import theme from '$lib/store/theme-store';
 	import resultColumns from '$lib/store/result-columns-store';
+	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
+
+	let resetting = false;
 
 	const reset = () => {
 		localstorageEnabled.reset();
@@ -65,9 +68,20 @@
 		title="Reset preferences"
 		description="Undo all customizations and return to default settings."
 	>
-		<TextButton title="Reset preferences" on:click={reset}>Reset</TextButton>
+		<TextButton title="Reset preferences" on:click={() => (resetting = true)}>Reset</TextButton>
 	</Preference>
 </section>
+
+{#if resetting}
+	<ConfirmDialog
+		title="Reset Preferences"
+		warning="This will reset all your settings to default values. Are you sure you want to do that?"
+		labelConfirm="Yes, reset"
+		labelCancel="Cancel"
+		on:confirm={reset}
+		on:close={() => (resetting = false)}
+	/>
+{/if}
 
 <style>
 	section {

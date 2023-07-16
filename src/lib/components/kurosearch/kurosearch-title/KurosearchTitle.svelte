@@ -3,7 +3,7 @@
 	const getTitle = (date: Date) => {
 		const dayMonth = `${date.getDate()}-${date.getMonth()}`;
 		if (dayMonth === '24-12' || dayMonth === '25-12') {
-			return 'kur<span class="title-emoji">🎅</span>search';
+			return 'kur🎅search';
 		}
 
 		return 'kurosearch';
@@ -38,11 +38,6 @@
 			font-size: 12vw;
 			line-height: 12vw;
 		}
-	}
-
-	:global(.title-emoji) {
-		font-size: 48px;
-		padding: unset;
 	}
 
 	.pride {

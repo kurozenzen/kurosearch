@@ -150,3 +150,11 @@ i.codicon {
 .codicon-dash:before {
 	content: '\eacc';
 }
+
+.codicon-file:before {
+	content: '\ea7b';
+}
+
+.codicon-cloud:before {
+	content: '\ebaa';
+}

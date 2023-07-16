@@ -52,7 +52,7 @@
 		grid-template-columns: auto 1fr auto auto;
 		gap: 0.5rem;
 		align-items: center;
-		padding: var(--grid-gap);
+		padding: var(--grid-gap) 0;
 		border-radius: var(--border-radius);
 		transition: color var(--default-transition-behaviour);
 	}

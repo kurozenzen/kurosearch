@@ -7,5 +7,6 @@ export enum StoreKey {
 	Supertags = 'kurosearch:supertags',
 	SortFilter = 'kurosearch:sort-filter',
 	Results = 'kurosearch:results',
-	Theme = 'kurosearch:theme'
+	Theme = 'kurosearch:theme',
+	User = 'kurosearch:firebase-user'
 }
