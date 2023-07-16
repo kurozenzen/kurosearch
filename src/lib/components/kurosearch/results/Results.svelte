@@ -5,10 +5,22 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
-	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let viewing: undefined | kurosearch.Post;
+
+	let hasHash = location.hash.length > 2;
+	const listener = () => {
+		hasHash = location.hash.length > 2;
+	};
+
+	onMount(() => {
+		window.addEventListener('hashchange', listener);
+	});
+	onDestroy(() => {
+		window.removeEventListener('hashchange', listener);
+	});
 </script>
 
 <div>
@@ -25,11 +37,17 @@
 {:else}
 	<section class="multi" style="grid-template-columns: repeat({$resultColumns}, 1fr);">
 		{#each $results.posts as post}
-			<MosaicPost {post} on:click={() => (viewing = post)} />
+			<MosaicPost
+				{post}
+				on:click={() => {
+					viewing = post;
+					location.hash = `fullscreen_${post.id}`;
+				}}
+			/>
 		{/each}
 	</section>
 
-	{#if viewing !== undefined}
+	{#if hasHash && viewing !== undefined}
 		<FullscreenPost post={viewing} on:close={() => (viewing = undefined)} />
 	{/if}
 {/if}

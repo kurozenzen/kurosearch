@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 
 	const dispatch = createEventDispatcher();

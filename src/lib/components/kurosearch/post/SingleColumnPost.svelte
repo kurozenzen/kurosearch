@@ -13,7 +13,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div class:open>
+<div id="post_{post.id}" class:open>
 	{#if post.type === 'image'}
 		<Image {post} on:click={toggleOpen} {open} />
 	{:else if post.type === 'video'}

@@ -14,6 +14,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
+	id="post_{post.id}"
 	class="post"
 	style="grid-row: span {rows}"
 	on:click
