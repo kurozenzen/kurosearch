@@ -6,7 +6,7 @@
 	"background_color": "#000000",
 	"display": "standalone",
 	"orientation": "natural",
-	"start_url": "/kurosearch-static-experiment",
+	"start_url": "/",
 	"icons": [
 		{
 			"src": "icon/ks-maskable-512.png",
