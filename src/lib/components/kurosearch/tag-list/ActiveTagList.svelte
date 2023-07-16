@@ -5,7 +5,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let tags: Array<kurosearch.ActiveTag | kurosearch.Supertag>;
+	export let tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
 </script>
 
 <ul>

@@ -3,7 +3,7 @@
 	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
 	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
 
-	export let tag: kurosearch.ActiveTag;
+	export let tag: kurosearch.ModifiedTag;
 	export let active: boolean = false;
 
 	$: icon = TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon';

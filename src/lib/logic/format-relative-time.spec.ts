@@ -11,10 +11,12 @@ describe('formatCreatedAt', () => {
 	const ONE_YEAR = 366 * ONE_DAY;
 
 	it('undefined throws TypeError', () => {
+		// @ts-expect-error - passing invalid value
 		expect(() => formatCreatedAt(undefined)).toThrow(TypeError);
 	});
 
 	it('null throws TypeError', () => {
+		// @ts-expect-error - passing invalid value
 		expect(() => formatCreatedAt(null)).toThrow(TypeError);
 	});
 

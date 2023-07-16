@@ -5,13 +5,13 @@ import { StoreKey } from './store-keys';
 const createActiveTagsStore = () => {
 	const { subscribe, update, set } = semiPersistentWritable(
 		StoreKey.ActiveTags,
-		[] as kurosearch.ActiveTag[]
+		[] as kurosearch.ModifiedTag[]
 	);
 
 	return {
 		subscribe,
 		set,
-		addOrReplace: (tag: kurosearch.ActiveTag) =>
+		addOrReplace: (tag: kurosearch.ModifiedTag) =>
 			update((previous) => {
 				const i = previous.findIndex((active) => active.name === tag.name);
 				if (i === -1) {
@@ -22,7 +22,7 @@ const createActiveTagsStore = () => {
 				return previous;
 			}),
 		addByName: async (name: string) => {
-			let newTag: kurosearch.ActiveTag = { modifier: '+', name, count: 0, type: 'general' };
+			let newTag: kurosearch.ModifiedTag = { modifier: '+', name, count: 0, type: 'general' };
 
 			try {
 				const tag = await getTagDetails(name);

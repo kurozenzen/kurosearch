@@ -5,7 +5,7 @@
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import Suggestion from './Suggestion.svelte';
-	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
+	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
 
 	const dispatch = createEventDispatcher();
 

@@ -23,7 +23,12 @@ declare global {
 			| 'supertag'
 			| 'tag';
 		type PostType = 'image' | 'gif' | 'video';
-		type ActiveTag = {
+		type Tag = {
+			name: string;
+			count: number;
+			type: TagType;
+		};
+		type ModifiedTag = {
 			modifier: TagModifier;
 			name: string;
 			count: number;
@@ -33,11 +38,6 @@ declare global {
 			type: TagType;
 			label: string;
 			count: number;
-		};
-		type Tag = {
-			name: string;
-			count: number;
-			type: TagType;
 		};
 		type SearchableTag = {
 			modifier: TagModifier;

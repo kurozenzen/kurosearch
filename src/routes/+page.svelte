@@ -28,7 +28,6 @@
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
-	import { createSearch } from '$lib/logic/searchBuilder';
 	import results from '$lib/store/results-store';
 	import activeTags from '$lib/store/active-tags-store';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
@@ -45,6 +44,7 @@
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import { SearchBuilder } from '$lib/logic/search-builder';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -75,7 +75,7 @@
 	}
 
 	const createDefaultSearch = () =>
-		createSearch()
+		new SearchBuilder()
 			.withPid($results.pageCount)
 			.withTags($activeTags)
 			.withBlockedContent($blockedContent)
@@ -141,12 +141,14 @@
 
 		if (event.ctrlKey && event.key === 'ArrowDown') {
 			const posts = document.getElementsByClassName('post-media');
+			// @ts-expect-error - they will be focusable
 			posts[nextFocus].focus();
 			nextFocus = Math.min(nextFocus + 1, Math.max(0, posts.length - 1));
 		}
 
 		if (event.ctrlKey && event.key === 'ArrowUp') {
 			const posts = document.getElementsByClassName('post-media');
+			// @ts-expect-error - they will be focusable
 			posts[nextFocus].focus();
 			nextFocus = Math.max(nextFocus - 1, 0);
 		}
@@ -212,9 +214,9 @@
 {:else if $results.requested}
 	<section>
 		{#if $results.postCount === 0}
-			<ZeroResults />
+			<ZeroResults on:sortfilterupdate={getFirstPage} />
 		{:else}
-			<Results />
+			<Results on:sortfilterupdate={getFirstPage} />
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else}

@@ -7,7 +7,7 @@
 	export let name = '';
 	export let description = '';
 
-	export let tags: kurosearch.ActiveTag[];
+	export let tags: kurosearch.ModifiedTag[];
 
 	const dispatch = createEventDispatcher();
 	const closeDialog = () => dispatch('close');

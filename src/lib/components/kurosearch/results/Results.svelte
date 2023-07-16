@@ -25,7 +25,7 @@
 
 <div>
 	<span>{formatCount($results.postCount)} posts</span>
-	<SortFilterConfig />
+	<SortFilterConfig on:sortfilterupdate />
 </div>
 
 {#if $resultColumns === '1'}

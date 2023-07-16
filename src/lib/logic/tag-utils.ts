@@ -1,9 +1,9 @@
-export const createActiveTag = (
+export const createModifiedTag = (
 	modifier: kurosearch.TagModifier,
 	name: string,
 	count: number,
 	type: kurosearch.TagType
-): kurosearch.ActiveTag => ({
+): kurosearch.ModifiedTag => ({
 	modifier,
 	name,
 	count,

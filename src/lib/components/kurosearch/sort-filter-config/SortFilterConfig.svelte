@@ -58,10 +58,15 @@
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	let editSortFilter = false;
 	const openDialog = () => (editSortFilter = true);
-	const closeDialog = () => (editSortFilter = false);
+	const closeDialog = () => {
+		editSortFilter = false;
+		dispatch('sortfilterupdate');
+	};
 	const reset = () => {
 		sortFilter.reset();
 		internalScoreValue = $sortFilter.scoreValue;

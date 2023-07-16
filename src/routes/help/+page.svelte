@@ -6,7 +6,7 @@
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import SummaryCard from '$lib/components/pure/summary-card/SummaryCard.svelte';
 	import { MODIFIERS_ICONS } from '$lib/logic/tag-modifier-data';
-	import { createActiveTag, createTag } from '$lib/logic/tag-utils';
+	import { createModifiedTag, createTag } from '$lib/logic/tag-utils';
 </script>
 
 <Heading1>Documentation</Heading1>
@@ -146,7 +146,7 @@
 		<em>Artist</em>
 		<p>Target artists or content creators.</p>
 		<div class="flex-row">
-			<DetailedTag tag={createActiveTag('+', 'aroma_sensei', 3000, 'artist')} />
+			<DetailedTag tag={createModifiedTag('+', 'aroma_sensei', 3000, 'artist')} />
 			<SimpleTag tag={createTag('aroma_sensei', 3000, 'artist')} />
 		</div>
 	</li>
@@ -154,7 +154,7 @@
 		<em>Character</em>
 		<p>Indicates that the tag is targeting a character of some sort.</p>
 		<div class="flex-row">
-			<DetailedTag tag={createActiveTag('+', 'samus_aran', 16000, 'character')} />
+			<DetailedTag tag={createModifiedTag('+', 'samus_aran', 16000, 'character')} />
 			<SimpleTag tag={createTag('samus_aran', 16000, 'character')} />
 		</div>
 	</li>
@@ -162,7 +162,7 @@
 		<em>Copyright</em>
 		<p>Targets a certain franchise or similar.</p>
 		<div class="flex-row">
-			<DetailedTag tag={createActiveTag('+', 'harry_potter', 5800, 'copyright')} />
+			<DetailedTag tag={createModifiedTag('+', 'harry_potter', 5800, 'copyright')} />
 			<SimpleTag tag={createTag('harry_potter', 5800, 'copyright')} />
 		</div>
 	</li>
@@ -170,7 +170,7 @@
 		<em>Metadata</em>
 		<p>Tags of this type are information about the post itself and not the content.</p>
 		<div class="flex-row">
-			<DetailedTag tag={createActiveTag('+', 'animated', 294000, 'metadata')} />
+			<DetailedTag tag={createModifiedTag('+', 'animated', 294000, 'metadata')} />
 			<SimpleTag tag={createTag('animated', 294000, 'metadata')} />
 		</div>
 	</li>
@@ -194,7 +194,7 @@
 		<p>
 			Indicates that the tag is not a simple tag, but rather a collection of tags called a supertag.
 		</p>
-		<DetailedTag tag={createActiveTag('+', 'my_tag_collection', 5, 'supertag')} />
+		<DetailedTag tag={createModifiedTag('+', 'my_tag_collection', 5, 'supertag')} />
 	</li>
 </ul>
 
@@ -227,7 +227,7 @@
 		<div class="flex-row">Icon:<i class={MODIFIERS_ICONS['+']} /></div>
 		<div class="flex-row">
 			Example:
-			<DetailedTag tag={createActiveTag('+', 'good', 5, 'general')} />
+			<DetailedTag tag={createModifiedTag('+', 'good', 5, 'general')} />
 		</div>
 	</li>
 	<li>
@@ -245,7 +245,7 @@
 		<div class="flex-row">Icon:<i class={MODIFIERS_ICONS['-']} /></div>
 		<div class="flex-row">
 			Example:
-			<DetailedTag tag={createActiveTag('-', 'bad', 5, 'general')} />
+			<DetailedTag tag={createModifiedTag('-', 'bad', 5, 'general')} />
 		</div>
 	</li>
 	<li>
@@ -258,10 +258,10 @@
 		</p>
 		<p>To understand it better here is an example. If you search for the following tags...</p>
 		<div class="flex-row">
-			<DetailedTag tag={createActiveTag('~', 'princess_peach', 16000, 'character')} />
-			<DetailedTag tag={createActiveTag('~', 'princess_zelda', 13000, 'character')} />
-			<DetailedTag tag={createActiveTag('~', 'princess_rosalina', 7400, 'character')} />
-			<DetailedTag tag={createActiveTag('~', 'princess_daisy', 6900, 'character')} />
+			<DetailedTag tag={createModifiedTag('~', 'princess_peach', 16000, 'character')} />
+			<DetailedTag tag={createModifiedTag('~', 'princess_zelda', 13000, 'character')} />
+			<DetailedTag tag={createModifiedTag('~', 'princess_rosalina', 7400, 'character')} />
+			<DetailedTag tag={createModifiedTag('~', 'princess_daisy', 6900, 'character')} />
 		</div>
 		<p>
 			...then all results will have at least one of the princesses in them, but not neccessarily all

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isValidUrl } from '$lib/logic/api-client/fetchAbortPrevious';
+	import { isValidUrl } from '$lib/logic/url-utils';
 
 	export let source: string;
 

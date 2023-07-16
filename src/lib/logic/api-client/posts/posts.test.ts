@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { getPage, getPostsUrl, serializeSearchParameters } from './posts';
+import { getPage, getPostsUrl } from './posts';
 
 const originalFetch = global.fetch;
 
