@@ -33,7 +33,7 @@
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
-		class="media-img"
+		class="post-media media-img"
 		loading="lazy"
 		data-src={data_src}
 		alt={post.id.toString()}
