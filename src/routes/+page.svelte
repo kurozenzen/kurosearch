@@ -127,8 +127,13 @@
 
 	const focusSearchBarHotkey = (event: KeyboardEvent) => {
 		console.log(event);
-		if (event.key === '/' || event.key === 's') {
+		if (
+			(event.key === '/' || event.key === 's') &&
+			document.activeElement !== document.getElementById('searchbar')
+		) {
 			document.getElementById('searchbar')?.focus();
+			event.preventDefault();
+			event.stopPropagation();
 		}
 
 		if (event.ctrlKey && event.key === 'Enter') {
