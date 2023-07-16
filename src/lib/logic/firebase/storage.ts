@@ -10,8 +10,10 @@ import {
 	runTransaction
 } from 'firebase/firestore';
 import { createSearchableTag, createSupertag } from '../tag-utils';
+import { logFirestoreRead, logFirestoreWrite } from './analytics';
 
 export const getSettingsAndSupertags = async () => {
+	logFirestoreRead();
 	const settings = await getPreferences();
 	const supertags = await getSupertags();
 
@@ -100,6 +102,7 @@ const setSupertags = async (supertags: kurosearch.Supertag[]) => {
 };
 
 export const saveSettingsAndSupertags = async (settings: any, supertags: kurosearch.Supertag[]) => {
+	logFirestoreWrite();
 	await setPreferences(settings);
 	await setSupertags(supertags);
 };
