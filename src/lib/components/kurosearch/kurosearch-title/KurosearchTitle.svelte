@@ -33,10 +33,10 @@
 		line-height: 72px;
 	}
 
-	@media (max-width: 400px) {
+	@media (max-width: 600px) {
 		h1 {
-			font-size: 18vw;
-			line-height: 18vw;
+			font-size: 12vw;
+			line-height: 12vw;
 		}
 	}
 
