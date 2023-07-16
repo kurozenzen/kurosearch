@@ -11,7 +11,7 @@
 
 <button
 	class:active
-	class={`${MODIFIER_NAMES[tag.modifier]} ${icon}`}
+	class="{MODIFIER_NAMES[tag.modifier]} {icon}"
 	title="Click to remove tag"
 	on:click
 	on:contextmenu|preventDefault

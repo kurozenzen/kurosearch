@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+
 	export let post: kurosearch.Post;
 
 	let rows = Math.round((post.height / post.width) * 5);
 </script>
 
-<img src={post.sample_url} alt="post" style={`grid-row: span ${rows};`} />
+<img src={post.sample_url} alt="post" style="grid-row: span {rows}" />
 
 <style>
 	img {

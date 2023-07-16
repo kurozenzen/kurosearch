@@ -1,0 +1,45 @@
+@layer reset {
+	html {
+		padding: unset;
+	}
+	body {
+		margin: unset;
+	}
+
+	ol,
+	ul {
+		list-style-type: unset;
+		margin-block: unset;
+		padding-left: unset;
+	}
+
+	p,
+	h1,
+	h2,
+	h3 {
+		margin-block: unset;
+	}
+
+	a {
+		text-decoration: unset;
+	}
+
+	button {
+		border: unset;
+		padding: unset;
+	}
+
+	dialog {
+		border: unset;
+	}
+
+	input {
+		border: unset;
+		color: unset;
+	}
+
+	select {
+		background: unset;
+		border: unset;
+	}
+}

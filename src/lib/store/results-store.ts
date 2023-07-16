@@ -1,4 +1,5 @@
 import { semiPersistentWritable } from './semi-persistent-store';
+import { StoreKey } from './store-keys';
 
 type ResultsStore = {
 	posts: kurosearch.Post[];
@@ -38,7 +39,7 @@ const parser = (value: string): ResultsStore => {
 
 const createResultsStore = () => {
 	const { subscribe, update, set } = semiPersistentWritable(
-		'kurosearch:results',
+		StoreKey.Results,
 		getInitialResults(),
 		serializer,
 		parser

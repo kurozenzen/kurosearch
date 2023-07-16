@@ -5,6 +5,12 @@
 		'hotpink light': 'Bubblegum',
 		'crimson coffee': 'Coffee'
 	});
+	const RESULT_COLUMNS_OPTIONS = Object.freeze({
+		'1': 'Single Column',
+		'2': 'Two Columns',
+		'3': 'Three Columns',
+		'4': 'Four Columns'
+	});
 </script>
 
 <script>
@@ -14,18 +20,16 @@
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
-	import activeTags from '$lib/store/active-tags-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-	import results from '$lib/store/results-store';
 	import theme from '$lib/store/theme-store';
+	import resultColumns from '$lib/store/result-columns-store';
 
 	const reset = () => {
 		localstorageEnabled.reset();
-		activeTags.reset();
-		results.reset();
 		theme.reset();
 		blockedContent.reset();
+		resultColumns.reset();
 	};
 </script>
 
@@ -51,6 +55,10 @@
 				{groupName}
 			</Checkbox>
 		{/each}
+	</Preference>
+
+	<Preference title="Result layout" description="Save active tags and posts between sessions.">
+		<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 	</Preference>
 
 	<Preference

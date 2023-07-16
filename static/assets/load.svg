@@ -1,0 +1,10 @@
+<svg height="1024" width="512" xmlns="http://www.w3.org/2000/svg">
+  <mask id="myMask">
+    <rect x="0" y="0" width="512" height="1024" fill="white" />
+    <path d="M256,512 L256,0 L0,0 L0,900" fill="black" transform-origin="256px 512px">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 0 0" to="360 0 0"
+        dur="2s" repeatCount="indefinite" />
+    </path>
+  </mask>
+  <circle mask="url(#myMask)" cx="256" cy="512" r="230" fill="none" stroke="black" stroke-width="52" />
+</svg>

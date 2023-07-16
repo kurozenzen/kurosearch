@@ -70,4 +70,4 @@
 <CodiconLink title="Documentation" href="{base}/help" icon="codicon codicon-book" />
 <CodiconLink title="Search" href="{base}/search" icon="codicon codicon-search" />
 <SettingsLink />
-<AccountLink src={disabled ? '/default-user.png' : undefined} />
+<AccountLink src={disabled ? `${base}/assets/default-user.png` : undefined} />

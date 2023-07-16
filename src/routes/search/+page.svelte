@@ -1,3 +1,20 @@
+<script context="module" lang="ts">
+	import { browser } from '$app/environment';
+
+	const getTags = () => {
+		if (!browser || window.location.hash.length < 2) {
+			return undefined;
+		}
+
+		const tags = window.location.hash.substring(1).split(',');
+		if (!Array.isArray(tags) || tags.length === 0) {
+			return undefined;
+		}
+
+		return tags;
+	};
+</script>
+
 <script lang="ts">
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
@@ -12,18 +29,37 @@
 	import Results from '$lib/components/kurosearch/results/Results.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
+	import sortFilter from '$lib/store/sort-filter-store';
+	import blockedContent from '$lib/store/blocked-content-store';
+	import { nextModifier } from '$lib/logic/modifier-utils';
+	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
+	import supertags from '$lib/store/supertags-store';
 
 	let loading = false;
 	let error: unknown | undefined;
+	let creatingSupertag = false;
+
+	const tags = getTags();
+	if (tags) {
+		tags.forEach((tag) => {
+			if ($activeTags.some((activeTag) => activeTag.name === tag)) {
+				return;
+			}
+			activeTags.addByName(tag);
+		});
+	}
 
 	const createDefaultSearch = () =>
-		createSearch().withPid($results.pageCount).withTags($activeTags);
+		createSearch()
+			.withPid($results.pageCount)
+			.withTags($activeTags)
+			.withBlockedContent($blockedContent)
+			.withSortProperty($sortFilter.sortProperty)
+			.withSortDirection($sortFilter.sortDirection)
+			.withScoreValue($sortFilter.scoreValue)
+			.withScoreComparator($sortFilter.scoreComparator)
+			.withRating($sortFilter.rating);
 	// .withSupertags($userdata.supertags)
-	// .withSortProperty($sortStore.sortProperty)
-	// .withSortDirection($sortStore.sortDirection)
-	// .withScoreValue($sortStore.scoreValue)
-	// .withScoreComparator($sortStore.scoreComparator)
-	// .withBlockedContent($blockedContent)
 
 	const executeSearch = async (operation: () => Promise<void>) => {
 		if (loading) {
@@ -79,8 +115,12 @@
 	<ActiveTagList
 		tags={$activeTags}
 		on:click={(e) => activeTags.removeByName(e.detail.name)}
-		on:contextmenu={console.log}
-		on:createSupertag={console.log}
+		on:contextmenu={(e) => {
+			const tag = e.detail;
+			tag.modifier = nextModifier(tag.modifier);
+			activeTags.addOrReplace(e.detail);
+		}}
+		on:createSupertag={() => (creatingSupertag = true)}
 	/>
 	<TextButton title="Search with the tags above" on:click={getFirstPage}>Search</TextButton>
 </section>
@@ -96,13 +136,19 @@
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else}
-				<IntersectionDetector rootMargin="0px" on:intersection={getNextPage} />
+				<IntersectionDetector rootMargin="1000px" on:intersection={getNextPage} />
 			{/if}
 		{/if}
 	</section>
 {/if}
 
-<!-- <SupertagCreateDialog /> -->
+{#if creatingSupertag}
+	<CreateSupertagDialog
+		tags={$activeTags}
+		on:close={() => (creatingSupertag = false)}
+		on:submit={(e) => supertags.add(e.detail)}
+	/>
+{/if}
 
 <style>
 	:global(main) {

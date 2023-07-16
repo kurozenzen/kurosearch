@@ -9,6 +9,7 @@ class SearchBuilder {
 	sortProperty: kurosearch.SortProperty;
 	sortDirection: kurosearch.SortDirection;
 	scoreValue: number;
+	rating: kurosearch.Rating;
 	scoreComparator: kurosearch.ScoreComparator;
 
 	// cached for performance
@@ -22,6 +23,7 @@ class SearchBuilder {
 		this.sortProperty = 'id';
 		this.sortDirection = 'desc';
 		this.scoreValue = 0;
+		this.rating = 'all';
 		this.scoreComparator = '>=';
 	}
 
@@ -60,8 +62,15 @@ class SearchBuilder {
 		return this;
 	}
 
-	withBlockedContent(blockedContent: kurosearch.BlockingGroup[]) {
-		this.blockedContent = blockedContent;
+	withRating(rating: kurosearch.Rating) {
+		this.rating = rating;
+		return this;
+	}
+
+	withBlockedContent(blockedContent: Record<kurosearch.BlockingGroup, boolean>) {
+		this.blockedContent = Object.entries(blockedContent)
+			.filter(([_, value]) => value)
+			.map(([key, _]) => key as kurosearch.BlockingGroup);
 		return this;
 	}
 
@@ -71,6 +80,7 @@ class SearchBuilder {
 			this.sortProperty,
 			this.sortDirection,
 			this.scoreValue,
+			this.rating,
 			this.scoreComparator,
 			this.blockedContent,
 			this.supertags
@@ -84,6 +94,7 @@ class SearchBuilder {
 			this.sortProperty,
 			this.sortDirection,
 			this.scoreValue,
+			this.rating,
 			this.scoreComparator,
 			this.blockedContent,
 			this.supertags
@@ -97,6 +108,7 @@ class SearchBuilder {
 			this.sortProperty,
 			this.sortDirection,
 			this.scoreValue,
+			this.rating,
 			this.scoreComparator,
 			this.blockedContent,
 			this.supertags
@@ -114,6 +126,7 @@ const serializeAllTags = (
 	sortProperty: kurosearch.SortProperty,
 	sortDirection: kurosearch.SortDirection,
 	scoreValue: number,
+	rating: kurosearch.Rating,
 	scoreComparator: kurosearch.ScoreComparator,
 	blockedContent: kurosearch.BlockingGroup[],
 	availableSupertags: kurosearch.Supertag[]
@@ -123,12 +136,17 @@ const serializeAllTags = (
 
 	const parts = [`score:${scoreComparator}${scoreValue}`, `sort:${sortProperty}:${sortDirection}`];
 
+	if (rating !== 'all') {
+		parts.push(`rating:${rating}`);
+	}
+
 	if (activeNormalTags.length > 0) {
 		const activeTagString = serializeSearchableTags(
 			activeNormalTags.map((t) => ({ name: t.name, modifier: t.modifier }))
 		);
 		parts.push(activeTagString);
 	}
+
 	if (activeSupertags.length > 0) {
 		const supertagString = activeSupertags
 			.map((active) => availableSupertags.find((available) => active.name === available.name).tags)
@@ -136,6 +154,7 @@ const serializeAllTags = (
 			.join('+');
 		parts.push(supertagString);
 	}
+
 	if (blockedContent.length > 0) {
 		const blockedTags: kurosearch.SearchableTag[] = blockedContent
 			.flatMap((groupName) => BLOCKING_GROUP_TAGS[groupName])

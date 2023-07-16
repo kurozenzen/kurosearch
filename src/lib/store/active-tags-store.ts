@@ -1,9 +1,10 @@
 import { getTagDetails } from '$lib/logic/api-client/tags/tags';
 import { semiPersistentWritable } from './semi-persistent-store';
+import { StoreKey } from './store-keys';
 
 const createActiveTagsStore = () => {
 	const { subscribe, update, set } = semiPersistentWritable(
-		'kurosearch:active-tags',
+		StoreKey.ActiveTags,
 		[] as kurosearch.ActiveTag[]
 	);
 
@@ -24,7 +25,6 @@ const createActiveTagsStore = () => {
 			let newTag: kurosearch.ActiveTag = { modifier: '+', name, count: 0, type: 'general' };
 
 			try {
-				debugger;
 				const tag = await getTagDetails(name);
 				newTag.count = tag.count;
 				newTag.type = tag.type;

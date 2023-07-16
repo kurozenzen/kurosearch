@@ -7,9 +7,9 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/kurosearch-static-experiment' : '',
-			relative: false
-		}
+			base: process.env.NODE_ENV === 'production' ? '/kurosearch-static-experiment' : ''
+		},
+		appDir: 'app'
 	}
 };
 

@@ -28,7 +28,7 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 
 export const getTagDetails = async (name: string): Promise<kurosearch.Tag> => {
 	const url = new URL('https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&limit=1');
-	url.searchParams.append('name ', name);
+	url.searchParams.append('name', name);
 
 	const response = await fetch(url.toString());
 	const text = await response.text();

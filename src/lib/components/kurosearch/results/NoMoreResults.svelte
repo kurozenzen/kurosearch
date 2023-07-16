@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 </script>
 
-<img src="{base}/shironeko-x.png" alt="No more results to load" />
+<img src="{base}/assets/shironeko-x.png" alt="No more results to load" />
 <p>You have seen everything there is to see...</p>
 
 <style>

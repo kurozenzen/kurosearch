@@ -2,17 +2,25 @@ import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
 
+let postCache = new Map<number, kurosearch.Post>();
+
 export const PAGE_SIZE = 20;
 
 let getPageAbortController: AbortController | null = null;
 
 export const getPage = async (pageNumber: number, tags: string) => {
-	const response = await fetchAbortPrevious(getPostsUrl(pageNumber, tags), getPageAbortController);
+	const url = getPostsUrl(pageNumber, tags);
+	console.log(url);
+	const response = await fetchAbortPrevious(url, getPageAbortController);
 	throwOnUnexpectedStatus(response);
 
 	try {
 		const data = await response.json();
-		const posts = data.map(parsePost);
+		const posts = data.map(parsePost) as kurosearch.Post[];
+
+		posts.forEach((post) => {
+			postCache.set(post.id, post);
+		});
 
 		return posts;
 	} catch {
@@ -33,6 +41,28 @@ export const getCount = async (tags: string) => {
 	throwOnInvalidCount(count);
 
 	return count;
+};
+
+export const getPost = async (id: number) => {
+	if (!postCache.has(id)) {
+		const url = new URL(
+			'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1'
+		);
+		url.searchParams.append('id', String(id));
+		const response = await fetch(url);
+		throwOnUnexpectedStatus(response);
+		const data = await response.json();
+		const post = parsePost(data[0]);
+		postCache.set(post.id, post);
+	}
+
+	const post = postCache.get(id);
+
+	if (post === undefined) {
+		throw new Error('Post cannot be undefined');
+	}
+
+	return post;
 };
 
 const throwOnUnexpectedStatus = (response: Response) => {

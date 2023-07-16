@@ -1,16 +1,17 @@
 <script>
 	import results from '$lib/store/results-store';
 	import Post from '../post/Post.svelte';
-
-	let columns = 1;
+	import resultColumns from '$lib/store/result-columns-store';
+	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
+	import { formatCount } from '$lib/logic/format-count';
 </script>
 
 <div>
-	<span>{$results.postCount} results</span>
-	<input type="range" min="1" max="10" step="1" bind:value={columns} />
+	<span>{formatCount($results.postCount)} posts</span>
+	<SortFilterConfig />
 </div>
 
-<section style={`grid-template-columns: repeat(${columns}, 1fr);`}>
+<section style="grid-template-columns: repeat({$resultColumns}, 1fr);">
 	{#each $results.posts as post}
 		<Post {post} />
 	{/each}
@@ -22,8 +23,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-inline: var(--grid-gap);
 		box-sizing: border-box;
+	}
+
+	@media (width <= calc(800px + 2rem)) {
+		div {
+			padding-inline: var(--grid-gap);
+		}
 	}
 
 	section {

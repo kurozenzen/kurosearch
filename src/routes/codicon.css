@@ -1,0 +1,143 @@
+i {
+	font-style: normal;
+}
+
+.codicon {
+	height: 1rem;
+}
+
+.codicon:before {
+	font-family: codicon, serif;
+	font-style: unset;
+}
+
+.codicon-plus:before {
+	content: '\ea60';
+}
+
+.codicon-tag:before {
+	content: '\ea66';
+}
+
+.codicon-person:before {
+	content: '\ea67';
+}
+
+.codicon-search:before {
+	content: '\ea6d';
+}
+.codicon-eye:before {
+	content: '\ea70';
+}
+
+.codicon-edit:before {
+	content: '\ea73';
+}
+
+.codicon-info:before {
+	content: '\ea74';
+}
+
+.codicon-error:before {
+	content: '\ea87';
+}
+
+.codicon-folder:before {
+	content: '\ea83';
+}
+
+.codicon-github:before {
+	content: '\ea84';
+}
+
+.codicon-zap:before {
+	content: '\ea86';
+}
+
+.codicon-arrow-down:before {
+	content: '\ea9a';
+}
+
+.codicon-arrow-up:before {
+	content: '\eaa1';
+}
+
+.codicon-book:before {
+	content: '\eaa4';
+}
+
+.codicon-close:before {
+	content: '\eab8';
+}
+
+.codicon-circle-slash:before {
+	content: '\eabd';
+}
+
+.codicon-calendar:before {
+	content: '\eab0';
+}
+
+.codicon-code:before {
+	content: '\eac4';
+}
+
+.codicon-comment-discussion:before {
+	content: '\eac7';
+}
+
+.codicon-debug-disconnect:before {
+	content: '\ead0';
+}
+
+.codicon-filter:before {
+	content: '\eaf1';
+}
+
+.codicon-heart:before {
+	content: '\eb05';
+}
+
+.codicon-link-external:before {
+	content: '\eb14';
+}
+
+.codicon-link:before {
+	content: '\eb15';
+}
+
+.codicon-list-ordered:before {
+	content: '\eb16';
+}
+
+.codicon-question:before {
+	content: '\eb32';
+}
+
+.codicon-settings-gear:before {
+	content: '\eb51';
+}
+
+.codicon-star-full:before {
+	content: '\eb59';
+}
+
+.codicon-unverified:before {
+	content: '\eb76';
+}
+
+.codicon-whole-word:before {
+	content: '\eb7e';
+}
+
+.codicon-record:before {
+	content: '\eba7';
+}
+
+.codicon-account:before {
+	content: '\eb99';
+}
+
+.codicon-arrow-swap:before {
+	content: '\ebcb';
+}

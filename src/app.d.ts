@@ -69,6 +69,7 @@ declare global {
 			description: string;
 			tags: SearchableTag[];
 		};
+		type Rating = 'safe' | 'questionable' | 'explicit' | 'all';
 	}
 
 	namespace r34 {
