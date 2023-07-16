@@ -6,11 +6,8 @@
 
 	let rows = Math.min(Math.round((post.height / post.width) * 5), 15);
 
-	const isImage = (src: string) => {
-		return (
-			src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp')
-		);
-	};
+	const isImage = (src: string) =>
+		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
 
 	$: previewSrc = isImage(post.sample_url) ? post.sample_url : post.preview_url;
 </script>

@@ -1,14 +1,27 @@
-i {
-	font-style: normal;
+.codicon,
+.custom-icon {
+	display: inline-block;
+	text-decoration: none;
+	text-rendering: auto;
+	text-align: center;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .codicon {
-	height: 1rem;
+	font: normal normal normal 16px/1 codicon;
 }
 
 .codicon:before {
 	font-family: codicon, serif;
 	font-style: unset;
+}
+
+.custom-icon-wave::before {
+	content: '⁓';
 }
 
 .codicon-plus:before {
@@ -70,10 +83,6 @@ i {
 	content: '\eab8';
 }
 
-.codicon-circle-slash:before {
-	content: '\eabd';
-}
-
 .codicon-calendar:before {
 	content: '\eab0';
 }
@@ -130,14 +139,14 @@ i {
 	content: '\eb7e';
 }
 
-.codicon-record:before {
-	content: '\eba7';
-}
-
 .codicon-account:before {
 	content: '\eb99';
 }
 
 .codicon-arrow-swap:before {
 	content: '\ebcb';
+}
+
+.codicon-dash:before {
+	content: '\eacc';
 }

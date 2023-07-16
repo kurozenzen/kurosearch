@@ -11,6 +11,7 @@
 	import './defaults.css';
 	import './theme.css';
 	import './codicon.css';
+	import './scrollbar.css';
 
 	const userPhoto: string | undefined = undefined;
 
@@ -77,7 +78,7 @@
 		min-height: 100vh;
 		width: 100%;
 		align-items: center;
-		overflow: scroll;
+		overflow-y: scroll;
 	}
 
 	nav,

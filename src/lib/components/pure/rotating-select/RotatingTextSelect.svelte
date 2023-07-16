@@ -1,4 +1,6 @@
 <script lang="ts">
+	import IconButton from '../button-icon/IconButton.svelte';
+
 	export let options: Record<string, string>;
 	export let value: string;
 
@@ -12,25 +14,4 @@
 	};
 </script>
 
-<button on:click={rotate}>{text}</button>
-
-<style>
-	button {
-		background-color: var(--background-1);
-		color: var(--text);
-		border-radius: var(--line-height);
-		width: var(--line-height);
-		height: var(--line-height);
-		font-size: var(--text-size-large);
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: color var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			color: var(--text-highlight);
-		}
-	}
-</style>
+<IconButton on:click={rotate}>{text}</IconButton>
