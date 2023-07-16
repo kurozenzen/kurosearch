@@ -1,9 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="referrer" content="no-referrer" />
+		<style>
+			@font-face {
+				font-family: 'Zen Kaku Gothic New';
+				font-weight: 900;
+				src: url('%sveltekit.assets%/font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
+					url('%sveltekit.assets%/font/ZenKakuGothicNew-Black-subset.woff') format('woff');
+			}
+
+			@font-face {
+				font-family: 'Roboto';
+				font-weight: 400;
+				src: url('%sveltekit.assets%/font/Roboto-Regular.woff2') format('woff2'),
+					url('%sveltekit.assets%/font/Roboto-Regular.woff') format('woff'),
+					url('%sveltekit.assets%/font/Roboto-Italic.woff2') format('woff2') font-italic,
+					url('%sveltekit.assets%/font/Roboto-Italic.woff') format('woff') font-italic;
+			}
+
+			@font-face {
+				font-family: 'codicon';
+				src: url('%sveltekit.assets%/font/codicon.woff2') format('woff2'),
+					url('%sveltekit.assets%/font/codicon.woff') format('woff');
+			}
+		</style>
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
