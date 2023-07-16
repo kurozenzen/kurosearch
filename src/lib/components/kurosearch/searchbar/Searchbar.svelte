@@ -134,6 +134,7 @@
 		position: relative;
 		isolation: isolate;
 		z-index: var(--z-searchbar);
+		gap: 8px;
 	}
 
 	.spaced {

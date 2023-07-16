@@ -83,6 +83,7 @@
 	nav,
 	footer {
 		display: flex;
+		gap: 8px;
 	}
 
 	main {
