@@ -105,6 +105,7 @@
 
 	const getFirstPage = async () => {
 		results.reset();
+		nextFocus = 0;
 
 		executeSearch(async () => {
 			const [page, count] = await createDefaultSearch().getPageAndCount();
