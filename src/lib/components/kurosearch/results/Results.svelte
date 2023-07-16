@@ -5,7 +5,8 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
-	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
+	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
+	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
 
 	let viewing: undefined | kurosearch.Post;
 </script>
@@ -29,14 +30,7 @@
 	</section>
 
 	{#if viewing !== undefined}
-		<Dialog on:close={() => (viewing = undefined)}>
-			<article>
-				<div>
-					<i class="codicon codicon-close" on:click={() => (viewing = undefined)} />
-				</div>
-				<SingleColumnPost post={viewing} open />
-			</article>
-		</Dialog>
+		<FullscreenPost post={viewing} on:close={() => (viewing = undefined)} />
 	{/if}
 {/if}
 
@@ -69,9 +63,10 @@
 	}
 
 	article {
-		width: 95vw;
-		height: 95vh;
-		overflow-y: auto;
+		width: 100%;
+		height: 100%;
+		overflow-y: scroll;
+		overscroll-behavior: none;
 	}
 
 	i {
