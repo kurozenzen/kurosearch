@@ -18,6 +18,8 @@ i.codicon {
 .codicon:before {
 	font-family: codicon, serif;
 	font-style: unset;
+	width: 16px;
+	height: 16px;
 }
 
 .custom-icon-wave::before {
@@ -25,6 +27,7 @@ i.codicon {
 }
 
 .codicon-plus:before {
+	padding-left: 1px;
 	content: '\ea60';
 }
 
