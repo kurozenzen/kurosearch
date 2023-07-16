@@ -65,7 +65,7 @@
 
 	<span class="copyright">© 2023 kurozenzen</span>
 
-	<CodiconTextLink title="About" href="/about" icon="codicon codicon-info" label="About" />
+	<CodiconTextLink title="About" href="{base}/about" icon="codicon codicon-info" label="About" />
 </footer>
 
 <style>
