@@ -31,6 +31,9 @@
 	{#if viewing !== undefined}
 		<Dialog on:close={() => (viewing = undefined)}>
 			<article>
+				<div>
+					<i class="codicon codicon-close" on:click={() => (viewing = undefined)} />
+				</div>
 				<SingleColumnPost post={viewing} open />
 			</article>
 		</Dialog>
@@ -69,5 +72,11 @@
 		width: 95vw;
 		height: 95vh;
 		overflow-y: auto;
+	}
+
+	i {
+		padding: 6px;
+		box-sizing: border-box;
+		height: 32px;
 	}
 </style>
