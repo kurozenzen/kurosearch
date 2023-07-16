@@ -126,8 +126,8 @@
 		align-items: center;
 		height: var(--line-height-large);
 		background-color: var(--background-1);
-		padding-inline: 6px;
-		border-radius: 22px;
+		padding-inline: calc((var(--line-height-large) - 32px) / 2);
+		border-radius: calc(var(--line-height-large) / 2);
 		width: 100%;
 		max-width: 512px;
 		margin: 0 auto;

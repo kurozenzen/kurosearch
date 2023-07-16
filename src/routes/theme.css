@@ -21,7 +21,7 @@
 	--background-3: #454560;
 	--text: #aaa;
 	--text-highlight: #fff;
-	--text-muted: #555;
+	--text-muted: #777;
 	color-scheme: dark;
 
 	/* Tag Types*/
@@ -82,7 +82,7 @@
 	--line-height-small: 24px;
 	--line-height: 32px;
 	--box-height: 36px;
-	--line-height-large: 44px;
+	--line-height-large: 48px;
 	--grid-gap: 1rem;
 	--small-gap: 0.5rem;
 	--icon-size: 32px;

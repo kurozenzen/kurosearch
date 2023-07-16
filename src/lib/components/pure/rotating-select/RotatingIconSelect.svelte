@@ -12,7 +12,7 @@
 	};
 </script>
 
-<button class={icon} on:click={rotate} />
+<button class={icon} on:click={rotate} aria-label="TagModifier Selector. Current value {value}." />
 
 <style>
 	button {

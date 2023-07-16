@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 	<head>
-		<meta charset="utf-8" />
+		<title>kurosearch</title>
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="referrer" content="no-referrer" />
 		<style>
 			@font-face {
 				font-family: 'Zen Kaku Gothic New';
@@ -28,8 +28,17 @@
 					url('%sveltekit.assets%/font/codicon.woff') format('woff');
 			}
 		</style>
-
 		%sveltekit.head%
+		<meta name="referrer" content="no-referrer" />
+		<!-- PWA -->
+		<meta
+			name="description"
+			content="Simple and powerful Rule34 browsing site with a focus on simplicity and user experience."
+		/>
+		<meta name="theme-color" content="#000" />
+		<meta name="background-color" content="#000" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/icon/ks-192.png" sizes="192x192" />
+		<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#000" />
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
