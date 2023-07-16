@@ -5,19 +5,19 @@
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { onMount } from 'svelte';
 
-	let loading = false;
+	let message = 'Update';
 
 	let latestCommitPromise: Promise<{ sha: string }>;
 
 	const forceUpdate = async () => {
-		loading = true;
+		message = 'Updating...';
 		if ('serviceWorker' in navigator) {
 			const registrations = await navigator.serviceWorker.getRegistrations();
-			await Promise.all(registrations.map((r) => r.update()));
+			await Promise.all(registrations.map((r) => r.unregister()));
 		}
 		// @ts-expect-error
 		window.location.reload(true);
-		loading = false;
+		message = 'Done';
 	};
 	onMount(() => {
 		latestCommitPromise = fetch(
@@ -35,16 +35,14 @@
 	<section class="info">
 		<img src="{base}/favicon.svg" alt="kuroseach logo" />
 		<h2>kurosearch</h2>
-		<span
-			>Version: {version}{#await latestCommitPromise then commit}
+		<span>
+			Version: {version}{#await latestCommitPromise then commit}
 				, Newest is: {commit?.sha?.substring(0, 7)}
-			{/await}</span
-		>
+			{/await}
+		</span>
 	</section>
 	<section class="update">
-		<TextButton title="Force an update of the app" on:click={forceUpdate}
-			>{loading ? 'Loading...' : 'Update'}</TextButton
-		>
+		<TextButton title="Force an update of the app" on:click={forceUpdate}>{message}</TextButton>
 	</section>
 </div>
 
