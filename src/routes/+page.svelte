@@ -123,17 +123,16 @@
 	const focusSearchBarHotkey = (event: KeyboardEvent) => {
 		console.log(event);
 		if (event.key === '/' || event.key === 's') {
-			event.preventDefault();
 			document.getElementById('searchbar')?.focus();
 		}
 
 		if (event.ctrlKey && event.key === 'Enter') {
 			event.preventDefault();
+			event.stopPropagation();
 			getFirstPage();
 		}
 
-		if (event.key === 'm') {
-			event.preventDefault();
+		if (event.ctrlKey && event.key === 'm') {
 			document.getElementById('select-modifier')?.click();
 		}
 	};

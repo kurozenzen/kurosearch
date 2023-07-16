@@ -56,7 +56,7 @@
 	};
 
 	const handleKeyDown = async (event: any) => {
-		if (event.key === 'Enter' && searchTerm !== '') {
+		if (!event.ctrlKey && event.key === 'Enter' && searchTerm !== '') {
 			if (suggestionItems.length > selectedIndex) {
 				pick(suggestionItems[selectedIndex]);
 			} else {
