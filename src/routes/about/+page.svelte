@@ -4,16 +4,17 @@
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 
-	const forceUpdate = () => {
+	let loading = false;
+
+	const forceUpdate = async () => {
+		loading = true;
 		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.getRegistrations().then(function (registrations) {
-				for (let registration of registrations) {
-					registration.update();
-				}
-			});
+			const registrations = await navigator.serviceWorker.getRegistrations();
+			await Promise.all(registrations.map((r) => r.update()));
 		}
 		// @ts-expect-error
 		window.location.reload(true);
+		loading = false;
 	};
 </script>
 
@@ -29,7 +30,9 @@
 		<span>version: {version}</span>
 	</section>
 	<section class="update">
-		<TextButton title="Force an update of the app" on:click={forceUpdate}>Update</TextButton>
+		<TextButton title="Force an update of the app" on:click={forceUpdate}
+			>{loading ? 'Loading...' : 'Update'}</TextButton
+		>
 	</section>
 </div>
 
@@ -61,6 +64,7 @@
 
 	img {
 		width: 60px;
+		height: 60px;
 		grid-row: span 2;
 	}
 	p {
