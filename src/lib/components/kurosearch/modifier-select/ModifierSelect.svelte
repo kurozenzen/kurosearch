@@ -5,4 +5,4 @@
 	export let modifier: kurosearch.TagModifier;
 </script>
 
-<RotatingIconSelect bind:value={modifier} options={MODIFIERS_ICONS} />
+<RotatingIconSelect id="select-modifier" bind:value={modifier} options={MODIFIERS_ICONS} />

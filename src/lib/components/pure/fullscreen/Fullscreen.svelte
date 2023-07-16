@@ -1,36 +1,13 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
 
 	let dialog: HTMLDivElement;
-	let listener = () => {
-		if (document.fullscreenElement) {
-			// entering fullscreen
-		} else {
-			close();
-		}
-	};
 
-	onMount(() => {
+	onMount(async () => {
 		dialog.focus();
-		document.addEventListener('fullscreenchange', listener);
-
-		try {
-			dialog.requestFullscreen();
-		} catch {
-			// ignored
-		}
-	});
-
-	onDestroy(() => {
-		document.removeEventListener('fullscreenchange', listener);
-		try {
-			document.exitFullscreen();
-		} catch {
-			// ignored
-		}
 	});
 </script>
 
@@ -60,6 +37,8 @@
 		background-color: var(--background-0);
 		backdrop-filter: blur(5px);
 		z-index: var(--z-dialog);
+		overflow-y: scroll;
+		overscroll-behavior-block: none;
 	}
 
 	div:focus {

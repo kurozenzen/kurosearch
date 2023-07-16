@@ -62,6 +62,7 @@
 <section>
 	<KurosearchTitle />
 	<Searchbar
+		placeholder="Search for tags"
 		{fetchSuggestions}
 		on:pick={async (e) => {
 			const suggestion = e.detail;

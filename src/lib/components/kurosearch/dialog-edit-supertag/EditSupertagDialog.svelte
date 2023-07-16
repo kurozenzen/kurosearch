@@ -33,6 +33,7 @@
 
 		<span>Add or remove tags</span>
 		<Searchbar
+			placeholder="Search for tags"
 			fetchSuggestions={getTagSuggestions}
 			on:pick={(e) => {
 				newSupertag.tags = [

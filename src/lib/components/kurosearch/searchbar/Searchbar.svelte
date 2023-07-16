@@ -9,6 +9,7 @@
 
 	const dispatch = createEventDispatcher();
 
+	export let placeholder: string;
 	export let fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;
 
 	let searchTerm = '';
@@ -55,7 +56,7 @@
 	};
 
 	const handleKeyDown = async (event: any) => {
-		if (event.key === 'Enter') {
+		if (event.key === 'Enter' && searchTerm !== '') {
 			if (suggestionItems.length > selectedIndex) {
 				pick(suggestionItems[selectedIndex]);
 			} else {
@@ -80,6 +81,8 @@
 	<input
 		type="text"
 		name="searchbar"
+		id="searchbar"
+		{placeholder}
 		autocomplete="off"
 		bind:value={searchTerm}
 		on:focus={focus}
@@ -145,6 +148,7 @@
 		outline: none;
 		min-width: 0;
 		height: 100%;
+		padding: unset;
 	}
 
 	.searchbar.open {

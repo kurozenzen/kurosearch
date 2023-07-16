@@ -13,10 +13,10 @@
 	let media: HTMLImageElement;
 
 	onMount(() => {
-		browser && postObserver.observe(media);
+		postObserver?.observe(media);
 	});
 	onDestroy(() => {
-		browser && postObserver.unobserve(media);
+		postObserver?.unobserve(media);
 	});
 </script>
 

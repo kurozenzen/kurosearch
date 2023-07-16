@@ -48,7 +48,13 @@
 	</section>
 
 	{#if hasHash && viewing !== undefined}
-		<FullscreenPost post={viewing} on:close={() => (viewing = undefined)} />
+		<FullscreenPost
+			post={viewing}
+			on:close={() => {
+				viewing = undefined;
+				history.back();
+			}}
+		/>
 	{/if}
 {/if}
 
@@ -78,18 +84,5 @@
 		width: 100%;
 		display: grid;
 		gap: 0.5rem;
-	}
-
-	article {
-		width: 100%;
-		height: 100%;
-		overflow-y: scroll;
-		overscroll-behavior: none;
-	}
-
-	i {
-		padding: 6px;
-		box-sizing: border-box;
-		height: 32px;
 	}
 </style>

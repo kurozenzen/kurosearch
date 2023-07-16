@@ -28,10 +28,10 @@
 		display: grid;
 		align-items: center;
 		height: var(--line-height-small);
-		grid-template-columns: 16px 1fr auto;
-		gap: 1rem;
+		grid-template-columns: 32px 1fr auto;
+		gap: 8px;
 		font-size: var(--text-size);
-		padding-inline: 16px;
+		padding-inline: 6px;
 		user-select: none;
 	}
 

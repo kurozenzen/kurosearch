@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let options: Record<string, string>;
 	export let value: string;
+	export let id: string | undefined = undefined;
 
 	$: index = Object.keys(options).indexOf(value);
 	$: entries = Object.entries(options);
@@ -12,7 +13,12 @@
 	};
 </script>
 
-<button class={icon} on:click={rotate} aria-label="TagModifier Selector. Current value {value}." />
+<button
+	{id}
+	class={icon}
+	on:click={rotate}
+	aria-label="TagModifier Selector. Current value {value}."
+/>
 
 <style>
 	button {

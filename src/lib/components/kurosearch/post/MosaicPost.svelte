@@ -23,6 +23,7 @@
 			e.target.click();
 		}
 	}}
+	class:open
 >
 	<img src={previewSrc} alt="post" />
 	<span class="score">{formatCount(post.score)}</span>
@@ -43,6 +44,7 @@
 		grid-column: 1 / 4;
 		grid-row: 1 / 4;
 		max-height: 100vh;
+		transition: all var(--default-transition-behaviour);
 	}
 
 	.post {

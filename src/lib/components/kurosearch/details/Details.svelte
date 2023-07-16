@@ -1,12 +1,13 @@
 <script lang="ts">
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getComments } from '$lib/logic/api-client/ApiClient';
-	import Comment from '../comment/Comment.svelte';
-	import RelativeTime from '../relative-time/RelativeTime.svelte';
-	import Score from '../score/Score.svelte';
-	import ExternalSource from '../source-external/ExternalSource.svelte';
-	import Rule34Source from '../source-rule34/Rule34Source.svelte';
-	import DetailedTag from '../tag/DetailedTag.svelte';
+	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import Comment from '$lib/components/kurosearch/comment/Comment.svelte';
+	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
+	import Score from '$lib/components/kurosearch/score/Score.svelte';
+	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
+	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
+	import DetailedTag from '$lib/components/kurosearch/tag/DetailedTag.svelte';
+	import activeTagsStore from '$lib/store/active-tags-store';
 
 	export let post: kurosearch.Post;
 
@@ -51,7 +52,15 @@
 	{#if tab === 'tags'}
 		<ul class="tags">
 			{#each post.tags as tag}
-				<DetailedTag tag={{ ...tag, modifier: '+' }} />
+				{@const active = $activeTagsStore.find((t) => t.name === tag.name) !== undefined}
+				<DetailedTag
+					tag={{ ...tag, modifier: '+' }}
+					on:click={() =>
+						active
+							? activeTagsStore.removeByName(tag.name)
+							: activeTagsStore.addOrReplace({ ...tag, modifier: '+' })}
+					{active}
+				/>
 			{/each}
 		</ul>
 	{:else}

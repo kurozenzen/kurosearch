@@ -12,7 +12,8 @@
 			return undefined;
 		}
 
-		const tags = url.searchParams.get('tags').split(';');
+		const tagString = url.searchParams.get('tags') ?? '';
+		const tags = tagString.split(';');
 		if (!Array.isArray(tags) || tags.length === 0) {
 			return undefined;
 		}
@@ -41,9 +42,11 @@
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
+	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let loading = false;
-	let error: unknown | undefined;
+	let error: Error | undefined;
 	let creatingSupertag = false;
 
 	const fetchSuggestions = async (term: string) => {
@@ -92,7 +95,7 @@
 		try {
 			await operation();
 		} catch (e) {
-			error = e;
+			error = e as Error;
 			console.warn(e);
 		} finally {
 			loading = false;
@@ -116,11 +119,41 @@
 			results.addPage(page);
 		});
 	};
+
+	const focusSearchBarHotkey = (event: KeyboardEvent) => {
+		console.log(event);
+		if (event.key === '/' || event.key === 's') {
+			event.preventDefault();
+			document.getElementById('searchbar')?.focus();
+		}
+
+		if (event.ctrlKey && event.key === 'Enter') {
+			event.preventDefault();
+			getFirstPage();
+		}
+
+		if (event.key === 'm') {
+			event.preventDefault();
+			document.getElementById('select-modifier')?.click();
+		}
+	};
+	onMount(() => {
+		if (browser) {
+			document.addEventListener('keydown', focusSearchBarHotkey);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			document.removeEventListener('keydown', focusSearchBarHotkey);
+		}
+	});
 </script>
 
 <section id="search">
 	<KurosearchTitle />
 	<Searchbar
+		placeholder="Search for tags"
 		{fetchSuggestions}
 		on:pick={async (e) => {
 			const suggestion = e.detail;
@@ -143,6 +176,7 @@
 			}
 		}}
 	/>
+	<TextButton title="Search with the tags above" on:click={getFirstPage}>Search</TextButton>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
 		on:click={(e) =>
@@ -157,11 +191,10 @@
 		}}
 		on:createSupertag={() => (creatingSupertag = true)}
 	/>
-	<TextButton title="Search with the tags above" on:click={getFirstPage}>Search</TextButton>
 </section>
 
 {#if error}
-	<span>{error}</span>
+	<SearchError {error} />
 {:else if $results.requested}
 	<section>
 		{#if $results.postCount === 0}
@@ -194,6 +227,7 @@
 
 	#search {
 		margin-block: 20vh;
+		padding-inline: 0.5rem;
 	}
 
 	section {
