@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
-	import { createEventDispatcher, onMount } from 'svelte';
-	import Image from '../media-image/Image.svelte';
-	import Video from '../media-video/Video.svelte';
+	import { createEventDispatcher } from 'svelte';
 	import Gif from '../media-gif/Gif.svelte';
 	import Details from '../details/Details.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
@@ -13,36 +11,51 @@
 </script>
 
 <Fullscreen on:close>
-	<div class="container">
-		<div class="header">
-			<IconButton on:click={() => dispatch('close')}><i class="codicon codicon-close" /></IconButton
-			>
-		</div>
+	<div>
 		{#if post.type === 'image'}
-			<Image {post} open />
+			<img src={post.file_url} alt="Image of Post {post.id}" />
 		{:else if post.type === 'video'}
-			<Video
-				src={post.file_url}
-				poster={post.sample_url}
-				width={post.width}
-				height={post.height}
-				loop={post.tags.some((t) => t.name == 'loop')}
-			/>
+			<!-- svelte-ignore a11y-media-has-caption -->
+			<video src={post.file_url} controls />
 		{:else}
 			<Gif {post} />
 		{/if}
-		<Details {post} />
+		<IconButton on:click={() => dispatch('close')} class="button-close">
+			<i class="codicon codicon-close" />
+		</IconButton>
+
+		<i class="codicon codicon-chevron-down" />
 	</div>
+	<Details {post} />
 </Fullscreen>
 
 <style>
-	.container {
-		width: 100%;
-		max-width: var(--body-width);
+	div {
+		width: 100vw;
+		height: 100vh;
+		max-width: 100vw;
+		max-height: 100vh;
+	}
+	img,
+	video {
+		width: 100vw;
+		height: 100vh;
+		object-fit: contain;
 	}
 
-	.header {
-		display: flex;
-		margin-block-end: var(--grid-gap);
+	:global(.button-close) {
+		position: absolute;
+		top: var(--grid-gap);
+		left: var(--grid-gap);
+		z-index: var(--z-media-controls);
+	}
+
+	.codicon-chevron-down {
+		position: absolute;
+		bottom: 2.75rem;
+		left: 50%;
+		z-index: var(--z-media-controls);
+		transform: translateX(-50%);
+		pointer-events: none;
 	}
 </style>

@@ -55,8 +55,8 @@
 	}
 
 	.circle {
-		color: black;
-		background-color: white;
+		color: #000;
+		background-color: #fff;
 		border-radius: 24px;
 		width: 48px;
 		height: 48px;

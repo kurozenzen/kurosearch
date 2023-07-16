@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
 	import { version } from '$app/environment';
 	import { base } from '$app/paths';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { onMount } from 'svelte';
 
 	let loading = false;
+
+	let latestCommitPromise: Promise<{ sha: string }>;
 
 	const forceUpdate = async () => {
 		loading = true;
@@ -16,6 +19,11 @@
 		window.location.reload(true);
 		loading = false;
 	};
+	onMount(() => {
+		latestCommitPromise = fetch(
+			'https://api.github.com/repos/kurozenzen/kurosearch/commits/main'
+		).then((r) => r.json());
+	});
 </script>
 
 <svelte:head>
@@ -27,7 +35,11 @@
 	<section class="info">
 		<img src="{base}/favicon.svg" alt="kuroseach logo" />
 		<h2>kurosearch</h2>
-		<span>version: {version}</span>
+		<span
+			>Version: {version}{#await latestCommitPromise then commit}
+				, Newest is: {commit?.sha?.substring(0, 7)}
+			{/await}</span
+		>
 	</section>
 	<section class="update">
 		<TextButton title="Force an update of the app" on:click={forceUpdate}
@@ -66,9 +78,5 @@
 		width: 60px;
 		height: 60px;
 		grid-row: span 2;
-	}
-	p {
-		grid-column: span 2;
-		line-height: 1.5;
 	}
 </style>

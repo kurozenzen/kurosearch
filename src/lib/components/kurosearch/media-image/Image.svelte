@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { clickOnEnter, isEnter } from '$lib/logic/keyboard-utils';
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -35,11 +34,7 @@
 		bind:this={media}
 		tabindex="0"
 		on:click
-		on:keydown={(event) => {
-			if (isEnter(event)) {
-				event.target.click();
-			}
-		}}
+		on:keydown={clickOnEnter}
 	/>
 </div>
 

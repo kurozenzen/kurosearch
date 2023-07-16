@@ -31,7 +31,7 @@
 
 	const handleKeyDown = (event: KeyboardEvent) => {
 		if (isEnter(event)) {
-			event.target.click();
+			event.target?.click();
 		} else if (isSpace(event)) {
 			event.preventDefault();
 			playing = !playing;
@@ -68,25 +68,17 @@
 		  )
 		: null;
 
-	onMount(() => {
-		observer && observer.observe(container);
-	});
-	onDestroy(() => {
-		observer && observer.unobserve(container);
-	});
-
 	$: timeLeft = duration - currentTime;
 	$: playing = displayVideo && playing;
 	$: paused = !playing;
 	$: percent = (currentTime / duration) * 98 + 1;
 	$: hideOverlay = playing && !loading;
 
-	const startLoading = () => {
-		loading = true;
-	};
-	const stopLoading = () => {
-		loading = false;
-	};
+	const startLoading = () => (loading = true);
+	const stopLoading = () => (loading = false);
+
+	onMount(() => observer?.observe(container));
+	onDestroy(() => observer?.unobserve(container));
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -96,7 +88,7 @@
 	on:click
 	on:keydown={handleKeyDown}
 	tabindex="0"
-	class="post-media player"
+	class="post-media player {$$props.class}"
 	style="aspect-ratio:{width}/{height}"
 >
 	{#if displayVideo}
@@ -156,6 +148,7 @@
 		width: 100%;
 		grid-area: 1/1/4/4;
 		contain: strict;
+		object-fit: contain;
 		border-radius: var(--border-radius);
 	}
 

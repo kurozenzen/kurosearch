@@ -2,8 +2,8 @@
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
 	import PlayButton from '../play-button/PlayButton.svelte';
-	import { isEnter, isSpace } from '$lib/logic/keyboard-utils';
-	import { browser } from '$app/environment';
+	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
+	import { getSources } from '$lib/logic/media-utils';
 
 	export let post: kurosearch.Post;
 
@@ -11,22 +11,16 @@
 	let playing = false;
 	let loading = false;
 
-	$: image_src = post.sample_url.endsWith('.gif') ? post.preview_url : post.sample_url;
-	$: animated_src = post.sample_url.endsWith('.gif') ? post.sample_url : post.file_url;
-	$: data_src = playing ? animated_src : image_src;
-
+	$: sources = getSources(post.file_url, post.sample_url, post.preview_url);
+	$: data_src = playing ? sources.animated : sources.static;
 	$: {
 		if (media) {
-			media.src = playing ? animated_src : image_src;
+			media.src = playing ? sources.animated : sources.static;
 		}
 	}
 
-	onMount(() => {
-		postObserver?.observe(media);
-	});
-	onDestroy(() => {
-		postObserver?.unobserve(media);
-	});
+	onMount(() => postObserver?.observe(media));
+	onDestroy(() => postObserver?.unobserve(media));
 </script>
 
 <div class="container" style={`aspect-ratio: ${post.width} / ${post.height}`}>
@@ -43,9 +37,7 @@
 		tabindex="0"
 		on:click
 		on:keydown={(event) => {
-			if (isEnter(event)) {
-				event.target.click();
-			}
+			clickOnEnter(event);
 			if (isSpace(event)) {
 				event.preventDefault();
 				loading = true;
@@ -62,25 +54,26 @@
 	.media-img {
 		display: block;
 		width: 100%;
-		height: auto;
+		height: 100%;
 		object-fit: contain;
-		contain: strict;
+		/* contain: strict; */
 		border-radius: var(--border-radius);
 		grid-area: 1/1/4/4;
 	}
 
 	.container {
 		position: relative;
-		grid-template-columns: 1fr auto 1fr;
-		grid-template-rows: 1fr auto 1fr;
-		display: grid;
-		place-items: center;
 		z-index: var(--z-media);
 		border-radius: var(--border-radius);
+		width: 100%;
+		height: 100%;
 	}
 
 	.container :global(.center) {
-		z-index: calc(var(--z-media) + 1);
-		grid-area: 2/2/3/3;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: var(--z-media-controls);
 	}
 </style>

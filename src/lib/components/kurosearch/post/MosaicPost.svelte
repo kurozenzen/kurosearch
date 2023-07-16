@@ -25,7 +25,7 @@
 	}}
 	class:open
 >
-	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" />
+	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
 	<span class="score">{formatCount(post.score)}</span>
 	{#if post.type !== 'image'}
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>

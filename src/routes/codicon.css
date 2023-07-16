@@ -74,6 +74,10 @@ i.codicon {
 	content: '\ea9a';
 }
 
+.codicon-chevron-down:before {
+	content: '\eab4';
+}
+
 .codicon-arrow-up:before {
 	content: '\eaa1';
 }
