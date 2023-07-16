@@ -8,12 +8,21 @@
 	const dispatch = createEventDispatcher();
 
 	export let post: kurosearch.Post;
+
+	let zoomed = post.width / post.height < 0.33;
 </script>
 
 <Fullscreen on:close>
 	<div>
 		{#if post.type === 'image'}
-			<img src={post.file_url} alt="Image of Post {post.id}" />
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+			<img
+				src={post.file_url}
+				alt="Image of Post {post.id}"
+				class:zoomed
+				on:click={() => (zoomed = !zoomed)}
+			/>
 		{:else if post.type === 'video'}
 			<!-- svelte-ignore a11y-media-has-caption -->
 			<video src={post.file_url} controls />
@@ -33,14 +42,28 @@
 	div {
 		width: 100vw;
 		height: 100vh;
-		max-width: 100vw;
-		max-height: 100vh;
 	}
 	img,
 	video {
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
+	}
+
+	img:hover {
+		cursor: zoom-in;
+	}
+
+	div:has(.zoomed) {
+		height: unset;
+	}
+
+	img.zoomed {
+		display: block;
+		margin: auto;
+		max-width: var(--body-width);
+		height: auto;
+		cursor: zoom-out;
 	}
 
 	:global(.button-close) {
