@@ -7,10 +7,10 @@ export const logSearch = async (pageNumber: number) =>
 
 export const logFirestoreRead = async () =>
 	logEvent(getAnalytics(), 'firestore_read', {
-		site: 'kurosearch_v3'
+		site: document.title || 'kurosearch_v3'
 	});
 
 export const logFirestoreWrite = async () =>
 	logEvent(getAnalytics(), 'firestore_write', {
-		site: 'kurosearch_v3'
+		site: document.title || 'kurosearch_v3'
 	});
