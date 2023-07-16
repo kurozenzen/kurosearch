@@ -25,6 +25,7 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
+		class="post-media"
 		loading="lazy"
 		data-src={post.sample_url}
 		alt={post.id.toString()}

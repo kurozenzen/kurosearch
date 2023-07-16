@@ -96,7 +96,7 @@
 	on:click
 	on:keydown={handleKeyDown}
 	tabindex="0"
-	class="player"
+	class="post-media player"
 	style="aspect-ratio:{width}/{height}"
 >
 	{#if displayVideo}

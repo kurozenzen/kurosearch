@@ -48,6 +48,7 @@
 	let loading = false;
 	let error: Error | undefined;
 	let creatingSupertag = false;
+	let nextFocus = 0;
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -134,6 +135,18 @@
 
 		if (event.ctrlKey && event.key === 'm') {
 			document.getElementById('select-modifier')?.click();
+		}
+
+		if (event.ctrlKey && event.key === 'ArrowDown') {
+			const posts = document.getElementsByClassName('post-media');
+			posts[nextFocus].focus();
+			nextFocus = Math.min(nextFocus + 1, Math.max(0, posts.length - 1));
+		}
+
+		if (event.ctrlKey && event.key === 'ArrowUp') {
+			const posts = document.getElementsByClassName('post-media');
+			posts[nextFocus].focus();
+			nextFocus = Math.max(nextFocus - 1, 0);
 		}
 	};
 	onMount(() => {
