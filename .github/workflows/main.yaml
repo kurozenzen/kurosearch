@@ -1,62 +1,26 @@
-name: Build and Deploy
+name: Build, Test and Deploy
 
 on:
   push:
-    branches: ['main']
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: false
+    branches:
+      - main
 
 jobs:
-  build-site:
+  build-and-deploy:
+    name: Build and Deploy main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Install, Build and Test
+        run: |
+          npm install
+          npm run build
+          npm run test
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          version: 8
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm i
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-        with:
-          static_site_generator: 'sveltekit'
-
-      - name: Build site
-        run: pnpm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'build/'
-
-  deploy:
-    needs: build-site
-    runs-on: ubuntu-latest
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          branch: gh-pages
+          folder: build

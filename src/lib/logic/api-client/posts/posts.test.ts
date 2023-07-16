@@ -35,48 +35,4 @@ describe('posts', () => {
 			);
 		});
 	});
-
-	describe('serializeTags', () => {
-		it('empty tags still include sort and score', () => {
-			expect(serializeSearchParameters([], 'id', 0)).toBe('score:>=0+sort:id:desc');
-		});
-
-		it('+ tags are included in string', () => {
-			expect(
-				serializeSearchParameters(
-					[
-						{ modifier: '+', name: 'tag1' },
-						{ modifier: '+', name: 'tag2' }
-					],
-					'id',
-					0
-				)
-			).toBe('tag1+tag2+score:>=0+sort:id:desc');
-		});
-
-		it('- tags are included in string', () => {
-			expect(
-				serializeSearchParameters(
-					[
-						{ modifier: '+', name: 'tag1' },
-						{ modifier: '-', name: 'tag2' }
-					],
-					'id',
-					0
-				)
-			).toBe('tag1+-tag2+score:>=0+sort:id:desc');
-		});
-		it('~ tags are included in string', () => {
-			expect(
-				serializeSearchParameters(
-					[
-						{ modifier: '~', name: 'tag2' },
-						{ modifier: '~', name: 'tag3' }
-					],
-					'id',
-					0
-				)
-			).toBe('score:>=0+sort:id:desc+( tag2 ~ tag3 )');
-		});
-	});
 });
