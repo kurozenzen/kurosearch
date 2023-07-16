@@ -34,10 +34,24 @@
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import supertags from '$lib/store/supertags-store';
+	import activeSupertags from '$lib/store/active-supertags-store';
 
 	let loading = false;
 	let error: unknown | undefined;
 	let creatingSupertag = false;
+
+	const fetchSuggestions = async (term: string) => {
+		const matchingTags = await getTagSuggestions(term);
+		const matchingSupertags = $supertags.items
+			.filter(({ name }) => name.toLowerCase().includes(term.toLowerCase()))
+			.map((supertag) => ({
+				label: supertag.name,
+				count: supertag.tags.length,
+				type: 'supertag' as kurosearch.TagType
+			}));
+
+		return [...matchingSupertags, ...matchingTags];
+	};
 
 	const tags = getTags();
 	if (tags) {
@@ -58,8 +72,8 @@
 			.withSortDirection($sortFilter.sortDirection)
 			.withScoreValue($sortFilter.scoreValue)
 			.withScoreComparator($sortFilter.scoreComparator)
-			.withRating($sortFilter.rating);
-	// .withSupertags($userdata.supertags)
+			.withRating($sortFilter.rating)
+			.withSupertags($activeSupertags);
 
 	const executeSearch = async (operation: () => Promise<void>) => {
 		if (loading) {
@@ -101,24 +115,39 @@
 <section id="search">
 	<KurosearchTitle />
 	<Searchbar
-		fetchSuggestions={getTagSuggestions}
+		{fetchSuggestions}
 		on:pick={async (e) => {
-			const tag = await getTagDetails(e.detail.label);
-			activeTags.addOrReplace({
-				name: e.detail.label,
-				modifier: e.detail.modifier,
-				count: e.detail.count,
-				type: tag.type
-			});
+			const suggestion = e.detail;
+
+			if (suggestion.type === 'supertag') {
+				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
+				if (!supertag) {
+					console.log('Supertag not present.');
+					return;
+				}
+				activeSupertags.addOrReplace(supertag);
+			} else {
+				const tag = await getTagDetails(e.detail.label);
+				activeTags.addOrReplace({
+					name: e.detail.label,
+					modifier: e.detail.modifier,
+					count: e.detail.count,
+					type: tag.type
+				});
+			}
 		}}
 	/>
 	<ActiveTagList
-		tags={$activeTags}
-		on:click={(e) => activeTags.removeByName(e.detail.name)}
+		tags={[...$activeTags, ...$activeSupertags]}
+		on:click={(e) =>
+			'description' in e.detail
+				? activeSupertags.removeByName(e.detail.name)
+				: activeTags.removeByName(e.detail.name)}
 		on:contextmenu={(e) => {
-			const tag = e.detail;
-			tag.modifier = nextModifier(tag.modifier);
-			activeTags.addOrReplace(e.detail);
+			if (!('description' in e.detail)) {
+				e.detail.modifier = nextModifier(e.detail.modifier);
+				activeTags.addOrReplace(e.detail);
+			}
 		}}
 		on:createSupertag={() => (creatingSupertag = true)}
 	/>

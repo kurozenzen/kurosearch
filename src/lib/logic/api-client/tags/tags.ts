@@ -41,7 +41,8 @@ export const getTagDetails = async (name: string): Promise<kurosearch.Tag> => {
 
 const parseSuggestion = (suggestion: r34.Suggestion): kurosearch.Suggestion => ({
 	label: replaceHtmlEntities(suggestion.value),
-	count: extractCount(suggestion.label)
+	count: extractCount(suggestion.label),
+	type: 'tag'
 });
 
 const extractCount = (label: string) => {

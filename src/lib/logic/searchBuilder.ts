@@ -129,28 +129,24 @@ const serializeAllTags = (
 	rating: kurosearch.Rating,
 	scoreComparator: kurosearch.ScoreComparator,
 	blockedContent: kurosearch.BlockingGroup[],
-	availableSupertags: kurosearch.Supertag[]
+	supertags: kurosearch.Supertag[]
 ) => {
-	const activeSupertags = tags.filter((t) => t.type === 'supertag');
-	const activeNormalTags = tags.filter((t) => t.type !== 'supertag');
-
 	const parts = [`score:${scoreComparator}${scoreValue}`, `sort:${sortProperty}:${sortDirection}`];
 
 	if (rating !== 'all') {
 		parts.push(`rating:${rating}`);
 	}
 
-	if (activeNormalTags.length > 0) {
+	if (tags.length > 0) {
 		const activeTagString = serializeSearchableTags(
-			activeNormalTags.map((t) => ({ name: t.name, modifier: t.modifier }))
+			tags.map(({ name, modifier }) => ({ name, modifier }))
 		);
 		parts.push(activeTagString);
 	}
 
-	if (activeSupertags.length > 0) {
-		const supertagString = activeSupertags
-			.map((active) => availableSupertags.find((available) => active.name === available.name).tags)
-			.map((tags) => `${serializeSearchableTags(tags)}`)
+	if (supertags.length > 0) {
+		const supertagString = supertags
+			.map((supertag) => serializeSearchableTags(supertag.tags))
 			.join('+');
 		parts.push(supertagString);
 	}

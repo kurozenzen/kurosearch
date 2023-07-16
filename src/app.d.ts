@@ -30,6 +30,7 @@ declare global {
 			type: TagType;
 		};
 		type Suggestion = {
+			type: TagType;
 			label: string;
 			count: number;
 		};

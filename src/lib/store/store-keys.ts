@@ -1,5 +1,6 @@
 export enum StoreKey {
 	ActiveTags = 'kurosearch:active-tags',
+	ActiveSupertags = 'kurosearch:active-supertags',
 	BlockedContent = 'kurosearch:blocked-content',
 	LocalstorageEnabled = 'kurosearch:localstorage-enabled',
 	ResultColumns = 'kurosearch:result-columns',

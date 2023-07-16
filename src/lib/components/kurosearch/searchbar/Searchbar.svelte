@@ -5,6 +5,7 @@
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import Suggestion from './Suggestion.svelte';
+	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
 
 	const dispatch = createEventDispatcher();
 
@@ -18,7 +19,7 @@
 	let focusInside = false;
 	let hasDropdownContent = false;
 
-	// hacky, but i need it in the keydown handler
+	// hacky, I'd like to avoid caching this but i need it in the keydown handler
 	let suggestionItems: kurosearch.Suggestion[] = [];
 
 	const search = () => {
@@ -53,13 +54,17 @@
 		e.target.scrollIntoView({ block: 'center', behavior: 'smooth' });
 	};
 
-	const handleKeyDown = (event: any) => {
+	const handleKeyDown = async (event: any) => {
 		if (event.key === 'Enter') {
-			pick(
-				suggestionItems.length > selectedIndex
-					? suggestionItems[selectedIndex]
-					: { label: searchTerm, count: 0 }
-			);
+			if (suggestionItems.length > selectedIndex) {
+				pick(suggestionItems[selectedIndex]);
+			} else {
+				const tags = searchTerm.split(';').map((x) => x.trim().replaceAll(' ', '_'));
+				const details = await Promise.all(tags.map(getTagDetails));
+				details
+					.map((x) => ({ type: 'tag' as kurosearch.TagType, label: x.name, count: x.count }))
+					.forEach(pick);
+			}
 		} else if (event.code === 'Escape') {
 			event.target.blur();
 		} else if (event.code === 'ArrowUp' && suggestionItems.length > 0) {
@@ -76,6 +81,7 @@
 	<input
 		type="text"
 		name="searchbar"
+		autocomplete="off"
 		bind:value={searchTerm}
 		on:focus={focus}
 		on:blur={closeIfFocusOutside}

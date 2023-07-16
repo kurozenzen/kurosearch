@@ -18,6 +18,7 @@
 	title={suggestion.label}
 	class:selected
 >
+	<i class={suggestion.type === 'supertag' ? 'codicon codicon-star-full' : 'codicon codicon-tag'} />
 	<span class="tag-name">{formatTagname(suggestion.label)}</span>
 	<span class="tag-count">{formatCount(suggestion.count)}</span>
 </li>

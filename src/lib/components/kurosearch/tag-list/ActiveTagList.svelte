@@ -5,18 +5,27 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let tags: kurosearch.ActiveTag[];
+	export let tags: Array<kurosearch.ActiveTag | kurosearch.Supertag>;
 </script>
 
 <ul>
 	{#if tags.length > 0}
 		{#each tags as tag}
-			<DetailedTag
-				{tag}
-				on:click={() => dispatch('click', tag)}
-				on:contextmenu={() => dispatch('contextmenu', tag)}
-				active
-			/>
+			{#if 'description' in tag}
+				<DetailedTag
+					tag={{ name: tag.name, type: 'supertag', modifier: '+', count: tag.tags.length }}
+					on:click={() => dispatch('click', tag)}
+					on:contextmenu={() => dispatch('contextmenu', tag)}
+					active
+				/>
+			{:else}
+				<DetailedTag
+					{tag}
+					on:click={() => dispatch('click', tag)}
+					on:contextmenu={() => dispatch('contextmenu', tag)}
+					active
+				/>
+			{/if}
 		{/each}
 		{#if tags.length > 1}
 			<TagButton

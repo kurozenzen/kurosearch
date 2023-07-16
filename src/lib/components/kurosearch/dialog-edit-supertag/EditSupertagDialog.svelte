@@ -6,6 +6,7 @@
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import ModifiedTag from '../modified-tag/ModifiedTag.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { nextModifier } from '$lib/logic/modifier-utils';
 
 	const dispatch = createEventDispatcher();
 	const emitEdit = () => dispatch('edit', { oldName: supertag.name, newSupertag });
@@ -47,6 +48,9 @@
 					on:click={() => {
 						newSupertag.tags.splice(i, 1);
 						newSupertag.tags = [...newSupertag.tags];
+					}}
+					on:contextmenu={() => {
+						newSupertag.tags[i].modifier = nextModifier(tag.modifier);
 					}}
 				/>
 			{/each}
