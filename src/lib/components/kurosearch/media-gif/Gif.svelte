@@ -2,7 +2,7 @@
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
 	import PlayButton from '../play-button/PlayButton.svelte';
-	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { isEnter, isSpace } from '$lib/logic/keyboard-utils';
 	import { browser } from '$app/environment';
 
 	export let post: kurosearch.Post;
@@ -22,10 +22,10 @@
 	}
 
 	onMount(() => {
-		browser && postObserver.observe(media);
+		postObserver?.observe(media);
 	});
 	onDestroy(() => {
-		browser && postObserver.unobserve(media);
+		postObserver?.unobserve(media);
 	});
 </script>
 
@@ -45,6 +45,11 @@
 		on:keydown={(event) => {
 			if (isEnter(event)) {
 				event.target.click();
+			}
+			if (isSpace(event)) {
+				event.preventDefault();
+				loading = true;
+				playing = !playing;
 			}
 		}}
 		on:load={() => (loading = false)}
