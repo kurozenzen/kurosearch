@@ -6,8 +6,8 @@
 	import Score from '$lib/components/kurosearch/score/Score.svelte';
 	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
-	import DetailedTag from '$lib/components/kurosearch/tag/DetailedTag.svelte';
 	import activeTagsStore from '$lib/store/active-tags-store';
+	import SimpleTag from '../tag-simple/SimpleTag.svelte';
 
 	export let post: kurosearch.Post;
 
@@ -53,8 +53,8 @@
 		<ul class="tags">
 			{#each post.tags as tag}
 				{@const active = $activeTagsStore.find((t) => t.name === tag.name) !== undefined}
-				<DetailedTag
-					tag={{ ...tag, modifier: '+' }}
+				<SimpleTag
+					{tag}
 					on:click={() =>
 						active
 							? activeTagsStore.removeByName(tag.name)

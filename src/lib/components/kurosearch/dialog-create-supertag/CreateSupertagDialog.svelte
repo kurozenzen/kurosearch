@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { createEventDispatcher } from 'svelte';
-	import DetailedTag from '../tag/DetailedTag.svelte';
+	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 
 	export let name = '';
 	export let description = '';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import TagButton from '../tag-button/TagButton.svelte';
-	import DetailedTag from '../tag/DetailedTag.svelte';
+	import TagButton from '../button-tag/TagButton.svelte';
+	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
 
 	const dispatch = createEventDispatcher();
 

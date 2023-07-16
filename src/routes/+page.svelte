@@ -44,6 +44,7 @@
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
 	import { onDestroy, onMount } from 'svelte';
+	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -221,6 +222,7 @@
 			{/if}
 		{/if}
 	</section>
+	<ScrollUpButton />
 {/if}
 
 {#if creatingSupertag}

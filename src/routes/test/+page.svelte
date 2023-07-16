@@ -10,7 +10,7 @@
 	import TextInput from '$lib/components/pure/text-input/TextInput.svelte';
 	import ToggleIcon from '$lib/components/pure/toggle-icon/ToggleIcon.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
-	import ActiveTag from '$lib/components/kurosearch/tag/DetailedTag.svelte';
+	import ActiveTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import DiscordLink from '$lib/components/kurosearch/discord-link/DiscordLink.svelte';
