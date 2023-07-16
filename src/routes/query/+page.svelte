@@ -2,20 +2,14 @@
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { createSearch } from '$lib/logic/searchBuilder';
 	import results from '$lib/store/results-store';
 	import activeTags from '$lib/store/active-tags-store';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
-	import Results from '$lib/components/kurosearch/results/Results.svelte';
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
 	import sortFilter from '$lib/store/sort-filter-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import { nextModifier } from '$lib/logic/modifier-utils';
-	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
 
