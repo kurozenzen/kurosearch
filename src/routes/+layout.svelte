@@ -60,6 +60,7 @@
 		href="https://github.com/kurozenzen/kurosearch"
 		icon="codicon codicon-github"
 		label="Github"
+		target="_blank"
 	/>
 
 	<span class="copyright">© 2023 kurozenzen</span>

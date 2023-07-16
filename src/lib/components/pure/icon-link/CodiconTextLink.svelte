@@ -3,9 +3,10 @@
 	export let href: string;
 	export let icon: string;
 	export let label: string;
+	export let target: string = '_self';
 </script>
 
-<a {title} {href} target="_blank" class={icon}>
+<a {title} {href} {target} class={icon}>
 	{label}
 </a>
 
