@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import AccountLink from '$lib/components/kurosearch/account-link/AccountLink.svelte';
 	import DiscordLink from '$lib/components/kurosearch/discord-link/DiscordLink.svelte';
 	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
@@ -19,9 +20,9 @@
 				newtab
 			/>
 			<DiscordLink />
-			<CodiconLink title="Documentation" href="/help" icon="codicon codicon-book" />
+			<CodiconLink title="Documentation" href="{base}/help" icon="codicon codicon-book" />
 			<i />
-			<CodiconLink title="Search" href="/search" icon="codicon codicon-search" />
+			<CodiconLink title="Search" href="{base}/search" icon="codicon codicon-search" />
 			<SettingsLink />
 			<AccountLink src={userPhoto} />
 		</nav>

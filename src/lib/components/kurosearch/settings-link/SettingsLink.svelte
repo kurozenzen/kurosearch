@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 </script>
 
-<IconLink title="Settings" href="/preferences" className="gear">
+<IconLink title="Settings" href="{base}/preferences" className="gear">
 	<i class="codicon codicon-settings-gear" />
 </IconLink>
 

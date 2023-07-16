@@ -16,6 +16,7 @@
 	import DiscordLink from '$lib/components/kurosearch/discord-link/DiscordLink.svelte';
 	import AccountLink from '$lib/components/kurosearch/account-link/AccountLink.svelte';
 	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
+	import { base } from '$app/paths';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
@@ -66,7 +67,7 @@
 	newtab
 />
 <DiscordLink />
-<CodiconLink title="Documentation" href="/help" icon="codicon codicon-book" />
-<CodiconLink title="Search" href="/search" icon="codicon codicon-search" />
+<CodiconLink title="Documentation" href="{base}/help" icon="codicon codicon-book" />
+<CodiconLink title="Search" href="{base}/search" icon="codicon codicon-search" />
 <SettingsLink />
 <AccountLink src={disabled ? '/default-user.png' : undefined} />

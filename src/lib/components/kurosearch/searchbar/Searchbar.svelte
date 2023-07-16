@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { createEventDispatcher } from 'svelte';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
@@ -85,7 +86,7 @@
 
 	<CodiconLink
 		title="More information on tags."
-		href="/help#tags"
+		href="{base}/help#tags"
 		icon="codicon codicon-question"
 	/>
 	<ol class:open={focusInside && hasDropdownContent}>
