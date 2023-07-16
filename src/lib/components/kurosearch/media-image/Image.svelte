@@ -1,0 +1,76 @@
+<script lang="ts">
+	import { browser } from '$app/environment';
+	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { postObserver } from '$lib/logic/post-observer';
+	import { onDestroy, onMount } from 'svelte';
+
+	export let post: kurosearch.Post;
+	export let open: boolean;
+
+	$: ratio = post.width / post.height;
+	$: expandable = ratio < 0.33;
+
+	let media: HTMLImageElement;
+
+	onMount(() => {
+		browser && postObserver.observe(media);
+	});
+	onDestroy(() => {
+		browser && postObserver.unobserve(media);
+	});
+</script>
+
+<div class:expandable class:open>
+	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+	<img
+		loading="lazy"
+		data-src={post.sample_url}
+		alt={post.id.toString()}
+		style={`aspect-ratio: ${post.width} / ${post.height}`}
+		width={post.width}
+		height={post.height}
+		bind:this={media}
+		tabindex="0"
+		on:click
+		on:keydown={(event) => {
+			if (isEnter(event)) {
+				event.target.click();
+			}
+		}}
+	/>
+</div>
+
+<style>
+	img {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		contain: strict;
+		z-index: var(--z-media);
+		border-radius: var(--border-radius);
+	}
+
+	.expandable:not(.open) {
+		max-height: 100vh;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.expandable:not(.open)::before {
+		position: absolute;
+		z-index: 100;
+		text-align: center;
+		width: 100%;
+		content: 'Expand';
+		padding: var(--grid-gap);
+		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
+		user-select: none;
+		pointer-events: none;
+		bottom: 0;
+		color: var(--text-highlight);
+	}
+</style>

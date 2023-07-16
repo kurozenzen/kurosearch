@@ -71,6 +71,11 @@ declare global {
 			tags: SearchableTag[];
 		};
 		type Rating = 'safe' | 'questionable' | 'explicit' | 'all';
+		type Comment = {
+			author: string;
+			createdAt: string;
+			content: string;
+		};
 	}
 
 	namespace r34 {

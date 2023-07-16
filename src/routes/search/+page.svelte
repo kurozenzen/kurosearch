@@ -2,11 +2,17 @@
 	import { browser } from '$app/environment';
 
 	const getTags = () => {
-		if (!browser || window.location.hash.length < 2) {
+		if (!browser) {
 			return undefined;
 		}
 
-		const tags = window.location.hash.substring(1).split(',');
+		const url = new URL(location.href);
+
+		if (!url.searchParams.has('tags')) {
+			return undefined;
+		}
+
+		const tags = url.searchParams.get('tags').split(';');
 		if (!Array.isArray(tags) || tags.length === 0) {
 			return undefined;
 		}
