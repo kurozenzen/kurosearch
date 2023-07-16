@@ -78,6 +78,14 @@ i.codicon {
 	content: '\eab4';
 }
 
+.codicon-chevron-left:before {
+	content: '\eab5';
+}
+
+.codicon-chevron-right:before {
+	content: '\eab6';
+}
+
 .codicon-arrow-up:before {
 	content: '\eaa1';
 }

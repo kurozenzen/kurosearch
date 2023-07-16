@@ -1,14 +1,21 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
+	const listener = (event: KeyboardEvent) => {
+		if (event.key === 'Escape') {
+			close();
+		}
+	};
 
 	let dialog: HTMLDivElement;
 
 	onMount(async () => {
 		dialog.focus();
+		document.addEventListener('keydown', listener);
 	});
+	onDestroy(() => document.removeEventListener('keydown', listener));
 </script>
 
 <div

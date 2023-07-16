@@ -29,19 +29,29 @@
 		{:else}
 			<Gif {post} />
 		{/if}
-		<IconButton on:click={() => dispatch('close')} class="button-close">
-			<i class="codicon codicon-close" />
-		</IconButton>
 
 		<i class="codicon codicon-chevron-down" />
 	</div>
 	<Details {post} />
 </Fullscreen>
 
+<IconButton on:click={() => dispatch('close')} class="button-close">
+	<i class="codicon codicon-close" />
+</IconButton>
+
+<IconButton on:click={() => dispatch('previous')} class="button-previous">
+	<i class="codicon codicon-chevron-left" />
+</IconButton>
+
+<IconButton on:click={() => dispatch('next')} class="button-next">
+	<i class="codicon codicon-chevron-right" />
+</IconButton>
+
 <style>
 	div {
 		width: 100vw;
 		height: 100vh;
+		min-height: 100vh;
 	}
 	img,
 	video {
@@ -55,6 +65,7 @@
 	}
 
 	div:has(.zoomed) {
+		min-height: unset;
 		height: unset;
 	}
 
@@ -67,10 +78,26 @@
 	}
 
 	:global(.button-close) {
-		position: absolute;
+		position: fixed;
 		top: var(--grid-gap);
 		left: var(--grid-gap);
-		z-index: var(--z-media-controls);
+		z-index: var(--z-dialog);
+	}
+
+	:global(.button-previous) {
+		position: fixed;
+		left: var(--grid-gap);
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: var(--z-dialog);
+	}
+
+	:global(.button-next) {
+		position: fixed;
+		right: var(--grid-gap);
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: var(--z-dialog);
 	}
 
 	.codicon-chevron-down {

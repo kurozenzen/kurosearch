@@ -126,7 +126,6 @@
 	};
 
 	const focusSearchBarHotkey = (event: KeyboardEvent) => {
-		console.log(event);
 		if (
 			(event.key === '/' || event.key === 's') &&
 			(!document.activeElement || document.activeElement === document.body)
@@ -223,7 +222,7 @@
 		{#if $results.postCount === 0}
 			<ZeroResults on:sortfilterupdate={getFirstPage} />
 		{:else}
-			<Results on:sortfilterupdate={getFirstPage} />
+			<Results on:sortfilterupdate={getFirstPage} on:endreached={getNextPage} />
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else}

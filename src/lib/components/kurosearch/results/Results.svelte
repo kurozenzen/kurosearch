@@ -6,14 +6,16 @@
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
-	import { onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
-	let viewing: undefined | kurosearch.Post;
-
-	let hasHash = location.hash.length > 2;
+	const dispatch = createEventDispatcher();
 	const listener = () => {
 		hasHash = location.hash.length > 2;
 	};
+
+	let viewing: undefined | { post: kurosearch.Post; index: number };
+
+	let hasHash = location.hash.length > 2;
 
 	onMount(() => {
 		window.addEventListener('hashchange', listener);
@@ -36,12 +38,12 @@
 	</section>
 {:else}
 	<section class="multi" style="grid-template-columns: repeat({$resultColumns}, 1fr);">
-		{#each $results.posts as post}
+		{#each $results.posts as post, index}
 			<MosaicPost
 				{post}
 				on:click={() => {
-					viewing = post;
-					location.hash = `fullscreen_${post.id}`;
+					viewing = { post, index };
+					location.hash = `fullscreen`;
 				}}
 			/>
 		{/each}
@@ -49,10 +51,23 @@
 
 	{#if hasHash && viewing !== undefined}
 		<FullscreenPost
-			post={viewing}
+			post={viewing.post}
 			on:close={() => {
+				if (viewing?.post?.id) document.getElementById(`post_${viewing.post.id}`)?.focus();
 				viewing = undefined;
 				history.back();
+			}}
+			on:previous={() => {
+				let newIndex = Math.max(viewing.index - 1, 0);
+				viewing = { index: newIndex, post: $results.posts[newIndex] };
+			}}
+			on:next={() => {
+				let newIndex = Math.min(viewing.index + 1, $results.posts.length);
+				viewing = { index: newIndex, post: $results.posts[newIndex] };
+
+				if (newIndex > $results.posts.length - 3 && $results.posts.length !== $results.postCount) {
+					dispatch('endreached');
+				}
 			}}
 		/>
 	{/if}

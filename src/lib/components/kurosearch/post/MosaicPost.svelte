@@ -14,7 +14,6 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	id="post_{post.id}"
 	class="post"
 	style="grid-row: span {rows}"
 	on:click
@@ -25,7 +24,14 @@
 	}}
 	class:open
 >
-	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
+	<img
+		src={previewSrc}
+		alt="post"
+		class="post-media"
+		tabindex="-1"
+		loading="lazy"
+		id="post_{post.id}"
+	/>
 	<span class="score">{formatCount(post.score)}</span>
 	{#if post.type !== 'image'}
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>
