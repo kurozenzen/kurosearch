@@ -91,6 +91,7 @@
 	</div>
 
 	<Heading3>Import/Export Data</Heading3>
+	<p>Load and save preferences and supertags to and from a file.</p>
 	<div class="button-row">
 		<TextButton type="secondary" title="Save your data to a file." on:click={exportConfig}>
 			<span class="codicon codicon-file">Download Config File</span>
@@ -105,6 +106,7 @@
 	</div>
 
 	<Heading3>Google Account Syncing</Heading3>
+	<p>Load and save preferences and supertags to and from Google.</p>
 	<div class="button-row">
 		{#if $firebaseLoggedIn}
 			<TextButton
@@ -197,6 +199,10 @@
 <style>
 	section {
 		padding-inline: 8px;
+	}
+
+	p {
+		margin-block-end: var(--grid-gap);
 	}
 
 	.button-row {
