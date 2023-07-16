@@ -9,6 +9,10 @@
 	import { createModifiedTag, createTag } from '$lib/logic/tag-utils';
 </script>
 
+<svelte:head>
+	<title>kurosearch - Documentation</title>
+</svelte:head>
+
 <Heading1>Documentation</Heading1>
 
 <div class="cards">
@@ -174,21 +178,6 @@
 			<SimpleTag tag={createTag('animated', 294000, 'metadata')} />
 		</div>
 	</li>
-	<!-- <li>
-    <em>Rating</em>
-    <p>
-      Gives information about how explicit the content is. This tag is really unreliable though.
-    </p>
-    <DetailedTag tag={createActiveTag('+', 'safe', 294000, 'rating')} />
-  </li> -->
-	<!-- <li>
-    <em>Source</em>
-    <p>
-      Usually, the source of a post is used to provide a link to the creators primary account or similar. Therefore,
-      searching for source tags is not that useful but it is still possible.
-    </p>
-    <DetailedTag tag={createActiveTag('+', 'patreon', 294000, 'source')} />
-  </li> -->
 	<li>
 		<em>Supertag</em>
 		<p>

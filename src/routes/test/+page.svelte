@@ -30,7 +30,11 @@
 	let modifier: kurosearch.TagModifier = '+';
 </script>
 
-<Heading1>Welcome to SvelteKit</Heading1>
+<svelte:head>
+	<title>kurosearch - Component Test</title>
+</svelte:head>
+
+<Heading1>Testing</Heading1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
 <Heading3>Components</Heading3>

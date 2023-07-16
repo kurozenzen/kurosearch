@@ -59,6 +59,10 @@
 		: ['tags', ''];
 </script>
 
+<svelte:head>
+	<title>kurosearch - Query Builder</title>
+</svelte:head>
+
 <section>
 	<KurosearchTitle />
 	<Searchbar

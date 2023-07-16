@@ -66,6 +66,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>kurosearch - Account</title>
+</svelte:head>
+
 <section>
 	<Heading1>Account</Heading1>
 	<Heading3>Supertags</Heading3>

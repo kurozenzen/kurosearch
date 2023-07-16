@@ -64,12 +64,7 @@
 
 	<span class="copyright">© 2023 kurozenzen</span>
 
-	<CodiconTextLink
-		title="Application Status"
-		href="https://stats.uptimerobot.com/EZVwES34jJ"
-		icon="codicon codicon-zap"
-		label="Status"
-	/>
+	<CodiconTextLink title="About" href="/about" icon="codicon codicon-info" label="About" />
 </footer>
 
 <style>

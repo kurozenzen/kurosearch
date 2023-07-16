@@ -11,6 +11,10 @@
 	const id = url && url.searchParams.has('id') ? Number(url.searchParams.get('id')) : undefined;
 </script>
 
+<svelte:head>
+	<title>kurosearch - Post {id}</title>
+</svelte:head>
+
 <div>
 	{#if id}
 		{#await getPost(id)}

@@ -36,6 +36,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>kurosearch - Preferences</title>
+</svelte:head>
+
 <section>
 	<Heading1>Preferences</Heading1>
 

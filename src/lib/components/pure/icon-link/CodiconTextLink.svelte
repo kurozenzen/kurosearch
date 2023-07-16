@@ -16,6 +16,11 @@
 		gap: 4px;
 		color: currentColor;
 		font-size: var(--text-size-small);
+		vertical-align: middle;
+	}
+
+	a::before {
+		height: unset;
 	}
 
 	@media (hover: hover) {
