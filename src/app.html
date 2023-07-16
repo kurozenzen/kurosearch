@@ -2,32 +2,19 @@
 <html lang="en" class="dark">
 	<head>
 		<title>kurosearch</title>
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; 
+		style-src 'self' 'unsafe-inline'; 
+		script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-inline';
+		connect-src 'self' https://apis.google.com https://*.rule34.xxx https://*.googleapis.com https://*.google-analytics.com;
+		img-src 'self' https://*.rule34.xxx https://*.googleusercontent.com https://www.googletagmanager.com; 
+		media-src 'self' https://*.rule34.xxx; 
+		frame-src https://r34-react.firebaseapp.com;"
+		/>
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<style>
-			@font-face {
-				font-family: 'Zen Kaku Gothic New';
-				font-weight: 900;
-				src: url('%sveltekit.assets%/font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
-					url('%sveltekit.assets%/font/ZenKakuGothicNew-Black-subset.woff') format('woff');
-			}
-
-			@font-face {
-				font-family: 'Roboto';
-				font-weight: 400;
-				src: url('%sveltekit.assets%/font/Roboto-Regular.woff2') format('woff2'),
-					url('%sveltekit.assets%/font/Roboto-Regular.woff') format('woff'),
-					url('%sveltekit.assets%/font/Roboto-Italic.woff2') format('woff2') font-italic,
-					url('%sveltekit.assets%/font/Roboto-Italic.woff') format('woff') font-italic;
-			}
-
-			@font-face {
-				font-family: 'codicon';
-				src: url('%sveltekit.assets%/font/codicon.woff2') format('woff2'),
-					url('%sveltekit.assets%/font/codicon.woff') format('woff');
-			}
-		</style>
 		%sveltekit.head%
 		<meta name="referrer" content="no-referrer" />
 		<!-- PWA -->
@@ -37,10 +24,12 @@
 		/>
 		<meta name="theme-color" content="#000" />
 		<meta name="background-color" content="#000" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
 		<link rel="apple-touch-icon" href="%sveltekit.assets%/icon/ks-192.png" sizes="192x192" />
 		<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#000" />
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
+		<div>%sveltekit.body%</div>
 	</body>
 </html>

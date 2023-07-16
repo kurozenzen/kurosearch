@@ -8,6 +8,7 @@
 	import theme from '$lib/store/theme-store';
 	import { browser } from '$app/environment';
 	import './reset.css';
+	import './fonts.css';
 	import './defaults.css';
 	import './theme.css';
 	import './codicon.css';

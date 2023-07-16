@@ -7,8 +7,7 @@ import {
 	query,
 	collection,
 	setDoc,
-	runTransaction,
-	deleteDoc
+	runTransaction
 } from 'firebase/firestore';
 import { createSearchableTag, createSupertag } from '../tag-utils';
 

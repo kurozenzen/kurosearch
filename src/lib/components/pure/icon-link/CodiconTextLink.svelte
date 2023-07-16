@@ -13,7 +13,7 @@
 	a {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--grid-gap);
+		gap: 4px;
 		color: currentColor;
 		font-size: var(--text-size-small);
 	}

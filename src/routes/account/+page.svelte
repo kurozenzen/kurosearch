@@ -10,10 +10,10 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import { StoreKey } from '$lib/store/store-keys';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
-	import firebaseUser from '$lib/store/firebase-user-store';
 	import '$lib/logic/firebase/firebase';
-	import { signOut, signIn } from '$lib/logic/firebase/authentication';
+	import { signOut, signIn, loggedIn } from '$lib/logic/firebase/authentication';
 	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
+	import firebaseLoggedIn from '$lib/store/firebase-login-store';
 
 	let deleting = false;
 	let pullingFromCloud = false;
@@ -106,17 +106,7 @@
 
 	<Heading3>Google Account Syncing</Heading3>
 	<div class="button-row">
-		{#if $firebaseUser === undefined}
-			<TextButton
-				title="Sign in with google to backup data"
-				on:click={async () => {
-					const credentials = await signIn();
-					$firebaseUser = credentials;
-				}}
-			>
-				Connect Google User
-			</TextButton>
-		{:else}
+		{#if $firebaseLoggedIn}
 			<TextButton
 				type="secondary"
 				title="Save your data to a file."
@@ -131,14 +121,10 @@
 			>
 				<span class="codicon codicon-cloud">Save config</span>
 			</TextButton>
-			<TextButton
-				title="Sign out"
-				on:click={async () => {
-					await signOut();
-					$firebaseUser = undefined;
-				}}
-			>
-				Sign Out
+			<TextButton title="Sign out" on:click={() => signOut()}>Sign Out</TextButton>
+		{:else}
+			<TextButton title="Sign in with google to backup data" on:click={() => signIn()}>
+				Connect Google User
 			</TextButton>
 		{/if}
 	</div>
