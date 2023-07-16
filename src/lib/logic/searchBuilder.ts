@@ -1,4 +1,5 @@
 import { getPage, getCount } from './api-client/ApiClient';
+import { getPostsUrl } from './api-client/posts/posts';
 import { BLOCKING_GROUP_TAGS } from './blocking-group-data';
 
 class SearchBuilder {
@@ -114,6 +115,20 @@ class SearchBuilder {
 			this.supertags
 		);
 		return getCount(this.tagString);
+	}
+
+	getQuery() {
+		this.tagString ||= serializeAllTags(
+			this.tags,
+			this.sortProperty,
+			this.sortDirection,
+			this.scoreValue,
+			this.rating,
+			this.scoreComparator,
+			this.blockedContent,
+			this.supertags
+		);
+		return getPostsUrl(0, this.tagString);
 	}
 }
 
