@@ -13,7 +13,7 @@
 
 	let searchTerm = '';
 	let previousSearchTerm = '';
-	let searchPromise: Promise<Array<{ label: string; count: number }>>;
+	let searchPromise: Promise<kurosearch.Suggestion[]>;
 	let selectedIndex = 0;
 	let modifier: kurosearch.TagModifier = '+';
 	let focusInside = false;
@@ -76,7 +76,6 @@
 </script>
 
 <div class="searchbar" class:open={focusInside && hasDropdownContent} on:blur={close}>
-	<i class="codicon codicon-search spaced" />
 	<ModifierSelect bind:modifier />
 	<input
 		type="text"
@@ -135,15 +134,6 @@
 		isolation: isolate;
 		z-index: var(--z-searchbar);
 		gap: 8px;
-	}
-
-	.spaced {
-		width: var(--line-height);
-		height: var(--line-height);
-		line-height: var(--line-height);
-		vertical-align: middle;
-		text-align: center;
-		font-size: var(--text-size-large);
 	}
 
 	input {
