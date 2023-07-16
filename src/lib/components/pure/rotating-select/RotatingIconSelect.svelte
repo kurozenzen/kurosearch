@@ -1,4 +1,6 @@
 <script lang="ts">
+	import IconButton from '../button-icon/IconButton.svelte';
+
 	export let options: Record<string, string>;
 	export let value: string;
 	export let id: string | undefined = undefined;
@@ -13,32 +15,4 @@
 	};
 </script>
 
-<button
-	{id}
-	class={icon}
-	on:click={rotate}
-	aria-label="TagModifier Selector. Current value {value}."
-/>
-
-<style>
-	button {
-		background-color: var(--background-1);
-		color: var(--text);
-		border-radius: var(--line-height);
-		width: var(--line-height);
-		height: var(--line-height);
-		line-height: var(--line-height);
-		font-size: var(--text-size-large);
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: all var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			color: var(--text-highlight);
-			background-color: var(--background-2);
-		}
-	}
-</style>
+<IconButton {id} class={icon} on:click={rotate} aria-label={$$props['aria-label']} />

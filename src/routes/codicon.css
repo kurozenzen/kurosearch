@@ -21,7 +21,7 @@ i.codicon {
 }
 
 .custom-icon-wave::before {
-	content: '⁓';
+	content: '(⁓)';
 }
 
 .codicon-plus:before {
@@ -148,7 +148,7 @@ i.codicon {
 }
 
 .codicon-dash:before {
-	content: '\eacc';
+	content: '\eaba';
 }
 
 .codicon-file:before {

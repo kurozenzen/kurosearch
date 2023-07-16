@@ -3,6 +3,7 @@
 
 	export let options: Record<string, string>;
 	export let value: string;
+	export let id: string | undefined = undefined;
 
 	$: index = Object.keys(options).indexOf(value);
 	$: entries = Object.entries(options);
@@ -14,4 +15,4 @@
 	};
 </script>
 
-<IconButton on:click={rotate}>{text}</IconButton>
+<IconButton {id} on:click={rotate}>{text}</IconButton>

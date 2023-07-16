@@ -129,7 +129,7 @@
 		console.log(event);
 		if (
 			(event.key === '/' || event.key === 's') &&
-			document.activeElement !== document.getElementById('searchbar')
+			(!document.activeElement || document.activeElement === document.body)
 		) {
 			document.getElementById('searchbar')?.focus();
 			event.preventDefault();

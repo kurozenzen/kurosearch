@@ -5,4 +5,9 @@
 	export let modifier: kurosearch.TagModifier;
 </script>
 
-<RotatingIconSelect id="select-modifier" bind:value={modifier} options={MODIFIERS_ICONS} />
+<RotatingIconSelect
+	id="select-modifier"
+	bind:value={modifier}
+	options={MODIFIERS_ICONS}
+	aria-label="TagModifier Selector. Current value {modifier}."
+/>
