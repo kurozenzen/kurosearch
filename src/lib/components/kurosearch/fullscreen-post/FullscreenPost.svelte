@@ -7,6 +7,11 @@
 
 	const dispatch = createEventDispatcher();
 	const keybinds = (event: KeyboardEvent) => {
+		if (event.key === 'f') {
+			event.preventDefault();
+			event.stopPropagation();
+			dispatch('close');
+		}
 		if (event.key === 'ArrowLeft') {
 			event.preventDefault();
 			event.stopPropagation();

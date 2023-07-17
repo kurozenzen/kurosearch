@@ -60,7 +60,8 @@
 	<FullscreenPost
 		post={viewing.post}
 		on:close={() => {
-			if (viewing?.post?.id) document.getElementById(`post_${viewing.post.id}`)?.focus();
+			if (viewing?.post?.id)
+				document.querySelector(`#post_${viewing.post.id} .post-media`)?.focus();
 			viewing = undefined;
 			history.back();
 		}}

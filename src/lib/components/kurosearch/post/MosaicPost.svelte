@@ -14,24 +14,18 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
+	id="post_{post.id}"
 	class="post"
 	style="grid-row: span {rows}"
 	on:click
-	on:keydown={(e) => {
-		if (isEnter(e)) {
-			e.target.click();
+	on:keydown={(event) => {
+		if (isEnter(event) || event.key === 'f') {
+			event.target?.click();
 		}
 	}}
 	class:open
 >
-	<img
-		src={previewSrc}
-		alt="post"
-		class="post-media"
-		tabindex="-1"
-		loading="lazy"
-		id="post_{post.id}"
-	/>
+	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
 	<span class="score">{formatCount(post.score)}</span>
 	{#if post.type !== 'image'}
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>

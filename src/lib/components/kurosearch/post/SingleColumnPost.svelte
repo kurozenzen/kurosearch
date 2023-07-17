@@ -15,10 +15,20 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div id="post_{post.id}" class="post" class:open>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+	id="post_{post.id}"
+	class="post"
+	class:open
+	on:keydown={(event) => {
+		if (event.key === 'f') {
+			dispatch('fullscreen');
+		}
+	}}
+>
 	{#if post.type === 'image'}
 		<Image {post} on:click={toggleOpen} {open} />
-	{:else if post.type === 'video'}#
+	{:else if post.type === 'video'}
 		{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 		<Video
 			src={sources.animated}
