@@ -32,12 +32,12 @@
 	const handleKeyDown = (event: KeyboardEvent) => {
 		if (isEnter(event)) {
 			event.target?.click();
-		} else if (isSpace(event)) {
+		} else if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
 			playing = !playing;
-		} else if (event.key === 'ArrowLeft') {
+		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
 			skipBackward();
-		} else if (event.key === 'ArrowRight') {
+		} else if (event.key === 'ArrowRight' || event.key === 'l') {
 			skipForward();
 		}
 	};

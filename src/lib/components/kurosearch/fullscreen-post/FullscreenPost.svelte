@@ -22,17 +22,23 @@
 			event.stopPropagation();
 			dispatch('next');
 		}
-		if (event.key === ' ') {
+		if (event.key === ' ' || event.key === 'k') {
 			event.preventDefault();
 			event.stopPropagation();
-			console.log('play');
-			if (media) {
-				if (media.paused) media.play();
-				else media.pause();
+			if (video) {
+				if (video.paused) video.play();
+				else video.pause();
 			}
 			const playButton = document.querySelector('.fullscreen.circle') as HTMLElement;
 			if (playButton) {
 				playButton.click();
+			}
+		}
+		if (video) {
+			if (event.key === 'j') {
+				video.currentTime = Math.max(0, video.currentTime - 5);
+			} else if (event.key === 'l') {
+				video.currentTime = Math.min(video.duration, video.currentTime + 5);
 			}
 		}
 	};
@@ -40,7 +46,7 @@
 	export let post: kurosearch.Post;
 
 	let zoomed = post.width / post.height < 0.33;
-	let media: HTMLVideoElement;
+	let video: HTMLVideoElement;
 
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
@@ -62,7 +68,7 @@
 			/>
 		{:else if post.type === 'video'}
 			<!-- svelte-ignore a11y-media-has-caption -->
-			<video class="post-media" src={post.file_url} bind:this={media} controls />
+			<video class="post-media" src={post.file_url} bind:this={video} controls />
 		{:else}
 			<Gif {post} />
 		{/if}
