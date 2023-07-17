@@ -75,10 +75,13 @@
 	<Heading3>Supertags</Heading3>
 	<div class="supertags">
 		{#if $supertags.items.length === 0}
-			<span>
+			<p>
 				You don't have any supertags yet. You can create them when you have more than one tag
 				active.
-			</span>
+			</p>
+			<p>
+				NOTE: If you had supertags before, please try signing in with Google below and loading them.
+			</p>
 		{/if}
 		<ul>
 			{#each $supertags.items as supertag}
