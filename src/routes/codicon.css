@@ -173,3 +173,7 @@ i.codicon {
 .codicon-cloud:before {
 	content: '\ebaa';
 }
+
+.codicon-screen-full:before {
+	content: '\eb4c';
+}

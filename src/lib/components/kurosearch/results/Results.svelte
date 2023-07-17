@@ -32,8 +32,14 @@
 
 {#if $resultColumns === '1'}
 	<section class="single">
-		{#each $results.posts as post}
-			<SingleColumnPost {post} />
+		{#each $results.posts as post, index}
+			<SingleColumnPost
+				{post}
+				on:fullscreen={() => {
+					viewing = { post, index };
+					location.hash = `fullscreen`;
+				}}
+			/>
 		{/each}
 	</section>
 {:else}
@@ -48,29 +54,29 @@
 			/>
 		{/each}
 	</section>
+{/if}
 
-	{#if hasHash && viewing !== undefined}
-		<FullscreenPost
-			post={viewing.post}
-			on:close={() => {
-				if (viewing?.post?.id) document.getElementById(`post_${viewing.post.id}`)?.focus();
-				viewing = undefined;
-				history.back();
-			}}
-			on:previous={() => {
-				let newIndex = Math.max(viewing.index - 1, 0);
-				viewing = { index: newIndex, post: $results.posts[newIndex] };
-			}}
-			on:next={() => {
-				let newIndex = Math.min(viewing.index + 1, $results.posts.length);
-				viewing = { index: newIndex, post: $results.posts[newIndex] };
+{#if hasHash && viewing !== undefined}
+	<FullscreenPost
+		post={viewing.post}
+		on:close={() => {
+			if (viewing?.post?.id) document.getElementById(`post_${viewing.post.id}`)?.focus();
+			viewing = undefined;
+			history.back();
+		}}
+		on:previous={() => {
+			let newIndex = Math.max(viewing.index - 1, 0);
+			viewing = { index: newIndex, post: $results.posts[newIndex] };
+		}}
+		on:next={() => {
+			let newIndex = Math.min(viewing.index + 1, $results.posts.length);
+			viewing = { index: newIndex, post: $results.posts[newIndex] };
 
-				if (newIndex > $results.posts.length - 3 && $results.posts.length !== $results.postCount) {
-					dispatch('endreached');
-				}
-			}}
-		/>
-	{/if}
+			if (newIndex > $results.posts.length - 3 && $results.posts.length !== $results.postCount) {
+				dispatch('endreached');
+			}
+		}}
+	/>
 {/if}
 
 <style>
