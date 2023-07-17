@@ -13,7 +13,7 @@
 		message = 'Updating...';
 		if ('serviceWorker' in navigator) {
 			const registrations = await navigator.serviceWorker.getRegistrations();
-			await Promise.all(registrations.map((r) => r.unregister()));
+			await Promise.all(registrations.map((r) => r.update()));
 		}
 		// @ts-expect-error
 		window.location.reload(true);
