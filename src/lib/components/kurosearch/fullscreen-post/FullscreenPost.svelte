@@ -1,15 +1,46 @@
 <script lang="ts">
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import Gif from '../media-gif/Gif.svelte';
 	import Details from '../details/Details.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
 	const dispatch = createEventDispatcher();
+	const keybinds = (event: KeyboardEvent) => {
+		if (event.key === 'ArrowLeft') {
+			event.preventDefault();
+			event.stopPropagation();
+			dispatch('previous');
+		}
+		if (event.key === 'ArrowRight') {
+			event.preventDefault();
+			event.stopPropagation();
+			dispatch('next');
+		}
+		if (event.key === ' ') {
+			event.preventDefault();
+			event.stopPropagation();
+			console.log('play');
+			if (media) {
+				if (media.paused) media.play();
+				else media.pause();
+			}
+			const playButton = document.querySelector('.fullscreen.circle') as HTMLElement;
+			if (playButton) {
+				playButton.click();
+			}
+		}
+	};
 
 	export let post: kurosearch.Post;
 
 	let zoomed = post.width / post.height < 0.33;
+	let media: HTMLVideoElement;
+
+	onMount(() => {
+		document.addEventListener('keydown', keybinds);
+	});
+	onDestroy(() => document.removeEventListener('keydown', keybinds));
 </script>
 
 <Fullscreen on:close>
@@ -18,6 +49,7 @@
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<img
+				class="post-media"
 				src={post.file_url}
 				alt="Image of Post {post.id}"
 				class:zoomed
@@ -25,7 +57,7 @@
 			/>
 		{:else if post.type === 'video'}
 			<!-- svelte-ignore a11y-media-has-caption -->
-			<video src={post.file_url} controls />
+			<video class="post-media" src={post.file_url} bind:this={media} controls />
 		{:else}
 			<Gif {post} />
 		{/if}
@@ -33,19 +65,18 @@
 		<i class="codicon codicon-chevron-down" />
 	</div>
 	<Details {post} />
+	<IconButton on:click={() => dispatch('close')} class="button-close">
+		<i class="codicon codicon-close" />
+	</IconButton>
+
+	<IconButton on:click={() => dispatch('previous')} class="button-previous">
+		<i class="codicon codicon-chevron-left" />
+	</IconButton>
+
+	<IconButton on:click={() => dispatch('next')} class="button-next">
+		<i class="codicon codicon-chevron-right" />
+	</IconButton>
 </Fullscreen>
-
-<IconButton on:click={() => dispatch('close')} class="button-close">
-	<i class="codicon codicon-close" />
-</IconButton>
-
-<IconButton on:click={() => dispatch('previous')} class="button-previous">
-	<i class="codicon codicon-chevron-left" />
-</IconButton>
-
-<IconButton on:click={() => dispatch('next')} class="button-next">
-	<i class="codicon codicon-chevron-right" />
-</IconButton>
 
 <style>
 	div {
@@ -58,6 +89,7 @@
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
+		z-index: var(--z-media);
 	}
 
 	img:hover {

@@ -5,6 +5,7 @@
 	import Details from '../details/Details.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { getVideoSources } from '$lib/logic/media-utils';
 
 	const dispatch = createEventDispatcher();
 	const toggleOpen = () => (open = !open);
@@ -17,10 +18,11 @@
 <div id="post_{post.id}" class="post" class:open>
 	{#if post.type === 'image'}
 		<Image {post} on:click={toggleOpen} {open} />
-	{:else if post.type === 'video'}
+	{:else if post.type === 'video'}#
+		{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 		<Video
-			src={post.file_url}
-			poster={post.sample_url}
+			src={sources.animated}
+			poster={sources.static}
 			width={post.width}
 			height={post.height}
 			loop={post.tags.some((t) => t.name === 'loop')}

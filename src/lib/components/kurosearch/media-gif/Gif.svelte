@@ -3,7 +3,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import PlayButton from '../play-button/PlayButton.svelte';
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
-	import { getSources } from '$lib/logic/media-utils';
+	import { getGifSources } from '$lib/logic/media-utils';
 
 	export let post: kurosearch.Post;
 
@@ -11,7 +11,7 @@
 	let playing = false;
 	let loading = false;
 
-	$: sources = getSources(post.file_url, post.sample_url, post.preview_url);
+	$: sources = getGifSources(post.file_url, post.sample_url, post.preview_url);
 	$: data_src = playing ? sources.animated : sources.static;
 	$: {
 		if (media) {

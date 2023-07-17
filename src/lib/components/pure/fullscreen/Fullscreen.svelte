@@ -3,8 +3,15 @@
 
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
-	const listener = (event: KeyboardEvent) => {
+	const onKey = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
+			close();
+		}
+	};
+	let onFullscreenChange = () => {
+		if (document.fullscreenElement) {
+			// entering fullscreen
+		} else {
 			close();
 		}
 	};
@@ -13,9 +20,24 @@
 
 	onMount(async () => {
 		dialog.focus();
-		document.addEventListener('keydown', listener);
+		document.addEventListener('keydown', onKey);
+		document.addEventListener('fullscreenchange', onFullscreenChange);
+		try {
+			await dialog.requestFullscreen();
+		} catch {
+			// ignored
+		}
 	});
-	onDestroy(() => document.removeEventListener('keydown', listener));
+
+	onDestroy(async () => {
+		document.removeEventListener('keydown', onKey);
+		document.removeEventListener('fullscreenchange', onFullscreenChange);
+		try {
+			await document.exitFullscreen();
+		} catch {
+			// ignored
+		}
+	});
 </script>
 
 <div
@@ -25,7 +47,7 @@
 	role="none"
 	bind:this={dialog}
 	tabindex="-1"
-	class="dialog"
+	class="dialog fullscreen"
 	on:click|stopPropagation={() => {}}
 >
 	<slot />
@@ -50,5 +72,12 @@
 
 	div:focus {
 		outline: unset;
+	}
+
+	@media (pointer: fine) {
+		.fullscreen.dialog::-webkit-scrollbar {
+			width: 0px;
+			height: 0px;
+		}
 	}
 </style>
