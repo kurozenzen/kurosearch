@@ -4,6 +4,7 @@
 	--s: 83%;
 	--l: 47%;
 	--text-accent: #fff;
+	--hover-lighten: 20%;
 }
 
 :root[data-accent='hotpink'] {
@@ -12,6 +13,7 @@
 	--s: 100%;
 	--l: 71%;
 	--text-accent: #fff;
+	--hover-lighten: 10%;
 }
 
 :root[data-theme='dark'] {
@@ -120,7 +122,7 @@
 
 	/* Accent */
 	--accent: hsl(var(--h), var(--s), var(--l));
-	--accent-light: hsl(var(--h), var(--s), calc(var(--l) + 20%));
+	--accent-light: hsl(var(--h), var(--s), calc(var(--l) + var(--hover-lighten)));
 
 	accent-color: var(--accent);
 	font-family: 'Roboto', sans-serif;

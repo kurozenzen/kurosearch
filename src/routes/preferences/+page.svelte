@@ -3,6 +3,7 @@
 		'crimson dark': 'Dark',
 		'crimson light': 'Light',
 		'hotpink light': 'Bubblegum',
+		'hotpink dark': 'Dark Bubblegum',
 		'crimson coffee': 'Coffee'
 	});
 	const RESULT_COLUMNS_OPTIONS = Object.freeze({
