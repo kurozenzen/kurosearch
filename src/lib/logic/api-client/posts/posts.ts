@@ -23,7 +23,8 @@ export const getPage = async (pageNumber: number, tags: string) => {
 		});
 
 		return posts;
-	} catch {
+	} catch (error) {
+		console.warn('Failed to get posts', error);
 		return [];
 	}
 };
@@ -82,6 +83,7 @@ const parsePost = (post: r34.Post): kurosearch.Post => {
 	const sample_height = post.sample_height;
 	const rating = post.rating;
 	const tagInfo = post.tag_info;
+	const tags = post.tags;
 	const id = post.id;
 	const width = post.width;
 	const change = post.change;
@@ -104,7 +106,7 @@ const parsePost = (post: r34.Post): kurosearch.Post => {
 		score: Number(score),
 		source,
 		status,
-		tags: parseTagInfo(tagInfo),
+		tags: tagInfo ? parseTagInfo(tagInfo) : parseSimpleTags(tags),
 		width: Number(width),
 		type: parsePostType(file_url)
 	};
@@ -114,13 +116,21 @@ const parseTagInfo = (tagInfo: r34.Tag[]): kurosearch.Tag[] => {
 	return tagInfo.map(parseTag).sort(byDescendingPriority);
 };
 
-const parseTag = ({ tag, count, type }: r34.Tag): kurosearch.Tag => {
-	return {
-		name: replaceHtmlEntities(tag),
-		count,
-		type
-	};
+const parseSimpleTags = (tags: string): kurosearch.Tag[] => {
+	return tags.split(' ').map(parseSimpleTag);
 };
+
+const parseTag = ({ tag, count, type }: r34.Tag): kurosearch.Tag => ({
+	name: replaceHtmlEntities(tag),
+	count,
+	type
+});
+
+const parseSimpleTag = (name: string): kurosearch.Tag => ({
+	name: replaceHtmlEntities(name),
+	count: 0,
+	type: 'ambiguous'
+});
 
 const byDescendingPriority = (a: kurosearch.Tag, b: kurosearch.Tag) =>
 	getTagTypePriority(a.type) - getTagTypePriority(b.type);

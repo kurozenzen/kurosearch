@@ -90,6 +90,7 @@ declare global {
 			sample_height: string;
 			rating: string;
 			tag_info: r34.Tag[];
+			tags: string;
 			id: string;
 			width: string;
 			change: string;
