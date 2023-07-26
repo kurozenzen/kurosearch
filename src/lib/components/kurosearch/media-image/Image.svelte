@@ -27,7 +27,7 @@
 	<img
 		class="post-media"
 		loading="lazy"
-		data-src={post.sample_url + 'asdf'}
+		data-src={post.sample_url}
 		alt={post.id.toString()}
 		style={`aspect-ratio: ${post.width} / ${post.height}`}
 		width={post.width}
