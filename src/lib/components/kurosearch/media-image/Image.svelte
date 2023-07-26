@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { clickOnEnter, isEnter } from '$lib/logic/keyboard-utils';
+	import { base } from '$app/paths';
+	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -26,7 +27,7 @@
 	<img
 		class="post-media"
 		loading="lazy"
-		data-src={post.sample_url}
+		data-src={post.sample_url + 'asdf'}
 		alt={post.id.toString()}
 		style={`aspect-ratio: ${post.width} / ${post.height}`}
 		width={post.width}
@@ -35,6 +36,7 @@
 		tabindex="0"
 		on:click
 		on:keydown={clickOnEnter}
+		on:error={(event) => (event.target.src = `${base}/assets/failed-to-load.svg`)}
 	/>
 </div>
 

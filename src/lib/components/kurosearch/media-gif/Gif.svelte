@@ -4,6 +4,7 @@
 	import PlayButton from '../play-button/PlayButton.svelte';
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
+	import { base } from '$app/paths';
 
 	export let post: kurosearch.Post;
 
@@ -45,6 +46,10 @@
 			}
 		}}
 		on:load={() => (loading = false)}
+		on:error={(event) => {
+			loading = false;
+			event.target.src = `${base}/assets/failed-to-load.svg`;
+		}}
 	/>
 
 	<PlayButton bind:playing bind:loading class="center" />
