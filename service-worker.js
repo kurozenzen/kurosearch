@@ -1,24 +1,24 @@
-const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), m = [
-  s + "/app/immutable/entry/app.3e86ccea.js",
+const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), n = [
+  s + "/app/immutable/entry/app.38da487b.js",
   s + "/app/immutable/assets/0.46f5d0f6.css",
-  s + "/app/immutable/nodes/0.59b75c0e.js",
-  s + "/app/immutable/nodes/1.f6cd86ec.js",
+  s + "/app/immutable/nodes/0.f2e2d215.js",
+  s + "/app/immutable/nodes/1.bda31e7d.js",
   s + "/app/immutable/assets/2.9c94c401.css",
-  s + "/app/immutable/nodes/2.057de92c.js",
+  s + "/app/immutable/nodes/2.d1a0b002.js",
   s + "/app/immutable/assets/3.bbe7a54c.css",
-  s + "/app/immutable/nodes/3.7a233c89.js",
+  s + "/app/immutable/nodes/3.efdf382a.js",
   s + "/app/immutable/assets/4.b18303a5.css",
-  s + "/app/immutable/nodes/4.a4b937a2.js",
+  s + "/app/immutable/nodes/4.9ce51278.js",
   s + "/app/immutable/assets/5.62d0a4b1.css",
   s + "/app/immutable/nodes/5.78504e33.js",
   s + "/app/immutable/assets/6.c908c19d.css",
-  s + "/app/immutable/nodes/6.c0dfd3f5.js",
+  s + "/app/immutable/nodes/6.2ea5b457.js",
   s + "/app/immutable/assets/7.eab0bbcc.css",
   s + "/app/immutable/nodes/7.be426368.js",
   s + "/app/immutable/assets/8.57c90ca4.css",
-  s + "/app/immutable/nodes/8.f4d0c9d9.js",
+  s + "/app/immutable/nodes/8.03fea3c2.js",
   s + "/app/immutable/assets/9.2860deb1.css",
-  s + "/app/immutable/nodes/9.46d49d3d.js",
+  s + "/app/immutable/nodes/9.8ef879c8.js",
   s + "/app/immutable/assets/Checkbox.de4b02c1.css",
   s + "/app/immutable/assets/CodiconLink.dd18c308.css",
   s + "/app/immutable/assets/DetailedTag.2f7f7778.css",
@@ -37,7 +37,7 @@ const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), m
   s + "/app/immutable/chunks/Checkbox.8de00bf0.js",
   s + "/app/immutable/chunks/CodiconLink.436cc2cd.js",
   s + "/app/immutable/chunks/DetailedTag.28ff9b0d.js",
-  s + "/app/immutable/chunks/Details.c1d01b4c.js",
+  s + "/app/immutable/chunks/Details.953f23ec.js",
   s + "/app/immutable/chunks/Dialog.f8853b6f.js",
   s + "/app/immutable/chunks/Heading1.cc3919c5.js",
   s + "/app/immutable/chunks/Heading3.581258ce.js",
@@ -46,37 +46,38 @@ const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), m
   s + "/app/immutable/chunks/RotatingTextSelect.7e32facf.js",
   s + "/app/immutable/chunks/ScrollUpButton.cfa21b3f.js",
   s + "/app/immutable/chunks/Select.22805bc7.js",
-  s + "/app/immutable/chunks/SettingsLink.b5cea220.js",
+  s + "/app/immutable/chunks/SettingsLink.bde41271.js",
   s + "/app/immutable/chunks/SimpleTag.99b8d49d.js",
   s + "/app/immutable/chunks/TextButton.2f318c50.js",
   s + "/app/immutable/chunks/TextInput.151dd205.js",
   s + "/app/immutable/chunks/active-tags-store.aafae925.js",
-  s + "/app/immutable/chunks/analytics.12ea4383.js",
+  s + "/app/immutable/chunks/analytics.eca95ce1.js",
   s + "/app/immutable/chunks/await_block.7017edd9.js",
   s + "/app/immutable/chunks/blocked-content-store.db35eae7.js",
   s + "/app/immutable/chunks/each.e59479a4.js",
-  s + "/app/immutable/chunks/environment.26e44479.js",
+  s + "/app/immutable/chunks/environment.55413aeb.js",
+  s + "/app/immutable/chunks/firebase.5dd7cec4.js",
   s + "/app/immutable/chunks/format-tag.d6c065e3.js",
-  s + "/app/immutable/chunks/globals.7f7f1b26.js",
   s + "/app/immutable/chunks/index.07c02568.js",
   s + "/app/immutable/chunks/index.15b414ac.js",
+  s + "/app/immutable/chunks/index.esm2017.45e8812c.js",
   s + "/app/immutable/chunks/localstorage-enabled-store.efe5e438.js",
   s + "/app/immutable/assets/localstorage-enabled-store.2fafd00f.css",
-  s + "/app/immutable/chunks/paths.689b7ee9.js",
+  s + "/app/immutable/chunks/paths.5950cd86.js",
   s + "/app/immutable/chunks/scheduler.88299003.js",
   s + "/app/immutable/chunks/search-builder.d5281542.js",
   s + "/app/immutable/assets/search-builder.10703c48.css",
-  s + "/app/immutable/chunks/singletons.d66884bc.js",
+  s + "/app/immutable/chunks/singletons.fd5855b8.js",
   s + "/app/immutable/chunks/store-keys.3fb7abd8.js",
-  s + "/app/immutable/chunks/supertags-store.0e659cf1.js",
+  s + "/app/immutable/chunks/supertags-store.81d1f5f6.js",
   s + "/app/immutable/assets/supertags-store.7c0b16d4.css",
   s + "/app/immutable/chunks/tag-modifier-data.021c0243.js",
   s + "/app/immutable/chunks/tag-type-data.934b5280.js",
   s + "/app/immutable/chunks/tag-utils.ceb6413c.js",
   s + "/app/immutable/chunks/tags.58927cde.js",
   s + "/app/immutable/chunks/theme-store.7df6ee68.js",
-  s + "/app/immutable/entry/start.06a7cc20.js"
-], l = [
+  s + "/app/immutable/entry/start.7ccff1b1.js"
+], u = [
   s + "/.nojekyll",
   s + "/assets/default-user.png",
   s + "/assets/failed-to-load.svg",
@@ -109,15 +110,15 @@ const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), m
   s + "/manifest.json",
   s + "/robots.txt",
   s + "/sw.js"
-], u = "1cc5f16", i = `cache-${u}`, n = [
-  ...m,
+], l = "9712bc3", i = `cache-${l}`, m = [
+  ...n,
   // the app itself
-  ...l.filter((a) => !a.endsWith(".nojekyll"))
+  ...u.filter((a) => !a.endsWith(".nojekyll"))
   // everything in `static`
 ];
 self.addEventListener("install", (a) => {
   async function t() {
-    await (await caches.open(i)).addAll(n);
+    await (await caches.open(i)).addAll(m);
   }
   a.waitUntil(t());
 });
@@ -133,7 +134,7 @@ self.addEventListener("fetch", (a) => {
     return;
   async function t() {
     const e = new URL(a.request.url), c = await caches.open(i);
-    if (n.includes(e.pathname))
+    if (m.includes(e.pathname))
       return c.match(e.pathname);
     try {
       const p = await fetch(a.request);
