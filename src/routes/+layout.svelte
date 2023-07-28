@@ -13,6 +13,7 @@
 	import './theme.css';
 	import './codicon.css';
 	import './scrollbar.css';
+	import '$lib/logic/firebase/firebase';
 
 	const userPhoto: string | undefined = undefined;
 
