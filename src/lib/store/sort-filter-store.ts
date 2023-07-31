@@ -1,4 +1,4 @@
-type SortFilter = {
+export type SortFilter = {
 	sortProperty: kurosearch.SortProperty;
 	sortDirection: kurosearch.SortDirection;
 	scoreValue: number;
@@ -19,13 +19,18 @@ const getInitial = () =>
 	} as SortFilter);
 
 const createSortStore = () => {
-	const { subscribe, set } = semiPersistentWritable(StoreKey.SortFilter, getInitial());
+	const { subscribe, set, update } = semiPersistentWritable(StoreKey.SortFilter, getInitial());
 
 	return {
 		subscribe,
 		set(value: SortFilter) {
 			const scoreValue = value.scoreValue ?? 0;
 			set({ ...value, scoreValue });
+		},
+		update(value: Partial<SortFilter>) {
+			update((previous) => {
+				return { ...previous, ...value };
+			});
 		},
 		reset() {
 			set(getInitial());

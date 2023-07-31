@@ -33,6 +33,10 @@ const createActiveTagsStore = () => {
 			}
 
 			update((tags) => {
+				if (tags.some((activeTag) => activeTag.name === name)) {
+					return tags;
+				}
+
 				tags.push(newTag);
 				return tags;
 			});

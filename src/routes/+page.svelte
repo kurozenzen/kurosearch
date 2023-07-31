@@ -1,13 +1,49 @@
 <script context="module" lang="ts">
 	import { browser } from '$app/environment';
+	import activeTags from '$lib/store/active-tags-store';
+	import sortFilter, { type SortFilter } from '$lib/store/sort-filter-store';
 
-	const getTags = () => {
+	const getSearchParams = () => {
 		if (!browser) {
-			return undefined;
+			return {};
 		}
 
 		const url = new URL(location.href);
+		const tags = getUrlTags(url);
+		const sort = getUrlSort(url);
+		const filter = getUrlFilter(url);
 
+		return { tags, sort, filter };
+	};
+
+	const applyUrlSearchParamsToStore = (
+		activeTagStore: typeof activeTags,
+		sortFilterStore: typeof sortFilter
+	) => {
+		let result = false;
+		const { tags, sort, filter } = getSearchParams();
+		if (tags) {
+			tags.forEach((tag) => activeTagStore.addByName(tag));
+			result = true;
+		}
+
+		if (sort) {
+			sortFilterStore.update({
+				sortProperty: sort.property,
+				sortDirection: sort.direction
+			});
+			result = true;
+		}
+
+		if (filter) {
+			sortFilterStore.update(filter);
+			result = true;
+		}
+
+		return result;
+	};
+
+	const getUrlTags = (url: URL) => {
 		if (!url.searchParams.has('tags')) {
 			return undefined;
 		}
@@ -20,6 +56,61 @@
 
 		return tags;
 	};
+
+	const getUrlSort = (url: URL) => {
+		try {
+			if (!url.searchParams.has('sort')) {
+				return undefined;
+			}
+
+			const sortString = url.searchParams.get('sort') ?? '';
+			const [property, direction] = sortString.split(':');
+			return {
+				property: property as kurosearch.SortProperty,
+				direction: direction as kurosearch.SortDirection
+			};
+		} catch {
+			console.warn('Invalid sort provided in url');
+			return undefined;
+		}
+	};
+	const getUrlFilter = (url: URL) => {
+		try {
+			if (!url.searchParams.has('filter')) {
+				return undefined;
+			}
+
+			const filterString = url.searchParams.get('filter') ?? '';
+			const parts = filterString.split(';');
+
+			let filter: Partial<SortFilter> = {};
+			parts.forEach((part) => {
+				if (part.startsWith('rating:')) {
+					const [, rating] = part.split(':');
+					if (rating !== 'all') {
+						filter.rating = rating as kurosearch.Rating;
+					}
+				}
+				if (part.startsWith('score')) {
+					const match = part.match(/score(.*)(\d+)/);
+					if (match) {
+						const [, comparator, score] = match;
+						filter.scoreComparator = comparator as kurosearch.ScoreComparator;
+
+						const scoreNumber = Number(score);
+						if (scoreNumber) {
+							filter.scoreValue = scoreNumber;
+						}
+					}
+				}
+			});
+
+			return filter;
+		} catch {
+			console.warn('Invalid sort provided in url');
+			return undefined;
+		}
+	};
 </script>
 
 <script lang="ts">
@@ -29,13 +120,11 @@
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import results from '$lib/store/results-store';
-	import activeTags from '$lib/store/active-tags-store';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
 	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
 	import Results from '$lib/components/kurosearch/results/Results.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
-	import sortFilter from '$lib/store/sort-filter-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
@@ -46,6 +135,7 @@
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import { logSearch } from '$lib/logic/firebase/analytics';
+	import SortFilterConfig from '$lib/components/kurosearch/sort-filter-config/SortFilterConfig.svelte';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -65,15 +155,7 @@
 		return [...matchingSupertags, ...matchingTags];
 	};
 
-	const tags = getTags();
-	if (tags) {
-		tags.forEach((tag) => {
-			if ($activeTags.some((activeTag) => activeTag.name === tag)) {
-				return;
-			}
-			activeTags.addByName(tag);
-		});
-	}
+	const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sortFilter);
 
 	const createDefaultSearch = () =>
 		new SearchBuilder()
@@ -162,6 +244,9 @@
 	onMount(() => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
+			if (hasUrlSettings) {
+				getFirstPage();
+			}
 		}
 	});
 
