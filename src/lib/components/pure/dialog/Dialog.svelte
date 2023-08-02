@@ -32,6 +32,8 @@
 		background-color: var(--background-0);
 		z-index: var(--z-dialog);
 		padding: var(--grid-gap);
+		max-width: calc(100vw - 2 * var(--grid-gap));
+		max-height: calc(100vh - 2 * var(--grid-gap));
 	}
 
 	.dialog:focus {

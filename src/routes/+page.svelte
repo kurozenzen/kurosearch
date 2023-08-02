@@ -1,20 +1,7 @@
 <script context="module" lang="ts">
 	import { browser } from '$app/environment';
 	import activeTags from '$lib/store/active-tags-store';
-	import sortFilter, { type SortFilter } from '$lib/store/sort-filter-store';
-
-	const getSearchParams = () => {
-		if (!browser) {
-			return {};
-		}
-
-		const url = new URL(location.href);
-		const tags = getUrlTags(url);
-		const sort = getUrlSort(url);
-		const filter = getUrlFilter(url);
-
-		return { tags, sort, filter };
-	};
+	import sortFilter from '$lib/store/sort-filter-store';
 
 	const applyUrlSearchParamsToStore = (
 		activeTagStore: typeof activeTags,
@@ -23,6 +10,7 @@
 		let result = false;
 		const { tags, sort, filter } = getSearchParams();
 		if (tags) {
+			activeTagStore.reset();
 			tags.forEach((tag) => activeTagStore.addByName(tag));
 			result = true;
 		}
@@ -41,75 +29,6 @@
 		}
 
 		return result;
-	};
-
-	const getUrlTags = (url: URL) => {
-		if (!url.searchParams.has('tags')) {
-			return undefined;
-		}
-
-		const tagString = url.searchParams.get('tags') ?? '';
-		const tags = tagString.split(';');
-		if (!Array.isArray(tags) || tags.length === 0) {
-			return undefined;
-		}
-
-		return tags;
-	};
-
-	const getUrlSort = (url: URL) => {
-		try {
-			if (!url.searchParams.has('sort')) {
-				return undefined;
-			}
-
-			const sortString = url.searchParams.get('sort') ?? '';
-			const [property, direction] = sortString.split(':');
-			return {
-				property: property as kurosearch.SortProperty,
-				direction: direction as kurosearch.SortDirection
-			};
-		} catch {
-			console.warn('Invalid sort provided in url');
-			return undefined;
-		}
-	};
-	const getUrlFilter = (url: URL) => {
-		try {
-			if (!url.searchParams.has('filter')) {
-				return undefined;
-			}
-
-			const filterString = url.searchParams.get('filter') ?? '';
-			const parts = filterString.split(';');
-
-			let filter: Partial<SortFilter> = {};
-			parts.forEach((part) => {
-				if (part.startsWith('rating:')) {
-					const [, rating] = part.split(':');
-					if (rating !== 'all') {
-						filter.rating = rating as kurosearch.Rating;
-					}
-				}
-				if (part.startsWith('score')) {
-					const match = part.match(/score(.*)(\d+)/);
-					if (match) {
-						const [, comparator, score] = match;
-						filter.scoreComparator = comparator as kurosearch.ScoreComparator;
-
-						const scoreNumber = Number(score);
-						if (scoreNumber) {
-							filter.scoreValue = scoreNumber;
-						}
-					}
-				}
-			});
-
-			return filter;
-		} catch {
-			console.warn('Invalid sort provided in url');
-			return undefined;
-		}
 	};
 </script>
 
@@ -135,11 +54,14 @@
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import { logSearch } from '$lib/logic/firebase/analytics';
-	import SortFilterConfig from '$lib/components/kurosearch/sort-filter-config/SortFilterConfig.svelte';
+	import { getSearchParams, getSearchUrl } from '$lib/logic/url-parsing';
+	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
+	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 
 	let loading = false;
 	let error: Error | undefined;
 	let creatingSupertag = false;
+	let sharing = false;
 	let nextFocus = 0;
 
 	const fetchSuggestions = async (term: string) => {
@@ -297,6 +219,7 @@
 			}
 		}}
 		on:createSupertag={() => (creatingSupertag = true)}
+		on:copy={() => (sharing = true)}
 	/>
 </section>
 
@@ -326,6 +249,15 @@
 	/>
 {/if}
 
+{#if sharing}
+	<Dialog on:close={() => (sharing = false)}>
+		<div>
+			<Heading3>Share this search</Heading3>
+			<input type="text" value={getSearchUrl($activeTags, $sortFilter)} />
+		</div>
+	</Dialog>
+{/if}
+
 <style>
 	:global(main) {
 		display: flex;
@@ -343,5 +275,14 @@
 		flex-direction: column;
 		align-items: center;
 		gap: var(--grid-gap);
+	}
+
+	input {
+		display: flex;
+		background-color: var(--background-1);
+		white-space: nowrap;
+		padding: var(--grid-gap);
+		overflow-x: hidden;
+		border-radius: var(--border-radius);
 	}
 </style>

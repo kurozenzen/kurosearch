@@ -27,6 +27,13 @@
 				/>
 			{/if}
 		{/each}
+		{#if tags.length > 0}
+			<TagButton
+				icon="codicon codicon-copy"
+				title="Share this search with others."
+				on:click={() => dispatch('copy')}
+			/>
+		{/if}
 		{#if tags.length > 1}
 			<TagButton
 				icon="codicon codicon-star-full"

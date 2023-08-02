@@ -177,3 +177,7 @@ i.codicon {
 .codicon-screen-full:before {
 	content: '\eb4c';
 }
+
+.codicon-copy:before {
+	content: '\ebcc';
+}
