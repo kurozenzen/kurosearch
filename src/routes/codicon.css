@@ -181,3 +181,7 @@ i.codicon {
 .codicon-copy:before {
 	content: '\ebcc';
 }
+
+.codicon-pass:before {
+	content: '\eba4';
+}

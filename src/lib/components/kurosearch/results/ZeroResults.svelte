@@ -1,7 +1,8 @@
 <script>
 	import { base } from '$app/paths';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import sortFilterStore from '$lib/store/sort-filter-store';
+	import sort from '$lib/store/sort-store';
+	import filter from '$lib/store/sort-store';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -12,7 +13,8 @@
 <TextButton
 	title="In case your filter caused all posts to vanish. Reset it."
 	on:click={() => {
-		sortFilterStore.reset();
+		sort.reset();
+		filter.reset();
 		dispatch('sortfilterupdate');
 	}}>Reset Filter</TextButton
 >

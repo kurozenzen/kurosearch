@@ -6,7 +6,8 @@
 	import results from '$lib/store/results-store';
 	import activeTags from '$lib/store/active-tags-store';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import sortFilter from '$lib/store/sort-filter-store';
+	import sort from '$lib/store/sort-store';
+	import filter from '$lib/store/filter-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import supertags from '$lib/store/supertags-store';
@@ -39,11 +40,11 @@
 			.withPid($results.pageCount)
 			.withTags($activeTags)
 			.withBlockedContent($blockedContent)
-			.withSortProperty($sortFilter.sortProperty)
-			.withSortDirection($sortFilter.sortDirection)
-			.withScoreValue($sortFilter.scoreValue)
-			.withScoreComparator($sortFilter.scoreComparator)
-			.withRating($sortFilter.rating)
+			.withSortProperty($sort.property)
+			.withSortDirection($sort.direction)
+			.withScoreValue($filter.scoreValue)
+			.withScoreComparator($filter.scoreComparator)
+			.withRating($filter.rating)
 			.withSupertags($activeSupertags)
 			.getQuery()
 	);
@@ -74,7 +75,7 @@
 			if (suggestion.type === 'supertag') {
 				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
 				if (!supertag) {
-					console.log('Supertag not present.');
+					console.warn('Supertag not present.');
 					return;
 				}
 				activeSupertags.addOrReplace(supertag);

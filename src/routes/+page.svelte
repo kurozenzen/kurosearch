@@ -1,14 +1,20 @@
 <script context="module" lang="ts">
 	import { browser } from '$app/environment';
 	import activeTags from '$lib/store/active-tags-store';
-	import sortFilter from '$lib/store/sort-filter-store';
+	import type SortStore from '$lib/store/sort-store';
+	import type FilterStore from '$lib/store/filter-store';
 
 	const applyUrlSearchParamsToStore = (
 		activeTagStore: typeof activeTags,
-		sortFilterStore: typeof sortFilter
+		sortStore: typeof SortStore,
+		filterStore: typeof FilterStore
 	) => {
+		if (!browser) {
+			return;
+		}
+
 		let result = false;
-		const { tags, sort, filter } = getSearchParams();
+		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
 		if (tags) {
 			activeTagStore.reset();
 			tags.forEach((tag) => activeTagStore.addByName(tag));
@@ -16,15 +22,12 @@
 		}
 
 		if (sort) {
-			sortFilterStore.update({
-				sortProperty: sort.property,
-				sortDirection: sort.direction
-			});
+			sortStore.update(sort);
 			result = true;
 		}
 
 		if (filter) {
-			sortFilterStore.update(filter);
+			filterStore.update(filter);
 			result = true;
 		}
 
@@ -54,15 +57,34 @@
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import { logSearch } from '$lib/logic/firebase/analytics';
-	import { getSearchParams, getSearchUrl } from '$lib/logic/url-parsing';
+	import { serializeUrlSettings, parseUrlSettings } from '$lib/logic/url-parsing';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import filter, { type FilterStoreData } from '$lib/store/filter-store';
+	import sort, { type SortStoreData } from '$lib/store/sort-store';
 
 	let loading = false;
 	let error: Error | undefined;
 	let creatingSupertag = false;
 	let sharing = false;
 	let nextFocus = 0;
+
+	const getShareUrl = (
+		tags: kurosearch.ModifiedTag[],
+		sort: SortStoreData,
+		filter: FilterStoreData
+	) => {
+		const url = new URL(location.protocol + '//' + location.host + location.pathname);
+		const searchParams = serializeUrlSettings({
+			tags: tags.map((x) => x.name),
+			sort,
+			filter
+		});
+		searchParams.forEach((value, key) => {
+			url.searchParams.set(key, value);
+		});
+		return url;
+	};
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -77,18 +99,18 @@
 		return [...matchingSupertags, ...matchingTags];
 	};
 
-	const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sortFilter);
+	const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sort, filter);
 
 	const createDefaultSearch = () =>
 		new SearchBuilder()
 			.withPid($results.pageCount)
 			.withTags($activeTags)
 			.withBlockedContent($blockedContent)
-			.withSortProperty($sortFilter.sortProperty)
-			.withSortDirection($sortFilter.sortDirection)
-			.withScoreValue($sortFilter.scoreValue)
-			.withScoreComparator($sortFilter.scoreComparator)
-			.withRating($sortFilter.rating)
+			.withSortProperty($sort.property)
+			.withSortDirection($sort.direction)
+			.withScoreValue($filter.scoreValue)
+			.withScoreComparator($filter.scoreComparator)
+			.withRating($filter.rating)
 			.withSupertags($activeSupertags);
 
 	const executeSearch = async (operation: () => Promise<void>) => {
@@ -117,7 +139,6 @@
 
 		executeSearch(async () => {
 			const [page, count] = await createDefaultSearch().getPageAndCount();
-			console.log(page, count);
 			results.addPage(page, count);
 		});
 	};
@@ -190,7 +211,7 @@
 			if (suggestion.type === 'supertag') {
 				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
 				if (!supertag) {
-					console.log('Supertag not present.');
+					console.warn('Supertag not present.');
 					return;
 				}
 				activeSupertags.addOrReplace(supertag);
@@ -253,7 +274,7 @@
 	<Dialog on:close={() => (sharing = false)}>
 		<div>
 			<Heading3>Share this search</Heading3>
-			<input type="text" value={getSearchUrl($activeTags, $sortFilter)} />
+			<input type="text" value={getShareUrl($activeTags, $sort, $filter)} />
 		</div>
 	</Dialog>
 {/if}

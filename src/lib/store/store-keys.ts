@@ -5,7 +5,8 @@ export enum StoreKey {
 	LocalstorageEnabled = 'kurosearch:localstorage-enabled',
 	ResultColumns = 'kurosearch:result-columns',
 	Supertags = 'kurosearch:supertags',
-	SortFilter = 'kurosearch:sort-filter',
+	Filter = 'kurosearch:filter',
+	Sort = 'kurosearch:sort',
 	Results = 'kurosearch:results',
 	Theme = 'kurosearch:theme'
 }

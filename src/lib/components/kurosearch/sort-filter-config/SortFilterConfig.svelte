@@ -50,7 +50,8 @@
 </script>
 
 <script lang="ts">
-	import sortFilter from '$lib/store/sort-filter-store';
+	import sort from '$lib/store/sort-store';
+	import filter from '$lib/store/filter-store';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { isEnter } from '$lib/logic/keyboard-utils';
 	import { formatCount } from '$lib/logic/format-count';
@@ -59,39 +60,39 @@
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import { createEventDispatcher } from 'svelte';
+
 	const dispatch = createEventDispatcher();
 
 	let editSortFilter = false;
+
 	const openDialog = () => (editSortFilter = true);
 	const closeDialog = () => {
 		editSortFilter = false;
 		dispatch('sortfilterupdate');
 	};
+	const blurOnEnter = (event: KeyboardEvent) =>
+		isEnter(event) && (event.target as HTMLElement)?.blur();
 	const reset = () => {
-		sortFilter.reset();
-		internalScoreValue = $sortFilter.scoreValue;
+		sort.reset();
+		filter.reset();
+		internalScoreValue = $filter.scoreValue;
 	};
 
 	let internalScoreValue: number;
 
 	$: {
 		if (internalScoreValue === undefined) {
-			internalScoreValue = $sortFilter.scoreValue;
+			internalScoreValue = $filter.scoreValue;
 		}
 
 		let scoreValue = Number(internalScoreValue);
 		if (!isNaN(scoreValue)) {
-			$sortFilter.scoreValue = scoreValue;
+			$filter.scoreValue = scoreValue;
 		}
 	}
 
-	$: filterLabel = getFilterLabel(
-		$sortFilter.rating,
-		$sortFilter.scoreValue,
-		$sortFilter.scoreComparator
-	);
-
-	$: sortLabel = LABELS_SORT[$sortFilter.sortProperty][$sortFilter.sortDirection];
+	$: filterLabel = getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator);
+	$: sortLabel = LABELS_SORT[$sort.property][$sort.direction];
 </script>
 
 <button on:click={openDialog}>
@@ -106,22 +107,19 @@
 		<div class="container">
 			<h3>Sorting and Filtering</h3>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label>
+			<div>
 				<b>Sorting</b>
 				<div class="row">
-					<RotatingIconSelect
-						bind:value={$sortFilter.sortDirection}
-						options={OPTIONS_SORT_DIRECTION}
-					/>
-					<Select bind:value={$sortFilter.sortProperty} options={OPTIONS_SORT_PROPERTY} />
+					<RotatingIconSelect bind:value={$sort.direction} options={OPTIONS_SORT_DIRECTION} />
+					<Select bind:value={$sort.property} options={OPTIONS_SORT_PROPERTY} />
 				</div>
-			</label>
+			</div>
 
-			<label>
+			<div>
 				<b>Filtering by Score</b>
 				<div class="row">
 					<RotatingTextSelect
-						bind:value={$sortFilter.scoreComparator}
+						bind:value={$filter.scoreComparator}
 						options={OPTIONS_SCORE_COMPARATOR}
 					/>
 					<input
@@ -130,18 +128,18 @@
 						max={100000}
 						step={1}
 						bind:value={internalScoreValue}
-						on:keyup={(event) => isEnter(event) && event.target.blur()}
+						on:keyup={blurOnEnter}
 					/>
 				</div>
-			</label>
+			</div>
 
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label>
+			<div>
 				<b>Filtering by Rating</b>
 				<div class="row">
-					<Select bind:value={$sortFilter.rating} options={RATING_OPTIONS} />
+					<Select bind:value={$filter.rating} options={RATING_OPTIONS} />
 				</div>
-			</label>
+			</div>
 			<TextButton title="Return to searching." on:click={closeDialog}>Done</TextButton>
 			<TextButton title="Reset sort and filter." type="secondary" on:click={reset}>Reset</TextButton
 			>
@@ -195,10 +193,8 @@
 		border: 2px solid var(--background-1);
 		width: 90px;
 	}
-
-	label {
-		display: flex;
-		flex-direction: column;
-		gap: var(--small-gap);
+	b {
+		display: block;
+		padding-bottom: var(--small-gap);
 	}
 </style>

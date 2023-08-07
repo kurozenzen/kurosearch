@@ -129,7 +129,6 @@
 					{supertag}
 					on:remove={(ev) => supertags.remove(ev.detail)}
 					on:edit={(ev) => {
-						console.log(ev);
 						supertags.update(ev.detail.oldName, ev.detail.newSupertag);
 					}}
 				/>

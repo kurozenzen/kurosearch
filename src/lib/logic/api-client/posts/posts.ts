@@ -10,7 +10,6 @@ let getPageAbortController: AbortController | null = null;
 
 export const getPage = async (pageNumber: number, tags: string) => {
 	const url = getPostsUrl(pageNumber, tags);
-	console.log(url);
 	const response = await fetchAbortPrevious(url, getPageAbortController);
 	throwOnUnexpectedStatus(response);
 

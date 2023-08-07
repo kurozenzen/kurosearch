@@ -1,74 +1,76 @@
-import { browser } from '$app/environment';
-import type { SortFilter } from '$lib/store/sort-filter-store';
+import type { FilterStoreData } from '$lib/store/filter-store';
+import type { SortStoreData } from '$lib/store/sort-store';
 
-export const getSearchParams = () => {
-	if (!browser) {
-		return {};
-	}
-
-	const url = new URL(location.href);
-	const tags = getUrlTags(url);
-	const sort = getUrlSort(url);
-	const filter = getUrlFilter(url);
-
-	return { tags, sort, filter };
+type URLSettings = {
+	tags: string[];
+	sort: SortStoreData;
+	filter: Partial<FilterStoreData>;
 };
 
-export const getSearchUrl = (tags: kurosearch.ModifiedTag[], sortFilter: SortFilter) => {
-	const url = new URL(location.protocol + '//' + location.host + location.pathname);
+export const parseUrlSettings = (searchParams: URLSearchParams): Partial<URLSettings> => ({
+	tags: parseUrlTags(searchParams),
+	sort: parseUrlSort(searchParams),
+	filter: parseUrlFilter(searchParams)
+});
 
-	if (tags.length > 0) {
-		const tagString = tags.map((t) => t.name).join(';');
-		url.searchParams.append('tags', tagString);
+export const serializeUrlSettings = (urlSettings: Partial<URLSettings>): URLSearchParams => {
+	const searchParams = new URLSearchParams();
+	const { tags, sort, filter } = urlSettings;
+
+	if (tags && tags.length > 0) {
+		searchParams.append('tags', serializeUrlTags(tags));
 	}
 
-	if (sortFilter.sortProperty !== 'id' || sortFilter.sortDirection !== 'desc') {
-		const sortString = sortFilter.sortProperty + ':' + sortFilter.sortDirection;
-		url.searchParams.append('sort', sortString);
+	if (sort && (sort.property !== 'id' || sort?.direction !== 'desc')) {
+		searchParams.append('sort', serializeUrlSort(sort));
 	}
 
 	if (
-		sortFilter.rating !== 'all' ||
-		sortFilter.scoreComparator !== '>=' ||
-		sortFilter.scoreValue !== 0
+		filter &&
+		(filter.rating !== 'all' || filter.scoreComparator !== '>=' || filter.scoreValue !== 0)
 	) {
-		const parts = [];
-		if (sortFilter.rating !== 'all') {
-			const ratingString = 'rating:' + sortFilter.rating;
-			parts.push(ratingString);
-		}
-		if (sortFilter.scoreComparator !== '>=' || sortFilter.scoreValue !== 0) {
-			const scoreString = 'score' + sortFilter.scoreComparator + sortFilter.scoreValue;
-			parts.push(scoreString);
-		}
-		const filterString = parts.join(';');
-
-		url.searchParams.append('filter', filterString);
+		searchParams.append('filter', serializeUrlFilter(filter));
 	}
-	return url.toString();
+
+	return searchParams;
 };
 
-const getUrlTags = (url: URL) => {
-	if (!url.searchParams.has('tags')) {
-		return undefined;
+const serializeUrlTags = (tags: string[]) => tags.join(';');
+const serializeUrlSort = (sort: SortStoreData) => sort.property + ':' + sort.direction;
+const serializeUrlFilter = (filter: Partial<FilterStoreData>) => {
+	const parts = [];
+	if (filter.rating !== 'all') {
+		const ratingString = 'rating:' + filter.rating;
+		parts.push(ratingString);
+	}
+	if (filter.scoreComparator !== '>=' || filter.scoreValue !== 0) {
+		const scoreString = 'score' + filter.scoreComparator + filter.scoreValue;
+		parts.push(scoreString);
+	}
+	return parts.join(';');
+};
+
+const parseUrlTags = (searchParams: URLSearchParams) => {
+	if (!searchParams.has('tags')) {
+		return [];
 	}
 
-	const tagString = url.searchParams.get('tags') ?? '';
+	const tagString = searchParams.get('tags') ?? '';
 	const tags = tagString.split(';');
 	if (!Array.isArray(tags) || tags.length === 0) {
-		return undefined;
+		return [];
 	}
 
 	return tags;
 };
 
-const getUrlSort = (url: URL) => {
+const parseUrlSort = (searchParams: URLSearchParams) => {
 	try {
-		if (!url.searchParams.has('sort')) {
+		if (!searchParams.has('sort')) {
 			return undefined;
 		}
 
-		const sortString = url.searchParams.get('sort') ?? '';
+		const sortString = searchParams.get('sort') ?? '';
 		const [property, direction] = sortString.split(':');
 		return {
 			property: property as kurosearch.SortProperty,
@@ -79,16 +81,17 @@ const getUrlSort = (url: URL) => {
 		return undefined;
 	}
 };
-const getUrlFilter = (url: URL) => {
+
+const parseUrlFilter = (searchParams: URLSearchParams) => {
 	try {
-		if (!url.searchParams.has('filter')) {
+		if (!searchParams.has('filter')) {
 			return undefined;
 		}
 
-		const filterString = url.searchParams.get('filter') ?? '';
+		const filterString = searchParams.get('filter') ?? '';
 		const parts = filterString.split(';');
 
-		let filter: Partial<SortFilter> = {};
+		let filter: Partial<FilterStoreData> = {};
 		parts.forEach((part) => {
 			if (part.startsWith('rating:')) {
 				const [, rating] = part.split(':');

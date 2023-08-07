@@ -1,0 +1,30 @@
+<script>
+	import { browser } from '$app/environment';
+	import FeatureSupportInfo from '$lib/components/kurosearch/feature-support-info/FeatureSupportInfo.svelte';
+	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
+	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+</script>
+
+<section>
+	<Heading1>Debug Info</Heading1>
+	<Heading3>Supported Features</Heading3>
+	<FeatureSupportInfo
+		supported={browser && 'pushState' in window.history}
+		title="URL Sharing"
+		description="Share the current search by copying the url from the address bar."
+	/>
+	<FeatureSupportInfo
+		supported={browser && 'pushState' in window.history}
+		title="pushState"
+		description="Sharing via url"
+	/>
+</section>
+
+<style>
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: var(--grid-gap);
+		padding-inline: var(--grid-gap);
+	}
+</style>
