@@ -8,6 +8,7 @@
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import SimpleTag from '../tag-simple/SimpleTag.svelte';
+	import Rating from '../rating/Rating.svelte';
 
 	export let post: kurosearch.Post;
 
@@ -16,6 +17,8 @@
 
 <div class="details">
 	<div class="summary">
+		<Rating value={post.rating} />
+		<span>•</span>
 		<Score value={post.score} />
 		<span>•</span>
 		<RelativeTime value={post.change} />

@@ -100,7 +100,7 @@ const parseUrlFilter = (searchParams: URLSearchParams) => {
 				}
 			}
 			if (part.startsWith('score')) {
-				const match = part.match(/score(.*)(\d+)/);
+				const match = part.match(/score(..)(\d+)/);
 				if (match) {
 					const [, comparator, score] = match;
 					filter.scoreComparator = comparator as kurosearch.ScoreComparator;

@@ -52,7 +52,7 @@ declare global {
 			id: number;
 			change: number;
 			parent_id: number | undefined;
-			rating: string;
+			rating: Rating;
 			sample_height: number;
 			sample_width: number;
 			score: number;
