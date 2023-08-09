@@ -26,8 +26,8 @@ const createActiveTagsStore = () => {
 
 			try {
 				const tag = await getTagDetails(name);
-				newTag.count = tag.count;
-				newTag.type = tag.type;
+				newTag.count = tag?.count ?? 0;
+				newTag.type = tag?.type ?? 'tag';
 			} catch {
 				// ignore, getting details is just a nice to have
 			}

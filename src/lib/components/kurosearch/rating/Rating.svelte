@@ -12,6 +12,7 @@
 		border: solid 1px var(--text);
 		padding: 1px;
 		width: 18px;
+		flex-shrink: 0;
 		text-align: center;
 		border-radius: 10px;
 		box-sizing: border-box;

@@ -58,15 +58,13 @@
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import { logSearch } from '$lib/logic/firebase/analytics';
 	import { serializeUrlSettings, parseUrlSettings } from '$lib/logic/url-parsing';
-	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import filter, { type FilterStoreData } from '$lib/store/filter-store';
 	import sort, { type SortStoreData } from '$lib/store/sort-store';
+	import { supportsUrlSharing } from '$lib/logic/url-sharing';
 
 	let loading = false;
 	let error: Error | undefined;
 	let creatingSupertag = false;
-	let sharing = false;
 	let nextFocus = 0;
 
 	const getShareUrl = (
@@ -74,6 +72,10 @@
 		sort: SortStoreData,
 		filter: FilterStoreData
 	) => {
+		if (!browser) {
+			return '';
+		}
+
 		const url = new URL(location.protocol + '//' + location.host + location.pathname);
 		const searchParams = serializeUrlSettings({
 			tags: tags.map((x) => x.name),
@@ -198,6 +200,9 @@
 			document.removeEventListener('keydown', focusSearchBarHotkey);
 		}
 	});
+
+	$: shareUrl = getShareUrl($activeTags, $sort, $filter);
+	$: supportsUrlSharing() && history.replaceState(null, '', shareUrl);
 </script>
 
 <section id="search">
@@ -207,7 +212,6 @@
 		{fetchSuggestions}
 		on:pick={async (e) => {
 			const suggestion = e.detail;
-
 			if (suggestion.type === 'supertag') {
 				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
 				if (!supertag) {
@@ -221,7 +225,7 @@
 					name: e.detail.label,
 					modifier: e.detail.modifier,
 					count: e.detail.count,
-					type: tag.type
+					type: tag?.type ?? 'tag'
 				});
 			}
 		}}
@@ -240,7 +244,6 @@
 			}
 		}}
 		on:createSupertag={() => (creatingSupertag = true)}
-		on:copy={() => (sharing = true)}
 	/>
 </section>
 
@@ -268,15 +271,6 @@
 		on:close={() => (creatingSupertag = false)}
 		on:submit={(e) => supertags.add(e.detail)}
 	/>
-{/if}
-
-{#if sharing}
-	<Dialog on:close={() => (sharing = false)}>
-		<div>
-			<Heading3>Share this search</Heading3>
-			<input type="text" value={getShareUrl($activeTags, $sort, $filter)} />
-		</div>
-	</Dialog>
 {/if}
 
 <style>

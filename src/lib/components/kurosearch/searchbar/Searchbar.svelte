@@ -62,8 +62,15 @@
 			} else {
 				const tags = searchTerm.split(';').map((x) => x.trim().replaceAll(' ', '_'));
 				const details = await Promise.all(tags.map(getTagDetails));
-				details
-					.map((x) => ({ type: 'tag' as kurosearch.TagType, label: x.name, count: x.count }))
+				tags
+					.map((name) => {
+						const detail = details.find((x) => x?.name === name);
+						return {
+							type: detail?.type ?? 'tag',
+							label: name,
+							count: detail?.count ?? 0
+						};
+					})
 					.forEach(pick);
 			}
 		} else if (event.code === 'Escape') {

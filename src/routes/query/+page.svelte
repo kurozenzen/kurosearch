@@ -85,7 +85,7 @@
 					name: e.detail.label,
 					modifier: e.detail.modifier,
 					count: e.detail.count,
-					type: tag.type
+					type: tag?.type ?? 'tag'
 				});
 			}
 		}}

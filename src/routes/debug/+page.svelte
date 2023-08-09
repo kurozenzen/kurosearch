@@ -13,11 +13,6 @@
 		title="URL Sharing"
 		description="Share the current search by copying the url from the address bar."
 	/>
-	<FeatureSupportInfo
-		supported={browser && 'pushState' in window.history}
-		title="pushState"
-		description="Sharing via url"
-	/>
 </section>
 
 <style>

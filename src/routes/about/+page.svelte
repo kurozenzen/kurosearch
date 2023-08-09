@@ -2,6 +2,8 @@
 	import { version } from '$app/environment';
 	import { base } from '$app/paths';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
+	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { onMount } from 'svelte';
 
@@ -32,6 +34,7 @@
 
 <div>
 	<Heading1>About</Heading1>
+	<Heading3>Version</Heading3>
 	<section class="info">
 		<img src="{base}/favicon.svg" alt="kuroseach logo" />
 		<h2>kurosearch</h2>
@@ -43,6 +46,19 @@
 	</section>
 	<section class="update">
 		<TextButton title="Force an update of the app" on:click={forceUpdate}>{message}</TextButton>
+	</section>
+	<Heading3>More Info</Heading3>
+	<section class="more">
+		<IconLink title="Debug Information" className="codicon codicon-link" href="{base}/debug">
+			<p>Debug Information</p>
+		</IconLink>
+		<IconLink
+			title="Rule34.xxx URL Comparison"
+			className="codicon codicon-link"
+			href="{base}/query"
+		>
+			<p>Rule34.xxx URL Comparison</p>
+		</IconLink>
 	</section>
 </div>
 
@@ -67,6 +83,10 @@
 		padding-block: var(--grid-gap);
 	}
 
+	.more {
+		display: flex;
+		flex-direction: column;
+	}
 	h2 {
 		color: var(--text-highlight);
 		align-self: flex-end;
@@ -76,5 +96,9 @@
 		width: 60px;
 		height: 60px;
 		grid-row: span 2;
+	}
+
+	p {
+		white-space: nowrap;
 	}
 </style>

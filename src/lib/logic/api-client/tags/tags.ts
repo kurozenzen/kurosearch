@@ -26,7 +26,7 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 	}
 };
 
-export const getTagDetails = async (name: string): Promise<kurosearch.Tag> => {
+export const getTagDetails = async (name: string): Promise<kurosearch.Tag | undefined> => {
 	const url = new URL('https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&limit=1');
 	url.searchParams.append('name', name);
 
@@ -49,15 +49,13 @@ const extractCount = (label: string) => {
 	return Number(label.substring(label.lastIndexOf('(') + 1, label.length - 1));
 };
 
-const parseTag = (tag: NamedNodeMap): kurosearch.Tag => {
+const parseTag = (tag: NamedNodeMap): kurosearch.Tag | undefined => {
 	const name = tag.getNamedItem('name');
 	const count = tag.getNamedItem('count');
 	const typeId = tag.getNamedItem('type');
 
 	if (name === null || count === null || typeId === null) {
-		throw new Error(
-			`Failed to parse tag details, attribute was null. ${name}, ${count}, ${typeId}`
-		);
+		return undefined;
 	}
 
 	return {

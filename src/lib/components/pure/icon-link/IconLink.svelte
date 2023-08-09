@@ -14,7 +14,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--line-height);
+		min-width: var(--line-height);
 		height: var(--line-height);
 		border-radius: var(--border-radius-full);
 		border: none;
