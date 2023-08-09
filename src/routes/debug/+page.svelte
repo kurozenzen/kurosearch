@@ -31,7 +31,6 @@
 		title="Fullscreen"
 		description="Supports borderless fullscreen display for images and videos."
 	/>
-
 	<Heading3>Supported Design Features</Heading3>
 	<FeatureSupportInfo
 		supported={supportsGap}
