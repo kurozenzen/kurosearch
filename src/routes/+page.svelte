@@ -60,7 +60,7 @@
 	import { serializeUrlSettings, parseUrlSettings } from '$lib/logic/url-parsing';
 	import filter, { type FilterStoreData } from '$lib/store/filter-store';
 	import sort, { type SortStoreData } from '$lib/store/sort-store';
-	import { supportsUrlSharing } from '$lib/logic/url-sharing';
+	import { supportsUrlSharing } from '$lib/logic/feature-support';
 
 	let loading = false;
 	let error: Error | undefined;
