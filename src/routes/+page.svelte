@@ -15,7 +15,7 @@
 
 		let result = false;
 		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
-		if (tags) {
+		if (tags && tags.length > 0) {
 			activeTagStore.reset();
 			tags.forEach((tag) => activeTagStore.addByName(tag));
 			result = true;
@@ -100,8 +100,6 @@
 
 		return [...matchingSupertags, ...matchingTags];
 	};
-
-	const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sort, filter);
 
 	const createDefaultSearch = () =>
 		new SearchBuilder()
@@ -189,6 +187,8 @@
 	onMount(() => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
+
+			const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sort, filter);
 			if (hasUrlSettings) {
 				getFirstPage();
 			}
@@ -290,14 +290,5 @@
 		flex-direction: column;
 		align-items: center;
 		gap: var(--grid-gap);
-	}
-
-	input {
-		display: flex;
-		background-color: var(--background-1);
-		white-space: nowrap;
-		padding: var(--grid-gap);
-		overflow-x: hidden;
-		border-radius: var(--border-radius);
 	}
 </style>
