@@ -4,7 +4,7 @@
 	import type SortStore from '$lib/store/sort-store';
 	import type FilterStore from '$lib/store/filter-store';
 
-	const applyUrlSearchParamsToStore = (
+	const applyUrlSearchParamsToStore = async (
 		activeTagStore: typeof activeTags,
 		sortStore: typeof SortStore,
 		filterStore: typeof FilterStore
@@ -17,7 +17,7 @@
 		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
 		if (tags && tags.length > 0) {
 			activeTagStore.reset();
-			tags.forEach((tag) => activeTagStore.addByName(tag));
+			await Promise.all(tags.map(async (tag) => await activeTagStore.addByName(tag)));
 			result = true;
 		}
 
@@ -134,6 +134,7 @@
 	};
 
 	const getFirstPage = async () => {
+		console.log($activeTags);
 		results.reset();
 		nextFocus = 0;
 
@@ -184,11 +185,11 @@
 			nextFocus = Math.max(nextFocus - 1, 0);
 		}
 	};
-	onMount(() => {
+	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
 
-			const hasUrlSettings = applyUrlSearchParamsToStore(activeTags, sort, filter);
+			const hasUrlSettings = await applyUrlSearchParamsToStore(activeTags, sort, filter);
 			if (hasUrlSettings) {
 				getFirstPage();
 			}
