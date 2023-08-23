@@ -38,7 +38,7 @@
 			on:pick={(e) => {
 				newSupertag.tags = [
 					...newSupertag.tags,
-					{ modifier: e.detail.modifier, name: e.detail.name }
+					{ modifier: e.detail.modifier, name: e.detail.label }
 				];
 			}}
 		/>
