@@ -28,8 +28,9 @@
 	}
 
 	i {
-		font-size: var(--text-size);
-		width: 16px;
+		font-size: var(--text-size-large);
+		width: var(--text-size-large);
+		height: var(--text-size-large);
 		text-align: center;
 	}
 </style>
