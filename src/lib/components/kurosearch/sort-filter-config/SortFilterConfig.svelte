@@ -2,7 +2,8 @@
 	const OPTIONS_SORT_PROPERTY = Object.freeze({
 		id: 'Uploaded',
 		score: 'Score',
-		updated: 'Updated'
+		updated: 'Updated',
+		random: 'Random'
 	});
 	const OPTIONS_SORT_DIRECTION = Object.freeze({
 		desc: 'codicon codicon-arrow-down',
@@ -31,6 +32,10 @@
 		updated: {
 			asc: 'Inactive',
 			desc: 'Active'
+		},
+		random: {
+			asc: 'Random',
+			desc: 'Random'
 		}
 	});
 

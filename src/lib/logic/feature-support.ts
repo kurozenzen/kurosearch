@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 
-export const supportsUrlSharing = () => browser && 'pushState' in window.history;
+export const supportsUrlSharing = () => browser && 'share' in window.navigator;
 export const supportsFlexGap = (() => {
 	if (!browser) return false;
 

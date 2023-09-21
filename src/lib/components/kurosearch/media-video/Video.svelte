@@ -2,7 +2,7 @@
 	import { formatVideoTime } from '$lib/logic/format-time';
 	import { isEnter, isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import PlayButton from '../play-button/PlayButton.svelte';
+	import PlayButton from '../button-play/PlayButton.svelte';
 	import { browser } from '$app/environment';
 
 	const SKIP_TIME = 5;

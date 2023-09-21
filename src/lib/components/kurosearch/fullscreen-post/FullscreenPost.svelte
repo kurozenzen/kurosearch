@@ -4,6 +4,8 @@
 	import Gif from '../media-gif/Gif.svelte';
 	import Details from '../details/Details.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { isLoop } from '$lib/logic/media-utils';
+	import alwaysLoop from '$lib/store/always-loop-store';
 
 	const dispatch = createEventDispatcher();
 	const keybinds = (event: KeyboardEvent) => {
@@ -47,6 +49,7 @@
 
 	let zoomed = post.width / post.height < 0.33;
 	let video: HTMLVideoElement;
+	let loop = $alwaysLoop || isLoop(post.tags);
 
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
@@ -68,7 +71,7 @@
 			/>
 		{:else if post.type === 'video'}
 			<!-- svelte-ignore a11y-media-has-caption -->
-			<video class="post-media" src={post.file_url} bind:this={video} controls />
+			<video class="post-media" src={post.file_url} bind:this={video} controls {loop} />
 		{:else}
 			<Gif {post} />
 		{/if}

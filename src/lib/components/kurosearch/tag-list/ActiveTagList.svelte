@@ -2,6 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import TagButton from '../button-tag/TagButton.svelte';
 	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
+	import ShareButton from '../button-share/ShareButton.svelte';
+	import { supportsUrlSharing } from '$lib/logic/feature-support';
 
 	const dispatch = createEventDispatcher();
 
@@ -33,6 +35,9 @@
 				title="Create a supertag from the current selection."
 				on:click={() => dispatch('createSupertag', tags)}
 			/>
+		{/if}
+		{#if supportsUrlSharing()}
+			<ShareButton />
 		{/if}
 	{/if}
 </ul>

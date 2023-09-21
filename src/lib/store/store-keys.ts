@@ -8,5 +8,6 @@ export enum StoreKey {
 	Filter = 'kurosearch:filter',
 	Sort = 'kurosearch:sort',
 	Results = 'kurosearch:results',
-	Theme = 'kurosearch:theme'
+	Theme = 'kurosearch:theme',
+	AlwaysLoop = 'kurosearch:always-loop'
 }

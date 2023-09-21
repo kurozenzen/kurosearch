@@ -7,6 +7,12 @@ export type ParserFn<T> = (value: string) => T | undefined;
 export const defaultParser = JSON.parse;
 export const defaultSerializer = JSON.stringify;
 
+export const boolParser = (value: string) => value.toLowerCase() === 'true';
+export const boolSerializer = (value: boolean) => value.toString();
+
+export const stringParser = (value: string) => value;
+export const stringSerializer = (value: string) => value;
+
 export const persistentWritable = <T>(
 	key: string,
 	initial: T,

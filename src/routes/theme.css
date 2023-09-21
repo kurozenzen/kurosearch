@@ -8,10 +8,10 @@
 }
 
 :root[data-accent='hotpink'] {
-	--accent-color: hotpink;
+	--accent-color: hsl(330, 98%, 67%);
 	--h: 330;
 	--s: 100%;
-	--l: 71%;
+	--l: 60%;
 	--text-accent: #fff;
 	--hover-lighten: 10%;
 }

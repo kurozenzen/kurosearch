@@ -18,6 +18,7 @@ i.codicon {
 .codicon:before {
 	font-family: codicon, serif;
 	font-style: unset;
+	line-height: 16px;
 	width: 16px;
 	height: 16px;
 }

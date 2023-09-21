@@ -1,10 +1,10 @@
 import { boolParser, boolSerializer, persistentWritable } from './persistent-store';
 import { StoreKey } from './store-keys';
 
-const createLocalStorageEnabledStore = () => {
+const createAlwaysLoopStore = () => {
 	const initial = false;
 	const { subscribe, set } = persistentWritable(
-		StoreKey.LocalstorageEnabled,
+		StoreKey.AlwaysLoop,
 		initial,
 		boolSerializer,
 		boolParser
@@ -12,4 +12,4 @@ const createLocalStorageEnabledStore = () => {
 	return { subscribe, set, reset: () => set(initial) };
 };
 
-export default createLocalStorageEnabledStore();
+export default createAlwaysLoopStore();

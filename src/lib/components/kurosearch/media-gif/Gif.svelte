@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
-	import PlayButton from '../play-button/PlayButton.svelte';
+	import PlayButton from '../button-play/PlayButton.svelte';
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { base } from '$app/paths';

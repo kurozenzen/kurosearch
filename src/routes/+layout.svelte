@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import AccountLink from '$lib/components/kurosearch/account-link/AccountLink.svelte';
-	import DiscordLink from '$lib/components/kurosearch/discord-link/DiscordLink.svelte';
+	import AccountLink from '$lib/components/kurosearch/link-account/AccountLink.svelte';
+	import DiscordLink from '$lib/components/kurosearch/link-discord/DiscordLink.svelte';
 	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import CodiconTextLink from '$lib/components/pure/icon-link/CodiconTextLink.svelte';

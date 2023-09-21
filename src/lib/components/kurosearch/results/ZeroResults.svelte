@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/sort-store';
+	import filter from '$lib/store/filter-store';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();

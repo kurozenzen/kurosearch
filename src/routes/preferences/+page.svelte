@@ -23,6 +23,7 @@
 	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
+	import alwaysLoop from '$lib/store/always-loop-store';
 	import theme from '$lib/store/theme-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
@@ -34,6 +35,7 @@
 		theme.reset();
 		blockedContent.reset();
 		resultColumns.reset();
+		alwaysLoop.reset();
 	};
 </script>
 
@@ -63,6 +65,15 @@
 				{groupName}
 			</Checkbox>
 		{/each}
+	</Preference>
+
+	<Preference
+		title="Loop Videos"
+		description="By default only videos with the 'loop' tag are looped. When this setting is enabled, all videos are looped."
+	>
+		<Checkbox id="checkbox-always-loop" bind:checked={$alwaysLoop}>
+			{$alwaysLoop ? 'Always' : "Only with 'loop' tag"}
+		</Checkbox>
 	</Preference>
 
 	<Preference title="Result layout" description="Save active tags and posts between sessions.">

@@ -1,14 +1,16 @@
+import { browser } from '$app/environment';
 import type { FilterStoreData } from '$lib/store/filter-store';
 import type { SortStoreData } from '$lib/store/sort-store';
+import { parseShareTags, serializeShareTags } from './share-utils';
 
 type URLSettings = {
-	tags: string[];
+	tags: kurosearch.SearchableTag[];
 	sort: SortStoreData;
 	filter: Partial<FilterStoreData>;
 };
 
 export const parseUrlSettings = (searchParams: URLSearchParams): Partial<URLSettings> => ({
-	tags: parseUrlTags(searchParams),
+	tags: parseShareTags(searchParams.get('tags') ?? ''),
 	sort: parseUrlSort(searchParams),
 	filter: parseUrlFilter(searchParams)
 });
@@ -18,7 +20,7 @@ export const serializeUrlSettings = (urlSettings: Partial<URLSettings>): URLSear
 	const { tags, sort, filter } = urlSettings;
 
 	if (tags && tags.length > 0) {
-		searchParams.append('tags', serializeUrlTags(tags));
+		searchParams.append('tags', serializeShareTags(tags));
 	}
 
 	if (sort && (sort.property !== 'id' || sort?.direction !== 'desc')) {
@@ -35,7 +37,6 @@ export const serializeUrlSettings = (urlSettings: Partial<URLSettings>): URLSear
 	return searchParams;
 };
 
-const serializeUrlTags = (tags: string[]) => tags.join(';');
 const serializeUrlSort = (sort: SortStoreData) => sort.property + ':' + sort.direction;
 const serializeUrlFilter = (filter: Partial<FilterStoreData>) => {
 	const parts = [];
@@ -118,4 +119,26 @@ const parseUrlFilter = (searchParams: URLSearchParams) => {
 		console.warn('Invalid sort provided in url');
 		return undefined;
 	}
+};
+
+export const getShareUrl = (
+	tags: kurosearch.ModifiedTag[],
+	sort: SortStoreData,
+	filter: FilterStoreData
+) => {
+	if (!browser) {
+		return '';
+	}
+
+	const url = new URL(location.protocol + '//' + location.host + '/share');
+	const searchParams = serializeUrlSettings({
+		tags,
+		sort,
+		filter
+	});
+	searchParams.forEach((value, key) => {
+		url.searchParams.set(key, value);
+	});
+
+	return url;
 };

@@ -1,92 +1,34 @@
-<script context="module" lang="ts">
-	import { browser } from '$app/environment';
-	import activeTags from '$lib/store/active-tags-store';
-	import type SortStore from '$lib/store/sort-store';
-	import type FilterStore from '$lib/store/filter-store';
-
-	const applyUrlSearchParamsToStore = async (
-		activeTagStore: typeof activeTags,
-		sortStore: typeof SortStore,
-		filterStore: typeof FilterStore
-	) => {
-		if (!browser) {
-			return;
-		}
-
-		let result = false;
-		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
-		if (tags && tags.length > 0) {
-			activeTagStore.reset();
-			await Promise.all(tags.map(async (tag) => await activeTagStore.addByName(tag)));
-			result = true;
-		}
-
-		if (sort) {
-			sortStore.update(sort);
-			result = true;
-		}
-
-		if (filter) {
-			filterStore.update(filter);
-			result = true;
-		}
-
-		return result;
-	};
-</script>
-
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
+	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
+	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
+	import Results from '$lib/components/kurosearch/results/Results.svelte';
+	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
+	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
-	import results from '$lib/store/results-store';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
-	import Results from '$lib/components/kurosearch/results/Results.svelte';
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import { nextModifier } from '$lib/logic/modifier-utils';
-	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
-	import supertags from '$lib/store/supertags-store';
-	import activeSupertags from '$lib/store/active-supertags-store';
-	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
-	import { onDestroy, onMount } from 'svelte';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
-	import { SearchBuilder } from '$lib/logic/search-builder';
 	import { logSearch } from '$lib/logic/firebase/analytics';
-	import { serializeUrlSettings, parseUrlSettings } from '$lib/logic/url-parsing';
-	import filter, { type FilterStoreData } from '$lib/store/filter-store';
-	import sort, { type SortStoreData } from '$lib/store/sort-store';
-	import { supportsUrlSharing } from '$lib/logic/feature-support';
+	import { nextModifier } from '$lib/logic/modifier-utils';
+	import { SearchBuilder } from '$lib/logic/search-builder';
+	import activeSupertags from '$lib/store/active-supertags-store';
+	import activeTags from '$lib/store/active-tags-store';
+	import blockedContent from '$lib/store/blocked-content-store';
+	import filter from '$lib/store/filter-store';
+	import results from '$lib/store/results-store';
+	import sort from '$lib/store/sort-store';
+	import supertags from '$lib/store/supertags-store';
+	import { onDestroy, onMount } from 'svelte';
 
 	let loading = false;
 	let error: Error | undefined;
 	let creatingSupertag = false;
 	let nextFocus = 0;
-
-	const getShareUrl = (
-		tags: kurosearch.ModifiedTag[],
-		sort: SortStoreData,
-		filter: FilterStoreData
-	) => {
-		if (!browser) {
-			return '';
-		}
-
-		const url = new URL(location.protocol + '//' + location.host + location.pathname);
-		const searchParams = serializeUrlSettings({
-			tags: tags.map((x) => x.name),
-			sort,
-			filter
-		});
-		searchParams.forEach((value, key) => {
-			url.searchParams.set(key, value);
-		});
-		return url;
-	};
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -134,7 +76,6 @@
 	};
 
 	const getFirstPage = async () => {
-		console.log($activeTags);
 		results.reset();
 		nextFocus = 0;
 
@@ -188,11 +129,6 @@
 	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
-
-			const hasUrlSettings = await applyUrlSearchParamsToStore(activeTags, sort, filter);
-			if (hasUrlSettings) {
-				getFirstPage();
-			}
 		}
 	});
 
@@ -201,9 +137,6 @@
 			document.removeEventListener('keydown', focusSearchBarHotkey);
 		}
 	});
-
-	$: shareUrl = getShareUrl($activeTags, $sort, $filter);
-	$: supportsUrlSharing() && history.replaceState(null, '', shareUrl);
 </script>
 
 <section id="search">

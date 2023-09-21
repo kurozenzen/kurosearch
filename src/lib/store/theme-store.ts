@@ -1,4 +1,4 @@
-import { persistentWritable } from './persistent-store';
+import { persistentWritable, stringParser, stringSerializer } from './persistent-store';
 import { StoreKey } from './store-keys';
 
 const createThemeStore = () => {
@@ -6,8 +6,8 @@ const createThemeStore = () => {
 	const { subscribe, set } = persistentWritable(
 		StoreKey.Theme,
 		initial,
-		(x) => x,
-		(x) => x
+		stringSerializer,
+		stringParser
 	);
 	return { subscribe, set, reset: () => set(initial) };
 };

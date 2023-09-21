@@ -9,7 +9,7 @@ declare global {
 	}
 
 	namespace kurosearch {
-		type BlockingGroup = 'Loli' | 'Animal-Related' | 'Non-Consentual' | 'Gore';
+		type BlockingGroup = 'Loli' | 'Animal-Related' | 'Non-Consentual' | 'Gore' | 'Scat';
 		type TagModifier = '+' | '-' | '~';
 		type TagType =
 			| 'general'
@@ -62,7 +62,7 @@ declare global {
 			width: number;
 			type: string;
 		};
-		type SortProperty = 'id' | 'score' | 'updated';
+		type SortProperty = 'id' | 'score' | 'updated' | 'random';
 		type SortDirection = 'asc' | 'desc';
 		type ScoreComparator = '>=' | '<=';
 		type Supertag = {

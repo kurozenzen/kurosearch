@@ -6,6 +6,8 @@
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
+	import { isLoop } from '$lib/logic/media-utils';
+	import alwaysLoop from '$lib/store/always-loop-store';
 
 	const url = browser ? new URL(location.href) : undefined;
 	const id = url && url.searchParams.has('id') ? Number(url.searchParams.get('id')) : undefined;
@@ -28,7 +30,7 @@
 					poster={post.sample_url}
 					width={post.width}
 					height={post.height}
-					loop={post.tags.some((t) => t.name == 'loop')}
+					loop={$alwaysLoop || isLoop(post.tags)}
 				/>
 			{:else}
 				<Gif {post} />

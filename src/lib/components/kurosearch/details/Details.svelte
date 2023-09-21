@@ -38,7 +38,7 @@
 			class:active={tab === 'tags'}
 			class="codicon codicon-tag"
 		>
-			{post.tags.length} tags
+			<span>{post.tags.length} tags</span>
 		</button>
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -49,7 +49,7 @@
 			class:active={tab === 'comments'}
 			class="codicon codicon-comment-discussion"
 		>
-			{post.comment_count || 'No'} comments
+			<span>{post.comment_count || 'No'} comments</span>
 		</button>
 	</div>
 	{#if tab === 'tags'}
@@ -147,6 +147,8 @@
 		border-radius: var(--line-height);
 		transition: all 0.2s linear;
 		padding-inline: var(--grid-gap);
+		display: inline-flex;
+		align-items: center;
 	}
 
 	button::before {

@@ -5,7 +5,8 @@
 	import Details from '../details/Details.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { getVideoSources } from '$lib/logic/media-utils';
+	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import alwaysLoop from '$lib/store/always-loop-store';
 
 	const dispatch = createEventDispatcher();
 	const toggleOpen = () => (open = !open);
@@ -35,7 +36,7 @@
 			poster={sources.static}
 			width={post.width}
 			height={post.height}
-			loop={post.tags.some((t) => t.name === 'loop')}
+			loop={$alwaysLoop || isLoop(post.tags)}
 			on:click={toggleOpen}
 		/>
 	{:else}
