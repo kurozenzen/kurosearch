@@ -6,16 +6,14 @@
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	let viewing: undefined | { post: kurosearch.Post; index: number };
+	let hasHash = location.hash.length > 2;
+
 	const listener = () => {
 		hasHash = location.hash.length > 2;
 	};
-
-	let viewing: undefined | { post: kurosearch.Post; index: number };
-
-	let hasHash = location.hash.length > 2;
 
 	onMount(() => {
 		window.addEventListener('hashchange', listener);
@@ -31,52 +29,42 @@
 </div>
 
 {#if $resultColumns === '1'}
-	<section class="single">
+	<section class="single-column">
 		{#each $results.posts as post, index}
 			<SingleColumnPost
 				{post}
 				on:fullscreen={() => {
 					viewing = { post, index };
-					location.hash = `fullscreen`;
+					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}
 	</section>
 {:else}
-	<section class="multi" style="grid-template-columns: repeat({$resultColumns}, 1fr);">
+	<section class="multi-column" style="grid-template-columns: repeat({$resultColumns}, 1fr);">
 		{#each $results.posts as post, index}
 			<MosaicPost
 				{post}
 				on:click={() => {
 					viewing = { post, index };
-					location.hash = `fullscreen`;
+					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}
 	</section>
 {/if}
 
-{#if hasHash && viewing !== undefined}
+{#if hasHash && viewing}
 	<FullscreenPost
-		post={viewing.post}
+		index={viewing.index}
 		on:close={() => {
-			if (viewing?.post?.id)
+			if (viewing?.post?.id) {
 				document.querySelector(`#post_${viewing.post.id} .post-media`)?.focus();
+			}
 			viewing = undefined;
 			history.back();
 		}}
-		on:previous={() => {
-			let newIndex = Math.max(viewing.index - 1, 0);
-			viewing = { index: newIndex, post: $results.posts[newIndex] };
-		}}
-		on:next={() => {
-			let newIndex = Math.min(viewing.index + 1, $results.posts.length);
-			viewing = { index: newIndex, post: $results.posts[newIndex] };
-
-			if (newIndex > $results.posts.length - 3 && $results.posts.length !== $results.postCount) {
-				dispatch('endreached');
-			}
-		}}
+		on:endreached
 	/>
 {/if}
 
@@ -95,14 +83,14 @@
 		}
 	}
 
-	.single {
+	.single-column {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 	}
 
-	.multi {
+	.multi-column {
 		width: 100%;
 		display: grid;
 		gap: 0.5rem;

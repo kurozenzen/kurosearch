@@ -7,3 +7,5 @@ export const getVideoSources = (full: string, sample: string, preview: string) =
 	isVideo(sample) ? { static: preview, animated: sample } : { static: sample, animated: full };
 
 export const isLoop = (tags: kurosearch.Tag[]) => tags.some((t) => t.name === 'loop');
+
+export const isAnimated = (url: string) => isGif(url) || isVideo(url);

@@ -23,7 +23,7 @@
 		document.addEventListener('keydown', onKey);
 		document.addEventListener('fullscreenchange', onFullscreenChange);
 		try {
-			await dialog.requestFullscreen();
+			// await dialog.requestFullscreen();
 		} catch {
 			// ignored
 		}
@@ -33,7 +33,7 @@
 		document.removeEventListener('keydown', onKey);
 		document.removeEventListener('fullscreenchange', onFullscreenChange);
 		try {
-			await document.exitFullscreen();
+			// await document.exitFullscreen();
 		} catch {
 			// ignored
 		}
