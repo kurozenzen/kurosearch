@@ -3,7 +3,6 @@
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import FullscreenScroller from './FullscreenScroller.svelte';
-	import results from '$lib/store/results-store';
 
 	export let index: number;
 

@@ -8,19 +8,7 @@
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
-	let viewing: undefined | { post: kurosearch.Post; index: number };
-	let hasHash = location.hash.length > 2;
-
-	const listener = () => {
-		hasHash = location.hash.length > 2;
-	};
-
-	onMount(() => {
-		window.addEventListener('hashchange', listener);
-	});
-	onDestroy(() => {
-		window.removeEventListener('hashchange', listener);
-	});
+	let fullscreenIndex: undefined | number;
 </script>
 
 <div>
@@ -34,8 +22,8 @@
 			<SingleColumnPost
 				{post}
 				on:fullscreen={() => {
-					viewing = { post, index };
-					location.hash = 'fullscreen';
+					console.log('Viewing index: ' + index);
+					fullscreenIndex = index;
 				}}
 			/>
 		{/each}
@@ -46,23 +34,19 @@
 			<MosaicPost
 				{post}
 				on:click={() => {
-					viewing = { post, index };
-					location.hash = 'fullscreen';
+					console.log('Viewing index: ' + index);
+					fullscreenIndex = index;
 				}}
 			/>
 		{/each}
 	</section>
 {/if}
 
-{#if hasHash && viewing}
+{#if fullscreenIndex !== undefined}
 	<FullscreenPost
-		index={viewing.index}
+		index={fullscreenIndex}
 		on:close={() => {
-			if (viewing?.post?.id) {
-				document.querySelector(`#post_${viewing.post.id} .post-media`)?.focus();
-			}
-			viewing = undefined;
-			history.back();
+			fullscreenIndex = undefined;
 		}}
 		on:endreached
 	/>

@@ -60,7 +60,10 @@
 		}
 	};
 
-	onMount(() => document.addEventListener('keydown', keybinds));
+	onMount(() => {
+		document.addEventListener('keydown', keybinds);
+		current.scrollIntoView();
+	});
 	onDestroy(() => document.removeEventListener('keydown', keybinds));
 </script>
 
