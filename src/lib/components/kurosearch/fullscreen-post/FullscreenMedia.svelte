@@ -52,5 +52,9 @@
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
+		contain: paint;
+
+		scroll-snap-align: start;
+		scroll-snap-stop: always;
 	}
 </style>

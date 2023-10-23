@@ -4,6 +4,11 @@
 		height: var(--scrollbar-size);
 		transition: background-color var(--default-transition-behaviour);
 	}
+	
+	html,body, main {
+		overflow-x: hidden;
+		scrollbar-width: thin;
+	}
 
 	::-webkit-scrollbar-track {
 		background: transparent;

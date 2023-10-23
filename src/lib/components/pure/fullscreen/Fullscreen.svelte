@@ -79,5 +79,9 @@
 			width: 0px;
 			height: 0px;
 		}
+
+		.fullscreen.dialog {
+			scrollbar-width: none;
+		}
 	}
 </style>

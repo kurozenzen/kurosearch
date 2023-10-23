@@ -11,9 +11,12 @@
 	let container: HTMLDivElement;
 	let current: HTMLDivElement;
 
-	$: currentPost = $results.posts[index];
-	$: previousPost = index > 0 ? $results.posts[index - 1] : undefined;
-	$: nextPost = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
+	let postCurrent = $results.posts[index];
+	let postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
+	let postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
+	let offsetCurrent = `${index * 100}vh`;
+	let offsetPrevious = `${(index - 1) * 100}vh`;
+	let offsetNext = `${(index + 1) * 100}vh`;
 
 	const dispatch = createEventDispatcher();
 
@@ -25,14 +28,22 @@
 	};
 
 	const onScroll = (event: UIEvent) => {
-		let target = event.target as HTMLDivElement;
-		let height = target.getBoundingClientRect().height;
-		let newIndex = target.scrollTop / height;
-		let roundedIndex = Math.round(newIndex);
-		if (Math.abs(newIndex - roundedIndex) < 0.001 && roundedIndex != index) {
-			console.log('INDEX: ' + roundedIndex);
-			index = roundedIndex;
-			focusCurrent();
+		const target = event.target as HTMLDivElement;
+		const height = target.getBoundingClientRect().height;
+		const newIndex = target.scrollTop / height;
+		const roundedIndex = Math.round(newIndex);
+
+		if (roundedIndex != index) {
+			console.log('New index: ', roundedIndex);
+			requestAnimationFrame(() => {
+				index = roundedIndex;
+				postCurrent = $results.posts[index];
+				postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
+				postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
+				offsetCurrent = `${index * 100}vh`;
+				offsetPrevious = `${(index - 1) * 100}vh`;
+				offsetNext = `${(index + 1) * 100}vh`;
+			});
 		}
 	};
 
@@ -51,43 +62,50 @@
 		if (event.key === 'ArrowUp') {
 			event.preventDefault();
 			event.stopPropagation();
-			container.scrollBy({ left: 0, top: -container.clientHeight, behavior: 'smooth' });
+			container.scrollTo({
+				left: 0,
+				top: container.clientHeight * (index - 1),
+				behavior: 'smooth'
+			});
 		}
 		if (event.key === 'ArrowDown') {
 			event.preventDefault();
 			event.stopPropagation();
-			container.scrollBy({ left: 0, top: container.clientHeight, behavior: 'smooth' });
+			container.scrollTo({
+				left: 0,
+				top: container.clientHeight * (index + 1),
+				behavior: 'smooth'
+			});
 		}
 	};
 
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
-		current.scrollIntoView();
+		focusCurrent();
 	});
 	onDestroy(() => document.removeEventListener('keydown', keybinds));
 </script>
 
 <div class="root screen snap-container" bind:this={container} on:scroll={onScroll}>
-	<div style="height:{Math.max(0, index - 1) * 100}vh" />
-	{#if previousPost}
-		<FullscreenPreview post={previousPost} />
+	{#if postPrevious}
+		<FullscreenPreview post={postPrevious} offset={offsetPrevious} />
 	{/if}
 	<div
-		class="screen snap-item snap-container horizontal"
+		class="screen snap-container horizontal current"
 		bind:this={current}
-		id={currentPost.id.toString()}
+		style:top={offsetCurrent}
 	>
-		<div class="screen snap-item">
-			<FullscreenMedia post={currentPost} />
-		</div>
-		<div class="screen snap-item">
-			<Details post={currentPost} />
+		<FullscreenMedia post={postCurrent} />
+		<div class="details snap-item">
+			<Details post={postCurrent} />
 		</div>
 	</div>
-	{#if nextPost}
-		<FullscreenPreview post={nextPost} />
+	{#if postNext}
+		<FullscreenPreview post={postNext} offset={offsetNext} />
 	{/if}
-	<div style="height:{($results.posts.length - index - 1) * 100}vh" />
+	{#each { length: $results.posts.length } as _, i}
+		<div class="pseudo snap-item" style:top="{i * 100}vh" />
+	{/each}
 	<IntersectionDetector
 		rootMargin="{window.innerHeight * 2}px"
 		on:intersection={() => dispatch('endreached')}
@@ -95,18 +113,44 @@
 </div>
 
 <style>
+	.root {
+		position: relative;
+		overflow-y: scroll;
+	}
+
 	.screen {
 		width: 100vw;
 		height: 100vh;
 		overflow: scroll;
+		contain: strict;
+	}
+
+	.details {
+		width: 100vw;
+		height: 100vh;
+		overflow-y: scroll;
 	}
 
 	.snap-container {
 		scroll-snap-type: both mandatory;
 	}
 
+	.pseudo {
+		width: 100vw;
+		height: 100vh;
+		contain: strict;
+		position: absolute;
+		user-select: none;
+		pointer-events: none;
+	}
+
 	.snap-item {
 		scroll-snap-align: start;
+		scroll-snap-stop: always;
+	}
+
+	.current {
+		position: absolute;
 	}
 
 	.horizontal {
@@ -114,8 +158,12 @@
 		grid-template-columns: 100vw 100vw;
 	}
 
-	::-webkit-scrollbar {
+	.screen::-webkit-scrollbar {
 		width: 0px;
 		height: 0px;
+	}
+
+	.screen {
+		scrollbar-width: none;
 	}
 </style>
