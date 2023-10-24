@@ -29,7 +29,6 @@
 			<SingleColumnPost
 				{post}
 				on:fullscreen={() => {
-					console.log('Viewing index: ' + index);
 					fullscreenIndex = index;
 				}}
 			/>
@@ -41,7 +40,6 @@
 			<MosaicPost
 				{post}
 				on:click={() => {
-					console.log('Viewing index: ' + index);
 					fullscreenIndex = index;
 				}}
 			/>

@@ -5,14 +5,13 @@ export const videoObserver = browser
 			(entries) => {
 				for (const entry of entries) {
 					if (entry.target) {
-						console.log('checking', entry.intersectionRatio);
 						const target = entry.target as HTMLVideoElement;
+
 						if (entry.isIntersecting && target.autoplay && target.paused) {
 							target.play();
 						}
 
 						if (!entry.isIntersecting && !target.paused) {
-							console.log('pausing');
 							target.pause();
 						}
 					}

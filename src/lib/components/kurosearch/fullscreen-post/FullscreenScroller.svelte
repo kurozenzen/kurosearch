@@ -35,7 +35,6 @@
 		const roundedIndex = Math.round(newIndex);
 
 		if (roundedIndex != index) {
-			console.log('New index: ', roundedIndex);
 			requestAnimationFrame(() => {
 				index = roundedIndex;
 				postCurrent = $results.posts[index];
@@ -56,10 +55,8 @@
 			event.preventDefault();
 			event.stopPropagation();
 			if (current.scrollLeft == 0) {
-				console.log('details');
 				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' });
 			} else {
-				console.log('back');
 				current.scrollBy({ left: -container.clientWidth, top: 0, behavior: 'smooth' });
 			}
 		}
