@@ -14,14 +14,16 @@
 			dispatch('close');
 		}
 	};
+``
+	const close = () => dispatch('close', index);
 
 	onMount(() => document.addEventListener('keydown', keybinds));
 	onDestroy(() => document.removeEventListener('keydown', keybinds));
 </script>
 
-<Fullscreen on:close>
+<Fullscreen on:close={close}>
 	<FullscreenScroller bind:index on:endreached />
-	<IconButton on:click={() => dispatch('close')} class="button-close">
+	<IconButton on:click={close} class="button-close">
 		<i class="codicon codicon-close" />
 	</IconButton>
 </Fullscreen>

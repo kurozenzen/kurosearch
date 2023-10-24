@@ -5,6 +5,7 @@
 	import Details from '../details/Details.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
+	import FullscreenDetails from './FullscreenDetails.svelte';
 
 	export let index: number;
 
@@ -43,6 +44,9 @@
 				offsetCurrent = `${index * 100}vh`;
 				offsetPrevious = `${(index - 1) * 100}vh`;
 				offsetNext = `${(index + 1) * 100}vh`;
+				if (current) {
+					current.scrollLeft = 0;
+				}
 			});
 		}
 	};
@@ -96,9 +100,7 @@
 		style:top={offsetCurrent}
 	>
 		<FullscreenMedia post={postCurrent} />
-		<div class="details snap-item">
-			<Details post={postCurrent} />
-		</div>
+		<FullscreenDetails post={postCurrent} />
 	</div>
 	{#if postNext}
 		<FullscreenPreview post={postNext} offset={offsetNext} />
@@ -123,12 +125,6 @@
 		height: 100vh;
 		overflow: scroll;
 		contain: strict;
-	}
-
-	.details {
-		width: 100vw;
-		height: 100vh;
-		overflow-y: scroll;
 	}
 
 	.snap-container {

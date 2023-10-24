@@ -7,6 +7,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
+	import { getPostId } from '$lib/logic/id-utils';
 
 	const dispatch = createEventDispatcher();
 	const toggleOpen = () => (open = !open);
@@ -18,7 +19,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	id="post_{post.id}"
+	id={getPostId(post.id)}
 	class="post"
 	class:open
 	on:keydown={(event) => {

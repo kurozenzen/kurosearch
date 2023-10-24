@@ -9,6 +9,7 @@
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import SimpleTag from '../tag-simple/SimpleTag.svelte';
 	import Rating from '../rating/Rating.svelte';
+	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
 	export let post: kurosearch.Post;
 
@@ -53,19 +54,7 @@
 		</button>
 	</div>
 	{#if tab === 'tags'}
-		<ul class="tags">
-			{#each post.tags as tag}
-				{@const active = $activeTagsStore.find((t) => t.name === tag.name) !== undefined}
-				<SimpleTag
-					{tag}
-					on:click={() =>
-						active
-							? activeTagsStore.removeByName(tag.name)
-							: activeTagsStore.addOrReplace({ ...tag, modifier: '+' })}
-					{active}
-				/>
-			{/each}
-		</ul>
+		<PostDetailsTagList tags={post.tags} />
 	{:else}
 		{#await getComments(post.id)}
 			<LoadingAnimation />
@@ -98,13 +87,6 @@
 		gap: var(--small-gap);
 		padding-block-end: 0.5rem; /* a bit hacky to split the gap here but it places the scrollbar nicely*/
 		margin-block-end: 0.5rem;
-	}
-
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		padding-block-start: var(--grid-gap);
-		gap: 8px;
 	}
 
 	.comments {

@@ -6,9 +6,16 @@
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
-	import { onDestroy, onMount } from 'svelte';
+	import { getPostId } from '$lib/logic/id-utils';
 
 	let fullscreenIndex: undefined | number;
+
+	const exitFullscreen = (event: CustomEvent<number>) => {
+		const post = $results.posts[event.detail];
+		const id = getPostId(post.id);
+		document.getElementById(`post_${post.id}`)?.scrollIntoView();
+		fullscreenIndex = undefined;
+	};
 </script>
 
 <div>
@@ -29,7 +36,7 @@
 		{/each}
 	</section>
 {:else}
-	<section class="multi-column" style="grid-template-columns: repeat({$resultColumns}, 1fr);">
+	<section class="multi-column" style="grid-template-columns: repeat({$resultColumns}, 1fr); ">
 		{#each $results.posts as post, index}
 			<MosaicPost
 				{post}
@@ -43,13 +50,7 @@
 {/if}
 
 {#if fullscreenIndex !== undefined}
-	<FullscreenPost
-		index={fullscreenIndex}
-		on:close={() => {
-			fullscreenIndex = undefined;
-		}}
-		on:endreached
-	/>
+	<FullscreenPost index={fullscreenIndex} on:close={exitFullscreen} on:endreached />
 {/if}
 
 <style>
@@ -71,12 +72,13 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--grid-gap);
 	}
 
 	.multi-column {
 		width: 100%;
 		display: grid;
-		gap: 0.5rem;
+		gap: var(--small-gap);
+		grid-auto-rows: auto;
 	}
 </style>

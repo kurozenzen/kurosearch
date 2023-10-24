@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
+	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
 
 	export let post: kurosearch.Post;
 
-	let rows = Math.min(Math.round((post.height / post.width) * 5), 15);
+	let max = 3;
+	let rows = Math.min(Math.round(post.height / post.width) * max, max * 3);
 
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
@@ -14,9 +16,9 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	id="post_{post.id}"
+	id={getPostId(post.id)}
 	class="post"
-	style="grid-row: span {rows}"
+	style="grid-row: span {rows};"
 	on:click
 	on:keydown={(event) => {
 		if (isEnter(event) || event.key === 'f') {
@@ -39,8 +41,6 @@
 		display: block;
 		width: 100%;
 		height: 100%;
-		background-color: black;
-		border-radius: 5px;
 		grid-column: 1 / 4;
 		grid-row: 1 / 4;
 		max-height: 100vh;
@@ -52,6 +52,9 @@
 		grid-template-columns: auto 1fr auto;
 		grid-template-rows: auto 1fr auto;
 		justify-content: space-between;
+		background-color: var(--background-1);
+		border-radius: 5px;
+		contain: content;
 	}
 
 	.score {

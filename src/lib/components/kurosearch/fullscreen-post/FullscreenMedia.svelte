@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getGifSources, getVideoSources } from '$lib/logic/media-utils';
+	import { videoObserver } from '$lib/logic/video-observer';
 	import { onDestroy, onMount } from 'svelte';
 
 	export let post: kurosearch.Post;
@@ -21,8 +22,18 @@
 		}
 	};
 
-	onMount(() => document.addEventListener('keydown', keybinds));
-	onDestroy(() => document.removeEventListener('keydown', keybinds));
+	onMount(() => {
+		if (video) {
+			videoObserver?.observe(video);
+		}
+		document.addEventListener('keydown', keybinds);
+	});
+	onDestroy(() => {
+		if (video) {
+			videoObserver?.unobserve(video);
+		}
+		document.removeEventListener('keydown', keybinds);
+	});
 </script>
 
 {#if post.type === 'image'}

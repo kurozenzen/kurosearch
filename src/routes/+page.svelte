@@ -24,6 +24,7 @@
 	import sort from '$lib/store/sort-store';
 	import supertags from '$lib/store/supertags-store';
 	import { onDestroy, onMount } from 'svelte';
+	import resultColumns from '$lib/store/result-columns-store';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -192,7 +193,10 @@
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else}
-				<IntersectionDetector rootMargin="1000px" on:intersection={getNextPage} />
+				<IntersectionDetector
+					rootMargin="{1000 / Number($resultColumns)}px"
+					on:intersection={getNextPage}
+				/>
 			{/if}
 		{/if}
 	</section>
