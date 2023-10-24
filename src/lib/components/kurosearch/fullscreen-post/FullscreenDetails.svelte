@@ -11,7 +11,7 @@
 
 	export let post: kurosearch.Post;
 
-	let tagsByType = post.tags.reduce((result, tag) => {
+	$: tagsByType = post.tags.reduce((result, tag) => {
 		if (result[tag.type] === undefined) {
 			result[tag.type] = [];
 		}
