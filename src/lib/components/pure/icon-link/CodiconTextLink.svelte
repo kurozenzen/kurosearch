@@ -14,7 +14,7 @@
 	a {
 		display: inline-flex;
 		align-items: center;
-		gap: 4px;
+		gap: var(--tiny-gap);
 		color: currentColor;
 		font-size: var(--text-size-small);
 		vertical-align: middle;

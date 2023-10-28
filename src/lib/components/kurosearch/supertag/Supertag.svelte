@@ -50,7 +50,7 @@
 	li {
 		display: grid;
 		grid-template-columns: auto 1fr auto auto;
-		gap: 0.5rem;
+		gap: var(--small-gap);
 		align-items: center;
 		padding: var(--grid-gap) 0;
 		border-radius: var(--border-radius);

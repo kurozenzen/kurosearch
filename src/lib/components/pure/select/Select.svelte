@@ -14,7 +14,7 @@
 		display: inline-flex;
 		align-items: center;
 		height: var(--line-height);
-		padding-inline: 0.5rem;
+		padding-inline: var(--small-gap);
 		color: var(--text);
 		border: 2px solid var(--background-1);
 		border-radius: var(--border-radius);

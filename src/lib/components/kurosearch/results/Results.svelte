@@ -1,19 +1,27 @@
 <script lang="ts">
-	import results from '$lib/store/results-store';
-	import resultColumns from '$lib/store/result-columns-store';
-	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 	import { formatCount } from '$lib/logic/format-count';
-	import SingleColumnPost from '../post/SingleColumnPost.svelte';
-	import MosaicPost from '../post/MosaicPost.svelte';
-	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
 	import { getPostId } from '$lib/logic/id-utils';
+	import resultColumns from '$lib/store/result-columns-store';
+	import results from '$lib/store/results-store';
+	import { onDestroy, onMount } from 'svelte';
+	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
+	import MosaicPost from '../post/MosaicPost.svelte';
+	import SingleColumnPost from '../post/SingleColumnPost.svelte';
+	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
 	let fullscreenIndex: undefined | number;
+
+	const exit = (index: number) => {
+		const post = $results.posts[index];
+		const id = getPostId(post.id);
+		document.getElementById(id)?.scrollIntoView();
+		fullscreenIndex = undefined;
+	};
 
 	const exitFullscreen = (event: CustomEvent<number>) => {
 		const post = $results.posts[event.detail];
 		const id = getPostId(post.id);
-		document.getElementById(`post_${post.id}`)?.scrollIntoView();
+		document.getElementById(id)?.scrollIntoView();
 		fullscreenIndex = undefined;
 	};
 </script>
@@ -30,6 +38,7 @@
 				{post}
 				on:fullscreen={() => {
 					fullscreenIndex = index;
+					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}
@@ -41,6 +50,7 @@
 				{post}
 				on:click={() => {
 					fullscreenIndex = index;
+					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}

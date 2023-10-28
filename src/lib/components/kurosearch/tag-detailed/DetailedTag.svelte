@@ -23,7 +23,7 @@
 	button {
 		display: inline-flex;
 		align-items: center;
-		gap: 4px;
+		gap: var(--tiny-gap);
 		height: var(--line-height-small);
 		border-radius: var(--line-height-small);
 		font-size: var(--text-size-small);

@@ -3,15 +3,13 @@
 
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
-	const onKey = (event: KeyboardEvent) => {
+	const closeOnEscapePressed = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
 			close();
 		}
 	};
-	let onFullscreenChange = () => {
-		if (document.fullscreenElement) {
-			// entering fullscreen
-		} else {
+	const closeOnFullscreenExit = () => {
+		if (!document.fullscreenElement) {
 			close();
 		}
 	};
@@ -20,20 +18,18 @@
 
 	onMount(async () => {
 		dialog.focus();
-		document.addEventListener('keydown', onKey);
-		document.addEventListener('fullscreenchange', onFullscreenChange);
+		document.addEventListener('fullscreenchange', closeOnFullscreenExit);
 		try {
-			// await dialog.requestFullscreen();
+			await dialog.requestFullscreen();
 		} catch {
 			// ignored
 		}
 	});
 
 	onDestroy(async () => {
-		document.removeEventListener('keydown', onKey);
-		document.removeEventListener('fullscreenchange', onFullscreenChange);
+		document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
 		try {
-			// await document.exitFullscreen();
+			await document.exitFullscreen();
 		} catch {
 			// ignored
 		}
@@ -41,14 +37,11 @@
 </script>
 
 <div
-	on:keydown={(event) => {
-		event.code === 'Escape' && close();
-	}}
-	role="none"
 	bind:this={dialog}
+	role="none"
 	tabindex="-1"
-	class="dialog fullscreen"
 	on:click|stopPropagation={() => {}}
+	on:keydown={closeOnEscapePressed}
 >
 	<slot />
 </div>

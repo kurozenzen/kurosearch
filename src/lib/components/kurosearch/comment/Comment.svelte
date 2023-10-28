@@ -14,7 +14,7 @@
 	div {
 		display: grid;
 		grid-template-columns: auto 1fr;
-		gap: 4px;
+		gap: var(--tiny-gap);
 	}
 
 	.author {

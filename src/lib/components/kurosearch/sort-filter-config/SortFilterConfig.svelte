@@ -175,7 +175,7 @@
 
 	i {
 		display: inline-block;
-		margin-inline: var(--grid-gap) 4px;
+		margin-inline: var(--grid-gap);
 	}
 
 	.container {

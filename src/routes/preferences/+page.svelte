@@ -101,6 +101,6 @@
 
 <style>
 	section {
-		padding-inline: 1rem;
+		padding-inline: var(--grid-gap);
 	}
 </style>

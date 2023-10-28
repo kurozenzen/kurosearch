@@ -85,8 +85,10 @@
 		align-items: center;
 		overflow-x: auto;
 		gap: var(--small-gap);
-		padding-block-end: 0.5rem; /* a bit hacky to split the gap here but it places the scrollbar nicely*/
-		margin-block-end: 0.5rem;
+		padding-block-end: var(
+			--small-gap
+		); /* a bit hacky to split the gap here but it places the scrollbar nicely*/
+		margin-block-end: var(--small-gap);
 	}
 
 	.comments {

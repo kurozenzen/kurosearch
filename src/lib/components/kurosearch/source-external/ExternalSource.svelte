@@ -18,7 +18,7 @@
 		text-decoration: none;
 		white-space: nowrap;
 		display: inline-flex;
-		gap: 4px;
+		gap: var(--tiny-gap);
 		align-items: center;
 	}
 </style>

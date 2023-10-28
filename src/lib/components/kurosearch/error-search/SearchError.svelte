@@ -30,7 +30,7 @@
 		margin: auto;
 		margin-block: 4rem;
 		gap: 2rem;
-		padding: 1rem;
+		padding: var(--grid-gap);
 		border-radius: var(--border-radius);
 		background-color: var(--background-1);
 	}
@@ -51,6 +51,6 @@
 	}
 
 	h3 {
-		padding-block-end: 0.5rem;
+		padding-block-end: var(--small-gap);
 	}
 </style>

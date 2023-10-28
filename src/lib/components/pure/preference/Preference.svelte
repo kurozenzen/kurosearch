@@ -13,6 +13,6 @@
 
 <style>
 	p {
-		margin-block-end: 1rem;
+		margin-block-end: var(--grid-gap);
 	}
 </style>

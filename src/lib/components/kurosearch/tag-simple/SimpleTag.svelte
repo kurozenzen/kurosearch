@@ -18,7 +18,7 @@
 		--background-color-hover: var(--background-3);
 		display: inline-flex;
 		align-items: center;
-		gap: 4px;
+		gap: var(--tiny-gap);
 		background-color: var(--background-color);
 		color: var(--text);
 		height: 24px;

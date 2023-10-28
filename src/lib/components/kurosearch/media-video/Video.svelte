@@ -165,8 +165,8 @@
 		margin-inline: 12px;
 		font-size: 12px;
 		background-color: #0008;
-		border-radius: 4px;
-		padding: 4px;
+		border-radius: var(--tiny-gap);
+		padding: var(--tiny-gap);
 		color: white;
 	}
 
@@ -185,7 +185,7 @@
 	input[type='range']::-webkit-slider-runnable-track {
 		-webkit-appearance: none;
 		content: '';
-		height: 4px;
+		height: var(--tiny-gap);
 	}
 
 	input[type='range']::-moz-range-progress {

@@ -88,7 +88,7 @@
 	label,
 	span {
 		display: block;
-		margin-bottom: 4px;
+		margin-bottom: var(--tiny-gap);
 		color: var(--text);
 		font-size: var(--text-size-small);
 	}

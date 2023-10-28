@@ -280,7 +280,7 @@
 		color: var(--text-highlight);
 		font-size: 2.25em;
 		padding-block-start: 4rem;
-		padding-block-end: 1rem;
+		padding-block-end: var(--grid-gap);
 	}
 
 	em {
@@ -290,7 +290,7 @@
 	p,
 	li {
 		line-height: 1.75rem;
-		padding-block: 0.5rem;
+		padding-block: var(--small-gap);
 		font-size: var(--text-size-large);
 	}
 
@@ -301,7 +301,7 @@
 	.cards {
 		display: grid;
 		grid-template-columns: repeat(1, minmax(0px, 1fr));
-		gap: 1rem;
+		gap: var(--grid-gap);
 	}
 
 	@media (min-width: 768px) {
@@ -314,6 +314,6 @@
 	.flex-row {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1rem;
+		gap: var(--grid-gap);
 	}
 </style>

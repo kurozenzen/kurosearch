@@ -220,7 +220,7 @@
 
 	#search {
 		margin-block: 20vh;
-		padding-inline: 0.5rem;
+		padding-inline: var(--small-gap);
 	}
 
 	section {

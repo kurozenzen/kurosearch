@@ -1,19 +1,19 @@
 <script lang="ts">
+	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import Supertag from '$lib/components/kurosearch/supertag/Supertag.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import supertags from '$lib/store/supertags-store';
+	import { signIn, signOut } from '$lib/logic/firebase/authentication';
+	import '$lib/logic/firebase/firebase';
+	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
 	import blockedContent from '$lib/store/blocked-content-store';
+	import firebaseLoggedIn from '$lib/store/firebase-login-store';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-	import theme from '$lib/store/theme-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import { StoreKey } from '$lib/store/store-keys';
-	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
-	import '$lib/logic/firebase/firebase';
-	import { signOut, signIn, loggedIn } from '$lib/logic/firebase/authentication';
-	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
-	import firebaseLoggedIn from '$lib/store/firebase-login-store';
+	import supertags from '$lib/store/supertags-store';
+	import theme from '$lib/store/theme-store';
 
 	let deleting = false;
 	let pullingFromCloud = false;
@@ -258,6 +258,6 @@
 	}
 
 	.codicon::before {
-		margin-right: 4px;
+		margin-right: var(--tiny-gap);
 	}
 </style>

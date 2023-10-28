@@ -14,7 +14,7 @@
 	button {
 		display: inline-flex;
 		align-items: center;
-		gap: 4px;
+		gap: var(--tiny-gap);
 		background-color: var(--background-2);
 		color: var(--text-accent);
 		height: var(--line-height-small);

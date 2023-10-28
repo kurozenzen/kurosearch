@@ -185,6 +185,6 @@
 		justify-content: center;
 		align-items: center;
 		padding: 8px;
-		gap: 0.5rem;
+		gap: var(--small-gap);
 	}
 </style>

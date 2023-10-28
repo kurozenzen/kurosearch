@@ -58,6 +58,6 @@
 		color: var(--text-highlight);
 		font-weight: bold;
 		font-size: 18px;
-		margin-bottom: 0.5rem;
+		margin-bottom: var(--small-gap);
 	}
 </style>

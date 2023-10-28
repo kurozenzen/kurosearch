@@ -61,7 +61,7 @@
 		grid-row: 3/4;
 		grid-column: 1/2;
 		background-color: #0008;
-		padding: 4px;
+		padding: var(--tiny-gap);
 		color: white;
 		border-radius: 0 var(--border-radius) 0 0;
 	}
@@ -70,7 +70,7 @@
 		grid-row: 3/4;
 		grid-column: 3/4;
 		background-color: #0008;
-		padding: 4px;
+		padding: var(--tiny-gap);
 		color: white;
 		border-radius: var(--border-radius) 0 0 0;
 	}

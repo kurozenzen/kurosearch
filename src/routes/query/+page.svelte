@@ -140,7 +140,7 @@
 	}
 
 	p:not(.base) {
-		margin-left: 1rem;
+		margin-left: var(--grid-gap);
 	}
 
 	.base {

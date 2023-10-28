@@ -12,7 +12,7 @@
 		width: var(--line-height-small);
 		height: var(--line-height-small);
 		border-radius: var(--line-height-small);
-		padding: 4px;
+		padding: var(--tiny-gap);
 		background-color: var(--accent);
 		color: var(--text-accent);
 	}
