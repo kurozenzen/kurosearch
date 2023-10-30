@@ -25,6 +25,7 @@
 	import supertags from '$lib/store/supertags-store';
 	import { onDestroy, onMount } from 'svelte';
 	import resultColumns from '$lib/store/result-columns-store';
+	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -182,7 +183,9 @@
 	/>
 </section>
 
-{#if error}
+{#if loading}
+	<LoadingAnimation />
+{:else if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
