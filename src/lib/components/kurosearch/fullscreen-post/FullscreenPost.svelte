@@ -18,18 +18,18 @@
 		}
 	};
 
-	const exitOnHashChange = () => {
-		if (location.hash === '') {
+	const exitOnStateChange = () => {
+		if (history.state?.fullscreen === undefined || history.state?.fullscreen === false) {
 			close();
 		}
 	};
 
 	onMount(() => {
-		window.addEventListener('hashchange', exitOnHashChange);
+		window.addEventListener('popstate', exitOnStateChange);
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
-		window.removeEventListener('hashchange', exitOnHashChange);
+		window.removeEventListener('popstate', exitOnStateChange);
 		document.removeEventListener('keydown', keybinds);
 	});
 </script>

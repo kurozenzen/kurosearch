@@ -2,9 +2,9 @@
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import results from '$lib/store/results-store';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import FullscreenDetails from './FullscreenDetails.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
-	import FullscreenDetails from './FullscreenDetails.svelte';
 
 	export let index: number;
 

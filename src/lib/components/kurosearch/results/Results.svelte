@@ -19,9 +19,11 @@
 
 	$: {
 		if (fullscreenIndex !== undefined) {
-			location.hash = 'fullscreen';
+			history.pushState({ ...history.state, fullscreen: true }, '');
 		} else {
-			location.hash = '';
+			if (history.state?.fullscreen) {
+				history.back();
+			}
 		}
 	}
 </script>
@@ -55,7 +57,7 @@
 	</section>
 {/if}
 
-{#if fullscreenIndex !== undefined && fullscreenIndex !== null}
+{#if fullscreenIndex !== undefined}
 	<FullscreenPost index={fullscreenIndex} on:close={exitFullscreen} on:endreached />
 {/if}
 

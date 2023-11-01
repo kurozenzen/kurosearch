@@ -51,11 +51,13 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		height: 100vh;
+		width: 100vw;
+
 		display: grid;
 		place-items: center;
 		contain: strict;
-		height: 100vh;
-		width: 100vw;
+
 		background-color: var(--background-0);
 		backdrop-filter: blur(5px);
 		z-index: var(--z-dialog);
@@ -68,12 +70,12 @@
 	}
 
 	@media (pointer: fine) {
-		.fullscreen.dialog::-webkit-scrollbar {
+		div::-webkit-scrollbar {
 			width: 0px;
 			height: 0px;
 		}
 
-		.fullscreen.dialog {
+		div {
 			scrollbar-width: none;
 		}
 	}
