@@ -11,7 +11,6 @@
 	let fullscreenIndex: undefined | number;
 
 	const exitFullscreen = (event: CustomEvent<number>) => {
-		console.log('exit');
 		const post = $results.posts[event.detail];
 		const id = getPostId(post.id);
 		document.getElementById(id)?.scrollIntoView();
@@ -24,10 +23,6 @@
 		} else {
 			location.hash = '';
 		}
-	}
-
-	$: {
-		console.log('fs index:', fullscreenIndex);
 	}
 </script>
 
@@ -42,7 +37,6 @@
 			<SingleColumnPost
 				{post}
 				on:fullscreen={() => {
-					console.log('index', index);
 					fullscreenIndex = index;
 				}}
 			/>

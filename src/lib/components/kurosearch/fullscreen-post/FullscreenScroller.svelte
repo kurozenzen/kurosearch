@@ -79,16 +79,11 @@
 		}
 	};
 
-	$: {
-		console.log('scroll index', index);
-	}
-
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
 		focusCurrent();
 	});
 	onDestroy(() => {
-		console.log('scroller destroy');
 		document.removeEventListener('keydown', keybinds);
 	});
 </script>

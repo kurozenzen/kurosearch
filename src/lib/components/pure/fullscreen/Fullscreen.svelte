@@ -5,16 +5,12 @@
 	const close = () => dispatch('close');
 	const closeOnEscapePressed = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
-			console.log('escape close');
 			close();
 		}
 	};
 	const closeOnFullscreenExit = () => {
 		if (!document.fullscreenElement) {
-			console.log('fullscreen close');
 			close();
-		} else {
-			console.log('open');
 		}
 	};
 
@@ -22,7 +18,7 @@
 
 	onMount(async () => {
 		dialog.focus();
-		// document.addEventListener('fullscreenchange', closeOnFullscreenExit);
+		document.addEventListener('fullscreenchange', closeOnFullscreenExit);
 		try {
 			await dialog.requestFullscreen();
 		} catch {
@@ -31,13 +27,12 @@
 	});
 
 	onDestroy(async () => {
-		// document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
+		document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
 		try {
 			await document.exitFullscreen();
 		} catch {
 			// ignored
 		}
-		console.log('dialog destroy');
 	});
 </script>
 

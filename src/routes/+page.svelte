@@ -26,6 +26,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import resultColumns from '$lib/store/result-columns-store';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import cookiesAccepted from '$lib/store/cookies-accepted-store';
+	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 
 	let loading = false;
 	let error: Error | undefined;
@@ -166,7 +168,13 @@
 			}
 		}}
 	/>
-	<TextButton title="Search with the tags above" on:click={getFirstPage}>Search</TextButton>
+	<TextButton title="Search with the tags above" on:click={getFirstPage}>
+		{#if loading}
+			<LoadingAnimation />
+		{:else}
+			Search
+		{/if}
+	</TextButton>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
 		on:click={(e) =>
@@ -183,9 +191,7 @@
 	/>
 </section>
 
-{#if loading}
-	<LoadingAnimation />
-{:else if error}
+{#if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
@@ -212,6 +218,10 @@
 		on:close={() => (creatingSupertag = false)}
 		on:submit={(e) => supertags.add(e.detail)}
 	/>
+{/if}
+
+{#if !$cookiesAccepted}
+	<CookieMessage />
 {/if}
 
 <style>

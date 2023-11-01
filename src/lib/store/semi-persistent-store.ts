@@ -13,7 +13,7 @@ export const semiPersistentWritable = <T>(
 	serializer: SerializerFn<T> = defaultSerializer,
 	parser: ParserFn<T> = defaultParser
 ) => {
-	let storage;
+	let storage = undefined;
 
 	if (browser) {
 		const enabled = localStorage.getItem('kurosearch:localstorage-enabled') === 'true';

@@ -27,15 +27,17 @@
 	import theme from '$lib/store/theme-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
+	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 
 	let resetting = false;
 
 	const reset = () => {
-		localstorageEnabled.reset();
 		theme.reset();
+		localstorageEnabled.reset();
 		blockedContent.reset();
-		resultColumns.reset();
 		alwaysLoop.reset();
+		resultColumns.reset();
+		cookiesAccepted.reset();
 	};
 </script>
 

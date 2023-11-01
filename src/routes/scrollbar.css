@@ -4,9 +4,12 @@
 		height: var(--scrollbar-size);
 		transition: background-color var(--default-transition-behaviour);
 	}
-	
-	html,body, main {
+
+	html,
+	body,
+	main {
 		overflow-x: hidden;
+		overflow-y: scroll;
 		scrollbar-width: thin;
 	}
 
