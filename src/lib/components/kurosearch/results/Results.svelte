@@ -3,7 +3,6 @@
 	import { getPostId } from '$lib/logic/id-utils';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
-	import { onDestroy, onMount } from 'svelte';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
@@ -11,19 +10,25 @@
 
 	let fullscreenIndex: undefined | number;
 
-	const exit = (index: number) => {
-		const post = $results.posts[index];
-		const id = getPostId(post.id);
-		document.getElementById(id)?.scrollIntoView();
-		fullscreenIndex = undefined;
-	};
-
 	const exitFullscreen = (event: CustomEvent<number>) => {
+		console.log('exit');
 		const post = $results.posts[event.detail];
 		const id = getPostId(post.id);
 		document.getElementById(id)?.scrollIntoView();
 		fullscreenIndex = undefined;
 	};
+
+	$: {
+		if (fullscreenIndex !== undefined) {
+			location.hash = 'fullscreen';
+		} else {
+			location.hash = '';
+		}
+	}
+
+	$: {
+		console.log('fs index:', fullscreenIndex);
+	}
 </script>
 
 <div>
@@ -37,8 +42,8 @@
 			<SingleColumnPost
 				{post}
 				on:fullscreen={() => {
+					console.log('index', index);
 					fullscreenIndex = index;
-					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}
@@ -50,14 +55,13 @@
 				{post}
 				on:click={() => {
 					fullscreenIndex = index;
-					location.hash = 'fullscreen';
 				}}
 			/>
 		{/each}
 	</section>
 {/if}
 
-{#if fullscreenIndex !== undefined}
+{#if fullscreenIndex !== undefined && fullscreenIndex !== null}
 	<FullscreenPost index={fullscreenIndex} on:close={exitFullscreen} on:endreached />
 {/if}
 

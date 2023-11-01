@@ -2,7 +2,6 @@
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import results from '$lib/store/results-store';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-	import Details from '../details/Details.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
 	import FullscreenDetails from './FullscreenDetails.svelte';
@@ -54,7 +53,7 @@
 		if (event.key === 'd') {
 			event.preventDefault();
 			event.stopPropagation();
-			if (current.scrollLeft == 0) {
+			if (current.scrollLeft === 0) {
 				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' });
 			} else {
 				current.scrollBy({ left: -container.clientWidth, top: 0, behavior: 'smooth' });
@@ -80,11 +79,18 @@
 		}
 	};
 
+	$: {
+		console.log('scroll index', index);
+	}
+
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
 		focusCurrent();
 	});
-	onDestroy(() => document.removeEventListener('keydown', keybinds));
+	onDestroy(() => {
+		console.log('scroller destroy');
+		document.removeEventListener('keydown', keybinds);
+	});
 </script>
 
 <div class="root screen snap-container" bind:this={container} on:scroll={onScroll}>
