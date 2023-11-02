@@ -6,8 +6,6 @@
 	import Score from '$lib/components/kurosearch/score/Score.svelte';
 	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import SimpleTag from '../tag-simple/SimpleTag.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
@@ -25,7 +23,6 @@
 		<RelativeTime value={post.change} />
 		<span>•</span>
 		<Rule34Source url={post.file_url} />
-
 		{#if post.source}
 			<span>•</span>
 			<ExternalSource source={post.source} />
@@ -41,8 +38,6 @@
 		>
 			<span>{post.tags.length} tags</span>
 		</button>
-
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<button
 			on:click={() => {
 				tab = 'comments';
