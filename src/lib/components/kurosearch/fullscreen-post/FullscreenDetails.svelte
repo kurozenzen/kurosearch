@@ -6,6 +6,7 @@
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
 	import ExternalSource from '../source-external/ExternalSource.svelte';
+	import KurosearchSource from '../source-kurosearch/KurosearchSource.svelte';
 	import Rule34Source from '../source-rule34/Rule34Source.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
@@ -35,6 +36,8 @@
 		<RelativeTime value={post.change} />
 	</div>
 	<div class="flex-row">
+		<KurosearchSource url="/post?id={post.id}&src={post.file_url}" />
+		<span>•</span>
 		<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
 		<span>•</span>
 		<Rule34Source url={post.file_url} />

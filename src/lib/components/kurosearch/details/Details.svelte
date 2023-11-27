@@ -8,6 +8,7 @@
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
+	import KurosearchSource from '../source-kurosearch/KurosearchSource.svelte';
 
 	export let post: kurosearch.Post;
 
@@ -21,6 +22,8 @@
 		<Score value={post.score} />
 		<span>•</span>
 		<RelativeTime value={post.change} />
+		<span>•</span>
+		<KurosearchSource url="/post?id={post.id}&src={post.file_url}" />
 		<span>•</span>
 		<Rule34Source url={post.file_url} />
 		{#if post.source}

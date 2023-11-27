@@ -11,10 +11,19 @@
 
 	const url = browser ? new URL(location.href) : undefined;
 	const id = url && url.searchParams.has('id') ? Number(url.searchParams.get('id')) : undefined;
+	const src = url && url.searchParams.get('src');
+
+	$: ext = src?.split('.')?.at(-1) ?? '';
 </script>
 
 <svelte:head>
 	<title>kurosearch - Post {id}</title>
+	{#if src}
+		<meta property="og:image" content={src} />
+		<meta property="og:image:secure_url" content={src} />
+		<meta property="og:image:type" content="image/{ext}" />
+		<meta property="og:image:alt" content="Post {id}" />
+	{/if}
 </svelte:head>
 
 <div>
