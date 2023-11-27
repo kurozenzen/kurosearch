@@ -10,5 +10,6 @@ export enum StoreKey {
 	Results = 'kurosearch:results',
 	Theme = 'kurosearch:theme',
 	AlwaysLoop = 'kurosearch:always-loop',
-	CookiesAccepted = "kurosearch:cookies-accepted"
+	CookiesAccepted = 'kurosearch:cookies-accepted',
+	HighResolutionEnabled = 'kurosearch:high-resolution-enabled'
 }

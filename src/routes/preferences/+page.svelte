@@ -28,6 +28,7 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
 	let resetting = false;
 
@@ -38,6 +39,7 @@
 		alwaysLoop.reset();
 		resultColumns.reset();
 		cookiesAccepted.reset();
+		highResolutionEnabled.reset();
 	};
 </script>
 
@@ -80,6 +82,15 @@
 
 	<Preference title="Result layout" description="Save active tags and posts between sessions.">
 		<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
+	</Preference>
+
+	<Preference
+		title="Higher Resolution"
+		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
+	>
+		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
+			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
+		</Checkbox>
 	</Preference>
 
 	<Preference

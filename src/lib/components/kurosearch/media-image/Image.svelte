@@ -3,12 +3,14 @@
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
 	export let post: kurosearch.Post;
 	export let open: boolean;
 
 	$: ratio = post.width / post.height;
 	$: expandable = ratio < 0.33;
+	$: src = highResolutionEnabled ? post.file_url : post.sample_url;
 
 	let media: HTMLImageElement;
 
@@ -25,14 +27,14 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
+		bind:this={media}
 		class="post-media"
 		loading="lazy"
-		data-src={post.sample_url}
+		data-src={src}
 		alt={post.id.toString()}
 		style={`aspect-ratio: ${post.width} / ${post.height}`}
 		width={post.width}
 		height={post.height}
-		bind:this={media}
 		tabindex="0"
 		on:click
 		on:keydown={clickOnEnter}
