@@ -23,7 +23,7 @@
 		<span>•</span>
 		<RelativeTime value={post.change} />
 		<span>•</span>
-		<KurosearchSource url="/post?id={post.id}&src={post.file_url}" />
+		<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
 		<span>•</span>
 		<Rule34Source url={post.file_url} />
 		{#if post.source}

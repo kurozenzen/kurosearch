@@ -36,7 +36,7 @@
 		<RelativeTime value={post.change} />
 	</div>
 	<div class="flex-row">
-		<KurosearchSource url="/post?id={post.id}&src={post.file_url}" />
+		<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
 		<span>•</span>
 		<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
 		<span>•</span>
