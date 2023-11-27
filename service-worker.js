@@ -1,27 +1,27 @@
 const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), n = [
-  s + "/app/immutable/entry/app.eaf920e8.js",
+  s + "/app/immutable/entry/app.6597cfd5.js",
   s + "/app/immutable/assets/0.a494718f.css",
-  s + "/app/immutable/nodes/0.a379e47c.js",
-  s + "/app/immutable/nodes/1.6cba2761.js",
-  s + "/app/immutable/nodes/10.b0187a37.js",
+  s + "/app/immutable/nodes/0.9cc300ce.js",
+  s + "/app/immutable/nodes/1.b61a0e3f.js",
+  s + "/app/immutable/nodes/10.25f3d6df.js",
   s + "/app/immutable/assets/11.2860deb1.css",
-  s + "/app/immutable/nodes/11.eba9b448.js",
+  s + "/app/immutable/nodes/11.89b3abd7.js",
   s + "/app/immutable/assets/2.2c20c7d2.css",
-  s + "/app/immutable/nodes/2.42c33196.js",
+  s + "/app/immutable/nodes/2.0dd7e10b.js",
   s + "/app/immutable/assets/3.2109d544.css",
-  s + "/app/immutable/nodes/3.eb3762a0.js",
+  s + "/app/immutable/nodes/3.6bf285b8.js",
   s + "/app/immutable/assets/4.2862bfce.css",
-  s + "/app/immutable/nodes/4.de87ce65.js",
+  s + "/app/immutable/nodes/4.51255397.js",
   s + "/app/immutable/assets/5.bf88a0a5.css",
-  s + "/app/immutable/nodes/5.23cc40df.js",
+  s + "/app/immutable/nodes/5.f02e37c7.js",
   s + "/app/immutable/assets/6.4a9508f1.css",
-  s + "/app/immutable/nodes/6.f7d99cbb.js",
+  s + "/app/immutable/nodes/6.06b58f10.js",
   s + "/app/immutable/assets/7.c908c19d.css",
-  s + "/app/immutable/nodes/7.fbc7b15c.js",
+  s + "/app/immutable/nodes/7.e9c3e5fb.js",
   s + "/app/immutable/assets/8.f411f3c9.css",
-  s + "/app/immutable/nodes/8.dbf426db.js",
+  s + "/app/immutable/nodes/8.611c81b8.js",
   s + "/app/immutable/assets/9.b47ee95b.css",
-  s + "/app/immutable/nodes/9.50a07ed6.js",
+  s + "/app/immutable/nodes/9.5296b557.js",
   s + "/app/immutable/assets/ActiveTagList.92193b89.css",
   s + "/app/immutable/assets/Checkbox.de4b02c1.css",
   s + "/app/immutable/assets/CodiconLink.bdf8e2b9.css",
@@ -37,53 +37,53 @@ const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), n
   s + "/app/immutable/assets/SimpleTag.4fc222e7.css",
   s + "/app/immutable/assets/TextButton.03e2b204.css",
   s + "/app/immutable/assets/TextInput.ff3608fc.css",
-  s + "/app/immutable/chunks/ActiveTagList.707face6.js",
-  s + "/app/immutable/chunks/Checkbox.e011ece6.js",
-  s + "/app/immutable/chunks/CodiconLink.03762cb7.js",
-  s + "/app/immutable/chunks/DetailedTag.2d4ca846.js",
-  s + "/app/immutable/chunks/Details.14f62cbf.js",
-  s + "/app/immutable/chunks/Heading3.428b0aa7.js",
-  s + "/app/immutable/chunks/IconLink.ec8e4ec5.js",
-  s + "/app/immutable/chunks/LoadingAnimation.08dd10df.js",
-  s + "/app/immutable/chunks/ModifierSelect.6fdc6a54.js",
-  s + "/app/immutable/chunks/RotatingTextSelect.2729c896.js",
-  s + "/app/immutable/chunks/ScrollUpButton.0d29f4f6.js",
-  s + "/app/immutable/chunks/Select.ce2f7816.js",
-  s + "/app/immutable/chunks/SettingsLink.3a904925.js",
-  s + "/app/immutable/chunks/SimpleTag.fdc0e767.js",
-  s + "/app/immutable/chunks/TextButton.217547ed.js",
-  s + "/app/immutable/chunks/TextInput.9bfbcc6a.js",
-  s + "/app/immutable/chunks/active-supertags-store.ab7cc25a.js",
-  s + "/app/immutable/chunks/active-tags-store.b3e4fe76.js",
-  s + "/app/immutable/chunks/always-loop-store.15242a8e.js",
-  s + "/app/immutable/chunks/analytics.eca95ce1.js",
-  s + "/app/immutable/chunks/await_block.091a89a4.js",
-  s + "/app/immutable/chunks/blocked-content-store.9c031c36.js",
-  s + "/app/immutable/chunks/cookies-accepted-store.5162e58d.js",
+  s + "/app/immutable/chunks/ActiveTagList.d76da173.js",
+  s + "/app/immutable/chunks/Checkbox.497fa8ba.js",
+  s + "/app/immutable/chunks/CodiconLink.9994dbe4.js",
+  s + "/app/immutable/chunks/DetailedTag.42657508.js",
+  s + "/app/immutable/chunks/Details.23d03aa7.js",
+  s + "/app/immutable/chunks/Heading3.b8e77da3.js",
+  s + "/app/immutable/chunks/IconLink.57aeb590.js",
+  s + "/app/immutable/chunks/LoadingAnimation.1752780f.js",
+  s + "/app/immutable/chunks/ModifierSelect.b17e978c.js",
+  s + "/app/immutable/chunks/RotatingTextSelect.068e75cb.js",
+  s + "/app/immutable/chunks/ScrollUpButton.7d16a589.js",
+  s + "/app/immutable/chunks/Select.86ea1f7f.js",
+  s + "/app/immutable/chunks/SettingsLink.c3b4965f.js",
+  s + "/app/immutable/chunks/SimpleTag.4f811b70.js",
+  s + "/app/immutable/chunks/TextButton.bf64be78.js",
+  s + "/app/immutable/chunks/TextInput.f775e214.js",
+  s + "/app/immutable/chunks/active-supertags-store.25be6742.js",
+  s + "/app/immutable/chunks/active-tags-store.0c57ba23.js",
+  s + "/app/immutable/chunks/always-loop-store.bf7dfe24.js",
+  s + "/app/immutable/chunks/analytics.b280da65.js",
+  s + "/app/immutable/chunks/await_block.af8be678.js",
+  s + "/app/immutable/chunks/blocked-content-store.7da87934.js",
+  s + "/app/immutable/chunks/cookies-accepted-store.e594aa74.js",
   s + "/app/immutable/chunks/each.e59479a4.js",
-  s + "/app/immutable/chunks/environment.ae245e4c.js",
+  s + "/app/immutable/chunks/environment.5ea1d4a0.js",
   s + "/app/immutable/chunks/feature-support.8f9b3d5f.js",
-  s + "/app/immutable/chunks/firebase.db73743e.js",
+  s + "/app/immutable/chunks/firebase.ac72eb03.js",
   s + "/app/immutable/chunks/format-tag.7e313273.js",
-  s + "/app/immutable/chunks/index.16c92c5c.js",
-  s + "/app/immutable/chunks/index.97ca5757.js",
-  s + "/app/immutable/chunks/index.esm2017.45e8812c.js",
-  s + "/app/immutable/chunks/localstorage-enabled-store.03036c58.js",
+  s + "/app/immutable/chunks/index.aa0a4971.js",
+  s + "/app/immutable/chunks/index.esm2017.b35d87a0.js",
+  s + "/app/immutable/chunks/index.fb84d337.js",
+  s + "/app/immutable/chunks/localstorage-enabled-store.05ddb642.js",
   s + "/app/immutable/assets/localstorage-enabled-store.2fafd00f.css",
-  s + "/app/immutable/chunks/paths.a7b9af60.js",
-  s + "/app/immutable/chunks/result-columns-store.fb17ebd6.js",
+  s + "/app/immutable/chunks/paths.98cc2d03.js",
+  s + "/app/immutable/chunks/result-columns-store.6bdf0258.js",
   s + "/app/immutable/assets/result-columns-store.961fb085.css",
-  s + "/app/immutable/chunks/scheduler.a20787a1.js",
-  s + "/app/immutable/chunks/singletons.677b677d.js",
-  s + "/app/immutable/chunks/store-keys.b00e21d8.js",
-  s + "/app/immutable/chunks/supertags-store.1a083429.js",
+  s + "/app/immutable/chunks/scheduler.32f194ce.js",
+  s + "/app/immutable/chunks/singletons.02063bc8.js",
+  s + "/app/immutable/chunks/store-keys.5ba1804d.js",
+  s + "/app/immutable/chunks/supertags-store.b42c237d.js",
   s + "/app/immutable/assets/supertags-store.e12faf40.css",
   s + "/app/immutable/chunks/tag-modifier-data.021c0243.js",
   s + "/app/immutable/chunks/tag-type-data.934b5280.js",
   s + "/app/immutable/chunks/tag-utils.ceb6413c.js",
   s + "/app/immutable/chunks/tags.49324235.js",
-  s + "/app/immutable/chunks/theme-store.db9f0a3b.js",
-  s + "/app/immutable/entry/start.b0c20e69.js"
+  s + "/app/immutable/chunks/theme-store.ff27f5d9.js",
+  s + "/app/immutable/entry/start.06f98f13.js"
 ], u = [
   s + "/.nojekyll",
   s + "/assets/default-user.png",
@@ -117,7 +117,7 @@ const s = /* @__PURE__ */ location.pathname.split("/").slice(0, -1).join("/"), n
   s + "/manifest.json",
   s + "/robots.txt",
   s + "/sw.js"
-], l = "5f3ee4a", m = `cache-${l}`, i = [
+], b = "1889311", m = `cache-${b}`, i = [
   ...n,
   // the app itself
   ...u.filter((a) => !a.endsWith(".nojekyll"))
@@ -140,14 +140,14 @@ self.addEventListener("fetch", (a) => {
   if (a.request.method !== "GET")
     return;
   async function t() {
-    const e = new URL(a.request.url), c = await caches.open(m);
+    const e = new URL(a.request.url), p = await caches.open(m);
     if (i.includes(e.pathname))
-      return c.match(e.pathname);
+      return p.match(e.pathname);
     try {
-      const p = await fetch(a.request);
-      return p.status === 200 && c.put(a.request, p.clone()), p;
+      const c = await fetch(a.request);
+      return c.status === 200 && p.put(a.request, c.clone()), c;
     } catch {
-      return c.match(a.request);
+      return p.match(a.request);
     }
   }
   a.respondWith(t());
