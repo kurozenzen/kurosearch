@@ -2,7 +2,7 @@
 	export let url: string;
 </script>
 
-<a href={url} target="_newtab"><i class="codicon codicon-link-external" /> File</a>
+<a href={url} target="_newtab"><i class="codicon codicon-file" /> File</a>
 
 <style>
 	a {
