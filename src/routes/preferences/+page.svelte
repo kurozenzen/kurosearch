@@ -29,6 +29,9 @@
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import resultsStore from '$lib/store/results-store';
+	import activeTagsStore from '$lib/store/active-tags-store';
+	import activeSupertagsStore from '$lib/store/active-supertags-store';
 
 	let resetting = false;
 
@@ -58,6 +61,21 @@
 		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>
 			{$localstorageEnabled ? 'Save' : "Don't save"}
 		</Checkbox>
+		<div>
+			<TextButton title="Reset Posts" type="secondary" on:click={() => resultsStore.reset()}>
+				Reset Posts
+			</TextButton>
+			<TextButton
+				title="Reset Tags"
+				type="secondary"
+				on:click={() => {
+					activeTagsStore.reset();
+					activeSupertagsStore.reset();
+				}}
+			>
+				Reset Tags
+			</TextButton>
+		</div>
 	</Preference>
 
 	<Preference
@@ -115,5 +133,11 @@
 <style>
 	section {
 		padding-inline: var(--grid-gap);
+	}
+
+	div {
+		display: flex;
+		padding-block-start: var(--grid-gap);
+		gap: var(--grid-gap);
 	}
 </style>

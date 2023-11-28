@@ -203,6 +203,7 @@
 				<NoMoreResults />
 			{:else}
 				<IntersectionDetector
+					absoluteTop={undefined}
 					rootMargin="{1000 / Number($resultColumns)}px"
 					on:intersection={getNextPage}
 				/>

@@ -79,6 +79,12 @@
 		}
 	};
 
+	$: {
+		if (window.innerHeight) {
+			console.log(window.innerHeight * 2, 'height');
+		}
+	}
+
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
 		focusCurrent();
@@ -107,8 +113,12 @@
 		<div class="pseudo snap-item" style:top="{i * 100}vh" />
 	{/each}
 	<IntersectionDetector
-		rootMargin="{window.innerHeight * 2}px"
-		on:intersection={() => dispatch('endreached')}
+		absoluteTop="{$results.posts.length * 100}vh"
+		rootMargin="{window.innerHeight * 3}px"
+		on:intersection={() => {
+			console.log('endreached');
+			dispatch('endreached');
+		}}
 	/>
 </div>
 
