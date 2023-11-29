@@ -7,9 +7,9 @@
 			content="default-src 'self'; 
 		style-src 'self' 'unsafe-inline'; 
 		script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-inline';
-		connect-src 'self' https://apis.google.com https://*.rule34.xxx https://*.googleapis.com https://*.google-analytics.com https://api.github.com;
-		img-src 'self' https://*.rule34.xxx https://*.googleusercontent.com https://www.googletagmanager.com; 
-		media-src 'self' https://*.rule34.xxx; 
+		connect-src 'self' https://apis.google.com https://rule34.xxx https://api.rule34.xxx https://*.googleapis.com https://*.google-analytics.com https://api.github.com;
+		img-src 'self' https://rule34.xxx https://api.rule34.xxx https://*.googleusercontent.com https://www.googletagmanager.com; 
+		media-src 'self' https://rule34.xxx https://api.rule34.xxx; 
 		frame-src https://r34-react.firebaseapp.com;"
 		/>
 		<link rel="icon" href="./favicon.svg" />
@@ -23,26 +23,26 @@
 		<link href="./app/immutable/assets/9.b47ee95b.css" rel="stylesheet">
 		<link href="./app/immutable/assets/ActiveTagList.92193b89.css" rel="stylesheet">
 		<link href="./app/immutable/assets/DetailedTag.b1d0d53b.css" rel="stylesheet">
-		<link href="./app/immutable/assets/supertags-store.e12faf40.css" rel="stylesheet">
+		<link href="./app/immutable/assets/Searchbar.e12faf40.css" rel="stylesheet">
 		<link href="./app/immutable/assets/ModifierSelect.31c7e0b5.css" rel="stylesheet">
 		<link href="./app/immutable/assets/LoadingAnimation.79e4bc51.css" rel="stylesheet">
-		<link rel="modulepreload" href="./app/immutable/entry/start.a8de63d8.js">
+		<link rel="modulepreload" href="./app/immutable/entry/start.b4368aa5.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/scheduler.32f194ce.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/singletons.48de00ea.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/singletons.dc26099e.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/index.fb84d337.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/paths.ffcd241c.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/environment.53b6cc21.js">
-		<link rel="modulepreload" href="./app/immutable/entry/app.64357553.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/paths.94c687ba.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/environment.4787a835.js">
+		<link rel="modulepreload" href="./app/immutable/entry/app.d028c855.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/index.aa0a4971.js">
-		<link rel="modulepreload" href="./app/immutable/nodes/0.c4e64ffc.js">
+		<link rel="modulepreload" href="./app/immutable/nodes/0.22460830.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/firebase.ac72eb03.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/index.esm2017.b35d87a0.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/SettingsLink.4fffd380.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/SettingsLink.2cbee7d0.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/IconLink.57aeb590.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/CodiconLink.9994dbe4.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/theme-store.69ddfb31.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/store-keys.010b89a6.js">
-		<link rel="modulepreload" href="./app/immutable/nodes/9.9d848836.js">
+		<link rel="modulepreload" href="./app/immutable/nodes/9.553b365d.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/each.e59479a4.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/ActiveTagList.a34015b3.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/DetailedTag.42657508.js">
@@ -56,11 +56,12 @@
 		<link rel="modulepreload" href="./app/immutable/chunks/posts.fc0b5ba4.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/blocked-content-store.4020ee6a.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/feature-support.8f9b3d5f.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/supertags-store.6c2f2fc5.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/Searchbar.f617b69a.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/await_block.af8be678.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/ModifierSelect.b17e978c.js">
 		<link rel="modulepreload" href="./app/immutable/chunks/LoadingAnimation.1752780f.js">
-		<link rel="modulepreload" href="./app/immutable/chunks/active-supertags-store.191bceb4.js"><title>kurosearch - Query Builder</title><!-- HEAD_svelte-2z3lmb_START --><script lang="ts" data-svelte-h="svelte-1lysl69">const [accent, theme] = (localStorage.getItem("kurosearch:theme") ?? "crimson dark").split(" ");
+		<link rel="modulepreload" href="./app/immutable/chunks/active-supertags-store.191bceb4.js">
+		<link rel="modulepreload" href="./app/immutable/chunks/supertags-store.5b66bb0f.js"><title>kurosearch - Query Builder</title><!-- HEAD_svelte-2z3lmb_START --><script lang="ts" data-svelte-h="svelte-1lysl69">const [accent, theme] = (localStorage.getItem("kurosearch:theme") ?? "crimson dark").split(" ");
 document.documentElement.dataset.theme = theme;
 document.documentElement.dataset.accent = accent;</script><!-- HEAD_svelte-2z3lmb_END --><!-- HEAD_svelte-fr2gtz_START --><!-- HEAD_svelte-fr2gtz_END -->
 		<meta name="referrer" content="no-referrer" />
@@ -81,7 +82,7 @@ document.documentElement.dataset.accent = accent;</script><!-- HEAD_svelte-2z3lm
 			
 			<script>
 				{
-					__sveltekit_1o3exah = {
+					__sveltekit_1xn5ouk = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						env: {}
 					};
@@ -91,8 +92,8 @@ document.documentElement.dataset.accent = accent;</script><!-- HEAD_svelte-2z3lm
 					const data = [null,null];
 
 					Promise.all([
-						import("./app/immutable/entry/start.a8de63d8.js"),
-						import("./app/immutable/entry/app.64357553.js")
+						import("./app/immutable/entry/start.b4368aa5.js"),
+						import("./app/immutable/entry/app.d028c855.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 9],
