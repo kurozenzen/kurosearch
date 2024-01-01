@@ -15,8 +15,8 @@
 	const REGION_OPTIONS = Object.freeze({
 		'img.rule34.xxx': 'Default',
 		'cali.rule34.xxx': 'California/Alaska',
-		'us.rule34.xxx': 'United States',
-		'hk.rule34.xxx': 'Asia/Oceania'
+		'us.rule34.xxx': 'North/South America',
+		'hk.rule34.xxx': 'South East Asia/Oceania'
 	});
 </script>
 
