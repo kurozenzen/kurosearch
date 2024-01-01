@@ -1,1 +1,0 @@
-import{p as t,S as i,b as o,a}from"./store-keys.010b89a6.js";const r=()=>{const{subscribe:s,set:e}=t(i.HighResolutionEnabled,!1,a,o);return{subscribe:s,set:e,reset:()=>e(!1)}},b=r(),l=()=>{const{subscribe:s,set:e}=t(i.AlwaysLoop,!1,a,o);return{subscribe:s,set:e,reset:()=>e(!1)}},p=l();export{p as a,b as h};
