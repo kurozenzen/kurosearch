@@ -1,6 +1,8 @@
 <script lang="ts">
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getComments } from '$lib/logic/api-client/ApiClient';
+	import { replaceHost } from '$lib/logic/url-utils';
+	import imageServerUrl from '$lib/store/image-server-url-store';
 	import Comment from '../comment/Comment.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -12,6 +14,8 @@
 
 	export let post: kurosearch.Post;
 
+	$: file_url = replaceHost(post.file_url, $imageServerUrl);
+	$: sample_url = replaceHost(post.sample_url, $imageServerUrl);
 	$: tagsByType = post.tags.reduce((result, tag) => {
 		if (result[tag.type] === undefined) {
 			result[tag.type] = [];
@@ -24,7 +28,7 @@
 </script>
 
 <div class="details">
-	<img class="preview" src={post.sample_url} alt="preview" />
+	<img class="preview" src={sample_url} alt="preview" />
 	<h1>Post <b>#{post.id}</b></h1>
 	<div class="flex-row">
 		<Rating value={post.rating} />
@@ -36,11 +40,11 @@
 		<RelativeTime value={post.change} />
 	</div>
 	<div class="flex-row">
-		<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
+		<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(file_url)}" />
 		<span>•</span>
 		<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
 		<span>•</span>
-		<Rule34Source url={post.file_url} />
+		<Rule34Source url={file_url} />
 		{#if post.source}
 			<span>•</span>
 			<ExternalSource source={post.source} />

@@ -19,6 +19,7 @@
 		border-radius: var(--border-radius-full);
 		text-align: center;
 		text-transform: uppercase;
+		white-space: nowrap;
 	}
 
 	button:disabled {

@@ -6,8 +6,10 @@
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
-	import { isLoop } from '$lib/logic/media-utils';
+	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import { replaceHost } from '$lib/logic/url-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
+	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	const url = browser ? new URL(location.href) : undefined;
 	const id = url && url.searchParams.has('id') ? Number(url.searchParams.get('id')) : undefined;
@@ -34,9 +36,12 @@
 			{#if post.type === 'image'}
 				<Image {post} open />
 			{:else if post.type === 'video'}
+				{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
+				{@const animatedSource = replaceHost(sources.animated, $imageServerUrl)}
+				{@const staticSource = replaceHost(sources.static, $imageServerUrl)}
 				<Video
-					src={post.file_url}
-					poster={post.sample_url}
+					src={animatedSource}
+					poster={staticSource}
 					width={post.width}
 					height={post.height}
 					loop={$alwaysLoop || isLoop(post.tags)}

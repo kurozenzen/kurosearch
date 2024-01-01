@@ -12,6 +12,12 @@
 		'3': 'Three Columns',
 		'4': 'Four Columns'
 	});
+	const REGION_OPTIONS = Object.freeze({
+		'img.rule34.xxx': 'Default',
+		'cali.rule34.xxx': 'California/Alaska',
+		'us.rule34.xxx': 'United States',
+		'hk.rule34.xxx': 'Asia/Oceania'
+	});
 </script>
 
 <script>
@@ -32,6 +38,7 @@
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
+	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	let resetting = false;
 
@@ -55,6 +62,13 @@
 
 	<Preference title="Theme" description="Change the look of the app.">
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
+	</Preference>
+
+	<Preference
+		title="Region"
+		description="Setting this appropriately will choose the fastest available server."
+	>
+		<Select bind:value={$imageServerUrl} options={REGION_OPTIONS} />
 	</Preference>
 
 	<Preference title="Save Tags & Posts" description="Save active tags and posts between sessions.">
@@ -138,6 +152,7 @@
 	div {
 		display: flex;
 		padding-block-start: var(--grid-gap);
+		flex-wrap: wrap;
 		gap: var(--grid-gap);
 	}
 </style>

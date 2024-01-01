@@ -2,7 +2,7 @@ import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
 
-let postCache = new Map<number, kurosearch.Post>();
+const postCache = new Map<number, kurosearch.Post>();
 
 export const PAGE_SIZE = 20;
 

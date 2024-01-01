@@ -5,6 +5,8 @@
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { base } from '$app/paths';
+	import { replaceHost } from '$lib/logic/url-utils';
+	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	export let post: kurosearch.Post;
 
@@ -13,10 +15,12 @@
 	let loading = false;
 
 	$: sources = getGifSources(post.file_url, post.sample_url, post.preview_url);
-	$: data_src = playing ? sources.animated : sources.static;
+	$: animatedSource = replaceHost(sources.animated, $imageServerUrl);
+	$: staticSource = replaceHost(sources.static, $imageServerUrl);
+	$: data_src = playing ? animatedSource : staticSource;
 	$: {
 		if (media) {
-			media.src = playing ? sources.animated : sources.static;
+			media.src = playing ? animatedSource : staticSource;
 		}
 	}
 

@@ -8,6 +8,8 @@
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import { getPostId } from '$lib/logic/id-utils';
+	import { replaceHost } from '$lib/logic/url-utils';
+	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	const dispatch = createEventDispatcher();
 	const toggleOpen = () => (open = !open);
@@ -32,9 +34,11 @@
 		<Image {post} on:click={toggleOpen} {open} />
 	{:else if post.type === 'video'}
 		{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
+		{@const animatedSource = replaceHost(sources.animated, $imageServerUrl)}
+		{@const staticSource = replaceHost(sources.static, $imageServerUrl)}
 		<Video
-			src={sources.animated}
-			poster={sources.static}
+			src={animatedSource}
+			poster={staticSource}
 			width={post.width}
 			height={post.height}
 			loop={$alwaysLoop || isLoop(post.tags)}
