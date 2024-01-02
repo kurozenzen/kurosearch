@@ -8,6 +8,10 @@ export const isValidUrl = (value: string) => {
 };
 
 export const replaceHost = (urlString: string, hostname: string) => {
+	if (hostname === 'automatic') {
+		return urlString;
+	}
+
 	try {
 		const url = new URL(urlString);
 		url.hostname = hostname;
@@ -15,4 +19,4 @@ export const replaceHost = (urlString: string, hostname: string) => {
 	} catch {
 		return urlString;
 	}
-}
+};

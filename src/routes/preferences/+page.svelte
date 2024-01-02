@@ -12,11 +12,12 @@
 		'3': 'Three Columns',
 		'4': 'Four Columns'
 	});
-	const REGION_OPTIONS = Object.freeze({
-		'img.rule34.xxx': 'Default',
-		'cali.rule34.xxx': 'California/Alaska',
-		'us.rule34.xxx': 'North/South America',
-		'hk.rule34.xxx': 'South East Asia/Oceania'
+	const IMAGE_SERVER_OPTIONS = Object.freeze({
+		automatic: 'Automatic',
+		'img.rule34.xxx': 'img.rule34.xxx',
+		// 'cali.rule34.xxx': 'cali.rule34.xxx',
+		'us.rule34.xxx': 'us.rule34.xxx',
+		// 'hk.rule34.xxx': 'hk.rule34.xxx'
 	});
 </script>
 
@@ -65,10 +66,10 @@
 	</Preference>
 
 	<Preference
-		title="Region"
-		description="Setting this appropriately will choose the fastest available server."
+		title="Image Server"
+		description="Manually choose the image server you are connecting to. By default, rule34.xxx will choose the best server for you which can be buggy."
 	>
-		<Select bind:value={$imageServerUrl} options={REGION_OPTIONS} />
+		<Select bind:value={$imageServerUrl} options={IMAGE_SERVER_OPTIONS} />
 	</Preference>
 
 	<Preference title="Save Tags & Posts" description="Save active tags and posts between sessions.">
