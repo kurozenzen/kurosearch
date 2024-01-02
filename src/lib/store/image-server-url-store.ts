@@ -2,7 +2,7 @@ import { persistentWritable, stringParser, stringSerializer } from './persistent
 import { StoreKey } from './store-keys';
 
 const createImageServerUrlStore = () => {
-	const initial = 'img.rule34.xxx';
+	const initial = 'automatic';
 	const { subscribe, set } = persistentWritable(
 		StoreKey.ImageServerUrl,
 		initial,
