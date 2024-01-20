@@ -4,15 +4,13 @@
 	import { postObserver } from '$lib/logic/post-observer';
 	import { onDestroy, onMount } from 'svelte';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import { replaceHost } from '$lib/logic/url-utils';
-	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	export let post: kurosearch.Post;
 	export let open: boolean;
 
 	$: ratio = post.width / post.height;
 	$: expandable = ratio < 0.33;
-	$: src = replaceHost(highResolutionEnabled ? post.file_url : post.sample_url, $imageServerUrl);
+	$: src = highResolutionEnabled ? post.file_url : post.sample_url;
 
 	let media: HTMLImageElement;
 

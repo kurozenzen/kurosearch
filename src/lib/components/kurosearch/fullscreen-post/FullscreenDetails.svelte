@@ -1,8 +1,6 @@
 <script lang="ts">
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getComments } from '$lib/logic/api-client/ApiClient';
-	import { replaceHost } from '$lib/logic/url-utils';
-	import imageServerUrl from '$lib/store/image-server-url-store';
 	import Comment from '../comment/Comment.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -14,8 +12,8 @@
 
 	export let post: kurosearch.Post;
 
-	$: file_url = replaceHost(post.file_url, $imageServerUrl);
-	$: sample_url = replaceHost(post.sample_url, $imageServerUrl);
+	$: file_url = post.file_url;
+	$: sample_url = post.sample_url;
 	$: tagsByType = post.tags.reduce((result, tag) => {
 		if (result[tag.type] === undefined) {
 			result[tag.type] = [];

@@ -39,7 +39,6 @@
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	let resetting = false;
 
@@ -63,13 +62,6 @@
 
 	<Preference title="Theme" description="Change the look of the app.">
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
-	</Preference>
-
-	<Preference
-		title="Image Server"
-		description="Manually choose the image server you are connecting to. By default, rule34.xxx will choose the best server for you which can be buggy."
-	>
-		<Select bind:value={$imageServerUrl} options={IMAGE_SERVER_OPTIONS} />
 	</Preference>
 
 	<Preference title="Save Tags & Posts" description="Save active tags and posts between sessions.">

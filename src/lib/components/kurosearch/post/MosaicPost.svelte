@@ -2,8 +2,6 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
-	import { replaceHost } from '$lib/logic/url-utils';
-	import imageServerUrl from '$lib/store/image-server-url-store';
 
 	export let post: kurosearch.Post;
 
@@ -13,7 +11,7 @@
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
 
-	$: previewSrc = replaceHost(isImage(post.sample_url) ? post.sample_url : post.preview_url, $imageServerUrl);
+	$: previewSrc = isImage(post.sample_url) ? post.sample_url : post.preview_url;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->

@@ -9,14 +9,12 @@
 	import Rating from '../rating/Rating.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import KurosearchSource from '../source-kurosearch/KurosearchSource.svelte';
-	import imageServerUrl from '$lib/store/image-server-url-store';
-	import { replaceHost } from '$lib/logic/url-utils';
 
 	export let post: kurosearch.Post;
 
 	let tab = 'tags';
 	
-	$: file_url = replaceHost(post.file_url, $imageServerUrl);
+	$: file_url = post.file_url;
 </script>
 
 <div class="details">

@@ -12,5 +12,4 @@ export enum StoreKey {
 	AlwaysLoop = 'kurosearch:always-loop',
 	CookiesAccepted = 'kurosearch:cookies-accepted',
 	HighResolutionEnabled = 'kurosearch:high-resolution-enabled',
-	ImageServerUrl = "kurosearch:image-server-url"
 }
