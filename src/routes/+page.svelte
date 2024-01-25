@@ -133,6 +133,7 @@
 	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
+			getFirstPage();
 		}
 	});
 
