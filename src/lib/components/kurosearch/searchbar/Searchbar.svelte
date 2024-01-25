@@ -101,7 +101,7 @@
 
 	<CodiconLink
 		title="More information on tags."
-		href="{base}/help#tags"
+		href="{base}/help"
 		icon="codicon codicon-question"
 	/>
 	<ol class:open={focusInside && hasDropdownContent}>
