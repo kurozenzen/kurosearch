@@ -130,6 +130,7 @@
 			nextFocus = Math.max(nextFocus - 1, 0);
 		}
 	};
+
 	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
