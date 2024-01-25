@@ -133,7 +133,9 @@
 	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', focusSearchBarHotkey);
-			getFirstPage();
+			if ($results.postCount === 0) {
+				getFirstPage();
+			}
 		}
 	});
 
