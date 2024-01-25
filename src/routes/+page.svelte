@@ -237,7 +237,7 @@
 	}
 
 	#search {
-		margin-block: 20vh;
+		margin-block-start: 20vh;
 		padding-inline: var(--small-gap);
 	}
 
