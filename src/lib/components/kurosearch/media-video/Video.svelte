@@ -80,7 +80,7 @@
 	onMount(() => observer?.observe(container));
 	onDestroy(() => {
 		observer?.unobserve(container);
-		video.src = '';
+		video?.src = '';
 	});
 </script>
 
