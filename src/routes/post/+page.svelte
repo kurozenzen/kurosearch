@@ -24,6 +24,7 @@
 		<meta property="og:image:type" content="image/{ext}" />
 		<meta property="og:image:alt" content="Post {id}" />
 	{/if}
+	<meta name="description" content="Viewing a single post. Post ID: {id}" />
 </svelte:head>
 
 <div>

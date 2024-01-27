@@ -63,6 +63,7 @@
 
 <svelte:head>
 	<title>kurosearch - Account</title>
+	<meta name="description" content="All of your account data is available on this page." />
 </svelte:head>
 
 <section>

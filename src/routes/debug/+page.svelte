@@ -13,6 +13,11 @@
 	} from '$lib/logic/feature-support';
 </script>
 
+<svelte:head>
+	<title>kurosearch - Debugger</title>
+	<meta name="description" content="Debugging tools for kurosearch." />
+</svelte:head>
+
 <section>
 	<Heading1>Debug Info</Heading1>
 	<Heading3>Supported Features</Heading3>

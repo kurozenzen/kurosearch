@@ -153,6 +153,14 @@
 	});
 </script>
 
+<svelte:head>
+	<title>kurosearch - Rule34 Hentai</title>
+	<meta
+		name="description"
+		content="Simple and powerful Rule34 browsing site with a focus on simplicity and user experience."
+	/>
+</svelte:head>
+
 <section id="search">
 	<KurosearchTitle />
 	<Searchbar

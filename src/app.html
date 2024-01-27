@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+	<head>
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		%sveltekit.head%
+		<!-- PWA -->
+		<meta name="theme-color" content="#000" />
+		<meta name="background-color" content="#000" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/icon/ks-192.png" sizes="192x192" />
+		<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#000" />
+	</head>
 
-<head>
-	<title>kurosearch - Rule34 Hentai</title>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-		style-src 'self' 'unsafe-inline'; 
-		script-src 'self' https://apis.google.com https://www.googletagmanager.com 'unsafe-inline';
-		connect-src 'self' https://apis.google.com https://rule34.xxx https://*.rule34.xxx https://*.googleapis.com https://*.google-analytics.com https://api.github.com;
-		img-src 'self' https://rule34.xxx https://*.rule34.xxx https://*.googleusercontent.com https://www.googletagmanager.com; 
-		media-src 'self' https://rule34.xxx https://*.rule34.xxx; 
-		frame-src https://r34-react.firebaseapp.com;" />
-	<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width" />
-	%sveltekit.head%
-	<!-- PWA -->
-	<meta name="description"
-		content="Simple and powerful Rule34 browsing site with a focus on simplicity and user experience." />
-	<meta name="theme-color" content="#000" />
-	<meta name="background-color" content="#000" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
-	<link rel="apple-touch-icon" href="%sveltekit.assets%/icon/ks-192.png" sizes="192x192" />
-	<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#000" />
-</head>
-
-<body data-sveltekit-preload-data="hover">
-	<div>%sveltekit.body%</div>
-</body>
-
+	<body data-sveltekit-preload-data="hover">
+		<div>%sveltekit.body%</div>
+	</body>
 </html>

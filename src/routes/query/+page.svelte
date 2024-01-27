@@ -62,6 +62,10 @@
 
 <svelte:head>
 	<title>kurosearch - Query Builder</title>
+	<meta
+		name="description"
+		content="Test your kurosearch queries. Useful if you already know how to use rule34.xxx"
+	/>
 </svelte:head>
 
 <section>

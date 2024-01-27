@@ -19,6 +19,14 @@
 	};
 </script>
 
+<svelte:head>
+	<title>{name} - kurosearch</title>
+	<meta
+		name="description"
+		content="Simple and powerful Rule34 browsing site with a focus on simplicity and user experience."
+	/>
+</svelte:head>
+
 {#if name}
 	{#await loadTag(name)}
 		<LoadingAnimation />

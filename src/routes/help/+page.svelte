@@ -11,6 +11,10 @@
 
 <svelte:head>
 	<title>kurosearch - Documentation</title>
+	<meta
+		name="description"
+		content="Documentation for kurosearch. This page explains how to use the website."
+	/>
 </svelte:head>
 
 <section>

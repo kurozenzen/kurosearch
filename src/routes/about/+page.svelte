@@ -30,6 +30,7 @@
 
 <svelte:head>
 	<title>kurosearch - About</title>
+	<meta name="description" content="Further information about the website can be found here." />
 </svelte:head>
 
 <div>

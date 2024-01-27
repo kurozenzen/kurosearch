@@ -46,6 +46,10 @@
 
 <svelte:head>
 	<title>kurosearch - Preferences</title>
+	<meta
+		name="description"
+		content="Customize your kurosearch browsing experience however you like."
+	/>
 </svelte:head>
 
 <section>
