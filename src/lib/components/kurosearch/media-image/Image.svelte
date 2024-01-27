@@ -19,7 +19,6 @@
 	});
 	onDestroy(() => {
 		postObserver?.unobserve(media);
-		media?.src = '';
 	});
 </script>
 

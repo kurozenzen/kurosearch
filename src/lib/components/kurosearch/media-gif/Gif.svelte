@@ -25,7 +25,6 @@
 	onMount(() => postObserver?.observe(media));
 	onDestroy(() => {
 		postObserver?.unobserve(media);
-		media?.src = '';
 	});
 </script>
 
