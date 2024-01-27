@@ -20,21 +20,14 @@
 
 	const dispatch = createEventDispatcher();
 
-	const focusCurrent = () => {
-		if (current) {
-			current.scrollIntoView();
-			current.scrollLeft = 0;
-		}
-	};
+	const onScroll = (event: Event) => {
+		requestAnimationFrame(() => {
+			const target = event.target as HTMLDivElement;
+			const height = target.getBoundingClientRect().height;
+			const newIndex = target.scrollTop / height;
+			const roundedIndex = Math.round(newIndex);
 
-	const onScroll = (event: UIEvent) => {
-		const target = event.target as HTMLDivElement;
-		const height = target.getBoundingClientRect().height;
-		const newIndex = target.scrollTop / height;
-		const roundedIndex = Math.round(newIndex);
-
-		if (roundedIndex != index) {
-			requestAnimationFrame(() => {
+			if (roundedIndex != index) {
 				index = roundedIndex;
 				postCurrent = $results.posts[index];
 				postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
@@ -45,8 +38,8 @@
 				if (current) {
 					current.scrollLeft = 0;
 				}
-			});
-		}
+			}
+		});
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
@@ -80,8 +73,11 @@
 	};
 
 	onMount(() => {
+		if (current) {
+			current.scrollIntoView(true);
+			current.scrollLeft = 0;
+		}
 		document.addEventListener('keydown', keybinds);
-		focusCurrent();
 	});
 	onDestroy(() => {
 		document.removeEventListener('keydown', keybinds);

@@ -15,6 +15,7 @@
 	};
 
 	let dialog: HTMLDivElement;
+	let ready = false;
 
 	onMount(async () => {
 		dialog.focus();
@@ -24,6 +25,7 @@
 		} catch {
 			// ignored
 		}
+		ready = true;
 	});
 
 	onDestroy(async () => {
@@ -43,7 +45,9 @@
 	on:click|stopPropagation={() => {}}
 	on:keydown={closeOnEscapePressed}
 >
-	<slot />
+	{#if ready}
+		<slot />
+	{/if}
 </div>
 
 <style>

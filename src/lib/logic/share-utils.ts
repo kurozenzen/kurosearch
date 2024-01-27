@@ -4,7 +4,6 @@ import { createSearchableTag } from './tag-utils';
 const DELIMITER = ';';
 
 export const parseShareTags = (value: string): kurosearch.SearchableTag[] => {
-	debugger;
 	return value
 		.replaceAll(' ', '+')
 		.split(DELIMITER)
