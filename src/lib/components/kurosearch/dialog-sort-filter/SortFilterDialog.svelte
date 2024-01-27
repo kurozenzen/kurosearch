@@ -27,11 +27,11 @@
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import { isEnter } from '$lib/logic/keyboard-utils';
-	import { createEventDispatcher } from 'svelte';
+
+	export let dialog: HTMLDialogElement;
 
 	let internalScoreValue: number;
 
-	const dispatch = createEventDispatcher();
 	const blurOnEnter = (event: KeyboardEvent) =>
 		isEnter(event) && (event.target as HTMLElement)?.blur();
 	const reset = () => {
@@ -52,7 +52,7 @@
 	}
 </script>
 
-<Dialog on:close>
+<Dialog bind:dialog on:close>
 	<div class="container">
 		<h3>Sorting and Filtering</h3>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -89,7 +89,7 @@
 				<Select bind:value={$filter.rating} options={RATING_OPTIONS} />
 			</div>
 		</div>
-		<TextButton title="Return to searching." on:click={() => dispatch('close')}>Done</TextButton>
+		<TextButton title="Return to searching." on:click={() => dialog.close()}>Done</TextButton>
 		<TextButton title="Reset sort and filter." type="secondary" on:click={reset}>Reset</TextButton>
 	</div>
 </Dialog>

@@ -1,17 +1,41 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { historyState } from '$lib/logic/use/historyState';
+	import { onDestroy, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
-	const close = () => dispatch('close');
+	// import { createEventDispatcher, onMount } from 'svelte';
 
-	let dialog: HTMLDivElement;
+	// const dispatch = createEventDispatcher();
+	// const close = () => dispatch('close');
+
+	export let dialog: HTMLDialogElement;
+
+	const onPopState = () => {
+		dialog.close();
+	};
 
 	onMount(() => {
-		dialog.focus();
+		// Close on backdrop click
+		dialog.addEventListener('click', (event) => {
+			const rect = dialog.getBoundingClientRect();
+			const isInDialog =
+				rect.top <= event.clientY &&
+				event.clientY <= rect.top + rect.height &&
+				rect.left <= event.clientX &&
+				event.clientX <= rect.left + rect.width;
+			if (!isInDialog) {
+				dialog.close();
+			}
+		});
 	});
 </script>
 
-<div
+<dialog bind:this={dialog} on:close use:historyState={{ hash: 'dialog', onPopState }}>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<slot />
+</dialog>
+
+<!-- <div
 	class="backdrop"
 	on:click={close}
 	on:keydown={(event) => {
@@ -19,15 +43,13 @@
 	}}
 	role="none"
 >
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div bind:this={dialog} tabindex="-1" class="dialog" on:click|stopPropagation={() => {}}>
 		<slot />
 	</div>
-</div>
+</div> -->
 
 <style>
-	.dialog {
+	dialog {
 		border-radius: var(--border-radius);
 		background-color: var(--background-0);
 		z-index: var(--z-dialog);
@@ -37,11 +59,7 @@
 		overflow-y: auto;
 	}
 
-	.dialog:focus {
-		outline: unset;
-	}
-
-	.backdrop {
+	dialog::backdrop {
 		position: fixed;
 		top: 0;
 		left: 0;
