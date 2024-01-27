@@ -45,29 +45,22 @@
 	import { createEventDispatcher } from 'svelte';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 
-	let editSortFilter = false;
+	let dialog: HTMLDialogElement;
 
 	const dispatch = createEventDispatcher();
-	const openDialog = () => (editSortFilter = true);
-	const closeDialog = () => {
-		editSortFilter = false;
-		dispatch('sortfilterupdate');
-	};
 
 	$: filterLabel = getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator);
 	$: sortLabel = LABELS_SORT[$sort.property][$sort.direction];
 </script>
 
-<button on:click={openDialog}>
+<button on:click={() => dialog.showModal()}>
 	<i class="codicon codicon-filter" />
 	<span>{filterLabel}</span>
 	<i class="codicon codicon-arrow-swap" />
 	<span>{sortLabel}</span>
 </button>
 
-{#if editSortFilter}
-	<SortFilterDialog on:close={closeDialog} />
-{/if}
+<SortFilterDialog bind:dialog on:close={() => dispatch('sortfilterupdate')} />
 
 <style>
 	button {
