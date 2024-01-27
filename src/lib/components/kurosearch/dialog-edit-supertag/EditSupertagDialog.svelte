@@ -8,16 +8,16 @@
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 
+	export let dialog: HTMLDialogElement;
+	export let supertag: kurosearch.Supertag;
+
 	const dispatch = createEventDispatcher();
 	const emitEdit = () => dispatch('edit', { oldName: supertag.name, newSupertag });
-	const emitClose = () => dispatch('close');
-
-	export let supertag: kurosearch.Supertag;
 
 	let newSupertag = { ...supertag, tags: [...supertag.tags] };
 </script>
 
-<Dialog on:close>
+<Dialog bind:dialog on:close>
 	<div>
 		<h3>Edit Supertag</h3>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -60,12 +60,12 @@
 			title="Save changes"
 			on:click={() => {
 				emitEdit();
-				emitClose();
+				dialog.close();
 			}}
 		>
 			Save
 		</TextButton>
-		<TextButton type="secondary" title="Cancel" on:click={emitClose}>Cancel</TextButton>
+		<TextButton type="secondary" title="Cancel" on:click={() => dialog.close()}>Cancel</TextButton>
 	</div>
 </Dialog>
 

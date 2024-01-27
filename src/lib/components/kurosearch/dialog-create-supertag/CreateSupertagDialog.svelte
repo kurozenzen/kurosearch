@@ -4,22 +4,22 @@
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 
+	export let dialog: HTMLDialogElement;
 	export let name = '';
 	export let description = '';
-
 	export let tags: kurosearch.ModifiedTag[];
 
 	const dispatch = createEventDispatcher();
-	const closeDialog = () => dispatch('close');
+	const close = () => dialog.close();
 
 	$: valid = typeof name === 'string' && name !== '' && tags.length > 1;
 </script>
 
-<Dialog on:close={closeDialog}>
+<Dialog on:close={close} bind:dialog>
 	<section>
 		<h3>Create Supertag</h3>
 
-		<button class={`codicon codicon-close`} on:click={closeDialog} />
+		<button class={`codicon codicon-close`} on:click={close} />
 
 		<div>
 			<label for="supertag-name"> Name </label>
@@ -54,7 +54,7 @@
 						description,
 						tags: tags.map(({ modifier, name }) => ({ modifier, name }))
 					});
-					closeDialog();
+					close();
 				}}
 			>
 				Create supertag

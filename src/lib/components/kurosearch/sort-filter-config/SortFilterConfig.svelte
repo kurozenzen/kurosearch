@@ -45,22 +45,38 @@
 	import { createEventDispatcher } from 'svelte';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 
-	let dialog: HTMLDialogElement;
-
 	const dispatch = createEventDispatcher();
+	const serializeSortFilter = (sort: any, filter: any) =>
+		JSON.stringify(Object.assign({}, sort, filter));
+
+	let dialog: HTMLDialogElement;
+	let sortFilterBefore = '';
 
 	$: filterLabel = getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator);
 	$: sortLabel = LABELS_SORT[$sort.property][$sort.direction];
 </script>
 
-<button on:click={() => dialog.showModal()}>
+<button
+	on:click={() => {
+		sortFilterBefore = serializeSortFilter($sort, $filter);
+		dialog.showModal();
+	}}
+>
 	<i class="codicon codicon-filter" />
 	<span>{filterLabel}</span>
 	<i class="codicon codicon-arrow-swap" />
 	<span>{sortLabel}</span>
 </button>
 
-<SortFilterDialog bind:dialog on:close={() => dispatch('sortfilterupdate')} />
+<SortFilterDialog
+	bind:dialog
+	on:close={() => {
+		const sortFilterAfter = serializeSortFilter($sort, $filter);
+		if (sortFilterAfter !== sortFilterBefore) {
+			dispatch('sortfilterupdate');
+		}
+	}}
+/>
 
 <style>
 	button {

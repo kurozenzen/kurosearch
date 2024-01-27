@@ -79,12 +79,6 @@
 		}
 	};
 
-	$: {
-		if (window.innerHeight) {
-			console.log(window.innerHeight * 2, 'height');
-		}
-	}
-
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
 		focusCurrent();
@@ -116,7 +110,6 @@
 		absoluteTop="{$results.posts.length * 100}vh"
 		rootMargin="{window.innerHeight * 3}px"
 		on:intersection={() => {
-			console.log('endreached');
 			dispatch('endreached');
 		}}
 	/>

@@ -8,8 +8,6 @@
 	export let rootMargin: string;
 	export let absoluteTop: string | undefined;
 
-	console.log('creating intersection observer: ', rootMargin);
-
 	const dispatch = createEventDispatcher();
 	const intersectionObserver = new IntersectionObserver(
 		(entries) => {

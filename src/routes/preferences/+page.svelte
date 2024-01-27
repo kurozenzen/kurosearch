@@ -1,27 +1,4 @@
-<script context="module">
-	const THEME_OPTIONS = Object.freeze({
-		'crimson dark': 'Dark',
-		'crimson light': 'Light',
-		'hotpink light': 'Bubblegum',
-		'hotpink dark': 'Dark Bubblegum',
-		'crimson coffee': 'Coffee'
-	});
-	const RESULT_COLUMNS_OPTIONS = Object.freeze({
-		'1': 'Single Column',
-		'2': 'Two Columns',
-		'3': 'Three Columns',
-		'4': 'Four Columns'
-	});
-	const IMAGE_SERVER_OPTIONS = Object.freeze({
-		automatic: 'Automatic',
-		'img.rule34.xxx': 'img.rule34.xxx',
-		// 'cali.rule34.xxx': 'cali.rule34.xxx',
-		'us.rule34.xxx': 'us.rule34.xxx',
-		// 'hk.rule34.xxx': 'hk.rule34.xxx'
-	});
-</script>
-
-<script>
+<script lang="ts">
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
@@ -40,7 +17,21 @@
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 
-	let resetting = false;
+	let resetDialog: HTMLDialogElement;
+
+	const THEME_OPTIONS = Object.freeze({
+		'crimson dark': 'Dark',
+		'crimson light': 'Light',
+		'hotpink light': 'Bubblegum',
+		'hotpink dark': 'Dark Bubblegum',
+		'crimson coffee': 'Coffee'
+	});
+	const RESULT_COLUMNS_OPTIONS = Object.freeze({
+		'1': 'Single Column',
+		'2': 'Two Columns',
+		'3': 'Three Columns',
+		'4': 'Four Columns'
+	});
 
 	const reset = () => {
 		theme.reset();
@@ -122,20 +113,19 @@
 		title="Reset preferences"
 		description="Undo all customizations and return to default settings."
 	>
-		<TextButton title="Reset preferences" on:click={() => (resetting = true)}>Reset</TextButton>
+		<TextButton title="Reset preferences" on:click={() => resetDialog.showModal()}>Reset</TextButton
+		>
 	</Preference>
 </section>
 
-{#if resetting}
-	<ConfirmDialog
-		title="Reset Preferences"
-		warning="This will reset all your settings to default values. Are you sure you want to do that?"
-		labelConfirm="Yes, reset"
-		labelCancel="Cancel"
-		on:confirm={reset}
-		on:close={() => (resetting = false)}
-	/>
-{/if}
+<ConfirmDialog
+	bind:dialog={resetDialog}
+	title="Reset Preferences"
+	warning="This will reset all your settings to default values. Are you sure you want to do that?"
+	labelConfirm="Yes, reset"
+	labelCancel="Cancel"
+	on:confirm={reset}
+/>
 
 <style>
 	section {

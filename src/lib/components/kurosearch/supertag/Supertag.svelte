@@ -5,24 +5,18 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-	const emitRemove = () => dispatch('remove', supertag);
-
-	const openDeleteDialog = () => (deleting = true);
-	const closeDeleteDialog = () => (deleting = false);
-	const openEditDialog = () => (editing = true);
-	const closeEditDialog = () => (editing = false);
 
 	export let supertag: kurosearch.Supertag;
 
-	let deleting = false;
-	let editing = false;
+	let deleteDialog: HTMLDialogElement;
+	let editDialog: HTMLDialogElement;
 </script>
 
 <li>
 	<h3>{supertag.name}</h3>
 	<small>{Object.keys(supertag.tags).length} tags</small>
-	<button class="codicon codicon-edit" on:click={openEditDialog} />
-	<button class="codicon codicon-close" on:click={openDeleteDialog} />
+	<button class="codicon codicon-edit" on:click={() => editDialog.showModal()} />
+	<button class="codicon codicon-close" on:click={() => deleteDialog.showModal()} />
 	<span>{supertag.description || supertag.name}</span>
 	<ol>
 		{#each supertag.tags as tag}
@@ -31,20 +25,16 @@
 	</ol>
 </li>
 
-{#if deleting}
-	<ConfirmDialog
-		title="Delete Supertag"
-		warning="Are you sure? You will not be able to undo it."
-		labelCancel="No, keep it!"
-		labelConfirm="Yes, delete it."
-		on:confirm={emitRemove}
-		on:close={closeDeleteDialog}
-	/>
-{/if}
+<ConfirmDialog
+	bind:dialog={deleteDialog}
+	title="Delete Supertag"
+	warning="Are you sure? You will not be able to undo it."
+	labelCancel="No, keep it!"
+	labelConfirm="Yes, delete it."
+	on:confirm={() => dispatch('remove', supertag)}
+/>
 
-{#if editing}
-	<EditSupertagDialog {supertag} on:close={closeEditDialog} on:edit />
-{/if}
+<EditSupertagDialog bind:dialog={editDialog} {supertag} on:edit />
 
 <style>
 	li {
