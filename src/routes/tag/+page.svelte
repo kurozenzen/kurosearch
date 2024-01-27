@@ -6,8 +6,6 @@
 
 	const name = browser ? new URL(document.location.href).searchParams.get('name') : undefined;
 
-	console.log(name);
-
 	const loadTag = async (name: string) => {
 		const response = await fetch(
 			`https://rule34.xxx/index.php?page=tags&s=list&tags=${name}&sort=asc&order_by=index_count`

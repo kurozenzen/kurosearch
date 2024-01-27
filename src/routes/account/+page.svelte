@@ -5,7 +5,6 @@
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { signIn, signOut } from '$lib/logic/firebase/authentication';
-	import '$lib/logic/firebase/firebase';
 	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import firebaseLoggedIn from '$lib/store/firebase-login-store';
@@ -14,10 +13,8 @@
 	import { StoreKey } from '$lib/store/store-keys';
 	import supertags from '$lib/store/supertags-store';
 	import theme from '$lib/store/theme-store';
-
-	let deleting = false;
-	let pullingFromCloud = false;
-	let pushingToCloud = false;
+	import '$lib/logic/firebase/firebase';
+	import { loadFile, saveFile } from '$lib/logic/file-utils';
 
 	const reset = () => {
 		supertags.reset();
@@ -31,79 +28,37 @@
 		[StoreKey.Supertags]: $supertags
 	});
 
-	const exportConfig = async () => {
-		const config = getSettingsObject();
+	const applySettingsObject = (config: any) => {
+		$localstorageEnabled = config[StoreKey.LocalstorageEnabled];
+		$theme = config[StoreKey.Theme];
+		$blockedContent = config[StoreKey.BlockedContent];
+		$resultColumns = config[StoreKey.ResultColumns];
+		$supertags = config[StoreKey.Supertags];
+	};
 
+	const exportConfig = async () => {
 		try {
+			const config = getSettingsObject();
 			const content = JSON.stringify(config, undefined, 2);
-			const filename = 'kurosearch-config.json';
-			if ('showSaveFilePicker' in window) {
-				// @ts-expect-error - too new i guess
-				const handle = await showSaveFilePicker({ suggestedName: filename });
-				const writable = await handle.createWritable();
-				await writable.write(content);
-				await writable.close();
-			} else {
-				const link = document.createElement('a');
-				const file = new Blob([content], { type: 'text/plain' });
-				link.href = URL.createObjectURL(file);
-				link.download = filename;
-				link.click();
-				URL.revokeObjectURL(link.href);
-			}
+			await saveFile(content);
 		} catch (err) {
 			console.error(err);
 		}
 	};
-
-	const getFileContent = async (): Promise<string> =>
-		new Promise(async (resolve, reject) => {
-			try {
-				if ('showOpenFilePicker' in window) {
-					// @ts-expect-error - too new i guess
-					const [handle] = await showOpenFilePicker();
-					const file = await handle.getFile();
-					resolve(await file.text());
-				} else {
-					let fileInput: HTMLInputElement;
-					const readFile = (e: any) => {
-						var file = e.target.files[0];
-						if (!file) {
-							return;
-						}
-						var reader = new FileReader();
-						reader.onload = (e: any) => {
-							resolve(e.target.result);
-							document.body.removeChild(fileInput);
-						};
-						reader.readAsText(file);
-					};
-					fileInput = document.createElement('input');
-					fileInput.type = 'file';
-					fileInput.style.display = 'none';
-					fileInput.onchange = readFile;
-					document.body.appendChild(fileInput);
-					fileInput.click();
-				}
-			} catch (error) {
-				reject(error);
-			}
-		});
 
 	const importConfig = async () => {
 		try {
-			const content = await getFileContent();
+			const content = await loadFile();
 			const config = JSON.parse(content);
-
-			$localstorageEnabled = config[StoreKey.LocalstorageEnabled];
-			$theme = config[StoreKey.Theme];
-			$blockedContent = config[StoreKey.BlockedContent];
-			$resultColumns = config[StoreKey.ResultColumns];
-			$supertags = config[StoreKey.Supertags];
+			applySettingsObject(config);
 		} catch (err) {
 			console.error(err);
 		}
 	};
+
+	let cloudPullDialog: HTMLDialogElement;
+	let cloudPushDialog: HTMLDialogElement;
+	let resetDialog: HTMLDialogElement;
 </script>
 
 <svelte:head>
@@ -157,15 +112,15 @@
 		{#if $firebaseLoggedIn}
 			<TextButton
 				type="secondary"
-				title="Save your data to a file."
-				on:click={() => (pullingFromCloud = true)}
+				title="Apply your settings from the cloud."
+				on:click={() => cloudPullDialog.showModal()}
 			>
 				<span class="codicon codicon-cloud">Load Config</span>
 			</TextButton>
 			<TextButton
 				type="secondary"
-				title="Restore your settings from a config file."
-				on:click={() => (pushingToCloud = true)}
+				title="Store current settings in the cloud."
+				on:click={() => cloudPushDialog.showModal()}
 			>
 				<span class="codicon codicon-cloud">Save config</span>
 			</TextButton>
@@ -178,69 +133,63 @@
 	</div>
 
 	<Heading3>Delete Data</Heading3>
-	<TextButton title="Delete all your data." on:click={() => (deleting = true)}>
+	<TextButton title="Delete all your data." on:click={() => resetDialog.showModal()}>
 		Delete Data
 	</TextButton>
 </section>
 
-{#if pullingFromCloud}
-	<ConfirmDialog
-		title="Load Data"
-		warning="This will replace all your current settings with settings save online. Are you sure you want to do that?"
-		labelConfirm="Yes, load settings."
-		labelCancel="Cancel"
-		on:confirm={async () => {
-			const backup = await getSettingsAndSupertags();
+<ConfirmDialog
+	bind:dialog={cloudPullDialog}
+	title="Load Data"
+	warning="This will replace all your current settings with settings save online. Are you sure you want to do that?"
+	labelConfirm="Yes, load settings."
+	labelCancel="Cancel"
+	on:confirm={async () => {
+		const backup = await getSettingsAndSupertags();
 
-			if (backup.settings) {
-				if (backup.settings[StoreKey.LocalstorageEnabled]) {
-					$localstorageEnabled = backup.settings[StoreKey.LocalstorageEnabled];
-				}
-				if (backup.settings[StoreKey.Theme]) {
-					$theme = backup.settings[StoreKey.Theme];
-				}
-				if (backup.settings[StoreKey.BlockedContent]) {
-					$blockedContent = backup.settings[StoreKey.BlockedContent];
-				}
-				if (backup.settings[StoreKey.ResultColumns]) {
-					$resultColumns = backup.settings[StoreKey.ResultColumns];
-				}
-				if (backup.settings[StoreKey.Supertags]) {
-					$supertags = backup.settings[StoreKey.Supertags];
-				}
+		if (backup.settings) {
+			if (backup.settings[StoreKey.LocalstorageEnabled]) {
+				$localstorageEnabled = backup.settings[StoreKey.LocalstorageEnabled];
 			}
-
-			if (backup.supertags) {
-				$supertags.items = backup.supertags;
+			if (backup.settings[StoreKey.Theme]) {
+				$theme = backup.settings[StoreKey.Theme];
 			}
-		}}
-		on:close={() => (pullingFromCloud = false)}
-	/>
-{/if}
+			if (backup.settings[StoreKey.BlockedContent]) {
+				$blockedContent = backup.settings[StoreKey.BlockedContent];
+			}
+			if (backup.settings[StoreKey.ResultColumns]) {
+				$resultColumns = backup.settings[StoreKey.ResultColumns];
+			}
+			if (backup.settings[StoreKey.Supertags]) {
+				$supertags = backup.settings[StoreKey.Supertags];
+			}
+		}
 
-{#if pushingToCloud}
-	<ConfirmDialog
-		title="Save data online"
-		warning="This will save the current settings and supertags online. BUT it will also overwrite anything currently stored in the cloud. Are you sure you want to do this?"
-		labelConfirm="Yes, backup online"
-		labelCancel="Cancel"
-		on:confirm={async () => {
-			await saveSettingsAndSupertags(getSettingsObject(), $supertags.items);
-		}}
-		on:close={() => (pushingToCloud = false)}
-	/>
-{/if}
+		if (backup.supertags) {
+			$supertags.items = backup.supertags;
+		}
+	}}
+/>
 
-{#if deleting}
-	<ConfirmDialog
-		title="Delete Data"
-		warning="This will delete all your data. This includes supertags. You will not be able to recover it. Are you sure you want to delete it?"
-		labelConfirm="Yes, delete it."
-		labelCancel="Cancel"
-		on:confirm={reset}
-		on:close={() => (deleting = false)}
-	/>
-{/if}
+<ConfirmDialog
+	bind:dialog={cloudPushDialog}
+	title="Save data online"
+	warning="This will save the current settings and supertags online. BUT it will also overwrite anything currently stored in the cloud. Are you sure you want to do this?"
+	labelConfirm="Yes, backup online"
+	labelCancel="Cancel"
+	on:confirm={async () => {
+		await saveSettingsAndSupertags(getSettingsObject(), $supertags.items);
+	}}
+/>
+
+<ConfirmDialog
+	bind:dialog={resetDialog}
+	title="Delete Data"
+	warning="This will delete all your data. This includes supertags. You will not be able to recover it. Are you sure you want to delete it?"
+	labelConfirm="Yes, delete it."
+	labelCancel="Cancel"
+	on:confirm={reset}
+/>
 
 <style>
 	section {

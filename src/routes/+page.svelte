@@ -31,7 +31,7 @@
 
 	let loading = false;
 	let error: Error | undefined;
-	let creatingSupertag = false;
+	let createSupertagDialog: HTMLDialogElement;
 	let nextFocus = 0;
 
 	const fetchSuggestions = async (term: string) => {
@@ -191,7 +191,7 @@
 				activeTags.addOrReplace(e.detail);
 			}
 		}}
-		on:createSupertag={() => (creatingSupertag = true)}
+		on:createSupertag={() => createSupertagDialog.showModal()}
 	/>
 </section>
 
@@ -217,13 +217,11 @@
 	<ScrollUpButton />
 {/if}
 
-{#if creatingSupertag}
-	<CreateSupertagDialog
-		tags={$activeTags}
-		on:close={() => (creatingSupertag = false)}
-		on:submit={(e) => supertags.add(e.detail)}
-	/>
-{/if}
+<CreateSupertagDialog
+	bind:dialog={createSupertagDialog}
+	tags={$activeTags}
+	on:submit={(e) => supertags.add(e.detail)}
+/>
 
 {#if !$cookiesAccepted}
 	<CookieMessage />

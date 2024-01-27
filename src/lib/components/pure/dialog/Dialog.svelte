@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { historyState } from '$lib/logic/use/historyState';
-	import { onDestroy, onMount } from 'svelte';
-
-	// import { createEventDispatcher, onMount } from 'svelte';
-
-	// const dispatch = createEventDispatcher();
-	// const close = () => dispatch('close');
+	import { onMount } from 'svelte';
 
 	export let dialog: HTMLDialogElement;
 
@@ -23,7 +18,7 @@
 				rect.left <= event.clientX &&
 				event.clientX <= rect.left + rect.width;
 			if (!isInDialog) {
-				dialog.close();
+				dialog?.close();
 			}
 		});
 	});
@@ -34,19 +29,6 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<slot />
 </dialog>
-
-<!-- <div
-	class="backdrop"
-	on:click={close}
-	on:keydown={(event) => {
-		event.code === 'Escape' && close();
-	}}
-	role="none"
->
-	<div bind:this={dialog} tabindex="-1" class="dialog" on:click|stopPropagation={() => {}}>
-		<slot />
-	</div>
-</div> -->
 
 <style>
 	dialog {
@@ -68,8 +50,8 @@
 		contain: strict;
 		height: 100vh;
 		width: 100vw;
-		background-color: #1118;
-		backdrop-filter: blur(5px);
+		background-color: #2228;
+		backdrop-filter: blur(10px);
 		z-index: var(--z-dialog);
 	}
 </style>
