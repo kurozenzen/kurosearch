@@ -23,7 +23,10 @@
 	}
 
 	onMount(() => postObserver?.observe(media));
-	onDestroy(() => postObserver?.unobserve(media));
+	onDestroy(() => {
+		postObserver?.unobserve(media);
+		media.src = '';
+	});
 </script>
 
 <div class="container" style={`aspect-ratio: ${post.width} / ${post.height}`}>

@@ -78,7 +78,10 @@
 	const stopLoading = () => (loading = false);
 
 	onMount(() => observer?.observe(container));
-	onDestroy(() => observer?.unobserve(container));
+	onDestroy(() => {
+		observer?.unobserve(container);
+		video.src = '';
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
