@@ -6,7 +6,9 @@
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import CodiconTextLink from '$lib/components/pure/icon-link/CodiconTextLink.svelte';
 	import theme from '$lib/store/theme-store';
+	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 	import './reset.css';
 	import './fonts.css';
 	import './defaults.css';
@@ -51,7 +53,7 @@
 	</nav>
 </header>
 
-<main>
+<main class:extra-wide={$wideLayoutEnabled && $page.url.pathname === '/'}>
 	<slot />
 </main>
 
@@ -89,6 +91,10 @@
 		width: 100%;
 		flex-grow: 1;
 		max-width: var(--body-width);
+	}
+
+	main.extra-wide {
+		max-width: 90vw;
 	}
 
 	header,

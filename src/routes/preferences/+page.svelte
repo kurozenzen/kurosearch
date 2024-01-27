@@ -16,6 +16,7 @@
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
+	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -41,6 +42,7 @@
 		resultColumns.reset();
 		cookiesAccepted.reset();
 		highResolutionEnabled.reset();
+		wideLayoutEnabled.reset();
 	};
 </script>
 
@@ -63,7 +65,7 @@
 		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>
 			{$localstorageEnabled ? 'Save' : "Don't save"}
 		</Checkbox>
-		<div>
+		<div class="button-row">
 			<TextButton title="Reset Posts" type="secondary" on:click={() => resultsStore.reset()}>
 				Reset Posts
 			</TextButton>
@@ -101,7 +103,12 @@
 	</Preference>
 
 	<Preference title="Result layout" description="Save active tags and posts between sessions.">
-		<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
+		<div class="flex">
+			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
+			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
+				{$wideLayoutEnabled ? 'Extra wide' : 'Default width'}
+			</Checkbox>
+		</div>
 	</Preference>
 
 	<Preference
@@ -136,9 +143,15 @@
 		padding-inline: var(--grid-gap);
 	}
 
-	div {
+	.button-row {
 		display: flex;
 		padding-block-start: var(--grid-gap);
+		flex-wrap: wrap;
+		gap: var(--grid-gap);
+	}
+
+	.flex {
+		display: flex;
 		flex-wrap: wrap;
 		gap: var(--grid-gap);
 	}
