@@ -29,6 +29,12 @@
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 
+	console.log(
+		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
+		'color:crimson;font-size:32px;',
+		'color:unset;font-size:auto;'
+	);
+
 	let loading = false;
 	let error: Error | undefined;
 	let createSupertagDialog: HTMLDialogElement;
