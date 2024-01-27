@@ -225,6 +225,13 @@
 					rootMargin="{1000 / Number($resultColumns)}px"
 					on:intersection={getNextPage}
 				/>
+				<TextButton title="Load more posts" on:click={getNextPage}>
+					{#if loading}
+						<LoadingAnimation />
+					{:else}
+						Load more
+					{/if}
+				</TextButton>
 			{/if}
 		{/if}
 	</section>
