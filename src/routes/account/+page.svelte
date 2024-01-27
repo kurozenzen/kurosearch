@@ -15,6 +15,7 @@
 	import theme from '$lib/store/theme-store';
 	import '$lib/logic/firebase/firebase';
 	import { loadFile, saveFile } from '$lib/logic/file-utils';
+	import { addHistory } from '$lib/logic/use/onpopstate';
 
 	const reset = () => {
 		supertags.reset();
@@ -114,14 +115,20 @@
 			<TextButton
 				type="secondary"
 				title="Apply your settings from the cloud."
-				on:click={() => cloudPullDialog.showModal()}
+				on:click={() => {
+					cloudPullDialog.showModal();
+					addHistory('dialog');
+				}}
 			>
 				<span class="codicon codicon-cloud">Load Config</span>
 			</TextButton>
 			<TextButton
 				type="secondary"
 				title="Store current settings in the cloud."
-				on:click={() => cloudPushDialog.showModal()}
+				on:click={() => {
+					cloudPushDialog.showModal();
+					addHistory('dialog');
+				}}
 			>
 				<span class="codicon codicon-cloud">Save config</span>
 			</TextButton>
@@ -134,7 +141,13 @@
 	</div>
 
 	<Heading3>Delete Data</Heading3>
-	<TextButton title="Delete all your data." on:click={() => resetDialog.showModal()}>
+	<TextButton
+		title="Delete all your data."
+		on:click={() => {
+			resetDialog.showModal();
+			addHistory('dialog');
+		}}
+	>
 		Delete Data
 	</TextButton>
 </section>

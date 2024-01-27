@@ -44,6 +44,7 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import { createEventDispatcher } from 'svelte';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
+	import { addHistory } from '$lib/logic/use/onpopstate';
 
 	const dispatch = createEventDispatcher();
 	const serializeSortFilter = (sort: any, filter: any) =>
@@ -60,6 +61,7 @@
 	on:click={() => {
 		sortFilterBefore = serializeSortFilter($sort, $filter);
 		dialog.showModal();
+		addHistory('dialog');
 	}}
 >
 	<i class="codicon codicon-filter" />

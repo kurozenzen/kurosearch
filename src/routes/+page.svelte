@@ -28,6 +28,7 @@
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
+	import { addHistory } from '$lib/logic/use/onpopstate';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -205,7 +206,10 @@
 				activeTags.addOrReplace(e.detail);
 			}
 		}}
-		on:createSupertag={() => createSupertagDialog.showModal()}
+		on:createSupertag={() => {
+			createSupertagDialog.showModal();
+			addHistory('dialog');
+		}}
 	/>
 </section>
 

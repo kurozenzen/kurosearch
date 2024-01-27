@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { addHistory } from '$lib/logic/use/onpopstate';
 	import ConfirmDialog from '../dialog-confirm/ConfirmDialog.svelte';
 	import EditSupertagDialog from '../dialog-edit-supertag/EditSupertagDialog.svelte';
 	import ModifiedTag from '../modified-tag/ModifiedTag.svelte';
@@ -15,8 +16,20 @@
 <li>
 	<h3>{supertag.name}</h3>
 	<small>{Object.keys(supertag.tags).length} tags</small>
-	<button class="codicon codicon-edit" on:click={() => editDialog.showModal()} />
-	<button class="codicon codicon-close" on:click={() => deleteDialog.showModal()} />
+	<button
+		class="codicon codicon-edit"
+		on:click={() => {
+			editDialog.showModal();
+			addHistory('dialog');
+		}}
+	/>
+	<button
+		class="codicon codicon-close"
+		on:click={() => {
+			deleteDialog.showModal();
+			addHistory('dialog');
+		}}
+	/>
 	<span>{supertag.description || supertag.name}</span>
 	<ol>
 		{#each supertag.tags as tag}

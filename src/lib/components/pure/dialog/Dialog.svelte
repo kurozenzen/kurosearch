@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { historyState } from '$lib/logic/use/historyState';
+	import { onpopstate } from '$lib/logic/use/onpopstate';
 	import { onMount } from 'svelte';
 
 	export let dialog: HTMLDialogElement;
@@ -24,7 +24,7 @@
 	});
 </script>
 
-<dialog bind:this={dialog} on:close use:historyState={{ hash: 'dialog', onPopState }}>
+<dialog bind:this={dialog} on:close use:onpopstate={onPopState}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<slot />

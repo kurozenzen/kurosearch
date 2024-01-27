@@ -17,6 +17,7 @@
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
+	import { addHistory } from '$lib/logic/use/onpopstate';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -124,7 +125,12 @@
 		title="Reset preferences"
 		description="Undo all customizations and return to default settings."
 	>
-		<TextButton title="Reset preferences" on:click={() => resetDialog.showModal()}>Reset</TextButton
+		<TextButton
+			title="Reset preferences"
+			on:click={() => {
+				resetDialog.showModal();
+				addHistory('dialog');
+			}}>Reset</TextButton
 		>
 	</Preference>
 </section>
