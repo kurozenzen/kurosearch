@@ -163,9 +163,9 @@
 	}
 
 	@container (min-width: 800px) {
-		button,
 		video {
-			border-radius: var(--border-radius) var(--border-radius) 0 0;
+			--radius: calc(2 * var(--border-radius));
+			border-radius: var(--radius) var(--radius) 0 0;
 		}
 	}
 

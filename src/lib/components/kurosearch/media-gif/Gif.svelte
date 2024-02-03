@@ -51,7 +51,15 @@
 		use:postobserve
 	/>
 
-	<PlayButton bind:playing bind:loading class="center" />
+	<PlayButton
+		bind:playing
+		bind:loading
+		class="center"
+		on:click={() => {
+			loading = true;
+			playing = !playing;
+		}}
+	/>
 </div>
 
 <style>
@@ -60,15 +68,13 @@
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		/* contain: strict; */
-		border-radius: var(--border-radius);
+		contain: strict;
 		grid-area: 1/1/4/4;
 	}
 
 	.container {
 		position: relative;
 		z-index: var(--z-media);
-		border-radius: var(--border-radius);
 		width: 100%;
 		height: 100%;
 	}
@@ -79,5 +85,12 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		z-index: var(--z-media-controls);
+	}
+
+	@container (min-width: 800px) {
+		img {
+			--radius: calc(2 * var(--border-radius));
+			border-radius: var(--radius) var(--radius) 0 0;
+		}
 	}
 </style>
