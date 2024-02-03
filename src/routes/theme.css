@@ -127,6 +127,7 @@
 
 	accent-color: var(--accent);
 	font-family: 'Roboto', sans-serif;
+	background-color: var(--background-0);
 }
 
 html {

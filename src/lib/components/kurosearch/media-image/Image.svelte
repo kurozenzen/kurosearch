@@ -1,25 +1,17 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
-	import { postObserver } from '$lib/logic/post-observer';
-	import { onDestroy, onMount } from 'svelte';
+	import { postobserve } from '$lib/logic/use/postobserve';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
 	export let post: kurosearch.Post;
-	export let open: boolean;
 
-	$: ratio = post.width / post.height;
-	$: expandable = ratio < 0.33;
+	const ratio = post.width / post.height;
+	const expandable = ratio < 0.33;
+
+	let open: boolean;
+
 	$: src = highResolutionEnabled ? post.file_url : post.sample_url;
-
-	let media: HTMLImageElement;
-
-	onMount(() => {
-		postObserver?.observe(media);
-	});
-	onDestroy(() => {
-		postObserver?.unobserve(media);
-	});
 </script>
 
 <div class:expandable class:open>
@@ -27,7 +19,6 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
-		bind:this={media}
 		class="post-media"
 		loading="lazy"
 		data-src={src}
@@ -36,9 +27,10 @@
 		width={post.width}
 		height={post.height}
 		tabindex="0"
-		on:click
+		on:click={() => (open = !open)}
 		on:keydown={clickOnEnter}
-		on:error={(event) => (event.target.src = `${base}/assets/failed-to-load.svg`)}
+		on:error|once={(event) => (event.target.src = `${base}/assets/failed-to-load.svg`)}
+		use:postobserve
 	/>
 </div>
 
@@ -51,7 +43,12 @@
 		object-fit: contain;
 		contain: strict;
 		z-index: var(--z-media);
-		border-radius: var(--border-radius);
+	}
+
+	@container (min-width: 800px) {
+		img {
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+		}
 	}
 
 	.expandable:not(.open) {

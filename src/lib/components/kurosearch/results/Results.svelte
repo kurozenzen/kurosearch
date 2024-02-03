@@ -34,7 +34,7 @@
 </div>
 
 {#if $resultColumns === '1'}
-	<section class="single-column">
+	<ol class="single-column">
 		{#each $results.posts as post, index}
 			<SingleColumnPost
 				{post}
@@ -43,9 +43,9 @@
 				}}
 			/>
 		{/each}
-	</section>
+	</ol>
 {:else}
-	<section class="multi-column" style="grid-template-columns: repeat({$resultColumns}, 1fr); ">
+	<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
 		{#each $results.posts as post, index}
 			<MosaicPost
 				{post}
@@ -54,7 +54,7 @@
 				}}
 			/>
 		{/each}
-	</section>
+	</ol>
 {/if}
 
 {#if fullscreenIndex !== undefined}
@@ -84,9 +84,11 @@
 	}
 
 	.multi-column {
+		--nr-columns: 1;
 		width: 100%;
 		display: grid;
 		gap: var(--small-gap);
-		grid-auto-rows: auto;
+		grid-template-columns: repeat(var(--nr-columns), 1fr);
+		grid-auto-rows: calc(min(var(--body-width), 100vw) / 5 / var(--nr-columns));
 	}
 </style>

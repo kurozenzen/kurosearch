@@ -13,4 +13,8 @@
 		gap: var(--tiny-gap);
 		align-items: center;
 	}
+
+	span::before {
+		font-size: 16px;
+	}
 </style>

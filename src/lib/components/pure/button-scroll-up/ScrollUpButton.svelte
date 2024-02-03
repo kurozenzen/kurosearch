@@ -47,9 +47,9 @@
 		z-index: var(--z-scroll-up);
 	}
 
-	@media (min-width: 800px) {
+	@media (min-width: 1024px) {
 		button {
-			right: calc(2rem + calc(100vw - 800px) / 2);
+			right: calc(2rem + calc(100vw - 1024px) / 2);
 		}
 	}
 

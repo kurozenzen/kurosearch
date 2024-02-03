@@ -39,6 +39,9 @@ i.codicon {
 .codicon-person:before {
 	content: '\ea67';
 }
+.codicon-comment:before {
+	content: '\ea6b';
+}
 
 .codicon-search:before {
 	content: '\ea6d';

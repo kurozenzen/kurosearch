@@ -23,7 +23,6 @@
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		padding-block-start: var(--grid-gap);
 		gap: 8px;
 	}
 </style>

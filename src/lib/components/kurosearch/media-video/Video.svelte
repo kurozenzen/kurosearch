@@ -2,8 +2,8 @@
 	import { formatVideoTime } from '$lib/logic/format-time';
 	import { isEnter, isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import PlayButton from '../button-play/PlayButton.svelte';
 	import { browser } from '$app/environment';
+	import PlayButton from '../button-play/PlayButton.svelte';
 
 	const SKIP_TIME = 5;
 
@@ -21,6 +21,7 @@
 	let currentTime = 0;
 	let duration = 0;
 	let displayVideo = false;
+	let intentHideOverlay = false;
 
 	const skipBackward = () => {
 		currentTime = Math.max(0, currentTime - SKIP_TIME);
@@ -29,10 +30,16 @@
 		currentTime = Math.min(duration, currentTime + SKIP_TIME);
 	};
 
+	const skip = (event: MouseEvent) => {
+		if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 2) {
+			skipBackward();
+		} else {
+			skipForward();
+		}
+	};
+
 	const handleKeyDown = (event: KeyboardEvent) => {
-		if (isEnter(event)) {
-			event.target?.click();
-		} else if (isSpace(event) || event.key === 'k') {
+		if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
 			playing = !playing;
 		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
@@ -72,30 +79,32 @@
 	$: playing = displayVideo && playing;
 	$: paused = !playing;
 	$: percent = (currentTime / duration) * 98 + 1;
-	$: hideOverlay = playing && !loading;
+	$: hideOverlay = playing && !loading && intentHideOverlay;
 
-	const startLoading = () => (loading = true);
-	const stopLoading = () => (loading = false);
+	const togglePlaying = () => {
+		playing = !playing;
+		loading = true;
+		intentHideOverlay = playing;
+	};
+	const toggleOverlay = () => {
+		intentHideOverlay = !intentHideOverlay;
+	};
 
 	onMount(() => observer?.observe(container));
-	onDestroy(() => {
-		observer?.unobserve(container);
-	});
+	onDestroy(() => observer?.unobserve(container));
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	bind:this={container}
-	on:click
 	on:keydown={handleKeyDown}
-	tabindex="0"
 	class="post-media player {$$props.class}"
 	style="aspect-ratio:{width}/{height}"
 >
 	{#if displayVideo}
 		<!-- svelte-ignore a11y-media-has-caption -->
 		<video
+			tabindex="0"
 			{poster}
 			{loop}
 			{src}
@@ -103,60 +112,61 @@
 			bind:paused
 			bind:currentTime
 			bind:duration
-			on:waiting={startLoading}
-			on:playing={stopLoading}
-			on:pause={stopLoading}
+			on:waiting={() => (loading = true)}
+			on:playing={() => (loading = false)}
+			on:pause={() => (loading = false)}
 			on:ended={() => {
 				if (!loop) {
 					loading = false;
 					playing = false;
 				}
 			}}
-			on:dblclick|stopPropagation|preventDefault={(event) => {
-				if (event.offsetX < event.target.clientWidth / 2) {
-					skipBackward();
-				} else {
-					skipForward();
-				}
-			}}
+			on:click={toggleOverlay}
+			on:dblclick|stopPropagation|preventDefault={skip}
 			preload="metadata"
 			style={`aspect-ratio: ${width} / ${height}`}
 		/>
-		<span class:hide={hideOverlay}>{formatVideoTime(timeLeft)}</span>
+		<span class:hide={intentHideOverlay} class="hidable">{formatVideoTime(timeLeft)}</span>
 		<input
 			bind:value={currentTime}
-			on:click|stopPropagation={() => {}}
 			type="range"
 			min={0}
 			max={duration}
 			step={0.0166666}
+			class="hidable"
 			class:hide={hideOverlay}
 			style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
 		/>
-		<PlayButton bind:playing bind:loading class="center" />
+		<PlayButton
+			{playing}
+			{loading}
+			class={`center hidable ${hideOverlay ? 'hide' : ''}`}
+			on:click={togglePlaying}
+		/>
 	{/if}
 </div>
 
 <style>
 	div {
+		width: 100%;
 		position: relative;
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
 		grid-template-rows: 1fr auto 1fr;
 		z-index: var(--z-media);
-		border-radius: var(--border-radius);
 	}
 	video {
 		width: 100%;
 		grid-area: 1/1/4/4;
 		contain: strict;
 		object-fit: contain;
-		border-radius: var(--border-radius);
 	}
 
-	.player :global(.center) {
-		z-index: 15;
-		grid-area: 2/2/3/3;
+	@container (min-width: 800px) {
+		button,
+		video {
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+		}
 	}
 
 	span {
@@ -173,6 +183,7 @@
 	}
 
 	input[type='range'] {
+		appearance: none;
 		-webkit-appearance: none;
 		height: 26px;
 		z-index: 15;
@@ -181,7 +192,7 @@
 		align-self: flex-end;
 		background-clip: content-box;
 		padding-block: 12px;
-		margin-inline: 12px;
+		margin-inline: 8px;
 	}
 
 	input[type='range']::-webkit-slider-runnable-track {
@@ -218,18 +229,16 @@
 		margin-top: -6px;
 	}
 
-	@keyframes fade {
-		from {
-			opacity: 1;
-		}
-
-		to {
-			opacity: 0;
-		}
+	.player :global(.center) {
+		z-index: 15;
+		grid-area: 2/2/3/3;
 	}
 
-	.hide {
-		animation: fade 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	.player :global(.hidable) {
+		transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	:global(.hide) {
 		opacity: 0;
 	}
 </style>

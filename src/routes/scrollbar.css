@@ -8,8 +8,6 @@
 	html,
 	body,
 	main {
-		overflow-x: hidden;
-		overflow-y: scroll;
 		scrollbar-width: thin;
 	}
 

@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { postObserver } from '$lib/logic/post-observer';
-	import { onDestroy, onMount } from 'svelte';
 	import PlayButton from '../button-play/PlayButton.svelte';
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { base } from '$app/paths';
+	import { postobserve } from '$lib/logic/use/postobserve';
 
 	export let post: kurosearch.Post;
 
@@ -21,11 +20,6 @@
 			media.src = playing ? animatedSource : staticSource;
 		}
 	}
-
-	onMount(() => postObserver?.observe(media));
-	onDestroy(() => {
-		postObserver?.unobserve(media);
-	});
 </script>
 
 <div class="container" style={`aspect-ratio: ${post.width} / ${post.height}`}>
@@ -50,10 +44,11 @@
 			}
 		}}
 		on:load={() => (loading = false)}
-		on:error={(event) => {
+		on:error|once={(event) => {
 			loading = false;
 			event.target.src = `${base}/assets/failed-to-load.svg`;
 		}}
+		use:postobserve
 	/>
 
 	<PlayButton bind:playing bind:loading class="center" />

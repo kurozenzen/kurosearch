@@ -5,8 +5,11 @@
 
 	export let post: kurosearch.Post;
 
-	let max = 3;
-	let rows = Math.min(Math.round(post.height / post.width) * max, max * 3);
+	let maxRatio = 1 / 3;
+	let rowsPerSquare = 5;
+	let ratio = post.width / post.height;
+	let rows = Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2);
+	console.log(rows);
 
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
@@ -28,10 +31,10 @@
 	class:open
 >
 	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
-	<span class="score">{formatCount(post.score)}</span>
 	{#if post.type !== 'image'}
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>
 	{/if}
+	<span class="score">{formatCount(post.score)}</span>
 </div>
 
 <style>
@@ -59,19 +62,19 @@
 
 	.score {
 		grid-row: 3/4;
-		grid-column: 1/2;
-		background-color: #0008;
-		padding: var(--tiny-gap);
-		color: white;
-		border-radius: 0 var(--border-radius) 0 0;
-	}
-
-	.type {
-		grid-row: 3/4;
 		grid-column: 3/4;
 		background-color: #0008;
 		padding: var(--tiny-gap);
 		color: white;
 		border-radius: var(--border-radius) 0 0 0;
+	}
+
+	.type {
+		grid-row: 3/4;
+		grid-column: 1/2;
+		background-color: #0008;
+		padding: var(--tiny-gap);
+		color: white;
+		border-radius: 0 var(--border-radius) 0 0;
 	}
 </style>

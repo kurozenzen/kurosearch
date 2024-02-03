@@ -1,9 +1,16 @@
 <script>
 	import { browser } from '$app/environment';
-	import Details from '$lib/components/kurosearch/details/Details.svelte';
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
 	import Image from '$lib/components/kurosearch/media-image/Image.svelte';
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
+	import Comments from '$lib/components/kurosearch/post/Comments.svelte';
+	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
+	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
+	import Score from '$lib/components/kurosearch/score/Score.svelte';
+	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
+	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
+	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
+	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
@@ -17,14 +24,14 @@
 </script>
 
 <svelte:head>
-	<title>kurosearch - Post {id}</title>
+	<title>kurosearch - Post</title>
 	{#if src}
 		<meta property="og:image" content={src} />
 		<meta property="og:image:secure_url" content={src} />
 		<meta property="og:image:type" content="image/{ext}" />
 		<meta property="og:image:alt" content="Post {id}" />
 	{/if}
-	<meta name="description" content="Viewing a single post. Post ID: {id}" />
+	<meta name="description" content="View a single post." />
 </svelte:head>
 
 <div>
@@ -33,7 +40,7 @@
 			<LoadingAnimation />
 		{:then post}
 			{#if post.type === 'image'}
-				<Image {post} open />
+				<Image {post} />
 			{:else if post.type === 'video'}
 				{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 				{@const animatedSource = sources.animated}
@@ -48,14 +55,56 @@
 			{:else}
 				<Gif {post} />
 			{/if}
-			<Details {post} />
+			<section>
+				<div class="flex-row">
+					<Rating value={post.rating} />
+					<span>•</span>
+					<span>{post.type.toUpperCase()}</span>
+					<span>•</span>
+					<Score value={post.score} />
+					<span>•</span>
+					<RelativeTime value={post.change} />
+					<span>•</span>
+					<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
+					<span>•</span>
+					<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
+					<span>•</span>
+					<Rule34Source url={post.file_url} />
+					{#if post.source}
+						<span>•</span>
+						<ExternalSource source={post.source} />
+					{/if}
+				</div>
+
+				<h3>Tags</h3>
+				<PostDetailsTagList tags={post.tags} />
+
+				<h3>Comments</h3>
+				<Comments {post} />
+			</section>
 		{/await}
 	{/if}
 </div>
 
 <style>
+	h3 {
+		color: var(--text-highlight);
+	}
 	div {
 		background-color: var(--background-1);
 		border-radius: var(--border-radius);
+	}
+	section {
+		display: flex;
+		flex-direction: column;
+		padding: var(--grid-gap);
+		gap: var(--grid-gap);
+	}
+
+	.flex-row {
+		display: flex;
+		align-items: center;
+		gap: var(--small-gap);
+		overflow-x: auto;
 	}
 </style>
