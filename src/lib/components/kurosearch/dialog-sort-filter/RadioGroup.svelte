@@ -28,6 +28,7 @@
 		padding-inline: var(--grid-gap);
 		text-transform: uppercase;
 		font-size: var(--text-size-small);
+		color: var(--text);
 		background-color: var(--background-1);
 		transition: background-color var(--default-transition-behaviour);
 		user-select: none;
@@ -35,6 +36,7 @@
 
 	input:checked + label {
 		background-color: var(--accent);
+		color: var(--text-accent);
 	}
 
 	@media (hover: hover) {
@@ -43,7 +45,7 @@
 		}
 
 		input:checked + label:hover {
-			background-color: var(--accent-light);
+			background-color: var(--accent);
 		}
 	}
 
