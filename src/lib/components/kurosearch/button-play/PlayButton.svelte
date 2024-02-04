@@ -30,5 +30,6 @@
 		height: 48px;
 		padding: 6px;
 		padding-top: 8px;
+		user-select: none;
 	}
 </style>

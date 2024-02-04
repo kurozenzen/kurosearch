@@ -22,7 +22,7 @@
 		background-color: var(--background-color);
 		color: var(--text);
 		height: 24px;
-		border-radius: 16px;
+		border-radius: var(--border-radius);
 		font-size: var(--text-size-small);
 		user-select: none;
 		padding-inline: 6px 12px;

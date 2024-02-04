@@ -16,7 +16,7 @@
 	button {
 		height: var(--box-height);
 		padding-inline: var(--box-height);
-		border-radius: var(--border-radius-full);
+		border-radius: var(--border-radius);
 		text-align: center;
 		text-transform: uppercase;
 		white-space: nowrap;

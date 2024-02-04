@@ -88,6 +88,10 @@
 		color: var(--text);
 	}
 
+	span {
+		user-select: none;
+	}
+
 	i {
 		display: inline-block;
 		margin-inline-start: var(--grid-gap);

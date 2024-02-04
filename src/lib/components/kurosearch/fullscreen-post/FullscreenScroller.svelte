@@ -5,6 +5,7 @@
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
+	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
 
 	export let index: number;
 
@@ -80,6 +81,7 @@
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
+		$fullscreenHintDone = true;
 		document.removeEventListener('keydown', keybinds);
 	});
 </script>
@@ -90,6 +92,7 @@
 	{/if}
 	<div
 		class="screen snap-container horizontal current"
+		class:hint={!$fullscreenHintDone}
 		bind:this={current}
 		style:top={offsetCurrent}
 	>
@@ -158,5 +161,28 @@
 
 	.screen {
 		scrollbar-width: none;
+	}
+
+	@keyframes scroll-hint {
+		0% {
+			transform: translateX(0px);
+		}
+
+		33% {
+			transform: translateX(-75px);
+		}
+
+		67% {
+			transform: translateX(-75px);
+		}
+
+		100% {
+			transform: translateX(0px);
+		}
+	}
+
+	:global(.hint > *) {
+		animation: scroll-hint 1s ease-in-out;
+		animation-delay: 0.5s;
 	}
 </style>

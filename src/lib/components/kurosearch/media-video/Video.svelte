@@ -180,6 +180,7 @@
 		border-radius: var(--tiny-gap);
 		padding: var(--tiny-gap);
 		color: white;
+		user-select: none;
 	}
 
 	input[type='range'] {

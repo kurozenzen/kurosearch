@@ -1,7 +1,5 @@
 <script lang="ts">
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import { getComments } from '$lib/logic/api-client/ApiClient';
-	import Comment from '../comment/Comment.svelte';
+	import Comments from '../post/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
@@ -53,22 +51,8 @@
 			<h3>{type}</h3>
 			<PostDetailsTagList {tags} />
 		{/each}
-	</div>
-	<div>
 		<h3>Comments</h3>
-		{#await getComments(post.id)}
-			<LoadingAnimation />
-		{:then comments}
-			{#if comments.length > 0}
-				<ul class="comments">
-					{#each comments as comment}
-						<Comment {comment} />
-					{/each}
-				</ul>
-			{:else}
-				<span class="no-comments">Comments for this post are not available</span>
-			{/if}
-		{/await}
+		<Comments {post} />
 	</div>
 </div>
 
@@ -92,7 +76,7 @@
 	}
 
 	h3 {
-		padding-block-start: var(--grid-gap);
+		padding-block: var(--grid-gap);
 		text-transform: capitalize;
 	}
 
@@ -109,18 +93,5 @@
 		justify-content: center;
 		align-items: center;
 		gap: var(--small-gap);
-	}
-
-	.comments {
-		padding-block-start: var(--grid-gap);
-		display: flex;
-		flex-direction: column;
-		gap: var(--grid-gap);
-	}
-
-	.no-comments {
-		padding-block-start: calc(var(--grid-gap) * 2);
-		padding-block-end: var(--grid-gap);
-		text-align: center;
 	}
 </style>

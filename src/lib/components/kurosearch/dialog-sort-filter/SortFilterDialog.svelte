@@ -19,6 +19,8 @@
 </script>
 
 <script lang="ts">
+	import RadioGroup from './RadioGroup.svelte';
+
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
@@ -82,13 +84,8 @@
 			</div>
 		</div>
 
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<div>
-			<b>Filtering by Rating</b>
-			<div class="row">
-				<Select bind:value={$filter.rating} options={RATING_OPTIONS} />
-			</div>
-		</div>
+		<b>Filtering by Rating</b>
+		<RadioGroup name="rating" options={RATING_OPTIONS} bind:value={$filter.rating} />
 		<TextButton title="Return to searching." on:click={() => dialog.close()}>Done</TextButton>
 		<TextButton title="Reset sort and filter." type="secondary" on:click={reset}>Reset</TextButton>
 	</div>
@@ -106,7 +103,7 @@
 		gap: var(--small-gap);
 	}
 
-	input {
+	input[type='number'] {
 		height: var(--line-height);
 		box-sizing: border-box;
 		background-color: transparent;
@@ -115,6 +112,7 @@
 		border: 2px solid var(--background-1);
 		width: 90px;
 	}
+
 	b {
 		display: block;
 		padding-bottom: var(--small-gap);

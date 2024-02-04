@@ -36,29 +36,35 @@
 	});
 </script>
 
-{#if post.type === 'image'}
-	{@const source = post.sample_url}
-	<img src={source} alt="[IMAGE] post #{post.id}" title="[IMAGE] post #{post.id}" />
-{:else if post.type === 'video'}
-	{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
-	{@const animatedSource = sources.animated}
-	{@const staticSource = sources.static}
-	<!-- svelte-ignore a11y-media-has-caption -->
-	<video
-		src={animatedSource}
-		poster={staticSource}
-		loop={true}
-		title="[VIDEO] post #{post.id}"
-		controls
-		preload="metadata"
-		autoplay
-		bind:this={video}
-	/>
-{:else}
-	{@const sources = getGifSources(post.file_url, post.sample_url, post.preview_url)}
-	{@const animatedSource = sources.animated}
-	<img src={animatedSource} alt="[GIF] post #{post.id}" title="[GIF] post #{post.id}" />
-{/if}
+<div>
+	{#if post.type === 'image'}
+		{@const source = post.sample_url}
+		<img src={source} alt="[IMAGE] post #{post.id}" title="[IMAGE] post #{post.id}" />
+	{:else if post.type === 'video'}
+		{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
+		{@const animatedSource = sources.animated}
+		{@const staticSource = sources.static}
+		<!-- svelte-ignore a11y-media-has-caption -->
+		<video
+			src={animatedSource}
+			poster={staticSource}
+			loop={true}
+			title="[VIDEO] post #{post.id}"
+			controls
+			preload="metadata"
+			autoplay
+			bind:this={video}
+		/>
+	{:else}
+		{@const sources = getGifSources(post.file_url, post.sample_url, post.preview_url)}
+		{@const animatedSource = sources.animated}
+		<img src={animatedSource} alt="[GIF] post #{post.id}" title="[GIF] post #{post.id}" />
+	{/if}
+
+	<!-- <input type="range" /> -->
+
+	<!-- Video: draggable slider -->
+</div>
 
 <style>
 	img,
@@ -71,5 +77,11 @@
 
 		scroll-snap-align: start;
 		scroll-snap-stop: always;
+	}
+
+	input {
+		position:absolute;
+		bottom: 0;
+		width: 100%;
 	}
 </style>

@@ -25,7 +25,8 @@
 		align-items: center;
 		gap: var(--tiny-gap);
 		height: var(--line-height-small);
-		border-radius: var(--line-height-small);
+		/* border-radius: var(--line-height-small); */
+		border-radius: var(--border-radius);
 		font-size: var(--text-size-small);
 		padding-left: 6px;
 		padding-right: 12px;
