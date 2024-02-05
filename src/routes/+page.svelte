@@ -187,7 +187,7 @@
 			}
 		}}
 	/>
-	<TextButton title="Search with the tags above" on:click={getFirstPage}>
+	<TextButton id="btn-search" title="Search with the tags above" on:click={getFirstPage}>
 		{#if loading}
 			<LoadingAnimation />
 		{:else}
@@ -269,5 +269,9 @@
 		flex-direction: column;
 		align-items: center;
 		gap: var(--grid-gap);
+	}
+
+	:global(#btn-search) {
+		width: 10rem;
 	}
 </style>

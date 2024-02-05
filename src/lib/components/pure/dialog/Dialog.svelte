@@ -17,7 +17,7 @@
 				event.clientY <= rect.top + rect.height &&
 				rect.left <= event.clientX &&
 				event.clientX <= rect.left + rect.width;
-			if (!isInDialog) {
+			if (event.target === dialog && !isInDialog) {
 				dialog?.close();
 			}
 		});
@@ -32,7 +32,7 @@
 
 <style>
 	dialog {
-		border-radius: var(--border-radius);
+		border-radius: calc(2 * var(--border-radius));
 		background-color: var(--background-0);
 		z-index: var(--z-dialog);
 		padding: var(--grid-gap);

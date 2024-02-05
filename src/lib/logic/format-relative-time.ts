@@ -9,7 +9,7 @@ export const formatCreatedAt = (createdAt: number | string) => {
 	const now = new Date().getTime() / ONE_MINUTE;
 
 	const minutesAgo = now - then;
-	if (minutesAgo < 1) return 'just now';
+	if (minutesAgo < 1) return 'Just now';
 	if (minutesAgo < 60) return getAgoString(minutesAgo, 'minute');
 
 	const hoursAgo = minutesAgo / 60;

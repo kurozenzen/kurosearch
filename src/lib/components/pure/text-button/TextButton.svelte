@@ -8,7 +8,7 @@
 	export let type: ButtonType = 'primary';
 </script>
 
-<button {title} class={type} on:click {disabled}>
+<button id={$$props.id} {title} class={type} on:click {disabled}>
 	<slot />
 </button>
 
