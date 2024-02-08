@@ -2,34 +2,43 @@
 	import { createEventDispatcher } from 'svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
-	import KurosearchSource from '../source-kurosearch/KurosearchSource.svelte';
 	import { formatCount } from '$lib/logic/format-count';
 
 	const dispatch = createEventDispatcher();
 
 	export let post: kurosearch.Post;
 	export let active: string | undefined;
+	export let links: number;
 </script>
 
 <div class="summary">
 	<RelativeTime value={post.change} />
 	<span>•</span>
 	<Score value={post.score} />
-	<span>•</span>
-	<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
 	<span class="divider" />
+	<button
+		class="codicon codicon-link"
+		class:active={active === 'links'}
+		on:click={() => dispatch('links')}
+	>
+		{formatCount(links)}
+	</button>
 	{#if post.comment_count}
 		<button
 			class="codicon codicon-comment"
 			class:active={active === 'comments'}
-			on:click={() => dispatch('comments')}>{formatCount(post.comment_count)}</button
+			on:click={() => dispatch('comments')}
 		>
+			{formatCount(post.comment_count)}
+		</button>
 	{/if}
 	<button
 		class="codicon codicon-tag"
 		class:active={active === 'tags'}
-		on:click={() => dispatch('tags')}>{formatCount(post.tags.length)}</button
+		on:click={() => dispatch('tags')}
 	>
+		{formatCount(post.tags.length)}
+	</button>
 </div>
 
 <style>

@@ -1,10 +1,11 @@
 <script lang="ts">
+	import Sources from './Sources.svelte';
+
 	import Comments from './Comments.svelte';
 
 	import Image from '../media-image/Image.svelte';
 	import Video from '../media-video/Video.svelte';
 	import Gif from '../media-gif/Gif.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
@@ -12,6 +13,7 @@
 	import Summary from '../details/Summary.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import FullscreenButton from './FullscreenButton.svelte';
+	import { isValidUrl } from '$lib/logic/url-utils';
 
 	const dispatch = createEventDispatcher();
 
@@ -25,6 +27,15 @@
 			openTab = tab;
 		}
 	};
+
+	const links = [
+		new URL(`https://kurosearch.com/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`),
+		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
+		...post.source
+			.split(' ')
+			.filter((x) => isValidUrl(x))
+			.map((x) => new URL(x))
+	];
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -62,14 +73,18 @@
 		<Summary
 			active={openTab}
 			{post}
+			links={links.length}
 			on:tags={() => selectTab('tags')}
 			on:comments={() => selectTab('comments')}
+			on:links={() => selectTab('links')}
 		/>
 
 		{#if openTab === 'tags'}
 			<PostDetailsTagList tags={post.tags} />
 		{:else if openTab === 'comments'}
 			<Comments {post} />
+		{:else if openTab === 'links'}
+			<Sources {links} />
 		{/if}
 	</div>
 </div>
