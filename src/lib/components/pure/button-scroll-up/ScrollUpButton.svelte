@@ -23,6 +23,7 @@
 </script>
 
 <button
+	type="button"
 	aria-label="back to top"
 	title="Go back up"
 	on:click={() => window.scrollTo(0, 0)}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatVideoTime } from '$lib/logic/format-time';
-	import { isEnter, isSpace } from '$lib/logic/keyboard-utils';
+	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import PlayButton from '../button-play/PlayButton.svelte';

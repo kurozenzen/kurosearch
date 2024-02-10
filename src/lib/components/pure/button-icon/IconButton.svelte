@@ -2,7 +2,7 @@
 	export let id: string | undefined = undefined;
 </script>
 
-<button {id} class={$$props.class} aria-label={$$props['aria-label']} on:click>
+<button type="button" {id} class={$$props.class} aria-label={$$props['aria-label']} on:click>
 	<slot />
 </button>
 

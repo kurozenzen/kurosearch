@@ -3,7 +3,7 @@
 	export let icon: string;
 </script>
 
-<button {title} on:click>
+<button type="button" {title} on:click>
 	<i class={icon} />
 </button>
 

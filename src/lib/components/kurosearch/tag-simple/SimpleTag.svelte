@@ -8,7 +8,7 @@
 	$: icon = TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon';
 </script>
 
-<button tabindex="0" title="Click to add tag" on:click class:active class={icon}>
+<button type="button" title="Click to add tag" on:click class:active class={icon}>
 	{formatTagname(tag.name)}
 </button>
 

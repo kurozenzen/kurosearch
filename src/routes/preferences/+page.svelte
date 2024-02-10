@@ -1,3 +1,19 @@
+<script lang="ts" context="module">
+	const THEME_OPTIONS = Object.freeze({
+		'crimson dark': 'Dark',
+		'crimson light': 'Light',
+		'hotpink light': 'Bubblegum',
+		'hotpink dark': 'Dark Bubblegum',
+		'crimson coffee': 'Coffee'
+	});
+	const RESULT_COLUMNS_OPTIONS = Object.freeze({
+		'1': 'Single Column',
+		'2': 'Two Columns',
+		'3': 'Three Columns',
+		'4': 'Four Columns'
+	});
+</script>
+
 <script lang="ts">
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
@@ -15,25 +31,14 @@
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
+	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { addHistory } from '$lib/logic/use/onpopstate';
+	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 
 	let resetDialog: HTMLDialogElement;
-
-	const THEME_OPTIONS = Object.freeze({
-		'crimson dark': 'Dark',
-		'crimson light': 'Light',
-		'hotpink light': 'Bubblegum',
-		'hotpink dark': 'Dark Bubblegum',
-		'crimson coffee': 'Coffee'
-	});
-	const RESULT_COLUMNS_OPTIONS = Object.freeze({
-		'1': 'Single Column',
-		'2': 'Two Columns',
-		'3': 'Three Columns',
-		'4': 'Four Columns'
-	});
 
 	const reset = () => {
 		theme.reset();
@@ -103,6 +108,19 @@
 		</Checkbox>
 	</Preference>
 
+	<Preference
+		title="Autoscroll in Fullscreen"
+		description="When enabled, fullscreen view will scroll automatically."
+	>
+		<div class="flex">
+			<Checkbox id="checkbox-fullscreen-autplay" bind:checked={$autoplayFullscreenEnabled}>
+				{$autoplayFullscreenEnabled ? 'Enabled' : 'Disabled'}
+			</Checkbox>
+			<NumberInput bind:value={$autoplayFullscreenDelay} min={1} max={60} step={1} />
+			<span>{$autoplayFullscreenDelay} seconds</span>
+		</div>
+	</Preference>
+
 	<Preference title="Result layout" description="Save active tags and posts between sessions.">
 		<div class="flex">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
@@ -130,8 +148,10 @@
 			on:click={() => {
 				resetDialog.showModal();
 				addHistory('dialog');
-			}}>Reset</TextButton
+			}}
 		>
+			Reset
+		</TextButton>
 	</Preference>
 </section>
 
@@ -159,6 +179,7 @@
 	.flex {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		gap: var(--grid-gap);
 	}
 </style>

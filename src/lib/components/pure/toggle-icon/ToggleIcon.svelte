@@ -8,7 +8,7 @@
 	};
 </script>
 
-<button {title} class={icon} class:active on:click={toggleActive} />
+<button type="button" {title} class={icon} class:active on:click={toggleActive} />
 
 <style>
 	button {

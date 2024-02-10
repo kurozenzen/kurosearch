@@ -4,10 +4,10 @@
 	export let post: kurosearch.Post;
 	export let offset: string;
 
-	$: source = isAnimated(post.sample_url) ? post.preview_url : post.sample_url;
+	$: preview = isAnimated(post.sample_url) ? post.preview_url : post.sample_url;
 </script>
 
-<img src={source} alt="post #{post.id}" style:top={offset} />
+<img src={preview} alt="post #{post.id}" style:top={offset} />
 
 <style>
 	img {

@@ -10,6 +10,7 @@
 </script>
 
 <button
+	type="button"
 	class:active
 	class="{MODIFIER_NAMES[tag.modifier]} {icon}"
 	title="Click to remove tag"

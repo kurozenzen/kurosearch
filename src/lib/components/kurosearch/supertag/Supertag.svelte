@@ -17,6 +17,7 @@
 	<h3>{supertag.name}</h3>
 	<small>{Object.keys(supertag.tags).length} tags</small>
 	<button
+		type="button"
 		class="codicon codicon-edit"
 		on:click={() => {
 			editDialog.showModal();
@@ -24,6 +25,7 @@
 		}}
 	/>
 	<button
+		type="button"
 		class="codicon codicon-close"
 		on:click={() => {
 			deleteDialog.showModal();

@@ -64,9 +64,13 @@
 					<Score value={post.score} />
 					<span>•</span>
 					<RelativeTime value={post.change} />
-					<span>•</span>
-					<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(post.file_url)}" />
-					<span>•</span>
+				</div>
+
+				<h3>Tags</h3>
+				<PostDetailsTagList tags={post.tags} />
+
+				<h3>Links</h3>
+				<div class="flex-row">
 					<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
 					<span>•</span>
 					<Rule34Source url={post.file_url} />
@@ -75,9 +79,6 @@
 						<ExternalSource source={post.source} />
 					{/if}
 				</div>
-
-				<h3>Tags</h3>
-				<PostDetailsTagList tags={post.tags} />
 
 				<h3>Comments</h3>
 				<Comments {post} />

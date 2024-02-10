@@ -19,7 +19,7 @@
 	<section>
 		<h3>Create Supertag</h3>
 
-		<button class={`codicon codicon-close`} on:click={close} />
+		<button type="button" class="codicon codicon-close" on:click={close} />
 
 		<div>
 			<label for="supertag-name"> Name </label>

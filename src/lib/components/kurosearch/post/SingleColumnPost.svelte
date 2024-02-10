@@ -21,16 +21,13 @@
 	export let openTab: string | undefined = undefined;
 
 	const selectTab = (tab: string) => {
-		if (openTab === tab) {
-			openTab = undefined;
-		} else {
-			openTab = tab;
-		}
+		openTab = openTab === tab ? undefined : tab;
 	};
 
 	const links = [
 		new URL(`https://kurosearch.com/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
+		new URL(post.file_url),
 		...post.source
 			.split(' ')
 			.filter((x) => isValidUrl(x))

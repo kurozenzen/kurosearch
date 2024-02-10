@@ -13,5 +13,7 @@ export enum StoreKey {
 	CookiesAccepted = 'kurosearch:cookies-accepted',
 	HighResolutionEnabled = 'kurosearch:high-resolution-enabled',
 	WideLayoutEnabled = 'kurosearch:wide-layout-enabled',
-	FullscreenHintDone = 'kurosearch:fullscreen-hint-done'
+	FullscreenHintDone = 'kurosearch:fullscreen-hint-done',
+	AutoplayFullscreenEnabled = 'kurosearch:autoplay-fullscreen-enabled-done',
+	AutoplayFullscreenDelay = 'kurosearch:autoplay-fullscreen-delay'
 }

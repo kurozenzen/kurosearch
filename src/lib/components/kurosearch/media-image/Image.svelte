@@ -43,6 +43,7 @@
 		object-fit: contain;
 		contain: strict;
 		z-index: var(--z-media);
+		background-color: var(--background-1);
 	}
 
 	@container (min-width: 800px) {

@@ -1,24 +1,9 @@
 <script context="module" lang="ts">
-	export const RATING_OPTIONS = Object.freeze({
-		all: 'All',
-		safe: 'Safe',
-		questionable: 'Questionable',
-		explicit: 'Explicit'
-	});
-	const OPTIONS_SORT_PROPERTY = Object.freeze({
-		id: 'Uploaded',
-		score: 'Score',
-		updated: 'Updated',
-		random: 'Random'
-	});
-	const OPTIONS_SORT_DIRECTION = Object.freeze({
-		desc: 'codicon codicon-arrow-down',
-		asc: 'codicon codicon-arrow-up'
-	});
-	const OPTIONS_SCORE_COMPARATOR = Object.freeze({ '>=': '≥', '<=': '≤' });
 </script>
 
 <script lang="ts">
+	import NumberInput from './NumberInput.svelte';
+
 	import RadioGroup from './RadioGroup.svelte';
 
 	import sort from '$lib/store/sort-store';
@@ -29,6 +14,12 @@
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import { isEnter } from '$lib/logic/keyboard-utils';
+	import {
+		LABELS_RATING,
+		LABELS_SCORE_COMPARATOR,
+		LABELS_SORT_DIRECTION,
+		LABELS_SORT_PROPERTY
+	} from '../sort-filter-config/sortfilter';
 
 	export let dialog: HTMLDialogElement;
 
@@ -61,8 +52,8 @@
 		<div>
 			<b>Sorting</b>
 			<div class="row">
-				<RotatingIconSelect bind:value={$sort.direction} options={OPTIONS_SORT_DIRECTION} />
-				<Select bind:value={$sort.property} options={OPTIONS_SORT_PROPERTY} />
+				<RotatingIconSelect bind:value={$sort.direction} options={LABELS_SORT_DIRECTION} />
+				<Select bind:value={$sort.property} options={LABELS_SORT_PROPERTY} />
 			</div>
 		</div>
 
@@ -71,23 +62,19 @@
 			<div class="row">
 				<RotatingTextSelect
 					bind:value={$filter.scoreComparator}
-					options={OPTIONS_SCORE_COMPARATOR}
+					options={LABELS_SCORE_COMPARATOR}
 				/>
-				<input
-					type="number"
-					min={0}
-					max={100000}
-					step={1}
-					bind:value={internalScoreValue}
-					on:keyup={blurOnEnter}
-				/>
+				<NumberInput bind:value={$filter.scoreValue} min={0} max={10000} step={1} />
 			</div>
 		</div>
 
-		<b>Filtering by Rating</b>
-		<RadioGroup name="rating" options={RATING_OPTIONS} bind:value={$filter.rating} />
-		<TextButton title="Return to searching." on:click={() => dialog.close()}>Done</TextButton>
-		<TextButton title="Reset sort and filter." type="secondary" on:click={reset}>Reset</TextButton>
+		<div>
+			<b>Rating</b>
+			<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
+		</div>
+
+		<TextButton title="Return to searching" on:click={() => dialog.close()}>Done</TextButton>
+		<TextButton title="Reset sort and filter" type="secondary" on:click={reset}>Reset</TextButton>
 	</div>
 </Dialog>
 

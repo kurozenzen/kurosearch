@@ -6,20 +6,44 @@
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
 	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
+	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let index: number;
 
 	let container: HTMLDivElement;
 	let current: HTMLDivElement;
 
-	let postCurrent = $results.posts[index];
-	let postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
-	let postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
-	let offsetCurrent = `${index * 100}vh`;
-	let offsetPrevious = `${(index - 1) * 100}vh`;
-	let offsetNext = `${(index + 1) * 100}vh`;
+	$: postCurrent = $results.posts[index];
+	$: postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
+	$: postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
+	$: offsetCurrent = `${index * 100}vh`;
+	$: offsetPrevious = `${(index - 1) * 100}vh`;
+	$: offsetNext = `${(index + 1) * 100}vh`;
 
-	const dispatch = createEventDispatcher();
+	const scrollToPrevious = () => {
+		container.scrollTo({
+			left: 0,
+			top: container.clientHeight * (index - 1),
+			behavior: 'smooth'
+		});
+	};
+
+	const scrollToNext = () => {
+		container.scrollTo({
+			left: 0,
+			top: container.clientHeight * (index + 1),
+			behavior: 'smooth'
+		});
+	};
+
+	const autoscroll = () => {
+		if ($autoplayFullscreenEnabled) {
+			scrollToNext();
+		}
+	};
 
 	const onScroll = (event: Event) => {
 		requestAnimationFrame(() => {
@@ -30,12 +54,6 @@
 
 			if (roundedIndex != index) {
 				index = roundedIndex;
-				postCurrent = $results.posts[index];
-				postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
-				postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
-				offsetCurrent = `${index * 100}vh`;
-				offsetPrevious = `${(index - 1) * 100}vh`;
-				offsetNext = `${(index + 1) * 100}vh`;
 				if (current) {
 					current.scrollLeft = 0;
 				}
@@ -56,20 +74,12 @@
 		if (event.key === 'ArrowUp') {
 			event.preventDefault();
 			event.stopPropagation();
-			container.scrollTo({
-				left: 0,
-				top: container.clientHeight * (index - 1),
-				behavior: 'smooth'
-			});
+			scrollToPrevious();
 		}
 		if (event.key === 'ArrowDown') {
 			event.preventDefault();
 			event.stopPropagation();
-			container.scrollTo({
-				left: 0,
-				top: container.clientHeight * (index + 1),
-				behavior: 'smooth'
-			});
+			scrollToNext();
 		}
 	};
 
@@ -96,8 +106,14 @@
 		bind:this={current}
 		style:top={offsetCurrent}
 	>
-		<FullscreenMedia post={postCurrent} />
+		<FullscreenMedia post={postCurrent} on:ended={autoscroll} />
 		<FullscreenDetails post={postCurrent} />
+		<IconButton
+			class="details-button"
+			on:click={() => current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
+		>
+			<i class="codicon codicon-tag" />
+		</IconButton>
 	</div>
 	{#if postNext}
 		<FullscreenPreview post={postNext} offset={offsetNext} />
@@ -108,9 +124,7 @@
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
 		rootMargin="{window.innerHeight * 3}px"
-		on:intersection={() => {
-			dispatch('endreached');
-		}}
+		on:intersection={() => dispatch('endreached')}
 	/>
 </div>
 
@@ -179,6 +193,12 @@
 		100% {
 			transform: translateX(0px);
 		}
+	}
+
+	:global(.details-button) {
+		position: absolute;
+		bottom: var(--grid-gap);
+		right: var(--grid-gap);
 	}
 
 	:global(.hint > *) {

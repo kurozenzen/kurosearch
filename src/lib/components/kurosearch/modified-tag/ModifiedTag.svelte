@@ -5,8 +5,7 @@
 	export let tag: kurosearch.SearchableTag;
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<button class={MODIFIER_NAMES[tag.modifier]} on:click on:contextmenu|preventDefault>
+<button type="button" class={MODIFIER_NAMES[tag.modifier]} on:click on:contextmenu|preventDefault>
 	{formatTagname(tag.name)}
 </button>
 

@@ -268,7 +268,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--grid-gap);
+		gap: var(--small-gap);
 	}
 
 	:global(#btn-search) {

@@ -64,6 +64,7 @@
 <style>
 	div {
 		width: 100%;
+		height: var(--line-height);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -72,7 +73,7 @@
 
 	@media (width <= calc(800px + 2rem)) {
 		div {
-			padding-inline: var(--grid-gap);
+			padding-inline: var(--small-gap);
 		}
 	}
 

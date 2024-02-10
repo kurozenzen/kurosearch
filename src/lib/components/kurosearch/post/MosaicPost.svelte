@@ -9,7 +9,6 @@
 	let rowsPerSquare = 5;
 	let ratio = post.width / post.height;
 	let rows = Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2);
-	console.log(rows);
 
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
