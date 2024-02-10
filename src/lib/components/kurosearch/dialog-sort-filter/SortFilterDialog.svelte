@@ -13,7 +13,6 @@
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
-	import { isEnter } from '$lib/logic/keyboard-utils';
 	import {
 		LABELS_RATING,
 		LABELS_SCORE_COMPARATOR,
@@ -23,26 +22,10 @@
 
 	export let dialog: HTMLDialogElement;
 
-	let internalScoreValue: number;
-
-	const blurOnEnter = (event: KeyboardEvent) =>
-		isEnter(event) && (event.target as HTMLElement)?.blur();
 	const reset = () => {
 		sort.reset();
 		filter.reset();
-		internalScoreValue = $filter.scoreValue;
 	};
-
-	$: {
-		if (internalScoreValue === undefined) {
-			internalScoreValue = $filter.scoreValue;
-		}
-
-		let scoreValue = Number(internalScoreValue);
-		if (!isNaN(scoreValue)) {
-			$filter.scoreValue = scoreValue;
-		}
-	}
 </script>
 
 <Dialog bind:dialog on:close>

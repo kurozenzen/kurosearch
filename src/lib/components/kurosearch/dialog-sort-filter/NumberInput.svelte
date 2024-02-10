@@ -6,21 +6,22 @@
 	export let max: number;
 	export let step: number;
 
-	let internalValue: number;
+	let internalValue: string;
 
 	const blurOnEnter = (event: KeyboardEvent) =>
 		isEnter(event) && (event.target as HTMLElement)?.blur();
 
-	$: {
-		if (internalValue === undefined) {
-			internalValue = value;
+	const parseNumber = (str: string) => {
+		let n = Number(str);
+		if (!isNaN(n)) {
+			value = n;
 		}
+	};
 
-		let newValue = Number(internalValue);
-		if (!isNaN(newValue)) {
-			value = newValue;
-		}
-	}
+	const toString = (n: number) => (internalValue = `${n}`);
+
+	$: parseNumber(internalValue);
+	$: toString(value);
 </script>
 
 <input type="number" {min} {max} {step} bind:value={internalValue} on:keyup={blurOnEnter} />
