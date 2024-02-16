@@ -5,8 +5,8 @@
 	import filter from '$lib/store/filter-store';
 	import TagButton from '../button-tag/TagButton.svelte';
 
-	let share = async () => {
-		let shareData = {
+	const share = async () => {
+		const shareData = {
 			title: 'kurosearch',
 			text: 'Saved Search Configuration',
 			url: getShareUrl($activeTags, $sort, $filter).toString()

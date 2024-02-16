@@ -58,17 +58,23 @@
 </main>
 
 <footer>
-	<CodiconTextLink
-		title="Source Code"
-		href="https://github.com/kurozenzen/kurosearch"
-		icon="codicon codicon-github"
-		label="Github"
-		target="_blank"
-	/>
+	<section>
+		<CodiconTextLink
+			title="Source Code"
+			href="https://github.com/kurozenzen/kurosearch"
+			icon="codicon codicon-github"
+			label="Github"
+			target="_blank"
+		/>
 
-	<span class="copyright">© 2023 kurozenzen</span>
+		<span class="copyright">© 2023 kurozenzen</span>
 
-	<CodiconTextLink title="About" href="{base}/about" icon="codicon codicon-info" label="About" />
+		<CodiconTextLink title="About" href="{base}/about" icon="codicon codicon-info" label="About" />
+	</section>
+	<p>
+		I do not own the rights to Helheim Lynx and this site is in no way endorsed by, affiliated with,
+		or in any other way connected to them.
+	</p>
 </footer>
 
 <style>
@@ -82,7 +88,7 @@
 	}
 
 	nav,
-	footer {
+	footer section {
 		display: flex;
 		gap: 8px;
 	}
@@ -102,7 +108,7 @@
 		padding: var(--grid-gap);
 	}
 
-	footer {
+	footer section {
 		color: var(--text-muted);
 		justify-content: space-between;
 	}
@@ -119,5 +125,17 @@
 	footer {
 		width: 100%;
 		max-width: calc(var(--body-width) + 2 * var(--grid-gap));
+	}
+
+	footer {
+		display: flex;
+		flex-direction: column;
+		gap: var(--small-gap);
+	}
+
+	p {
+		font-size: var(--text-size-small);
+		text-align: center;
+		color: var(--text-muted);
 	}
 </style>

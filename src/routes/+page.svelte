@@ -1,4 +1,6 @@
 <script lang="ts">
+	import LynxMain from './LynxMain.svelte';
+
 	import { browser } from '$app/environment';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
@@ -29,6 +31,7 @@
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
+	import { base } from '$app/paths';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -162,6 +165,8 @@
 	/>
 </svelte:head>
 
+<LynxMain />
+
 <section id="search">
 	<KurosearchTitle />
 	<Searchbar
@@ -260,7 +265,6 @@
 	}
 
 	#search {
-		margin-block-start: 20vh;
 		padding-inline: var(--small-gap);
 	}
 
@@ -268,7 +272,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--small-gap);
+		gap: var(--grid-gap);
 	}
 
 	:global(#btn-search) {

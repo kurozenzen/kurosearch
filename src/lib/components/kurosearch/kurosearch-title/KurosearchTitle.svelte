@@ -42,16 +42,16 @@
 
 	.pride {
 		background: linear-gradient(
-			#60d0fa 0%,
-			#60d0fa 20%,
-			#f5aab9 20%,
-			#f5aab9 40%,
-			#fff 40%,
-			#fff 60%,
-			#f5aab9 60%,
-			#f5aab9 80%,
-			#60d0fa 80%,
-			#60d0fa 100%
+			#60d0fa 30%,
+			#60d0fa 42%,
+			#f5aab9 42%,
+			#f5aab9 54%,
+			#fff 54%,
+			#fff 66%,
+			#f5aab9 66%,
+			#f5aab9 78%,
+			#60d0fa 78%,
+			#60d0fa 90%
 		);
 		background-size: 100% 80%;
 		background-position: bottom;
