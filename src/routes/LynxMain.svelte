@@ -15,6 +15,7 @@
 		align-items: center;
 		contain: strict;
 		height: 200px;
+		padding-inline: var(--small-gap);
 	}
 
 	a {
@@ -24,5 +25,6 @@
 	img {
 		object-fit: contain;
 		max-height: 100%;
+		max-width: 100%;
 	}
 </style>
