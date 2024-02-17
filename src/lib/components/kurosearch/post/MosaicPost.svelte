@@ -2,12 +2,13 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { calculateAspectRatio } from './ratio';
 
 	export let post: kurosearch.Post;
 
 	let maxRatio = 1 / 3;
 	let rowsPerSquare = 5;
-	let ratio = post.width / post.height;
+	let ratio = calculateAspectRatio(post.width, post.height);
 	let rows = Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2);
 
 	const isImage = (src: string) =>

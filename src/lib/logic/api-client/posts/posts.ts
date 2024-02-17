@@ -14,7 +14,9 @@ export const getPage = async (pageNumber: number, tags: string) => {
 	throwOnUnexpectedStatus(response);
 
 	try {
-		const data = await response.json();
+		let data = await response.json();
+		data = data.filter((x: any) => x.change); // sometimes api returns placeholders that cause lots of null issues
+
 		const posts = data.map(parsePost) as kurosearch.Post[];
 
 		posts.forEach((post) => {

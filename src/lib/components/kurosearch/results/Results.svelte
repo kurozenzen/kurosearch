@@ -1,12 +1,10 @@
 <script lang="ts">
-	import { formatCount } from '$lib/logic/format-count';
 	import { getPostId } from '$lib/logic/id-utils';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
-	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
 	let fullscreenIndex: undefined | number;
 
@@ -27,11 +25,6 @@
 		}
 	}
 </script>
-
-<div>
-	<span>{formatCount($results.postCount)} posts</span>
-	<SortFilterConfig on:sortfilterupdate />
-</div>
 
 {#if $resultColumns === '1'}
 	<ol class="single-column">
@@ -62,21 +55,6 @@
 {/if}
 
 <style>
-	div {
-		width: 100%;
-		height: var(--line-height);
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		box-sizing: border-box;
-	}
-
-	@media (width <= calc(800px + 2rem)) {
-		div {
-			padding-inline: var(--small-gap);
-		}
-	}
-
 	.single-column {
 		width: 100%;
 		display: flex;

@@ -28,10 +28,12 @@
 		new URL(`https://kurosearch.com/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
 		new URL(post.file_url),
-		...post.source
-			.split(' ')
-			.filter((x) => isValidUrl(x))
-			.map((x) => new URL(x))
+		...(post.source
+			? post.source
+					.split(' ')
+					.filter((x) => isValidUrl(x))
+					.map((x) => new URL(x))
+			: [])
 	];
 </script>
 

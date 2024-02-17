@@ -4,6 +4,7 @@
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { base } from '$app/paths';
 	import { postobserve } from '$lib/logic/use/postobserve';
+	import { calculateAspectRatioCss } from '../post/ratio';
 
 	export let post: kurosearch.Post;
 
@@ -22,7 +23,7 @@
 	}
 </script>
 
-<div class="container" style={`aspect-ratio: ${post.width} / ${post.height}`}>
+<div class="container" style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}">
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img

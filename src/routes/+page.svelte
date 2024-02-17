@@ -32,6 +32,7 @@
 	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import { base } from '$app/paths';
+	import ResultHeader from '$lib/components/kurosearch/results/ResultHeader.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -218,7 +219,11 @@
 	/>
 </section>
 
-{#if error}
+<ResultHeader on:sortfilterupdate {loading} />
+
+{#if loading}
+	<div />
+{:else if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
@@ -277,5 +282,24 @@
 
 	:global(#btn-search) {
 		width: 10rem;
+	}
+
+	@keyframes sweep {
+		0% {
+			background: var(--background-1);
+		}
+		50% {
+			background: var(--background-2);
+		}
+		100% {
+			background: var(--background-1);
+		}
+	}
+
+	div {
+		contain: strict;
+		height: 100vh;
+		border-radius: calc(2 * var(--border-radius));
+		animation: sweep ease-in-out 3s infinite;
 	}
 </style>

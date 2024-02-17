@@ -3,11 +3,12 @@
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { postobserve } from '$lib/logic/use/postobserve';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { calculateAspectRatio, calculateAspectRatioCss } from '../post/ratio';
 
 	export let post: kurosearch.Post;
 
-	const ratio = post.width / post.height;
-	const expandable = ratio < 0.33;
+	let ratio = calculateAspectRatio(post.width, post.height);
+	let expandable = ratio < 0.33;
 
 	let open: boolean;
 
@@ -23,7 +24,7 @@
 		loading="lazy"
 		data-src={src}
 		alt={post.id.toString()}
-		style={`aspect-ratio: ${post.width} / ${post.height}`}
+		style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}"
 		width={post.width}
 		height={post.height}
 		tabindex="0"
