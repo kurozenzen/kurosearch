@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Comments from '../post/Comments.svelte';
+	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';

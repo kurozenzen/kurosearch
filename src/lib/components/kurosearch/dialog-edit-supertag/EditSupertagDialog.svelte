@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import TextInput from '$lib/components/pure/text-input/TextInput.svelte';
+	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Searchbar from '../searchbar/Searchbar.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
-	import ModifiedTag from '../modified-tag/ModifiedTag.svelte';
+	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 

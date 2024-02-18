@@ -3,7 +3,7 @@
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
 	import Image from '$lib/components/kurosearch/media-image/Image.svelte';
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
-	import Comments from '$lib/components/kurosearch/post/Comments.svelte';
+	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
 	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
 	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
 	import Score from '$lib/components/kurosearch/score/Score.svelte';

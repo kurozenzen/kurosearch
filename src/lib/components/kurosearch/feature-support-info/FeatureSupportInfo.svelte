@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-
 	export let supported: boolean;
 	export let title: string;
 	export let description: string;

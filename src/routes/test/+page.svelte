@@ -7,7 +7,7 @@
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import TextInput from '$lib/components/pure/text-input/TextInput.svelte';
+	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import ToggleIcon from '$lib/components/pure/toggle-icon/ToggleIcon.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
 	import ActiveTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';

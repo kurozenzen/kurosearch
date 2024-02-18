@@ -215,7 +215,7 @@
 	/>
 </section>
 
-<ResultHeader on:sortfilterupdate {loading} />
+<ResultHeader on:sortfilterupdate={getFirstPage} {loading} />
 
 {#if error}
 	<SearchError {error} />

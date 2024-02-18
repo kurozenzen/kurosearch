@@ -9,13 +9,15 @@
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
+	import TermsOfUseDialog from '$lib/components/kurosearch/dialog-terms-of-use/CookieMessage.svelte';
+
 	import './reset.css';
 	import './fonts.css';
 	import './defaults.css';
 	import './theme.css';
 	import './codicon.css';
 	import './scrollbar.css';
+
 	import '$lib/logic/firebase/firebase';
 
 	const userPhoto: string | undefined = undefined;
@@ -37,7 +39,7 @@
 	</script>
 </svelte:head>
 
-<CookieMessage />
+<TermsOfUseDialog />
 
 <header>
 	<nav>

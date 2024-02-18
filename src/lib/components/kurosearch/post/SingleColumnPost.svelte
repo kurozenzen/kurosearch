@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Sources from './Sources.svelte';
-	import Comments from './Comments.svelte';
+	import Comments from '../post-comment/Comments.svelte';
 	import Image from '../media-image/Image.svelte';
 	import Video from '../media-video/Video.svelte';
 	import Gif from '../media-gif/Gif.svelte';
@@ -8,7 +8,7 @@
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import { getPostId } from '$lib/logic/id-utils';
-	import Summary from '../details/Summary.svelte';
+	import Summary from '../post-summary/Summary.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import FullscreenButton from './FullscreenButton.svelte';
 	import { isValidUrl } from '$lib/logic/url-utils';
@@ -38,7 +38,7 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div
+<li
 	id={getPostId(post.id)}
 	class="post"
 	class:openTab
@@ -90,7 +90,7 @@
 			<Sources {links} />
 		{/if}
 	</div>
-</div>
+</li>
 
 <style>
 	.post {

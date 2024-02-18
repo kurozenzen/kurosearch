@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getComments } from '$lib/logic/api-client/ApiClient';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import Comment from '$lib/components/kurosearch/comment/Comment.svelte';
+	import Comment from '$lib/components/kurosearch/post-comment/Comment.svelte';
 
 	export let post: kurosearch.Post;
 </script>
