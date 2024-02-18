@@ -49,8 +49,7 @@
 
 	@container (min-width: 800px) {
 		img {
-			--radius: calc(2 * var(--border-radius));
-			border-radius: var(--radius) var(--radius) 0 0;
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		}
 	}
 

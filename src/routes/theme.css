@@ -93,6 +93,7 @@
 
 	/* Rounding */
 	--border-radius: 5px;
+	--border-radius-large: 10px;
 	--border-radius-full: 100px;
 
 	/* Scrollbar */

@@ -23,7 +23,8 @@ const config = {
 					'self',
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
-					'sha256-51fKcXgBxMbTyZzP+VnzmnhFOLZ64S73BpdPcaakIR0='
+					'sha256-51fKcXgBxMbTyZzP+VnzmnhFOLZ64S73BpdPcaakIR0=',
+					'sha256-WzU0zYiNe3qRp3XlJtEt/mWMUNNFRK0WkIy73ZU4dIM='
 				],
 				'connect-src': [
 					'self',

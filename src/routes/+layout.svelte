@@ -9,6 +9,7 @@
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
+	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 	import './reset.css';
 	import './fonts.css';
 	import './defaults.css';
@@ -35,6 +36,8 @@
 		document.documentElement.dataset.accent = accent;
 	</script>
 </svelte:head>
+
+<CookieMessage />
 
 <header>
 	<nav>

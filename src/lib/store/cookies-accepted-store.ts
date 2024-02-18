@@ -1,15 +1,4 @@
-import { boolParser, boolSerializer, persistentWritable } from './persistent-store';
+import { createBoolStore } from './generic/bool-store';
 import { StoreKey } from './store-keys';
 
-const createCookiesAcceptedStore = () => {
-	const initial = false;
-	const { subscribe, set } = persistentWritable(
-		StoreKey.CookiesAccepted,
-		initial,
-		boolSerializer,
-		boolParser
-	);
-	return { subscribe, set, reset: () => set(initial) };
-};
-
-export default createCookiesAcceptedStore();
+export default createBoolStore(StoreKey.CookiesAccepted, false);

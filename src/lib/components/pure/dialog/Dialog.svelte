@@ -25,14 +25,12 @@
 </script>
 
 <dialog bind:this={dialog} on:close use:onpopstate={onPopState}>
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<slot />
 </dialog>
 
 <style>
 	dialog {
-		border-radius: calc(2 * var(--border-radius));
+		border-radius: var(--border-radius-large);
 		background-color: var(--background-0);
 		z-index: var(--z-dialog);
 		padding: var(--grid-gap);

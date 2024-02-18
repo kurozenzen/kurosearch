@@ -104,8 +104,7 @@
 
 	@container (min-width: 800px) {
 		.details {
-			--radius: calc(2 * var(--border-radius));
-			border-radius: 0 0 var(--radius) var(--radius);
+			border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
 		}
 	}
 

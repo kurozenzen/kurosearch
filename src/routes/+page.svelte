@@ -1,6 +1,5 @@
 <script lang="ts">
 	import LynxMain from './LynxMain.svelte';
-
 	import { browser } from '$app/environment';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
@@ -28,10 +27,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import resultColumns from '$lib/store/result-columns-store';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import cookiesAccepted from '$lib/store/cookies-accepted-store';
-	import CookieMessage from '$lib/components/kurosearch/cookie-message/CookieMessage.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
-	import { base } from '$app/paths';
 	import ResultHeader from '$lib/components/kurosearch/results/ResultHeader.svelte';
 
 	console.log(
@@ -260,10 +256,6 @@
 	on:submit={(e) => supertags.add(e.detail)}
 />
 
-{#if !$cookiesAccepted}
-	<CookieMessage />
-{/if}
-
 <style>
 	:global(main) {
 		display: flex;
@@ -301,7 +293,7 @@
 	div {
 		contain: strict;
 		height: 100vh;
-		border-radius: calc(2 * var(--border-radius));
+		border-radius: var(--border-radius-large);
 		animation: sweep ease-in-out 3s infinite;
 	}
 </style>

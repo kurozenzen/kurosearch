@@ -3,8 +3,14 @@
 </script>
 
 <div>
-	<a href="https://www.twitch.tv/helheim_lynx">
-		<img id="happy" src="{base}/assets/lynxy-chibi.webp" alt="Helheim Lynx" />
+	<a href="https://www.twitch.tv/helheim_lynx" target="_blank" title="Check out Lynxy!">
+		<img
+			id="happy"
+			src="{base}/assets/lynxy-chibi.webp"
+			alt="Helheim Lynx"
+			width="1231"
+			height="864"
+		/>
 	</a>
 </div>
 
