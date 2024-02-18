@@ -15,5 +15,6 @@ export enum StoreKey {
 	WideLayoutEnabled = 'kurosearch:wide-layout-enabled',
 	FullscreenHintDone = 'kurosearch:fullscreen-hint-done',
 	AutoplayFullscreenEnabled = 'kurosearch:autoplay-fullscreen-enabled-done',
-	AutoplayFullscreenDelay = 'kurosearch:autoplay-fullscreen-delay'
+	AutoplayFullscreenDelay = 'kurosearch:autoplay-fullscreen-delay',
+	TagsShortcut = 'kurosearch:tags-shortcut'
 }

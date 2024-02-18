@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Sources from './Sources.svelte';
-
 	import Comments from './Comments.svelte';
-
 	import Image from '../media-image/Image.svelte';
 	import Video from '../media-video/Video.svelte';
 	import Gif from '../media-gif/Gif.svelte';
@@ -14,6 +12,7 @@
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import FullscreenButton from './FullscreenButton.svelte';
 	import { isValidUrl } from '$lib/logic/url-utils';
+	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
 
 	const dispatch = createEventDispatcher();
 
@@ -46,6 +45,11 @@
 	on:keydown={(event) => {
 		if (event.key === 'f') {
 			dispatch('fullscreen');
+		}
+	}}
+	on:click={() => {
+		if ($openTagsOnPostClick) {
+			selectTab('tags');
 		}
 	}}
 >

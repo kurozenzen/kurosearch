@@ -37,6 +37,7 @@
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
+	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -137,6 +138,17 @@
 		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
 			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
 		</Checkbox>
+	</Preference>
+
+	<Preference
+		title="Open tags on click"
+		description="When enabled, clicking a post will immediately display the tags."
+	>
+		<div class="flex">
+			<Checkbox id="checkbox-tags-shortcut" bind:checked={$openTagsOnPostClick}>
+				{$openTagsOnPostClick ? 'Enabled' : 'Disabled'}
+			</Checkbox>
+		</div>
 	</Preference>
 
 	<Preference
