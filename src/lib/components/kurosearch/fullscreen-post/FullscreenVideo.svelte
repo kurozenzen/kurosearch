@@ -3,6 +3,7 @@
 	import { videoObserver } from '$lib/logic/video-observer';
 	import { onDestroy, onMount } from 'svelte';
 	import FullscreenProgress from './FullscreenProgress.svelte';
+	import { formatVideoTime } from '$lib/logic/format-time';
 
 	export let post: kurosearch.Post;
 
@@ -66,6 +67,10 @@
 	on:contextmenu|preventDefault={() => {}}
 />
 
+{#if currentTime !== undefined && duration !== undefined}
+	<span>{formatVideoTime(currentTime)} / {formatVideoTime(duration)}</span>
+{/if}
+
 <FullscreenProgress bind:value={currentTime} max={duration} />
 
 <style>
@@ -78,5 +83,18 @@
 
 		scroll-snap-align: start;
 		scroll-snap-stop: always;
+	}
+
+	span {
+		position: absolute;
+		bottom: 3rem;
+		left: var(--grid-gap);
+
+		font-size: 12px;
+		background-color: #0008;
+		border-radius: var(--tiny-gap);
+		padding: var(--tiny-gap);
+		color: white;
+		user-select: none;
 	}
 </style>
