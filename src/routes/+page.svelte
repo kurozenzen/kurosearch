@@ -221,9 +221,7 @@
 
 <ResultHeader on:sortfilterupdate {loading} />
 
-{#if loading}
-	<div />
-{:else if error}
+{#if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
@@ -250,6 +248,10 @@
 		{/if}
 	</section>
 	<ScrollUpButton />
+{/if}
+
+{#if loading}
+	<div />
 {/if}
 
 <CreateSupertagDialog
