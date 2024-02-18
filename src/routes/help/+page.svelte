@@ -56,6 +56,11 @@
 	</p>
 
 	<p>
+		You can find all of them at:
+		<a href="https://rule34.xxx/index.php?page=tags&s=list" target="_blank">rule34.xxx</a>
+	</p>
+
+	<p>
 		The results you get when you click search are called <em>posts</em>. If you start a search
 		without any tags, you will get all posts.
 	</p>
