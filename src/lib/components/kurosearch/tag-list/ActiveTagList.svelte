@@ -31,10 +31,11 @@
 		{/each}
 		{#if tags.length > 1}
 			<TagButton
-				icon="codicon codicon-star-full"
 				title="Create a supertag from the current selection."
 				on:click={() => dispatch('createSupertag', tags)}
-			/>
+			>
+				<i class="codicon codicon-star-full" />
+			</TagButton>
 		{/if}
 		{#if supportsUrlSharing()}
 			<ShareButton />
