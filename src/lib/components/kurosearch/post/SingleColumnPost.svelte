@@ -23,6 +23,12 @@
 		openTab = openTab === tab ? undefined : tab;
 	};
 
+	const openImmediate = () => {
+		if ($openTagsOnPostClick) {
+			selectTab('tags');
+		}
+	};
+
 	const links = [
 		new URL(`https://kurosearch.com/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
@@ -47,15 +53,10 @@
 			dispatch('fullscreen');
 		}
 	}}
-	on:click={() => {
-		if ($openTagsOnPostClick) {
-			selectTab('tags');
-		}
-	}}
 >
 	<div>
 		{#if post.type === 'image'}
-			<Image {post} />
+			<Image {post} on:click={openImmediate} />
 		{:else if post.type === 'video'}
 			{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 			<Video
@@ -64,9 +65,10 @@
 				width={post.width}
 				height={post.height}
 				loop={$alwaysLoop || isLoop(post.tags)}
+				on:click={openImmediate}
 			/>
 		{:else}
-			<Gif {post} />
+			<Gif {post} on:click={openImmediate} />
 		{/if}
 	</div>
 

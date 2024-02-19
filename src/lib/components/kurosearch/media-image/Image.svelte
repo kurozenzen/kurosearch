@@ -15,7 +15,9 @@
 	$: src = highResolutionEnabled ? post.file_url : post.sample_url;
 </script>
 
-<div class:expandable class:open>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class:expandable class:open on:click>
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->

@@ -20,7 +20,7 @@
 		type="button"
 		class="codicon codicon-link"
 		class:active={active === 'links'}
-		on:click={() => dispatch('links')}
+		on:click|stopPropagation={() => dispatch('links')}
 	>
 		{formatCount(links)}
 	</button>
@@ -29,7 +29,7 @@
 			type="button"
 			class="codicon codicon-comment"
 			class:active={active === 'comments'}
-			on:click={() => dispatch('comments')}
+			on:click|stopPropagation={() => dispatch('comments')}
 		>
 			{formatCount(post.comment_count)}
 		</button>
@@ -38,7 +38,7 @@
 		type="button"
 		class="codicon codicon-tag"
 		class:active={active === 'tags'}
-		on:click={() => dispatch('tags')}
+		on:click|stopPropagation={() => dispatch('tags')}
 	>
 		{formatCount(post.tags.length)}
 	</button>

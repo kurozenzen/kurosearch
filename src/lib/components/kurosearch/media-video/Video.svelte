@@ -100,6 +100,7 @@
 	on:keydown={handleKeyDown}
 	class="post-media player {$$props.class}"
 	style="aspect-ratio:{width}/{height}"
+	on:click
 >
 	{#if displayVideo}
 		<!-- svelte-ignore a11y-media-has-caption -->

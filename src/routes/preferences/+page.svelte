@@ -141,7 +141,7 @@
 	</Preference>
 
 	<Preference
-		title="Open tags on click"
+		title="[LEGACY] Open tags on click"
 		description="When enabled, clicking a post will immediately display the tags."
 	>
 		<div class="flex">
