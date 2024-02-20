@@ -135,7 +135,7 @@
 	footer {
 		display: flex;
 		flex-direction: column;
-		gap: var(--small-gap);
+		gap: var(--grid-gap);
 	}
 
 	p {
