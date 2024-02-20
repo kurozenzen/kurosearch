@@ -7,9 +7,7 @@
 
 	const listener = () => {
 		const currentY = window.scrollY;
-		visible =
-			(currentY < previousY && currentY > 0) ||
-			window.innerHeight + currentY >= document.body.scrollHeight;
+		visible = currentY < previousY && currentY > 0;
 		previousY = currentY;
 	};
 
