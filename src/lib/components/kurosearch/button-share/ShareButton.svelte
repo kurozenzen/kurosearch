@@ -22,5 +22,13 @@
 </script>
 
 <TagButton title="Share current search." on:click={share}>
-	<img src="{base}/assets/share.svg" alt="No more results to load" width="16" height="16" />
+	<img src="{base}/assets/share.svg" alt="No more results to load" width="24" height="24" />
 </TagButton>
+
+<style>
+	img {
+		width: 16px;
+		height: 16px;
+		padding-block: 1px;
+	}
+</style>

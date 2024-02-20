@@ -41,10 +41,15 @@
 	const handleKeyDown = (event: KeyboardEvent) => {
 		if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
+			event.stopPropagation();
 			playing = !playing;
 		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
+			event.preventDefault();
+			event.stopPropagation();
 			skipBackward();
 		} else if (event.key === 'ArrowRight' || event.key === 'l') {
+			event.preventDefault();
+			event.stopPropagation();
 			skipForward();
 		}
 	};

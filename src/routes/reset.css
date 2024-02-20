@@ -15,7 +15,9 @@
 	p,
 	h1,
 	h2,
-	h3 {
+	h3,
+	h6 {
+		font-weight: unset;
 		margin-block: unset;
 	}
 
