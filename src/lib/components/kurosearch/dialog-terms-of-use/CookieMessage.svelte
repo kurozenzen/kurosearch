@@ -111,8 +111,4 @@
 		display: flex;
 		gap: var(--grid-gap);
 	}
-
-	:global(:root[data-cookies='false'] body) {
-		overflow: hidden;
-	}
 </style>
