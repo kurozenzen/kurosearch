@@ -1,9 +1,9 @@
-import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
 import { persistentWritable } from './persistent-store';
 import { StoreKey } from './store-keys';
 
 const getInitial = () => ({
 	Loli: true,
+	'AI-Generated': false,
 	'Animal-Related': false,
 	'Non-Consentual': false,
 	Gore: false,

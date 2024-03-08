@@ -22,6 +22,8 @@
 
 	export let dialog: HTMLDialogElement;
 
+	const close = () => dialog.close();
+
 	const reset = () => {
 		sort.reset();
 		filter.reset();
@@ -30,7 +32,11 @@
 
 <Dialog bind:dialog on:close>
 	<div class="container">
-		<h3>Sorting and Filtering</h3>
+		<div class="row">
+			<h3>Sorting and Filtering</h3>
+			<div class="spacer" />
+			<button type="button" class="codicon codicon-close" on:click={close} />
+		</div>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<div>
 			<b>Sorting</b>
@@ -56,7 +62,7 @@
 			<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
 		</div>
 
-		<TextButton title="Return to searching" on:click={() => dialog.close()}>Done</TextButton>
+		<TextButton title="Return to searching" on:click={close}>Done</TextButton>
 		<TextButton title="Reset sort and filter" type="secondary" on:click={reset}>Reset</TextButton>
 	</div>
 </Dialog>
@@ -76,5 +82,14 @@
 	b {
 		display: block;
 		padding-bottom: var(--small-gap);
+	}
+
+	button {
+		background-color: unset;
+		justify-self: end;
+	}
+
+	.spacer {
+		flex-grow: 1;
 	}
 </style>
