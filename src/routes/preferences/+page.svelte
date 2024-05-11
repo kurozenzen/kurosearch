@@ -28,7 +28,7 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import highResolutionSingleColEnabled from '$lib/store/high-resolution-single-col-enabled';
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
@@ -38,6 +38,7 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import highResolutionMultiColEnabled from "$lib/store/high-resolution-multi-col-enabled"
 
 	let resetDialog: HTMLDialogElement;
 
@@ -48,7 +49,7 @@
 		alwaysLoop.reset();
 		resultColumns.reset();
 		cookiesAccepted.reset();
-		highResolutionEnabled.reset();
+		highResolutionSingleColEnabled.reset();
 		wideLayoutEnabled.reset();
 	};
 </script>
@@ -122,7 +123,7 @@
 		</div>
 	</Preference>
 
-	<Preference title="Result layout" description="Save active tags and posts between sessions.">
+	<Preference title="Result layout" description="Change posts grid in result layout.">
 		<div class="flex">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
@@ -135,8 +136,14 @@
 		title="Higher Resolution"
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
-		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
-			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
+		<p>{"For single column mode"}</p>
+		<Checkbox id="checkbox-high-resolution-single-col-enabled" bind:checked={$highResolutionSingleColEnabled}>
+			{$highResolutionSingleColEnabled ? 'Enabled' : 'Disabled'}
+		</Checkbox>
+		<br>
+		<p>{"For multi column mode"}</p>
+		<Checkbox id="checkbox-high-resolution-multi-col-enabled" bind:checked={$highResolutionMultiColEnabled}>
+			{$highResolutionMultiColEnabled ? 'Enabled' : 'Disabled'}
 		</Checkbox>
 	</Preference>
 

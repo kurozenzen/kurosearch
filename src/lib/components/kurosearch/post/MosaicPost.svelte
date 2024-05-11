@@ -3,6 +3,7 @@
 	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
 	import { calculateAspectRatio } from './ratio';
+	import highResolutionMultiColEnabled from "$lib/store/high-resolution-multi-col-enabled.js"
 
 	export let post: kurosearch.Post;
 
@@ -14,7 +15,11 @@
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
 
-	$: previewSrc = isImage(post.sample_url) ? post.sample_url : post.preview_url;
+	$: previewSrc = highResolutionMultiColEnabled
+			? post.file_url
+			: isImage(post.sample_url)
+					? post.sample_url
+					: post.preview_url;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
