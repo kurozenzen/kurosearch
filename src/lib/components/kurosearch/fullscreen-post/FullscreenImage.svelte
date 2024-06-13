@@ -4,7 +4,7 @@
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import highResolutionEnabled from '$lib/store/high-resolution-single-col-enabled';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 

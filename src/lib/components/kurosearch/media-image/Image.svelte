@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { postobserve } from '$lib/logic/use/postobserve';
-	import highResolutionSingleColEnabled from '$lib/store/high-resolution-single-col-enabled';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { calculateAspectRatio, calculateAspectRatioCss } from '../post/ratio';
 
 	export let post: kurosearch.Post;
@@ -12,7 +12,7 @@
 
 	let open: boolean;
 
-	$: src = highResolutionSingleColEnabled ? post.file_url : post.sample_url;
+	$: src = highResolutionEnabled ? post.file_url : post.sample_url;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
