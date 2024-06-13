@@ -1,10 +1,10 @@
 import { boolParser, boolSerializer, persistentWritable } from './persistent-store';
 import { StoreKey } from './store-keys';
 
-const createHighResolutionSingleColEnabledStore = () => {
+const createHighResolutionEnabledStore = () => {
 	const initial = false;
 	const { subscribe, set } = persistentWritable(
-		StoreKey.HighResolutionSingleColEnabled,
+		StoreKey.HighResolutionEnabled,
 		initial,
 		boolSerializer,
 		boolParser
@@ -12,4 +12,4 @@ const createHighResolutionSingleColEnabledStore = () => {
 	return { subscribe, set, reset: () => set(initial) };
 };
 
-export default createHighResolutionSingleColEnabledStore();
+export default createHighResolutionEnabledStore();

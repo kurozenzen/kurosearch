@@ -11,7 +11,7 @@ export enum StoreKey {
 	Theme = 'kurosearch:theme',
 	AlwaysLoop = 'kurosearch:always-loop',
 	CookiesAccepted = 'kurosearch:cookies-accepted',
-	HighResolutionSingleColEnabled = 'kurosearch:high-resolution-single-col-enabled',
+	HighResolutionEnabled = 'kurosearch:high-resolution-single-col-enabled',
 	HighResolutionMultiColEnabled = 'kurosearch:high-resolution-multi-col-enabled',
 	WideLayoutEnabled = 'kurosearch:wide-layout-enabled',
 	FullscreenHintDone = 'kurosearch:fullscreen-hint-done',

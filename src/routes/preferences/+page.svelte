@@ -28,7 +28,7 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
-	import highResolutionSingleColEnabled from '$lib/store/high-resolution-single-col-enabled';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import resultsStore from '$lib/store/results-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
@@ -49,7 +49,7 @@
 		alwaysLoop.reset();
 		resultColumns.reset();
 		cookiesAccepted.reset();
-		highResolutionSingleColEnabled.reset();
+		highResolutionEnabled.reset();
 		wideLayoutEnabled.reset();
 	};
 </script>
@@ -137,8 +137,8 @@
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
 		<p>{"For single column mode"}</p>
-		<Checkbox id="checkbox-high-resolution-single-col-enabled" bind:checked={$highResolutionSingleColEnabled}>
-			{$highResolutionSingleColEnabled ? 'Enabled' : 'Disabled'}
+		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
+			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
 		</Checkbox>
 		<br>
 		<p>{"For multi column mode"}</p>
