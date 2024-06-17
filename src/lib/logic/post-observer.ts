@@ -12,6 +12,9 @@ export const postObserver = browser
 					const lowSrc = entry.target.getAttribute('data-src-lowres') ?? '';
 					const highSrc = entry.target.getAttribute('data-src-hires') ?? '';
 
+					//when the image comes in and goes out of the viewport this prevents reloading the already loaded sources
+					if (entry.target.getAttribute('src') === highSrc) return;
+
 					//set post.preview_url to image sources or sources.static to gifs
 					entry?.target?.setAttribute('src', lowSrc);
 
