@@ -29,7 +29,7 @@
 	<img
 		class="post-media media-img"
 		loading="lazy"
-		data-src={data_src}
+		data-src-lowres={data_src}
 		alt={post.id.toString()}
 		width={post.width}
 		height={post.height}
