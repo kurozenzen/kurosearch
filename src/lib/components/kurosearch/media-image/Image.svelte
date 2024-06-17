@@ -4,7 +4,6 @@
 	import { postobserve } from '$lib/logic/use/postobserve';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { calculateAspectRatio, calculateAspectRatioCss } from '../post/ratio';
-	import { onMount } from 'svelte';
 
 	export let post: kurosearch.Post;
 
@@ -12,18 +11,6 @@
 	let expandable = ratio < 0.33;
 
 	let open: boolean;
-
-	onMount(() => {
-		console.log(post.id, 'started loading full');
-		const fullImgElem: HTMLImageElement = new Image();
-		fullImgElem.src = highResolutionEnabled ? post.file_url : post.sample_url;
-		fullImgElem.onload = () => {
-			src = fullImgElem.currentSrc;
-			console.log(post.id, 'replaced full');
-		};
-	});
-
-	$: src = post.preview_url;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -35,8 +22,8 @@
 	<img
 		class="post-media"
 		loading="lazy"
-		{src}
-		data-src={src}
+		data-src-lowres={post.preview_url}
+		data-src-hires={highResolutionEnabled ? post.file_url : post.sample_url}
 		alt={post.id.toString()}
 		style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}"
 		width={post.width}
