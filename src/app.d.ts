@@ -9,7 +9,14 @@ declare global {
 	}
 
 	namespace kurosearch {
-		type BlockingGroup = 'Loli' | 'Animal-Related' | 'Non-Consentual' | 'Gore' | 'Scat';
+		type BlockingGroup =
+			| 'Loli'
+			| 'Animal-Related'
+			| 'Non-Consentual'
+			| 'Gore'
+			| 'Scat'
+			| 'AI-Generated'
+			| 'Vore';
 		type TagModifier = '+' | '-' | '~';
 		type TagType =
 			| 'general'
