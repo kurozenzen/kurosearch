@@ -2,9 +2,9 @@
 	import PlayButton from '../button-play/PlayButton.svelte';
 	import { isSpace, clickOnEnter } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
-	import { base } from '$app/paths';
-	import { postobserve } from '$lib/logic/use/postobserve';
 	import { calculateAspectRatioCss } from '../post/ratio';
+	import { observeGif } from '$lib/logic/gif-observer';
+	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
 
 	export let post: kurosearch.Post;
 
@@ -29,7 +29,7 @@
 	<img
 		class="post-media media-img"
 		loading="lazy"
-		data-src-lowres={data_src}
+		data-src={data_src}
 		alt={post.id.toString()}
 		width={post.width}
 		height={post.height}
@@ -45,12 +45,17 @@
 			}
 		}}
 		on:load={() => (loading = false)}
-		on:error|once={(event) => {
-			loading = false;
-			event.target.src = `${base}/assets/failed-to-load.svg`;
-		}}
-		use:postobserve
+		use:observeGif
 	/>
+	{#if $gifPreloadEnabled}
+		<img
+			data-src={animatedSource}
+			loading="lazy"
+			alt="animated source preload"
+			class="animated-preload"
+			use:observeGif
+		/>
+	{/if}
 
 	<PlayButton
 		bind:playing
@@ -64,6 +69,13 @@
 </div>
 
 <style>
+	.animated-preload {
+		position: absolute;
+		user-select: none;
+		pointer-events: none;
+		width: 0;
+		height: 0;
+	}
 	.media-img {
 		display: block;
 		width: 100%;
