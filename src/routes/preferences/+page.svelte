@@ -39,6 +39,7 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import highResolutionMultiColEnabled from "$lib/store/high-resolution-multi-col-enabled"
 
 	let resetDialog: HTMLDialogElement;
 
@@ -124,7 +125,7 @@
 		</div>
 	</Preference>
 
-	<Preference title="Result layout" description="Save active tags and posts between sessions.">
+	<Preference title="Result layout" description="Change posts grid in result layout.">
 		<div class="flex">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
@@ -137,8 +138,14 @@
 		title="Higher Resolution"
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
+		<p>{"For single column mode"}</p>
 		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
 			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
+		</Checkbox>
+		<br>
+		<p>{"For multi column mode"}</p>
+		<Checkbox id="checkbox-high-resolution-multi-col-enabled" bind:checked={$highResolutionMultiColEnabled}>
+			{$highResolutionMultiColEnabled ? 'Enabled' : 'Disabled'}
 		</Checkbox>
 	</Preference>
 
