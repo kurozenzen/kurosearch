@@ -1,1 +1,0 @@
-import{p as s,S as n}from"./store-keys.6f7a52ba.js";const t=()=>({Loli:!0,"AI-Generated":!1,"Animal-Related":!1,"Non-Consentual":!1,Gore:!1,Scat:!1}),a=()=>{const{subscribe:o,set:e}=s(n.BlockedContent,t());return{subscribe:o,set:e,reset:()=>e(t())}},l=a();export{l as b};
