@@ -15,6 +15,8 @@
 	import supertags from '$lib/store/supertags-store';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 
 	const dispatch = createEventDispatcher();
 	const submit = () => dispatch('submit');
@@ -90,7 +92,7 @@
 				}
 				activeSupertags.addOrReplace(supertag);
 			} else {
-				const tag = await getTagDetails(e.detail.label);
+				const tag = await getTagDetails(e.detail.label, $apiKey, $userId);
 				activeTags.addOrReplace({
 					name: e.detail.label,
 					modifier: e.detail.modifier,

@@ -15,6 +15,10 @@ export class SearchBuilder {
 	// cached for performance
 	tagString: string | undefined;
 
+	// user
+	apiKey: string;
+	userId: string;
+
 	constructor() {
 		this.pid = 0;
 		this.tags = [];
@@ -25,6 +29,8 @@ export class SearchBuilder {
 		this.scoreValue = 0;
 		this.rating = 'all';
 		this.scoreComparator = '>=';
+		this.apiKey = '';
+		this.userId = '';
 	}
 
 	withPid(pid: number) {
@@ -74,6 +80,16 @@ export class SearchBuilder {
 		return this;
 	}
 
+	withApiKey(apiKey: string) {
+		this.apiKey = apiKey || '';
+		return this;
+	}
+
+	withUserId(userId: string) {
+		this.userId = userId || '';
+		return this;
+	}
+
 	async getPageAndCount() {
 		this.tagString = serializeSearch(
 			this.tags,
@@ -99,7 +115,7 @@ export class SearchBuilder {
 			this.blockedContent,
 			this.supertags
 		);
-		return getPage(this.pid, this.tagString);
+		return getPage(this.pid, this.tagString, this.apiKey, this.userId);
 	}
 
 	async getCount() {
@@ -113,7 +129,7 @@ export class SearchBuilder {
 			this.blockedContent,
 			this.supertags
 		);
-		return getCount(this.tagString);
+		return getCount(this.tagString, this.apiKey, this.userId);
 	}
 
 	getQuery() {
@@ -127,6 +143,6 @@ export class SearchBuilder {
 			this.blockedContent,
 			this.supertags
 		);
-		return getPostsUrl(0, this.tagString);
+		return getPostsUrl(0, this.tagString, this.apiKey, this.userId);
 	}
 }

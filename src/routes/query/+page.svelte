@@ -13,6 +13,8 @@
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import { SearchBuilder } from '$lib/logic/search-builder';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -37,6 +39,8 @@
 
 	$: query = getQueryUrl(
 		new SearchBuilder()
+			.withApiKey($apiKey)
+			.withUserId($userId)
 			.withPid($results.pageCount)
 			.withTags($activeTags)
 			.withBlockedContent($blockedContent)
@@ -84,7 +88,7 @@
 				}
 				activeSupertags.addOrReplace(supertag);
 			} else {
-				const tag = await getTagDetails(e.detail.label);
+				const tag = await getTagDetails(e.detail.label, $apiKey, $userId);
 				activeTags.addOrReplace({
 					name: e.detail.label,
 					modifier: e.detail.modifier,

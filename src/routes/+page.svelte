@@ -21,6 +21,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import LynxMain from './LynxMain.svelte';
 	import SearchForm from './SearchForm.svelte';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -34,6 +36,8 @@
 
 	const createDefaultSearch = () =>
 		new SearchBuilder()
+			.withApiKey($apiKey)
+			.withUserId($userId)
 			.withPid($results.pageCount)
 			.withTags($activeTags)
 			.withBlockedContent($blockedContent)

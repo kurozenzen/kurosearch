@@ -1,7 +1,7 @@
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { API_URL } from '../url';
+import { API_URL, R34_API_URL } from '../url';
 
 const postCache = new Map<number, kurosearch.Post>();
 
@@ -9,8 +9,13 @@ export const PAGE_SIZE = 20;
 
 let getPageAbortController: AbortController | null = null;
 
-export const getPage = async (pageNumber: number, tags: string) => {
-	const url = getPostsUrl(pageNumber, tags);
+export const getPage = async (
+	pageNumber: number,
+	tags: string,
+	apiKey: string = '',
+	userId: string = ''
+) => {
+	const url = getPostsUrl(pageNumber, tags, apiKey, userId);
 	const response = await fetchAbortPrevious(url, getPageAbortController);
 	throwOnUnexpectedStatus(response);
 
@@ -31,8 +36,11 @@ export const getPage = async (pageNumber: number, tags: string) => {
 	}
 };
 
-export const getCount = async (tags: string) => {
-	const response = await fetchAbortPrevious(getCountUrl(tags), getPageAbortController);
+export const getCount = async (tags: string, apiKey: string = '', userId: string = '') => {
+	const response = await fetchAbortPrevious(
+		getCountUrl(tags, apiKey, userId),
+		getPageAbortController
+	);
 
 	throwOnUnexpectedStatus(response);
 
@@ -46,10 +54,14 @@ export const getCount = async (tags: string) => {
 	return count;
 };
 
-export const getPost = async (id: number) => {
+export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
 	if (!postCache.has(id)) {
-		const url = new URL(`${API_URL}/post`);
-		url.searchParams.append('id', String(id));
+		let url = '';
+		if (userId && apiKey) {
+			url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`;
+		} else {
+			url = `${API_URL}/post?id=${id}`;
+		}
 		const response = await fetch(url);
 		throwOnUnexpectedStatus(response);
 		const data = await response.json();
@@ -135,13 +147,28 @@ const parseSimpleTag = (name: string): kurosearch.Tag => ({
 const byDescendingPriority = (a: kurosearch.Tag, b: kurosearch.Tag) =>
 	getTagTypePriority(a.type) - getTagTypePriority(b.type);
 
-export const getPostsUrl = (pageNumber: number, serializedTags: string) => {
-	const url = `${API_URL}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
+export const getPostsUrl = (
+	pageNumber: number,
+	serializedTags: string,
+	apiKey: string,
+	userId: string
+) => {
+	let url = '';
+	if (userId && apiKey) {
+		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&api_key=${apiKey}&user_id=${userId}&limit=${PAGE_SIZE}&pid=${pageNumber}`;
+	} else {
+		url = `${API_URL}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
+	}
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
 
-export const getCountUrl = (serializedTags: string) => {
-	const url = `${API_URL}/count`;
+export const getCountUrl = (serializedTags: string, apiKey: string, userId: string) => {
+	let url = '';
+	if (userId && apiKey) {
+		url = `${R34_API_URL}&s=post&q=index&limit=0&api_key=${apiKey}&user_id=${userId}`;
+	} else {
+		url = `${API_URL}/count`;
+	}
 	return serializedTags === '' ? url : `${url}?tags=${serializedTags}`;
 };
 

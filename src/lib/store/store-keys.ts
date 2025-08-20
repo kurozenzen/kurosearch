@@ -18,4 +18,6 @@ export enum StoreKey {
 	AutoplayFullscreenDelay = 'kurosearch:autoplay-fullscreen-delay',
 	TagsShortcut = 'kurosearch:tags-shortcut',
 	GifPreloadEnabled = 'kurosearch:gif-preload-enabled',
+	ApiKey = 'kurosearch:rule34-api-key',
+	UserId = 'kurosearch:rule34-user-id'
 }

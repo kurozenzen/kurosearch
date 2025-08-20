@@ -25,6 +25,8 @@
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import theme from '$lib/store/theme-store';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
@@ -39,6 +41,7 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -52,6 +55,8 @@
 		highResolutionEnabled.reset();
 		wideLayoutEnabled.reset();
 		gifPreloadEnabled.reset();
+		apiKey.reset();
+		userId.reset();
 	};
 </script>
 
@@ -68,6 +73,18 @@
 
 	<Preference title="Theme" description="Change the look of the app.">
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
+	</Preference>
+
+	<Preference title="API Access" description="Use your own API key to rule34.xxx.">
+		<div class="button-row">
+			<TextInput bind:value={$apiKey} placeholder="Enter your API key here" />
+			<TextInput bind:value={$userId} placeholder="Enter your User Id here" />
+			<a
+				href="https://rule34.xxx/index.php?page=account&s=options"
+				target="_blank"
+				rel="noopener noreferrer">Manage your API key</a
+			>
+		</div>
 	</Preference>
 
 	<Preference title="Save Tags & Posts" description="Save active tags and posts between sessions.">
@@ -197,6 +214,7 @@
 		padding-block-start: var(--grid-gap);
 		flex-wrap: wrap;
 		gap: var(--grid-gap);
+		align-items: center;
 	}
 
 	.flex {

@@ -1,6 +1,6 @@
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { API_URL } from '../url';
+import { API_URL, R34_API_URL } from '../url';
 
 let getTagSuggestionsAbortController: AbortController | null = null;
 
@@ -27,8 +27,17 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 	}
 };
 
-export const getTagDetails = async (name: string): Promise<kurosearch.Tag | undefined> => {
-	const url = new URL(`${API_URL}/tag-details`);
+export const getTagDetails = async (
+	name: string,
+	apiKey: string,
+	userId: string
+): Promise<kurosearch.Tag | undefined> => {
+	let url: URL;
+	if (userId && apiKey) {
+		url = new URL(`${R34_API_URL}&s=tag&q=index&limit=1&api_key=${apiKey}&user_id=${userId}`);
+	} else {
+		url = new URL(`${API_URL}/tag-details`);
+	}
 	url.searchParams.append('name', name);
 
 	const response = await fetch(url.toString());

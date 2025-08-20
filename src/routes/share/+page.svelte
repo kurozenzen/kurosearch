@@ -11,6 +11,8 @@
 	import filter from '$lib/store/filter-store';
 	import results from '$lib/store/results-store';
 	import sort from '$lib/store/sort-store';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 
 	const applyUrlSearchParamsToStore = async () => {
 		if (!browser) {
@@ -25,7 +27,9 @@
 		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
 		if (tags && tags.length > 0) {
 			await Promise.all(
-				tags.map(async (tag) => await activeTagsStore.addByName(tag.name, tag.modifier))
+				tags.map(
+					async (tag) => await activeTagsStore.addByName(tag.name, tag.modifier, $apiKey, $userId)
+				)
 			);
 			result = true;
 		}
@@ -48,6 +52,8 @@
 			try {
 				results.reset();
 				const [page, count] = await new SearchBuilder()
+					.withApiKey($apiKey)
+					.withUserId($userId)
 					.withPid(0)
 					.withTags($activeTags)
 					.withBlockedContent($blockedContent)

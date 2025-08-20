@@ -6,6 +6,8 @@
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import Suggestion from './Suggestion.svelte';
 	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
+	import apiKey from '$lib/store/api-key-store';
+	import userId from '$lib/store/user-id-store';
 
 	const dispatch = createEventDispatcher();
 
@@ -61,7 +63,9 @@
 				pick(suggestionItems[selectedIndex]);
 			} else {
 				const tags = searchTerm.split(';').map((x) => x.trim().replaceAll(' ', '_'));
-				const details = await Promise.all(tags.map(getTagDetails));
+				const details = await Promise.all(
+					tags.map((name) => getTagDetails(name, $apiKey, $userId))
+				);
 				tags
 					.map((name) => {
 						const detail = details.find((x) => x?.name === name);

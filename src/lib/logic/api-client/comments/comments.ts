@@ -1,4 +1,4 @@
-import { API_URL } from "../url";
+import { API_URL, R34_API_URL } from '../url';
 
 export type Comment = {
 	author: string;
@@ -6,12 +6,22 @@ export type Comment = {
 	content: string;
 };
 
-export const getComments = async (postId: number | undefined = undefined) => {
+export const getComments = async (
+	postId: number | undefined = undefined,
+	apiKey: string = '',
+	userId: string = ''
+) => {
 	if (typeof postId !== 'number' && postId !== undefined) {
 		throw new TypeError('Invalid postId');
 	}
 
-	const url = new URL(`${API_URL}/comments`);
+	let url: URL;
+	if (userId && apiKey) {
+		url = new URL(`${R34_API_URL}&s=comment&q=index&json=1&api_key=${apiKey}&user_id=${userId}`);
+	} else {
+		url = new URL(`${API_URL}/comments`);
+	}
+
 	if (postId !== undefined) {
 		url.searchParams.append('post_id', String(postId));
 	}
