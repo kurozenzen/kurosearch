@@ -1,5 +1,6 @@
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
+import { API_URL } from '../url';
 
 let getTagSuggestionsAbortController: AbortController | null = null;
 
@@ -27,7 +28,7 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 };
 
 export const getTagDetails = async (name: string): Promise<kurosearch.Tag | undefined> => {
-	const url = new URL('https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&limit=1');
+	const url = new URL(`${API_URL}/tag-details`);
 	url.searchParams.append('name', name);
 
 	const response = await fetch(url.toString());

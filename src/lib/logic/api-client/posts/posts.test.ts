@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { getPage, getPostsUrl } from './posts';
+import { API_URL } from '../url';
 
 const originalFetch = global.fetch;
 
@@ -25,13 +26,13 @@ describe('posts', () => {
 	describe('getPostsUrl', () => {
 		it('does not include tags when they are empty', () => {
 			expect(getPostsUrl(0, '')).toBe(
-				'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0'
+				`${API_URL}&page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0`
 			);
 		});
 
 		it('includes tags when they are not empty', () => {
 			expect(getPostsUrl(0, 'example')).toBe(
-				'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=example'
+				`${API_URL}&page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=example`
 			);
 		});
 	});

@@ -1,6 +1,7 @@
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
+import { API_URL } from '../url';
 
 const postCache = new Map<number, kurosearch.Post>();
 
@@ -47,9 +48,7 @@ export const getCount = async (tags: string) => {
 
 export const getPost = async (id: number) => {
 	if (!postCache.has(id)) {
-		const url = new URL(
-			'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1'
-		);
+		const url = new URL(`${API_URL}/post`);
 		url.searchParams.append('id', String(id));
 		const response = await fetch(url);
 		throwOnUnexpectedStatus(response);
@@ -137,13 +136,12 @@ const byDescendingPriority = (a: kurosearch.Tag, b: kurosearch.Tag) =>
 	getTagTypePriority(a.type) - getTagTypePriority(b.type);
 
 export const getPostsUrl = (pageNumber: number, serializedTags: string) => {
-	const baseApiPostsUrl = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1`;
-	const url = `${baseApiPostsUrl}&limit=${PAGE_SIZE}&pid=${pageNumber}`;
+	const url = `${API_URL}/posts&limit=${PAGE_SIZE}&pid=${pageNumber}`;
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
 
 export const getCountUrl = (serializedTags: string) => {
-	const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=0`;
+	const url = `${API_URL}/count`;
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
 

@@ -1,17 +1,17 @@
+import { API_URL } from "../url";
+
 export type Comment = {
 	author: string;
 	createdAt: string;
 	content: string;
 };
 
-const baseUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=comment&q=index&json=1';
-
 export const getComments = async (postId: number | undefined = undefined) => {
 	if (typeof postId !== 'number' && postId !== undefined) {
 		throw new TypeError('Invalid postId');
 	}
 
-	const url = new URL(baseUrl);
+	const url = new URL(`${API_URL}/comments`);
 	if (postId !== undefined) {
 		url.searchParams.append('post_id', String(postId));
 	}

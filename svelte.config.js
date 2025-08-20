@@ -33,7 +33,8 @@ const config = {
 					'https://*.rule34.xxx',
 					'https://*.googleapis.com',
 					'https://*.google-analytics.com',
-					'https://api.github.com'
+					'https://api.github.com',
+					'https://rule34-api.netlify.app',
 				],
 				'img-src': [
 					'self',

@@ -13,18 +13,18 @@
 		%sveltekit.head%
 		<meta name="theme-color" content="#000" />
 		<meta name="background-color" content="#000" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
 		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
 		<link rel="apple-touch-icon" href="%sveltekit.assets%/icon/ks-192.png" sizes="192x192" />
 		<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#000" />
 		<link
 			rel="preload"
-			href="https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=0&tags=sort:id:desc"
+			href="https://rule34-api.netlify.app/count?tags=sort:id:desc"
 			as="fetch"
 		/>
 		<link
 			rel="preload"
-			href="https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=sort:id:desc"
+			href="https://rule34-api.netlify.app/count?limit=20&pid=0&tags=sort:id:desc"
 			as="fetch"
 		/>
 	</head>
