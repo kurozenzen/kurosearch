@@ -122,7 +122,23 @@
 	/>
 </svelte:head>
 
-<LynxMain />
+<!-- <LynxMain /> -->
+
+<d class="news">
+	<span>❤</span>
+	<span>
+		Hey, sorry for the trouble in the last few days. Everything should be back working again but we
+		have some rough times ahead...
+	</span>
+</d>
+<d class="news">
+	<span>🆕</span>
+	<span>
+		If you are interested you can specify your own API key in the settings, which will improve
+		performance and reliability.
+	</span>
+</d>
+
 <SearchForm {loading} on:submit={getFirstPage} />
 <ResultHeader {loading} on:sortfilterupdate={getFirstPage} />
 
@@ -190,5 +206,15 @@
 		height: 100vh;
 		border-radius: var(--border-radius-large);
 		animation: sweep ease-in-out 3s infinite;
+	}
+
+	.news {
+		display: flex;
+		align-items: center;
+		height: min(100%, 150px);
+		background-color: var(--background-1);
+		margin-inline: 0.5rem;
+		padding: 1rem;
+		gap: 1rem;
 	}
 </style>
