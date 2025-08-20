@@ -136,13 +136,13 @@ const byDescendingPriority = (a: kurosearch.Tag, b: kurosearch.Tag) =>
 	getTagTypePriority(a.type) - getTagTypePriority(b.type);
 
 export const getPostsUrl = (pageNumber: number, serializedTags: string) => {
-	const url = `${API_URL}/posts&limit=${PAGE_SIZE}&pid=${pageNumber}`;
+	const url = `${API_URL}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
 
 export const getCountUrl = (serializedTags: string) => {
 	const url = `${API_URL}/count`;
-	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
+	return serializedTags === '' ? url : `${url}?tags=${serializedTags}`;
 };
 
 const throwOnInvalidCount = (count: unknown) => {

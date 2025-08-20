@@ -26,13 +26,13 @@ describe('posts', () => {
 	describe('getPostsUrl', () => {
 		it('does not include tags when they are empty', () => {
 			expect(getPostsUrl(0, '')).toBe(
-				`${API_URL}&page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0`
+				`${API_URL}?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0`
 			);
 		});
 
 		it('includes tags when they are not empty', () => {
 			expect(getPostsUrl(0, 'example')).toBe(
-				`${API_URL}&page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=example`
+				`${API_URL}?page=dapi&s=post&q=index&fields=tag_info&json=1&limit=20&pid=0&tags=example`
 			);
 		});
 	});
