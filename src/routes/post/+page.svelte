@@ -1,17 +1,16 @@
 <script>
 	import { browser } from '$app/environment';
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
-	import Image from '$lib/components/kurosearch/media-image/Image.svelte';
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
 	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
 	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
 	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
 	import Score from '$lib/components/kurosearch/score/Score.svelte';
 	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
-	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
 	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import PreviewedImage from '$lib/components/pure/smart-image/PreviewedImage.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
@@ -40,7 +39,7 @@
 			<LoadingAnimation />
 		{:then post}
 			{#if post.type === 'image'}
-				<Image {post} />
+				<PreviewedImage {post} />
 			{:else if post.type === 'video'}
 				{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 				{@const animatedSource = sources.animated}

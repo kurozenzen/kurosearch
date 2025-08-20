@@ -35,6 +35,7 @@
 	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
+	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
@@ -50,6 +51,7 @@
 		cookiesAccepted.reset();
 		highResolutionEnabled.reset();
 		wideLayoutEnabled.reset();
+		gifPreloadEnabled.reset();
 	};
 </script>
 
@@ -137,6 +139,15 @@
 	>
 		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
 			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
+		</Checkbox>
+	</Preference>
+
+	<Preference
+		title="Gif Preload"
+		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited badwith."
+	>
+		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={$gifPreloadEnabled}>
+			{$gifPreloadEnabled ? 'Enabled' : 'Disabled'}
 		</Checkbox>
 	</Preference>
 

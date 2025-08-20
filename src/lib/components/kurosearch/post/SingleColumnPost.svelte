@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Sources from './Sources.svelte';
 	import Comments from '../post-comment/Comments.svelte';
-	import Image from '../media-image/Image.svelte';
 	import Video from '../media-video/Video.svelte';
 	import Gif from '../media-gif/Gif.svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -13,6 +12,7 @@
 	import FullscreenButton from './FullscreenButton.svelte';
 	import { isValidUrl } from '$lib/logic/url-utils';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import PreviewedImage from '$lib/components/pure/smart-image/PreviewedImage.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -56,7 +56,7 @@
 >
 	<div>
 		{#if post.type === 'image'}
-			<Image {post} on:click={openImmediate} />
+			<PreviewedImage {post} on:click={openImmediate} />
 		{:else if post.type === 'video'}
 			{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 			<Video
