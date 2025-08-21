@@ -1,5 +1,4 @@
 import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-import apiKeyStore from './api-key-store';
 import { semiPersistentWritable } from './semi-persistent-store';
 import { StoreKey } from './store-keys';
 

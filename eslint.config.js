@@ -26,7 +26,15 @@ export default [
 			'@typescript-eslint': ts
 		},
 		rules: {
-			...ts.configs.recommended.rules
+			...ts.configs.recommended.rules,
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_'
+				}
+			]
 		}
 	},
 	{
@@ -50,7 +58,15 @@ export default [
 		},
 		rules: {
 			...svelte.configs.recommended.rules,
-			...ts.configs.recommended.rules
+			...ts.configs.recommended.rules,
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_'
+				}
+			]
 		}
 	},
 	prettier,

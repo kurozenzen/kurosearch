@@ -12,11 +12,11 @@
 	};
 
 	onMount(() => {
-		browser && document.addEventListener('scroll', listener, { passive: true });
+		if (browser) document.addEventListener('scroll', listener, { passive: true });
 	});
 
 	onDestroy(() => {
-		browser && document.removeEventListener('scroll', listener);
+		if (browser) document.removeEventListener('scroll', listener);
 	});
 </script>
 
@@ -27,7 +27,7 @@
 	on:click={() => window.scrollTo(0, 0)}
 	class:visible
 >
-	<i class="codicon codicon-arrow-up" />
+	<i class="codicon codicon-arrow-up"></i>
 </button>
 
 <style>

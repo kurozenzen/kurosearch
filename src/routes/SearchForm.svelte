@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
@@ -11,13 +12,11 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
+	import apiKey from '$lib/store/api-key-store';
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
-	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
-	import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	const dispatch = createEventDispatcher();
 	const submit = () => dispatch('submit');

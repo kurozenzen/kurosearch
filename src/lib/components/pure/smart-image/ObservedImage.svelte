@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { calculateAspectRatioCss } from '$lib/components/kurosearch/post/ratio';
 	import { observeImage } from '$lib/logic/image-observer';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 

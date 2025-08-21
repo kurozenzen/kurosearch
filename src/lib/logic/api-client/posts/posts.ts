@@ -116,7 +116,7 @@ const parsePost = (post: r34.Post): kurosearch.Post => {
 		id: Number(id),
 		change: Number(change) * 1000,
 		parent_id: parent_id ? Number(parent_id) : undefined,
-		rating,
+		rating: rating as kurosearch.Rating,
 		sample_height: Number(sample_height),
 		sample_width: Number(sample_width),
 		score: Number(score),
