@@ -77,7 +77,7 @@
 					}
 				},
 				{ rootMargin: '0px' }
-		  )
+			)
 		: null;
 
 	$: timeLeft = duration - currentTime;
@@ -131,7 +131,7 @@
 			on:dblclick|stopPropagation|preventDefault={skip}
 			preload="metadata"
 			style={`aspect-ratio: ${width} / ${height}`}
-		/>
+		></video>
 		<span class:hide={intentHideOverlay} class="hidable">{formatVideoTime(timeLeft)}</span>
 		<input
 			bind:value={currentTime}

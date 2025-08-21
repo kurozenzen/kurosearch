@@ -57,10 +57,10 @@
 	$: fixedParams = query
 		? [...query.searchParams.entries()].filter(([key]) =>
 				['page', 's', 'q', 'fields', 'json', 'limit'].includes(key)
-		  )
+			)
 		: [];
 	$: tags = query
-		? [...query.searchParams.entries()].find(([key]) => key === 'tags') ?? ['tags', '']
+		? ([...query.searchParams.entries()].find(([key]) => key === 'tags') ?? ['tags', ''])
 		: ['tags', ''];
 </script>
 

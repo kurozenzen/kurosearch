@@ -17,7 +17,7 @@ const observer = browser
 				}
 			},
 			{ rootMargin: '1250px' }
-	  )
+		)
 	: null;
 
 export const observeImage = (node: HTMLElement) => {

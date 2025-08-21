@@ -40,7 +40,8 @@
 		position: fixed;
 		bottom: -4rem;
 		right: 2rem;
-		transition: background-color var(--default-transition-behaviour),
+		transition:
+			background-color var(--default-transition-behaviour),
 			bottom var(--default-transition-behaviour);
 		box-shadow: var(--default-shadow);
 		z-index: var(--z-scroll-up);

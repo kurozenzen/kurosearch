@@ -18,5 +18,5 @@ export const videoObserver = browser
 				}
 			},
 			{ rootMargin: '-1px', threshold: 0.001 }
-	  )
+		)
 	: null;

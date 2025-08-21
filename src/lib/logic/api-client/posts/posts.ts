@@ -186,6 +186,6 @@ const parsePostType = (file_url: string): kurosearch.PostType => {
 	return file_url.endsWith('.webm') || file_url.endsWith('.mp4')
 		? 'video'
 		: file_url.includes('.gif')
-		? 'gif'
-		: 'image';
+			? 'gif'
+			: 'image';
 };
