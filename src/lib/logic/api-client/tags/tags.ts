@@ -1,3 +1,4 @@
+import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
 import { API_URL, R34_API_URL } from '../url';
@@ -32,6 +33,11 @@ export const getTagDetails = async (
 	apiKey: string,
 	userId: string
 ): Promise<kurosearch.Tag | undefined> => {
+	let indexedTag = await getIndexedTag(name);
+	if (indexedTag) {
+		return indexedTag;
+	}
+
 	let url: URL;
 	if (userId && apiKey) {
 		url = new URL(`${R34_API_URL}&s=tag&q=index&limit=1&api_key=${apiKey}&user_id=${userId}`);
@@ -46,7 +52,11 @@ export const getTagDetails = async (
 	const xml = parser.parseFromString(text, 'text/xml');
 	const tagXml = xml.getElementsByTagName('tag')[0];
 
-	return parseTag(tagXml.attributes);
+	const tag = parseTag(tagXml.attributes);
+	if (tag) {
+		addIndexedTag(tag);
+	}
+	return tag;
 };
 
 const parseSuggestion = (suggestion: r34.Suggestion): kurosearch.Suggestion => ({

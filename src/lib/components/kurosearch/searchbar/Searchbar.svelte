@@ -8,6 +8,7 @@
 	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
+	import { getIndexedTag } from '$lib/indexeddb/idb';
 
 	const dispatch = createEventDispatcher();
 

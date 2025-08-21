@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type kurosearch from '$lib/types/kurosearch';
 	import { createEventDispatcher } from 'svelte';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
