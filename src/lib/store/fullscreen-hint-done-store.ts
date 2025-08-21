@@ -1,5 +1,5 @@
-import { boolParser, boolSerializer, persistentWritable } from "./persistent-store";
-import { StoreKey } from "./store-keys";
+import { boolParser, boolSerializer, persistentWritable } from './persistent-store';
+import { StoreKey } from './store-keys';
 
 const createFullscreenHintDoneStore = () => {
 	const initial = false;
