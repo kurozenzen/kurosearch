@@ -1,0 +1,1 @@
+import{c as s}from"./bool-store.3e139eab.js";import{S as l}from"./store-keys.d2aaf089.js";const f=o=>(o==null?void 0:o.key)===" ",i=o=>(o==null?void 0:o.key)==="Enter",n=o=>{var a,c;i(o)&&((c=(a=o.target)==null?void 0:a.click)==null||c.call(a))},E=s(l.HighResolutionEnabled,!1),d=s(l.GifPreloadEnabled,!1),e=s(l.AlwaysLoop,!1);export{e as a,f as b,n as c,d as g,E as h,i};
