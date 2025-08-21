@@ -15,7 +15,7 @@
 	<RelativeTime value={post.change} />
 	<span>•</span>
 	<Score value={post.score} />
-	<span class="divider" />
+	<span class="divider"></span>
 	<button
 		type="button"
 		class="codicon codicon-link"

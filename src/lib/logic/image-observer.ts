@@ -12,7 +12,7 @@ const observer = browser
 						}
 						entry?.target?.setAttribute('src', dataSrc);
 					} else {
-						entry?.target?.setAttribute('src', 'https://unload');
+						entry?.target?.setAttribute('src', '//:0'); // unload
 					}
 				}
 			},

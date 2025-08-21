@@ -134,7 +134,7 @@
 <d class="news">
 	<span>🆕</span>
 	<span>
-		If you are interested you can specify your own API key in the settings, which will improve
+		If you are interested, you can specify your own API key in the settings, which will improve
 		performance and reliability.
 	</span>
 </d>

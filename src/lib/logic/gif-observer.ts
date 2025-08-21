@@ -8,12 +8,12 @@ const observer = browser
 						const dataSrc = entry.target.getAttribute('data-src') ?? '';
 						entry?.target?.setAttribute('src', dataSrc);
 					} else {
-						entry?.target?.setAttribute('src', 'https://unload');
+						entry?.target?.setAttribute('src', '//:0'); // unload
 					}
 				}
 			},
 			{ rootMargin: '1250px' }
-	  )
+		)
 	: null;
 
 export const observeGif = (node: HTMLElement) => {
