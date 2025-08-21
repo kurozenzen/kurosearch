@@ -1,3 +1,5 @@
+let tagDb: IDBDatabase | undefined;
+
 const initIdb = async (): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
 		const tagDbRequest = indexedDB.open('kurosearch', 1);
@@ -26,7 +28,13 @@ const initIdb = async (): Promise<IDBDatabase> => {
 	});
 };
 
-const tagDb = await initIdb();
+initIdb()
+	.then((db) => {
+		tagDb = db;
+	})
+	.catch((error) => {
+		console.error('Failed to initialize IndexedDB:', error);
+	});
 
 export const addIndexedTag = async (tag: kurosearch.Tag): Promise<void> => {
 	return new Promise((resolve, reject) => {
