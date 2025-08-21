@@ -1,17 +1,17 @@
-let tagDb: IDBDatabase | undefined;
+let idb: IDBDatabase | undefined;
 
 const initIdb = async (): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
-		const tagDbRequest = indexedDB.open('kurosearch', 1);
+		const dbRequest = indexedDB.open('kurosearch', 1);
 
-		tagDbRequest.onsuccess = (event) => {
+		dbRequest.onsuccess = (event) => {
 			resolve((event.target as IDBOpenDBRequest).result);
 		};
-		tagDbRequest.onerror = (event) => {
+		dbRequest.onerror = (event) => {
 			console.error('Error opening tag database:', event);
 			reject(event);
 		};
-		tagDbRequest.onupgradeneeded = (event) => {
+		dbRequest.onupgradeneeded = (event) => {
 			const db = (event.target as IDBOpenDBRequest).result;
 			db.onerror = (event) => {
 				console.error('Error during tag database upgrade:', event);
@@ -30,7 +30,7 @@ const initIdb = async (): Promise<IDBDatabase> => {
 
 initIdb()
 	.then((db) => {
-		tagDb = db;
+		idb = db;
 	})
 	.catch((error) => {
 		console.error('Failed to initialize IndexedDB:', error);
@@ -38,10 +38,10 @@ initIdb()
 
 export const addIndexedTag = async (tag: kurosearch.Tag): Promise<void> => {
 	return new Promise((resolve, reject) => {
-		if (!tagDb) {
+		if (!idb) {
 			return resolve();
 		}
-		const request = tagDb.transaction('tags', 'readwrite').objectStore('tags').put(tag);
+		const request = idb.transaction('tags', 'readwrite').objectStore('tags').put(tag);
 		request.onsuccess = () => resolve();
 		request.onerror = (event) => {
 			console.error('Error adding tag:', event);
@@ -52,10 +52,10 @@ export const addIndexedTag = async (tag: kurosearch.Tag): Promise<void> => {
 
 export const getIndexedTag = async (name: string): Promise<kurosearch.Tag | undefined> => {
 	return new Promise((resolve) => {
-		if (!tagDb) {
+		if (!idb) {
 			return resolve(undefined);
 		}
-		tagDb.transaction('tags', 'readonly').objectStore('tags').get(name).onsuccess = (event) => {
+		idb.transaction('tags', 'readonly').objectStore('tags').get(name).onsuccess = (event) => {
 			const tag = (event.target as IDBRequest).result;
 			resolve(tag);
 		};
