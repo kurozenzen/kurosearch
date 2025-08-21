@@ -2,14 +2,11 @@
 	import { observeImage } from '$lib/logic/image-observer';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 
-	export let src: string;
-	export let alt: string;
-	export let width: number;
-	export let height: number;
+	let { src, alt, width, height } = $props();
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <img
 	class="post-media"
 	loading="lazy"
@@ -18,9 +15,7 @@
 	{width}
 	{height}
 	tabindex="0"
-	on:click
-	on:load
-	on:keydown={clickOnEnter}
+	onkeydown={clickOnEnter}
 	use:observeImage
 />
 
@@ -29,7 +24,7 @@
 		position: absolute;
 		display: block;
 		width: 100%;
-		height: 100%;
+		height: auto;
 		object-fit: contain;
 		contain: strict;
 		z-index: var(--z-media);
