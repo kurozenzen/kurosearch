@@ -16,18 +16,19 @@
 	import DiscordLink from '$lib/components/kurosearch/link-discord/DiscordLink.svelte';
 	import AccountLink from '$lib/components/kurosearch/link-account/AccountLink.svelte';
 	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
-	import { base } from '$app/paths';
+	import defaultUserSrc from '$lib/assets/default-user.png';
+	import { resolve } from '$app/paths';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
 	);
 
-	let count = 0;
-	let disabled = false;
-	let name = '';
-	let selectedValue = 'one';
-	let selectedType: kurosearch.TagType = 'artist';
-	let modifier: kurosearch.TagModifier = '+';
+	let count = $state(0);
+	let disabled = $state(false);
+	let name = $state('');
+	let selectedValue = $state('one');
+	let selectedType: kurosearch.TagType = $state('artist');
+	let modifier: kurosearch.TagModifier = $state('+');
 </script>
 
 <svelte:head>
@@ -43,7 +44,7 @@
 
 <TextButton
 	title="A button"
-	on:click={() => {
+	onclick={() => {
 		count++;
 	}}
 	{disabled}
@@ -71,7 +72,7 @@
 	newtab
 />
 <DiscordLink />
-<CodiconLink title="Documentation" href="{base}/help" icon="codicon codicon-book" />
-<CodiconLink title="Search" href="{base}/" icon="codicon codicon-search" />
+<CodiconLink title="Documentation" href={resolve('/help')} icon="codicon codicon-book" />
+<CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
 <SettingsLink />
-<AccountLink src={disabled ? `${base}/assets/default-user.png` : undefined} />
+<AccountLink src={disabled ? defaultUserSrc : undefined} />

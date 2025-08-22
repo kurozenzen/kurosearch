@@ -2,13 +2,18 @@
 	import { formatTagname } from '$lib/logic/format-tag';
 	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
 
-	export let tag: kurosearch.Tag;
-	export let active: boolean = false;
+	interface Props {
+		tag: kurosearch.Tag;
+		active?: boolean;
+		onclick?: () => void;
+	}
 
-	$: icon = TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon';
+	let { tag, active = false, onclick }: Props = $props();
+
+	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
 </script>
 
-<button type="button" title="Click to add tag" on:click class:active class={icon}>
+<button type="button" title="Click to add tag" {onclick} class:active class={icon}>
 	{formatTagname(tag.name)}
 </button>
 

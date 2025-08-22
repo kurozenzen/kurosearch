@@ -1,9 +1,17 @@
 <script lang="ts">
-	export let title: string;
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		title: string;
+		onclick: (event: MouseEvent) => void;
+		children: Snippet;
+	}
+
+	let { title, onclick, children }: Props = $props();
 </script>
 
-<button type="button" {title} on:click>
-	<slot />
+<button type="button" {title} {onclick}>
+	{@render children()}
 </button>
 
 <style>

@@ -1,13 +1,17 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import TagButton from '../button-tag/TagButton.svelte';
 	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
 	import ShareButton from '../button-share/ShareButton.svelte';
 	import { supportsUrlSharing } from '$lib/logic/feature-support';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
+		oncontextmenu: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
+		onclick: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
+		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;
+	}
 
-	export let tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
+	let { tags, oncontextmenu, onclick, oncreateSupertag: createSupertag }: Props = $props();
 </script>
 
 <ul>
@@ -16,15 +20,15 @@
 			{#if 'description' in tag}
 				<DetailedTag
 					tag={{ name: tag.name, type: 'supertag', modifier: '+', count: tag.tags.length }}
-					on:click={() => dispatch('click', tag)}
-					on:contextmenu={() => dispatch('contextmenu', tag)}
+					onclick={() => onclick(tag)}
+					oncontextmenu={() => oncontextmenu(tag)}
 					active
 				/>
 			{:else}
 				<DetailedTag
 					{tag}
-					on:click={() => dispatch('click', tag)}
-					on:contextmenu={() => dispatch('contextmenu', tag)}
+					onclick={() => onclick(tag)}
+					oncontextmenu={() => oncontextmenu(tag)}
 					active
 				/>
 			{/if}
@@ -32,9 +36,9 @@
 		{#if tags.length > 1}
 			<TagButton
 				title="Create a supertag from the current selection."
-				on:click={() => dispatch('createSupertag', tags)}
+				onclick={() => createSupertag?.(tags)}
 			>
-				<i class="codicon codicon-star-full" />
+				<i class="codicon codicon-star-full"></i>
 			</TagButton>
 		{/if}
 		{#if supportsUrlSharing()}

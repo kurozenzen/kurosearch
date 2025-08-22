@@ -22,7 +22,7 @@ export const getPage = async (
 
 	try {
 		let data = await response.json();
-		data = data.filter((x: any) => x.change); // sometimes api returns placeholders that cause lots of null issues
+		data = data.filter((x: r34.Post) => x.change); // sometimes api returns placeholders that cause lots of null issues
 
 		const posts = data.map(parsePost) as kurosearch.Post[];
 

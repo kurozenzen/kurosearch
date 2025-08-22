@@ -16,14 +16,16 @@
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
-	const submit = () => dispatch('submit');
+	interface Props {
+		loading: boolean;
+		onsubmit: () => void;
+	}
 
-	export let loading: boolean;
+	let { loading, onsubmit }: Props = $props();
 
-	let createSupertagDialog: HTMLDialogElement;
+	let createSupertagDialog: HTMLDialogElement = $state(undefined);
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -51,7 +53,7 @@
 		if (event.ctrlKey && event.key === 'Enter') {
 			event.preventDefault();
 			event.stopPropagation();
-			submit();
+			onsubmit();
 		}
 
 		if (event.ctrlKey && event.key === 'm') {
@@ -65,7 +67,7 @@
 		if (browser) {
 			document.addEventListener('keydown', keybinds);
 			if ($results.postCount === 0) {
-				submit();
+				onsubmit();
 			}
 		}
 	});
@@ -82,8 +84,7 @@
 	<Searchbar
 		placeholder="Search for tags"
 		{fetchSuggestions}
-		on:pick={async (e) => {
-			const suggestion = e.detail;
+		onpick={async (suggestion) => {
 			if (suggestion.type === 'supertag') {
 				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
 				if (!supertag) {
@@ -92,18 +93,18 @@
 				}
 				activeSupertags.addOrReplace(supertag);
 			} else {
-				let tag = await getTagDetails(e.detail.label, $apiKey, $userId);
+				let tag = await getTagDetails(suggestion.label, $apiKey, $userId);
 
 				activeTags.addOrReplace({
-					name: e.detail.label,
-					modifier: e.detail.modifier,
-					count: e.detail.count,
+					name: suggestion.label,
+					modifier: suggestion.modifier,
+					count: suggestion.count,
 					type: tag?.type ?? 'tag'
 				});
 			}
 		}}
 	/>
-	<TextButton id="btn-search" title="Search with the tags above" on:click={submit}>
+	<TextButton id="btn-search" title="Search with the tags above" onclick={onsubmit}>
 		{#if loading}
 			<LoadingAnimation />
 		{:else}
@@ -112,18 +113,18 @@
 	</TextButton>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
-		on:click={(e) =>
-			'description' in e.detail
-				? activeSupertags.removeByName(e.detail.name)
-				: activeTags.removeByName(e.detail.name)}
-		on:contextmenu={(e) => {
-			if (!('description' in e.detail)) {
-				e.detail.modifier = nextModifier(e.detail.modifier);
-				activeTags.addOrReplace(e.detail);
+		onclick={(tag) =>
+			'description' in tag
+				? activeSupertags.removeByName(tag.name)
+				: activeTags.removeByName(tag.name)}
+		oncontextmenu={(tag) => {
+			if (!('description' in tag)) {
+				tag.modifier = nextModifier(tag.modifier);
+				activeTags.addOrReplace(tag);
 			}
 		}}
-		on:createSupertag={() => {
-			createSupertagDialog.showModal();
+		oncreateSupertag={() => {
+			createSupertagDialog?.showModal();
 			addHistory('dialog');
 		}}
 	/>
@@ -132,7 +133,7 @@
 <CreateSupertagDialog
 	bind:dialog={createSupertagDialog}
 	tags={$activeTags}
-	on:submit={(e) => supertags.add(e.detail)}
+	onsubmit={(supertag) => supertags.add(supertag)}
 />
 
 <style>

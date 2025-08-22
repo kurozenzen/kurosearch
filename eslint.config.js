@@ -34,7 +34,8 @@ export default [
 					varsIgnorePattern: '^_',
 					caughtErrorsIgnorePattern: '^_'
 				}
-			]
+			],
+			'no-undef': 'off'
 		}
 	},
 	{
@@ -66,7 +67,8 @@ export default [
 					varsIgnorePattern: '^_',
 					caughtErrorsIgnorePattern: '^_'
 				}
-			]
+			],
+			'no-undef': 'off'
 		}
 	},
 	prettier,

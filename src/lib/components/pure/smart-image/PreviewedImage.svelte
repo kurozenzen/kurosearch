@@ -4,31 +4,33 @@
 		calculateAspectRatioCss
 	} from '$lib/components/kurosearch/post/ratio';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import { createEventDispatcher } from 'svelte';
 	import ObservedImage from './ObservedImage.svelte';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		post: kurosearch.Post;
+		onclick: () => void;
+	}
 
-	export let post: kurosearch.Post;
+	let { post, onclick }: Props = $props();
 
-	const onclick = () => {
+	const onclickinternal = () => {
 		open = !open;
-		dispatch('click');
+		onclick();
 	};
 
-	let open: boolean = false;
+	let open: boolean = $state(false);
 
-	$: previewSrc = post.preview_url;
-	$: actualSrc = highResolutionEnabled ? post.file_url : post.sample_url;
-	$: alt = post.id.toString();
-	$: ratio = calculateAspectRatio(post.width, post.height);
-	$: expandable = ratio < 0.4;
-	$: cssRation = calculateAspectRatioCss(post.width, post.height);
+	let previewSrc = $derived(post.preview_url);
+	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
+	let alt = $derived(post.id.toString());
+	let ratio = $derived(calculateAspectRatio(post.width, post.height));
+	let expandable = $derived(ratio < 0.4);
+	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class:expandable class:open {onclick} style="aspect-ratio: {cssRation};">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class:expandable class:open onclick={onclickinternal} style="aspect-ratio: {cssRation};">
 	<ObservedImage src={previewSrc} {alt} width={post.width} height={post.height} />
 	<ObservedImage src={actualSrc} {alt} width={post.width} height={post.height} />
 </div>

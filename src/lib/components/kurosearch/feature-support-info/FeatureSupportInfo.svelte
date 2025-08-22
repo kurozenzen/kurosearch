@@ -1,13 +1,17 @@
 <script lang="ts">
-	export let supported: boolean;
-	export let title: string;
-	export let description: string;
+	interface Props {
+		supported: boolean;
+		title: string;
+		description: string;
+	}
 
-	$: icon = supported ? 'codicon codicon-pass' : 'codicon codicon-error';
+	let { supported, title, description }: Props = $props();
+
+	let icon = $derived(supported ? 'codicon codicon-pass' : 'codicon codicon-error');
 </script>
 
 <div>
-	<i class={icon} />
+	<i class={icon}></i>
 	<b>{title}</b>
 	<p>{description}</p>
 </div>

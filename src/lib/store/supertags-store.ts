@@ -1,13 +1,11 @@
 import { persistentWritable } from './persistent-store';
 import { StoreKey } from './store-keys';
 
-type SupertagsStore = {
-	last_sync: number;
+export type SupertagsStore = {
 	items: kurosearch.Supertag[];
 };
 
 const getInitial = (): SupertagsStore => ({
-	last_sync: 0,
 	items: []
 });
 

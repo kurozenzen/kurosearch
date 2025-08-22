@@ -1,26 +1,29 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
-	import { createEventDispatcher } from 'svelte';
+	import type { FocusEventHandler } from 'svelte/elements';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import Suggestion from './Suggestion.svelte';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		placeholder: string;
+		fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;
+		onpick: (suggestion: kurosearch.Suggestion & { modifier: kurosearch.TagModifier }) => void;
+	}
 
-	export let placeholder: string;
-	export let fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;
+	let { placeholder, fetchSuggestions, onpick }: Props = $props();
 
-	let searchTerm = '';
-	let previousSearchTerm = '';
-	let searchPromise: Promise<kurosearch.Suggestion[]>;
-	let selectedIndex = 0;
-	let modifier: kurosearch.TagModifier = '+';
-	let focusInside = false;
-	let hasDropdownContent = false;
+	let searchTerm = $state('');
+	let previousSearchTerm = $state('');
+	let searchPromise: Promise<kurosearch.Suggestion[]> = $state(undefined);
+	let selectedIndex = $state(0);
+	let modifier: kurosearch.TagModifier = $state('+');
+	let focusInside = $state(false);
+	let hasDropdownContent = $state(false);
 
 	// hacky, I'd like to avoid caching this but i need it in the keydown handler
 	let suggestionItems: kurosearch.Suggestion[] = [];
@@ -36,7 +39,7 @@
 	};
 
 	const pick = (suggestion: kurosearch.Suggestion) => {
-		dispatch('pick', { modifier, ...suggestion });
+		onpick({ modifier, ...suggestion });
 		searchTerm = '';
 		selectedIndex = 0;
 		hasDropdownContent = false;
@@ -87,7 +90,7 @@
 	};
 </script>
 
-<div class="searchbar" class:open={focusInside && hasDropdownContent} on:blur={close}>
+<div class="searchbar" class:open={focusInside && hasDropdownContent} onblur={close}>
 	<ModifierSelect bind:modifier />
 	<input
 		type="text"
@@ -96,16 +99,16 @@
 		{placeholder}
 		autocomplete="off"
 		bind:value={searchTerm}
-		on:focus={focus}
-		on:blur={closeIfFocusOutside}
-		on:keydown={handleKeyDown}
-		on:keyup={search}
+		onfocus={focus}
+		onblur={closeIfFocusOutside}
+		onkeydown={handleKeyDown}
+		onkeyup={search}
 		aria-label="Search for tags."
 	/>
 
 	<CodiconLink
 		title="More information on tags."
-		href="{base}/help#search"
+		href="{resolve('/help')}#search"
 		icon="codicon codicon-question"
 	/>
 	<ol class:open={focusInside && hasDropdownContent}>
@@ -118,15 +121,15 @@
 				{#each suggestions as suggestion, index}
 					<Suggestion
 						{suggestion}
-						on:click={() => pick(suggestion)}
+						onclick={() => pick(suggestion)}
 						selected={index === selectedIndex}
 					/>
 				{/each}
 			{/if}
-			<div class="suggestion-footer" />
+			<div class="suggestion-footer"></div>
 		{:catch error}
 			<div class="suggestion-footer">
-				<i class={`codicon codicon-error`} />
+				<i class={`codicon codicon-error`}></i>
 				<span>{error.message}</span>
 			</div>
 		{/await}

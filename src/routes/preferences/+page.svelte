@@ -42,6 +42,7 @@
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
+	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -57,6 +58,7 @@
 		gifPreloadEnabled.reset();
 		apiKey.reset();
 		userId.reset();
+		pageNavigationEnabled.reset();
 	};
 </script>
 
@@ -92,13 +94,13 @@
 			{$localstorageEnabled ? 'Save' : "Don't save"}
 		</Checkbox>
 		<div class="button-row">
-			<TextButton title="Reset Posts" type="secondary" on:click={() => resultsStore.reset()}>
+			<TextButton title="Reset Posts" type="secondary" onclick={() => resultsStore.reset()}>
 				Reset Posts
 			</TextButton>
 			<TextButton
 				title="Reset Tags"
 				type="secondary"
-				on:click={() => {
+				onclick={() => {
 					activeTagsStore.reset();
 					activeSupertagsStore.reset();
 				}}
@@ -151,6 +153,17 @@
 	</Preference>
 
 	<Preference
+		title="Enable Page Navigation"
+		description="Navigate using pages instead of infinite scrolling."
+	>
+		<div class="flex">
+			<Checkbox id="checkbox-page-navigation" bind:checked={$pageNavigationEnabled}>
+				{$pageNavigationEnabled ? 'Enabled' : 'Disabled'}
+			</Checkbox>
+		</div>
+	</Preference>
+
+	<Preference
 		title="Higher Resolution"
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
@@ -161,7 +174,7 @@
 
 	<Preference
 		title="Gif Preload"
-		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited badwith."
+		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited bandwidth."
 	>
 		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={$gifPreloadEnabled}>
 			{$gifPreloadEnabled ? 'Enabled' : 'Disabled'}
@@ -170,7 +183,7 @@
 
 	<Preference
 		title="[LEGACY] Open tags on click"
-		description="When enabled, clicking a post will immediately display the tags."
+		description="When enabled, clicking a post will immediately display the tags. This confilicts with other features. Use at your own risk."
 	>
 		<div class="flex">
 			<Checkbox id="checkbox-tags-shortcut" bind:checked={$openTagsOnPostClick}>
@@ -185,7 +198,7 @@
 	>
 		<TextButton
 			title="Reset preferences"
-			on:click={() => {
+			onclick={() => {
 				resetDialog.showModal();
 				addHistory('dialog');
 			}}
@@ -201,7 +214,7 @@
 	warning="This will reset all your settings to default values. Are you sure you want to do that?"
 	labelConfirm="Yes, reset"
 	labelCancel="Cancel"
-	on:confirm={reset}
+	onconfirm={reset}
 />
 
 <style>

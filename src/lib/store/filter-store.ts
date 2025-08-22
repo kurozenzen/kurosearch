@@ -19,15 +19,12 @@ const createFilterStore = () => {
 	return {
 		subscribe,
 		set(value: FilterStoreData) {
-			console.log('set store', value);
 			set({
 				...value,
 				scoreValue: value.scoreValue ?? 0
 			});
 		},
 		update(value: Partial<FilterStoreData>) {
-			console.log('update store', value);
-
 			update((previous) => ({
 				...previous,
 				...value

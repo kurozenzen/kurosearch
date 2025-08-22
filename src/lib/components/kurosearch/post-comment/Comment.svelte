@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { formatCreatedAt } from '$lib/logic/format-relative-time';
 
-	export let comment: kurosearch.Comment;
+	interface Props {
+		comment: kurosearch.Comment;
+	}
+
+	let { comment }: Props = $props();
 </script>
 
 <div>

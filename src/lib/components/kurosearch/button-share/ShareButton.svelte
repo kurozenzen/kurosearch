@@ -4,7 +4,7 @@
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import TagButton from '../button-tag/TagButton.svelte';
-	import { base } from '$app/paths';
+	import shareSrc from '$lib/assets/share.svg';
 
 	const share = async () => {
 		const shareData = {
@@ -21,8 +21,8 @@
 	};
 </script>
 
-<TagButton title="Share current search." on:click={share}>
-	<img src="{base}/assets/share.svg" alt="No more results to load" width="24" height="24" />
+<TagButton title="Share current search." onclick={share}>
+	<img src={shareSrc} alt="No more results to load" width="24" height="24" />
 </TagButton>
 
 <style>

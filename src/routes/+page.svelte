@@ -19,10 +19,12 @@
 	import results from '$lib/store/results-store';
 	import sort from '$lib/store/sort-store';
 	import { onDestroy, onMount } from 'svelte';
-	import LynxMain from './LynxMain.svelte';
 	import SearchForm from './SearchForm.svelte';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
+	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
+	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
+	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -75,6 +77,16 @@
 		executeSearch(async () => {
 			const [page, count] = await createDefaultSearch().getPageAndCount();
 			results.addPage(page, count);
+		});
+	};
+
+	const getPage = async (pid: number) => {
+		results.resetPosts();
+		nextFocus = 0;
+
+		executeSearch(async () => {
+			const page = await createDefaultSearch().withPid(pid).getPage();
+			results.setPage(page, pid);
 		});
 	};
 
@@ -139,26 +151,38 @@
 	</span>
 </d>
 
-<SearchForm {loading} on:submit={getFirstPage} />
-<ResultHeader {loading} on:sortfilterupdate={getFirstPage} />
+<SearchForm {loading} onsubmit={getFirstPage} />
+
+{#if $pageNavigationEnabled}
+	<PageJump onpagechange={getPage} />
+{/if}
+
+<ResultHeader {loading} onsortfilterupdate={getFirstPage} />
 
 {#if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
 		{#if $results.postCount === 0}
-			<ZeroResults on:sortfilterupdate={getFirstPage} />
+			<ZeroResults onsortfilterupdate={getFirstPage} />
 		{:else}
-			<Results on:sortfilterupdate={getFirstPage} on:endreached={getNextPage} />
+			<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
+			{:else if $pageNavigationEnabled}
+				<PageNavigation
+					onpagechange={(pid) => {
+						getPage(pid);
+						document.getElementById('result-header')?.scrollIntoView();
+					}}
+				/>
 			{:else}
 				<IntersectionDetector
 					absoluteTop={undefined}
 					rootMargin="{1000 / Number($resultColumns)}px"
-					on:intersection={getNextPage}
+					onintersection={getNextPage}
 				/>
-				<TextButton title="Load more posts" on:click={getNextPage}>
+				<TextButton title="Load more posts" onclick={getNextPage}>
 					{#if loading}
 						<LoadingAnimation />
 					{:else}
@@ -172,7 +196,7 @@
 {/if}
 
 {#if loading}
-	<div />
+	<div></div>
 {/if}
 
 <style>

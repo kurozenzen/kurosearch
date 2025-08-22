@@ -5,23 +5,29 @@
 	import { browser } from '$app/environment';
 	import PlayButton from '../button-play/PlayButton.svelte';
 
+	interface Props {
+		src: string;
+		poster: string;
+		width: number;
+		height: number;
+		loop?: boolean;
+		class?: string;
+		onclick?: () => void;
+	}
+
 	const SKIP_TIME = 5;
 
-	export let src: string;
-	export let poster: string;
-	export let width: number;
-	export let height: number;
-	export let loop: boolean;
+	let { src, poster, width, height, loop = false, onclick, ...rest }: Props = $props();
 
 	let container: HTMLDivElement;
-	let video: HTMLVideoElement;
+	let video: HTMLVideoElement | undefined = $state(undefined);
 
-	let playing = false;
-	let loading = false;
-	let currentTime = 0;
-	let duration = 0;
-	let displayVideo = false;
-	let intentHideOverlay = false;
+	let playing = $state(false);
+	let loading = $state(false);
+	let currentTime = $state(0);
+	let duration = $state(0);
+	let displayVideo = $state(false);
+	let intentHideOverlay = $state(false);
 
 	const skipBackward = () => {
 		currentTime = Math.max(0, currentTime - SKIP_TIME);
@@ -68,6 +74,7 @@
 									'error',
 									() => {
 										displayVideo = false;
+										playing = false;
 									},
 									{ once: true }
 								);
@@ -80,11 +87,10 @@
 			)
 		: null;
 
-	$: timeLeft = duration - currentTime;
-	$: playing = displayVideo && playing;
-	$: paused = !playing;
-	$: percent = (currentTime / duration) * 98 + 1;
-	$: hideOverlay = playing && !loading && intentHideOverlay;
+	let timeLeft = $derived(duration - currentTime);
+	let paused = $derived(!playing);
+	let percent = $derived((currentTime / duration) * 98 + 1);
+	let hideOverlay = $derived(playing && !loading && intentHideOverlay);
 
 	const togglePlaying = () => {
 		playing = !playing;
@@ -99,16 +105,16 @@
 	onDestroy(() => observer?.unobserve(container));
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	bind:this={container}
-	on:keydown={handleKeyDown}
-	class="post-media player {$$props.class}"
+	onkeydown={handleKeyDown}
+	class="post-media player {rest.class}"
 	style="aspect-ratio:{width}/{height}"
-	on:click
+	{onclick}
 >
 	{#if displayVideo}
-		<!-- svelte-ignore a11y-media-has-caption -->
+		<!-- svelte-ignore a11y_media_has_caption -->
 		<video
 			tabindex="0"
 			{poster}
@@ -118,17 +124,21 @@
 			bind:paused
 			bind:currentTime
 			bind:duration
-			on:waiting={() => (loading = true)}
-			on:playing={() => (loading = false)}
-			on:pause={() => (loading = false)}
-			on:ended={() => {
+			onwaiting={() => (loading = true)}
+			onplaying={() => (loading = false)}
+			onpause={() => (loading = false)}
+			onended={() => {
 				if (!loop) {
 					loading = false;
 					playing = false;
 				}
 			}}
-			on:click={toggleOverlay}
-			on:dblclick|stopPropagation|preventDefault={skip}
+			onclick={toggleOverlay}
+			ondblclick={(e) => {
+				e.stopPropagation();
+				e.preventDefault();
+				skip(e);
+			}}
 			preload="metadata"
 			style={`aspect-ratio: ${width} / ${height}`}
 		></video>
@@ -147,7 +157,7 @@
 			{playing}
 			{loading}
 			class={`center hidable ${hideOverlay ? 'hide' : ''}`}
-			on:click={togglePlaying}
+			onclick={togglePlaying}
 		/>
 	{/if}
 </div>

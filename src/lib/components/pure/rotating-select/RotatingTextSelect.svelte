@@ -1,13 +1,17 @@
 <script lang="ts">
 	import IconButton from '../button-icon/IconButton.svelte';
 
-	export let options: Record<string, string>;
-	export let value: string;
-	export let id: string | undefined = undefined;
+	interface Props {
+		id?: string;
+		options: Record<string, string>;
+		value: string;
+	}
 
-	$: index = Object.keys(options).indexOf(value);
-	$: entries = Object.entries(options);
-	$: text = entries[index][1];
+	let { id, options, value = $bindable() }: Props = $props();
+
+	let index = $derived(Object.keys(options).indexOf(value));
+	let entries = $derived(Object.entries(options));
+	let text = $derived(entries[index][1]);
 
 	const rotate = () => {
 		index = (index + 1) % entries.length;
@@ -15,4 +19,4 @@
 	};
 </script>
 
-<IconButton {id} on:click={rotate}>{text}</IconButton>
+<IconButton {id} onclick={rotate}>{text}</IconButton>

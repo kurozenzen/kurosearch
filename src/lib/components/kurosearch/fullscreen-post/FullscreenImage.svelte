@@ -5,13 +5,16 @@
 	import { getGifSources } from '$lib/logic/media-utils';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		post: kurosearch.Post;
+		postId?: number;
+		onended?: () => void;
+	}
 
-	export let post: kurosearch.Post;
-	export let postId = -1;
+	let { post, postId = -1, onended }: Props = $props();
 
 	const getSources = (type: string, file_url: string, sample_url: string, preview_url: string) => {
 		if (type === 'gif') {
@@ -22,16 +25,13 @@
 		return highResolutionEnabled ? [sample_url, file_url] : [preview_url, sample_url];
 	};
 
-	$: [previewSrc, fullSrc] = getSources(
-		post.type,
-		post.file_url,
-		post.sample_url,
-		post.preview_url
+	let [previewSrc, fullSrc] = $derived(
+		getSources(post.type, post.file_url, post.sample_url, post.preview_url)
 	);
 
-	let currentTime = 0;
-	let lastFrameTime = Date.now();
-	let currentFrameTime = Date.now();
+	let currentTime = $state(0);
+	let lastFrameTime = $state(Date.now());
+	let currentFrameTime = $state(Date.now());
 	let difference: number;
 	let paused = true;
 	let animationHandle: number;
@@ -47,7 +47,7 @@
 		}
 
 		if (currentTime >= $autoplayFullscreenDelay) {
-			dispatch('ended');
+			onended?.();
 			currentTime = 0;
 		}
 
@@ -58,12 +58,12 @@
 		paused = !paused;
 	};
 
-	$: {
-		if (post.id !== postId) {
+	$effect(() => {
+		if (postId !== post.id) {
 			postId = post.id;
 			currentTime = 0;
 		}
-	}
+	});
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (event.code === 'Space' || event.key === 'k') {
@@ -120,27 +120,28 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-
 {#await preload(fullSrc)}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<img
 		src={previewSrc}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
-		on:contextmenu|preventDefault={() => {}}
-		on:click={togglePaused}
+		oncontextmenu={(e) => e.preventDefault()}
+		onclick={togglePaused}
 	/>
 	<div>
 		<LoadingAnimation />
 	</div>
 {:then _}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<img
 		src={fullSrc}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
-		on:contextmenu|preventDefault={() => {}}
-		on:click={togglePaused}
+		oncontextmenu={(e) => e.preventDefault()}
+		onclick={togglePaused}
 		use:pauseoffscreen
 	/>
 {/await}

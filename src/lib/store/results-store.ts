@@ -63,6 +63,32 @@ const createResultsStore = () => {
 			});
 		},
 
+		setPage(page: kurosearch.Post[], pid: number) {
+			update((previous) => {
+				page.forEach((p) => previous.ids.add(p.id));
+				return {
+					posts: [...page],
+					pageCount: pid + 1,
+					ids: previous.ids,
+					postCount: previous.postCount,
+					requested: true
+				};
+			});
+		},
+
+		resetPosts() {
+			update((previous) => {
+				previous.ids.clear();
+				return {
+					posts: [],
+					pageCount: previous.pageCount,
+					ids: previous.ids,
+					postCount: previous.postCount,
+					requested: true
+				};
+			});
+		},
+
 		reset() {
 			set(getInitialResults());
 		}

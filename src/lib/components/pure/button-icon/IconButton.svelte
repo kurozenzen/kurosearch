@@ -1,9 +1,20 @@
 <script lang="ts">
-	export let id: string | undefined = undefined;
+	import type { Snippet } from 'svelte';
+	import type { MouseEventHandler } from 'svelte/elements';
+
+	interface Props {
+		id?: string;
+		children?: Snippet;
+		onclick?: MouseEventHandler<HTMLButtonElement>;
+		'aria-label'?: string;
+		class?: string;
+	}
+
+	let { id, children, onclick, ...rest }: Props = $props();
 </script>
 
-<button type="button" {id} class={$$props.class} aria-label={$$props['aria-label']} on:click>
-	<slot />
+<button type="button" {id} class={rest.class} aria-label={rest['aria-label']} {onclick}>
+	{@render children?.()}
 </button>
 
 <style>
@@ -17,7 +28,6 @@
 		border: none;
 		color: var(--text);
 		background-color: transparent;
-		/* background-color: red; */
 		font-size: var(--text-size-large);
 		vertical-align: middle;
 	}

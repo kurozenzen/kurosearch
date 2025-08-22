@@ -1,14 +1,19 @@
 <script lang="ts">
-	export let title: string;
-	export let icon: string;
-	export let active: boolean;
+	interface Props {
+		title: string;
+		icon: string;
+		active: boolean;
+	}
+
+	let { title, icon, active = $bindable() }: Props = $props();
 
 	const toggleActive = () => {
 		active = !active;
 	};
 </script>
 
-<button type="button" {title} class={icon} class:active on:click={toggleActive} />
+<button type="button" {title} class={icon} class:active onclick={toggleActive} aria-label="Toggle">
+</button>
 
 <style>
 	button {

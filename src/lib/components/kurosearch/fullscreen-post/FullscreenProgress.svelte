@@ -1,12 +1,34 @@
 <script lang="ts">
-	export let value: number;
-	export let max: number;
+	interface Props {
+		value: number;
+		max: number;
+	}
+
+	let { value = $bindable(), max }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click|stopPropagation|preventDefault on:scroll|stopPropagation|preventDefault>
-	<input type="range" bind:value step="0.001" {max} on:scroll|stopPropagation|preventDefault />
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div
+	onclick={(e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	}}
+	onscroll={(e) => {
+		e.stopPropagation();
+		e.preventDefault();
+	}}
+>
+	<input
+		type="range"
+		bind:value
+		step="0.001"
+		{max}
+		onscroll={(e) => {
+			e.stopPropagation();
+			e.preventDefault();
+		}}
+	/>
 </div>
 
 <style>

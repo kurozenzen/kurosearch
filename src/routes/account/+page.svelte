@@ -4,8 +4,11 @@
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { loadFile, saveFile, type SettingsObject } from '$lib/logic/file-utils';
 	import { signIn, signOut } from '$lib/logic/firebase/authentication';
+	import '$lib/logic/firebase/firebase';
 	import { getSettingsAndSupertags, saveSettingsAndSupertags } from '$lib/logic/firebase/storage';
+	import { addHistory } from '$lib/logic/use/onpopstate';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import firebaseLoggedIn from '$lib/store/firebase-login-store';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
@@ -13,15 +16,12 @@
 	import { StoreKey } from '$lib/store/store-keys';
 	import supertags from '$lib/store/supertags-store';
 	import theme from '$lib/store/theme-store';
-	import '$lib/logic/firebase/firebase';
-	import { loadFile, saveFile } from '$lib/logic/file-utils';
-	import { addHistory } from '$lib/logic/use/onpopstate';
 
 	const reset = () => {
 		supertags.reset();
 	};
 
-	const getSettingsObject = () => ({
+	const getSettingsObject = (): SettingsObject => ({
 		[StoreKey.LocalstorageEnabled]: $localstorageEnabled,
 		[StoreKey.Theme]: $theme,
 		[StoreKey.BlockedContent]: $blockedContent,
@@ -29,7 +29,7 @@
 		[StoreKey.Supertags]: $supertags
 	});
 
-	const applySettingsObject = (config: any) => {
+	const applySettingsObject = (config: SettingsObject) => {
 		$localstorageEnabled = config[StoreKey.LocalstorageEnabled];
 		$theme = config[StoreKey.Theme];
 		$blockedContent = config[StoreKey.BlockedContent];
@@ -84,9 +84,9 @@
 			{#each $supertags.items as supertag}
 				<Supertag
 					{supertag}
-					on:remove={(ev) => supertags.remove(ev.detail)}
-					on:edit={(ev) => {
-						supertags.update(ev.detail.oldName, ev.detail.newSupertag);
+					onremove={(supertag) => supertags.remove(supertag)}
+					onedit={(oldName, newSupertag) => {
+						supertags.update(oldName, newSupertag);
 					}}
 				/>
 			{/each}
@@ -96,13 +96,13 @@
 	<Heading3>Import/Export Data</Heading3>
 	<p>Load and save preferences and supertags to and from a file.</p>
 	<div class="button-row">
-		<TextButton type="secondary" title="Save your data to a file." on:click={exportConfig}>
+		<TextButton type="secondary" title="Save your data to a file." onclick={exportConfig}>
 			<span class="codicon codicon-file">Download Config File</span>
 		</TextButton>
 		<TextButton
 			type="secondary"
 			title="Restore your settings from a config file."
-			on:click={importConfig}
+			onclick={importConfig}
 		>
 			<span class="codicon codicon-file">Load Config File</span>
 		</TextButton>
@@ -115,7 +115,7 @@
 			<TextButton
 				type="secondary"
 				title="Apply your settings from the cloud."
-				on:click={() => {
+				onclick={() => {
 					cloudPullDialog.showModal();
 					addHistory('dialog');
 				}}
@@ -125,16 +125,16 @@
 			<TextButton
 				type="secondary"
 				title="Store current settings in the cloud."
-				on:click={() => {
+				onclick={() => {
 					cloudPushDialog.showModal();
 					addHistory('dialog');
 				}}
 			>
 				<span class="codicon codicon-cloud">Save config</span>
 			</TextButton>
-			<TextButton title="Sign out" on:click={() => signOut()}>Sign Out</TextButton>
+			<TextButton title="Sign out" onclick={() => signOut()}>Sign Out</TextButton>
 		{:else}
-			<TextButton title="Sign in with google to backup data" on:click={() => signIn()}>
+			<TextButton title="Sign in with google to backup data" onclick={() => signIn()}>
 				Connect Google User
 			</TextButton>
 		{/if}
@@ -143,7 +143,7 @@
 	<Heading3>Delete Data</Heading3>
 	<TextButton
 		title="Delete all your data."
-		on:click={() => {
+		onclick={() => {
 			resetDialog.showModal();
 			addHistory('dialog');
 		}}
@@ -158,7 +158,7 @@
 	warning="This will replace all your current settings with settings save online. Are you sure you want to do that?"
 	labelConfirm="Yes, load settings."
 	labelCancel="Cancel"
-	on:confirm={async () => {
+	onconfirm={async () => {
 		const backup = await getSettingsAndSupertags();
 
 		if (backup.settings) {
@@ -191,7 +191,7 @@
 	warning="This will save the current settings and supertags online. BUT it will also overwrite anything currently stored in the cloud. Are you sure you want to do this?"
 	labelConfirm="Yes, backup online"
 	labelCancel="Cancel"
-	on:confirm={async () => {
+	onconfirm={async () => {
 		await saveSettingsAndSupertags(getSettingsObject(), $supertags.items);
 	}}
 />
@@ -202,7 +202,7 @@
 	warning="This will delete all your data. This includes supertags. You will not be able to recover it. Are you sure you want to delete it?"
 	labelConfirm="Yes, delete it."
 	labelCancel="Cancel"
-	on:confirm={reset}
+	onconfirm={reset}
 />
 
 <style>

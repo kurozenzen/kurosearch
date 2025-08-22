@@ -1,30 +1,33 @@
 <script lang="ts">
 	import { isEnter } from '$lib/logic/keyboard-utils';
 
-	export let value: number;
-	export let min: number;
-	export let max: number;
-	export let step: number;
+	interface Props {
+		value: number;
+		min: number;
+		max: number;
+		step: number;
+	}
 
-	let internalValue: string;
+	let { value = $bindable(), min, max, step }: Props = $props();
+
+	let internalValue: string = $state(`${value}`);
 
 	const blurOnEnter = (event: KeyboardEvent) =>
 		isEnter(event) && (event.target as HTMLElement)?.blur();
 
-	const parseNumber = (str: string) => {
-		let n = Number(str);
+	$effect(() => {
+		let n = Number(internalValue);
 		if (!isNaN(n)) {
 			value = n;
 		}
-	};
+	});
 
-	const toString = (n: number) => (internalValue = `${n}`);
-
-	$: parseNumber(internalValue);
-	$: toString(value);
+	$effect(() => {
+		internalValue = `${value}`;
+	});
 </script>
 
-<input type="number" {min} {max} {step} bind:value={internalValue} on:keyup={blurOnEnter} />
+<input type="number" {min} {max} {step} bind:value={internalValue} onkeyup={blurOnEnter} />
 
 <style>
 	input[type='number'] {

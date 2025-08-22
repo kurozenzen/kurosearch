@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let value: kurosearch.Rating;
+	interface Props {
+		value: kurosearch.Rating;
+	}
+
+	let { value }: Props = $props();
 </script>
 
 <span title="Rated {value}.">{value.charAt(0).toUpperCase()}</span>

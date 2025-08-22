@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 
 	let details = false;
 </script>
@@ -9,7 +9,7 @@
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
 		id="happy"
-		src="{base}/assets/lynxy-chibi.webp"
+		src={lynxChibiSrc}
 		alt="Helheim Lynx"
 		width="1231"
 		height="864"

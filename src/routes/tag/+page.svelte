@@ -38,8 +38,8 @@
 	<Searchbar
 		placeholder="Search for a tag..."
 		fetchSuggestions={getTagSuggestions}
-		on:pick={(event) => {
-			window.location.href = '/tag?name=' + event.detail.label;
+		onpick={(suggestion) => {
+			window.location.href = '/tag?name=' + suggestion.label;
 		}}
 	/>
 {/if}

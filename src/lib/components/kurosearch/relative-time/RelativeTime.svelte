@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { formatCreatedAt } from '$lib/logic/format-relative-time';
 
-	export let value: number | string;
+	interface Props {
+		value: number | string;
+	}
+
+	let { value }: Props = $props();
 </script>
 
 <span>{formatCreatedAt(value)}</span>

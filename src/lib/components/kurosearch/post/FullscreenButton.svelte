@@ -1,5 +1,13 @@
-<button type="button" title="Enter Fullscreen mode" on:click>
-	<i class="codicon codicon-screen-full" />
+<script lang="ts">
+	interface Props {
+		onclick?: () => void;
+	}
+
+	let { onclick }: Props = $props();
+</script>
+
+<button type="button" title="Enter Fullscreen mode" {onclick} aria-label="Enter Fullscreen mode">
+	<i class="codicon codicon-screen-full"></i>
 </button>
 
 <style>

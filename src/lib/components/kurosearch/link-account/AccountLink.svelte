@@ -1,15 +1,19 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 
-	export let src: string | undefined;
+	interface Props {
+		src?: string;
+	}
+
+	let { src }: Props = $props();
 </script>
 
-<IconLink title="Account" href="{base}/account">
+<IconLink title="Account" href={resolve('/account')}>
 	{#if src}
 		<img class="profile-picture" {src} alt="Account" />
 	{:else}
-		<i class="codicon codicon-account" />
+		<i class="codicon codicon-account"></i>
 	{/if}
 </IconLink>
 

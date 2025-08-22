@@ -25,18 +25,18 @@
 		<LynxMain />
 		<h1>kurosearch</h1>
 		<h2>Terms of Use</h2>
-		<span />
+		<span></span>
 		<h3>Mature Content</h3>
 		<p>
 			This website contains mature content. By using this website you confirm that you are at
 			legally allowed to view such content.
 		</p>
-		<span />
+		<span></span>
 		<h3>Use of Cookies</h3>
 		<p>Additinally, this website uses cookies to provide functionality.</p>
 		<div class="row">
-			<TextButton title="Accept terms of use" on:click={accept}>Accept</TextButton>
-			<TextButton title="Leave website" type="secondary" on:click={leave}>Leave</TextButton>
+			<TextButton title="Accept terms of use" onclick={accept}>Accept</TextButton>
+			<TextButton title="Leave website" type="secondary" onclick={leave}>Leave</TextButton>
 		</div>
 	</section>
 </div>

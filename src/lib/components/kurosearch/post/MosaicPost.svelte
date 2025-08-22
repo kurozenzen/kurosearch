@@ -4,7 +4,12 @@
 	import { isEnter } from '$lib/logic/keyboard-utils';
 	import { calculateAspectRatio } from './ratio';
 
-	export let post: kurosearch.Post;
+	interface Props {
+		post: kurosearch.Post;
+		onclick?: (event: MouseEvent) => void;
+	}
+
+	let { post, onclick }: Props = $props();
 
 	let maxRatio = 1 / 3;
 	let rowsPerSquare = 5;
@@ -14,18 +19,18 @@
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
 
-	$: previewSrc = isImage(post.sample_url) ? post.sample_url : post.preview_url;
+	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	id={getPostId(post.id)}
 	class="post"
 	style="grid-row: span {rows};"
-	on:click
-	on:keydown={(event) => {
+	{onclick}
+	onkeydown={(event) => {
 		if (isEnter(event) || event.key === 'f') {
-			event.target?.click();
+			(event.target as HTMLDivElement)?.click();
 		}
 	}}
 	class:open

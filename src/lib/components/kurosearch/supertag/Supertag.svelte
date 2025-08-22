@@ -3,14 +3,17 @@
 	import ConfirmDialog from '../dialog-confirm/ConfirmDialog.svelte';
 	import EditSupertagDialog from '../dialog-edit-supertag/EditSupertagDialog.svelte';
 	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
-	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		supertag: kurosearch.Supertag;
+		onremove: (supertag: kurosearch.Supertag) => void;
+		onedit: (oldName: string, supertag: kurosearch.Supertag) => void;
+	}
 
-	export let supertag: kurosearch.Supertag;
+	let { supertag, onremove, onedit }: Props = $props();
 
-	let deleteDialog: HTMLDialogElement;
-	let editDialog: HTMLDialogElement;
+	let deleteDialog: HTMLDialogElement = $state(undefined);
+	let editDialog: HTMLDialogElement = $state(undefined);
 </script>
 
 <li>
@@ -19,19 +22,23 @@
 	<button
 		type="button"
 		class="codicon codicon-edit"
-		on:click={() => {
+		onclick={() => {
 			editDialog.showModal();
 			addHistory('dialog');
 		}}
-	/>
+		aria-label="Edit Supertag"
+	>
+	</button>
 	<button
 		type="button"
 		class="codicon codicon-close"
-		on:click={() => {
+		onclick={() => {
 			deleteDialog.showModal();
 			addHistory('dialog');
 		}}
-	/>
+		aria-label="Delete Supertag"
+	>
+	</button>
 	<span>{supertag.description || supertag.name}</span>
 	<ol>
 		{#each supertag.tags as tag}
@@ -46,10 +53,10 @@
 	warning="Are you sure? You will not be able to undo it."
 	labelCancel="No, keep it!"
 	labelConfirm="Yes, delete it."
-	on:confirm={() => dispatch('remove', supertag)}
+	onconfirm={() => onremove(supertag)}
 />
 
-<EditSupertagDialog bind:dialog={editDialog} {supertag} on:edit />
+<EditSupertagDialog bind:dialog={editDialog} {supertag} {onedit} />
 
 <style>
 	li {

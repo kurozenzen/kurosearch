@@ -6,16 +6,23 @@
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 
-	let fullscreenIndex: undefined | number;
+	interface Props {
+		onsortfilterupdate: () => void;
+		onendreached: () => void;
+	}
 
-	const exitFullscreen = (event: CustomEvent<number>) => {
-		const post = $results.posts[event.detail];
+	let { onendreached }: Props = $props();
+
+	let fullscreenIndex: undefined | number = $state(undefined);
+
+	const exitFullscreen = (postIndex: number) => {
+		const post = $results.posts[postIndex];
 		const id = getPostId(post.id);
 		document.getElementById(id)?.scrollIntoView();
 		fullscreenIndex = undefined;
 	};
 
-	$: {
+	$effect(() => {
 		if (fullscreenIndex !== undefined) {
 			history.pushState({ ...history.state, fullscreen: true }, '');
 		} else {
@@ -23,7 +30,7 @@
 				history.back();
 			}
 		}
-	}
+	});
 </script>
 
 {#if $resultColumns === '1'}
@@ -31,7 +38,7 @@
 		{#each $results.posts as post, index}
 			<SingleColumnPost
 				{post}
-				on:fullscreen={() => {
+				onfullscreen={() => {
 					fullscreenIndex = index;
 				}}
 			/>
@@ -42,7 +49,7 @@
 		{#each $results.posts as post, index}
 			<MosaicPost
 				{post}
-				on:click={() => {
+				onclick={() => {
 					fullscreenIndex = index;
 				}}
 			/>
@@ -51,7 +58,7 @@
 {/if}
 
 {#if fullscreenIndex !== undefined}
-	<FullscreenPost index={fullscreenIndex} on:close={exitFullscreen} on:endreached />
+	<FullscreenPost index={fullscreenIndex} onclose={exitFullscreen} {onendreached} />
 {/if}
 
 <style>

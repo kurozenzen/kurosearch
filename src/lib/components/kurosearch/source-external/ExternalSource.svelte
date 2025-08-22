@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { isValidUrl } from '$lib/logic/url-utils';
 
-	export let source: string;
+	interface Props {
+		source: string;
+	}
 
-	$: url = isValidUrl(source) ? new URL(source) : null;
-	$: label = url?.hostname?.replace(/^www./, '');
+	let { source }: Props = $props();
+
+	let url = $derived(isValidUrl(source) ? new URL(source) : null);
+	let label = $derived(url?.hostname?.replace(/^www./, ''));
 </script>
 
 {#if url}
-	<a href={url.toString()} target="_newtab"><i class="codicon codicon-link" /> {label}</a>
+	<a href={url.toString()} target="_newtab"><i class="codicon codicon-link"></i> {label}</a>
 {/if}
 
 <style>

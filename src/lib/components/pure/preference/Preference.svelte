@@ -1,14 +1,20 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import Heading3 from '../heading/Heading3.svelte';
 
-	export let title: string;
-	export let description: string;
+	interface Props {
+		title: string;
+		description: string;
+		children?: Snippet;
+	}
+
+	let { title, description, children }: Props = $props();
 </script>
 
 <div>
 	<Heading3>{title}</Heading3>
 	<p>{description}</p>
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

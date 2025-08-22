@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { onpopstate } from '$lib/logic/use/onpopstate';
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
-	export let dialog: HTMLDialogElement;
+	interface Props {
+		dialog: HTMLDialogElement;
+		onclose?: () => void;
+		children: Snippet;
+	}
+
+	let { dialog = $bindable(), onclose, children }: Props = $props();
 
 	const onPopState = () => {
 		dialog.close();
@@ -24,8 +30,8 @@
 	});
 </script>
 
-<dialog bind:this={dialog} on:close use:onpopstate={onPopState}>
-	<slot />
+<dialog bind:this={dialog} {onclose} use:onpopstate={onPopState}>
+	{@render children()}
 </dialog>
 
 <style>

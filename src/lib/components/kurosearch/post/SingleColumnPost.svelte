@@ -1,23 +1,26 @@
 <script lang="ts">
-	import Sources from './Sources.svelte';
-	import Comments from '../post-comment/Comments.svelte';
-	import Video from '../media-video/Video.svelte';
-	import Gif from '../media-gif/Gif.svelte';
-	import { createEventDispatcher } from 'svelte';
-	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
-	import alwaysLoop from '$lib/store/always-loop-store';
+	import { resolve } from '$app/paths';
+	import PreviewedImage from '$lib/components/pure/smart-image/PreviewedImage.svelte';
 	import { getPostId } from '$lib/logic/id-utils';
+	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import { isValidUrl } from '$lib/logic/url-utils';
+	import alwaysLoop from '$lib/store/always-loop-store';
+	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import Gif from '../media-gif/Gif.svelte';
+	import Video from '../media-video/Video.svelte';
+	import Comments from '../post-comment/Comments.svelte';
 	import Summary from '../post-summary/Summary.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import FullscreenButton from './FullscreenButton.svelte';
-	import { isValidUrl } from '$lib/logic/url-utils';
-	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
-	import PreviewedImage from '$lib/components/pure/smart-image/PreviewedImage.svelte';
+	import Sources from './Sources.svelte';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		post: kurosearch.Post;
+		openTab?: string;
+		onfullscreen: () => void;
+	}
 
-	export let post: kurosearch.Post;
-	export let openTab: string | undefined = undefined;
+	let { post, openTab = undefined, onfullscreen }: Props = $props();
 
 	const selectTab = (tab: string) => {
 		openTab = openTab === tab ? undefined : tab;
@@ -25,12 +28,15 @@
 
 	const openImmediate = () => {
 		if ($openTagsOnPostClick) {
+			// TODO: remove this when tags shortcut is removed
 			selectTab('tags');
 		}
 	};
 
 	const links = [
-		new URL(`https://kurosearch.com/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`),
+		new URL(
+			`${window.location.origin}/post?id=${post.id}&src=${encodeURIComponent(post.file_url)}`
+		),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
 		new URL(post.file_url),
 		...(post.source
@@ -42,21 +48,20 @@
 	];
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <li
 	id={getPostId(post.id)}
 	class="post"
 	class:openTab
-	on:keydown={(event) => {
+	onkeydown={(event) => {
 		if (event.key === 'f') {
-			dispatch('fullscreen');
+			onfullscreen();
 		}
 	}}
 >
 	<div>
 		{#if post.type === 'image'}
-			<PreviewedImage {post} on:click={openImmediate} />
+			<PreviewedImage {post} onclick={openImmediate} />
 		{:else if post.type === 'video'}
 			{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 			<Video
@@ -65,23 +70,23 @@
 				width={post.width}
 				height={post.height}
 				loop={$alwaysLoop || isLoop(post.tags)}
-				on:click={openImmediate}
+				onclick={openImmediate}
 			/>
 		{:else}
-			<Gif {post} on:click={openImmediate} />
+			<Gif {post} onclick={openImmediate} />
 		{/if}
 	</div>
 
-	<FullscreenButton on:click={() => dispatch('fullscreen')} />
+	<FullscreenButton onclick={onfullscreen} />
 
 	<div class="details">
 		<Summary
 			active={openTab}
 			{post}
 			links={links.length}
-			on:tags={() => selectTab('tags')}
-			on:comments={() => selectTab('comments')}
-			on:links={() => selectTab('links')}
+			ontags={() => selectTab('tags')}
+			oncomments={() => selectTab('comments')}
+			onlinks={() => selectTab('links')}
 		/>
 
 		{#if openTab === 'tags'}

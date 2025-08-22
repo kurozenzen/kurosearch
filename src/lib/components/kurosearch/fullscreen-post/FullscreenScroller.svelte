@@ -1,27 +1,28 @@
 <script lang="ts">
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
+	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
 	import results from '$lib/store/results-store';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
-	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
-	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
-	const dispatch = createEventDispatcher();
-
-	export let index: number;
+	let { index = $bindable(), onendreached } = $props();
 
 	let container: HTMLDivElement;
 	let current: HTMLDivElement;
 
-	$: postCurrent = $results.posts[index];
-	$: postPrevious = index > 0 ? $results.posts[index - 1] : undefined;
-	$: postNext = index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined;
-	$: offsetCurrent = `${index * 100}vh`;
-	$: offsetPrevious = `${(index - 1) * 100}vh`;
-	$: offsetNext = `${(index + 1) * 100}vh`;
+	let postCurrent = $derived($results.posts[index]);
+	let postPrevious = $derived(index > 0 ? $results.posts[index - 1] : undefined);
+	let postNext = $derived(
+		index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined
+	);
+
+	let offsetCurrent = $derived(`${index * 100}vh`);
+	let offsetPrevious = $derived(`${(index - 1) * 100}vh`);
+	let offsetNext = $derived(`${(index + 1) * 100}vh`);
 
 	const scrollToPrevious = () => {
 		container.scrollTo({
@@ -45,7 +46,7 @@
 		}
 	};
 
-	const onScroll = (event: Event) => {
+	const onscroll = (event: Event) => {
 		requestAnimationFrame(() => {
 			const target = event.target as HTMLDivElement;
 			const height = target.getBoundingClientRect().height;
@@ -84,10 +85,12 @@
 	};
 
 	onMount(() => {
-		if (current) {
-			current.scrollIntoView(true);
-			current.scrollLeft = 0;
-		}
+		requestAnimationFrame(() => {
+			if (current) {
+				current.scrollIntoView();
+				current.scrollLeft = 0;
+			}
+		});
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
@@ -96,7 +99,7 @@
 	});
 </script>
 
-<div class="root screen snap-container" bind:this={container} on:scroll={onScroll}>
+<div class="root screen snap-container" bind:this={container} {onscroll}>
 	{#if postPrevious}
 		<FullscreenPreview post={postPrevious} offset={offsetPrevious} />
 	{/if}
@@ -106,25 +109,25 @@
 		bind:this={current}
 		style:top={offsetCurrent}
 	>
-		<FullscreenMedia post={postCurrent} on:ended={autoscroll} />
+		<FullscreenMedia post={postCurrent} onended={autoscroll} />
 		<FullscreenDetails post={postCurrent} />
 		<IconButton
 			class="details-button"
-			on:click={() => current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
+			onclick={() => current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
 		>
-			<i class="codicon codicon-tag" />
+			<i class="codicon codicon-tag"></i>
 		</IconButton>
 	</div>
 	{#if postNext}
 		<FullscreenPreview post={postNext} offset={offsetNext} />
 	{/if}
 	{#each { length: $results.posts.length } as _, i}
-		<div class="pseudo snap-item" style:top="{i * 100}vh" />
+		<div class="pseudo snap-item" style:top="{i * 100}vh"></div>
 	{/each}
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
 		rootMargin="{window.innerHeight * 3}px"
-		on:intersection={() => dispatch('endreached')}
+		onintersection={onendreached}
 	/>
 </div>
 

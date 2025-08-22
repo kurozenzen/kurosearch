@@ -1,14 +1,18 @@
 <script lang="ts">
 	import IconLink from './IconLink.svelte';
 
-	export let title: string;
-	export let href: string;
-	export let icon: string;
-	export let newtab = false;
+	interface Props {
+		title: string;
+		href: string;
+		icon: string;
+		newtab?: boolean;
+	}
+
+	let { title, href, icon, newtab = false }: Props = $props();
 </script>
 
 <IconLink {title} {href} {newtab}>
-	<i class={icon} />
+	<i class={icon}></i>
 </IconLink>
 
 <style>

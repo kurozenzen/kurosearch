@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let url: string;
+	interface Props {
+		url: string;
+	}
+
+	let { url }: Props = $props();
 </script>
 
 <a href={url} target="_newtab" class="codicon codicon-link-external">Open</a>

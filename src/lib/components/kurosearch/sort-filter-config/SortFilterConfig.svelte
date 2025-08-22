@@ -1,42 +1,48 @@
 <script lang="ts">
-	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/filter-store';
-	import { createEventDispatcher } from 'svelte';
+	import sort, { type SortStoreData } from '$lib/store/sort-store';
+	import filter, { type FilterStoreData } from '$lib/store/filter-store';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import { getFilterLabel, getSortLabel } from './sortfilter';
 
-	const dispatch = createEventDispatcher();
-	const serializeSortFilter = (sort: any, filter: any) =>
+	interface Props {
+		onsortfilterupdate: () => void;
+	}
+
+	let { onsortfilterupdate }: Props = $props();
+
+	const serializeSortFilter = (sort: SortStoreData, filter: FilterStoreData) =>
 		JSON.stringify(Object.assign({}, sort, filter));
 
-	let dialog: HTMLDialogElement;
+	let dialog: HTMLDialogElement = $state(undefined);
 	let sortFilterBefore = '';
 
-	$: filterLabel = getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator);
-	$: sortLabel = getSortLabel($sort.property, $sort.direction);
+	let filterLabel = $derived(
+		getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator)
+	);
+	let sortLabel = $derived(getSortLabel($sort.property, $sort.direction));
 </script>
 
 <button
 	type="button"
-	on:click={() => {
+	onclick={() => {
 		sortFilterBefore = serializeSortFilter($sort, $filter);
 		dialog.showModal();
 		addHistory('dialog');
 	}}
 >
-	<i class="codicon codicon-filter" />
+	<i class="codicon codicon-filter"></i>
 	<span>{filterLabel}</span>
-	<i class="codicon codicon-arrow-swap" />
+	<i class="codicon codicon-arrow-swap"></i>
 	<span>{sortLabel}</span>
 </button>
 
 <SortFilterDialog
 	bind:dialog
-	on:close={() => {
+	onclose={() => {
 		const sortFilterAfter = serializeSortFilter($sort, $filter);
 		if (sortFilterAfter !== sortFilterBefore) {
-			dispatch('sortfilterupdate');
+			onsortfilterupdate();
 		}
 	}}
 />

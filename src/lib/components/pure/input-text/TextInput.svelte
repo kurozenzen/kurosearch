@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let placeholder: string;
-	export let value: string;
-	export let autocomplete = 'off';
+	interface Props {
+		placeholder?: string;
+		value?: string;
+		autocomplete?: string;
+	}
+
+	let { placeholder = '', value = $bindable(), autocomplete = 'off' }: Props = $props();
 </script>
 
 <input type="text" bind:value {placeholder} {autocomplete} />

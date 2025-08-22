@@ -5,17 +5,20 @@
 	import FullscreenProgress from './FullscreenProgress.svelte';
 	import { formatVideoTime } from '$lib/logic/format-time';
 
-	export let post: kurosearch.Post;
+	interface Props {
+		post: kurosearch.Post;
+		onended?: () => void;
+	}
+
+	let { post, onended }: Props = $props();
 
 	let video: HTMLVideoElement | undefined;
 
-	$: sources = getVideoSources(post.file_url, post.sample_url, post.preview_url);
-	$: animatedSource = sources.animated;
-	$: staticSource = sources.static;
+	let sources = $derived(getVideoSources(post.file_url, post.sample_url, post.preview_url));
 
-	let currentTime = 0;
-	let paused = false;
-	let duration: number;
+	let currentTime = $state(0);
+	let paused = $state(false);
+	let duration: number | undefined = $state(undefined);
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (video) {
@@ -51,10 +54,10 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y-media-has-caption -->
+<!-- svelte-ignore a11y_media_has_caption -->
 <video
-	src={animatedSource}
-	poster={staticSource}
+	src={sources.animated}
+	poster={sources.static}
 	title="[VIDEO] post #{post.id}"
 	preload="metadata"
 	autoplay
@@ -62,10 +65,21 @@
 	bind:currentTime
 	bind:paused
 	bind:duration
-	on:click={(e) => (e.target.paused ? e.target.play() : e.target.pause())}
-	on:ended
-	on:contextmenu|preventDefault={() => {}}
-/>
+	onclick={() => {
+		if (video) {
+			if (video.paused) {
+				video.play();
+			} else {
+				video.pause();
+			}
+		}
+	}}
+	{onended}
+	oncontextmenu={(e) => {
+		e.preventDefault();
+		e.stopPropagation();
+	}}
+></video>
 
 {#if currentTime !== undefined && duration !== undefined}
 	<span>{formatVideoTime(currentTime)} / {formatVideoTime(duration)}</span>

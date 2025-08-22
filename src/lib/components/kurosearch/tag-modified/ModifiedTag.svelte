@@ -2,10 +2,24 @@
 	import { formatTagname } from '$lib/logic/format-tag';
 	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
 
-	export let tag: kurosearch.SearchableTag;
+	interface Props {
+		tag: kurosearch.SearchableTag;
+		onclick?: () => void;
+		oncontextmenu?: () => void;
+	}
+
+	let { tag, onclick, oncontextmenu }: Props = $props();
 </script>
 
-<button type="button" class={MODIFIER_NAMES[tag.modifier]} on:click on:contextmenu|preventDefault>
+<button
+	type="button"
+	class={MODIFIER_NAMES[tag.modifier]}
+	{onclick}
+	oncontextmenu={(e) => {
+		e.preventDefault();
+		oncontextmenu?.();
+	}}
+>
 	{formatTagname(tag.name)}
 </button>
 

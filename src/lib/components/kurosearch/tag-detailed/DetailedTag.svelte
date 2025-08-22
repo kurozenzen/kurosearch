@@ -3,10 +3,16 @@
 	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
 	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
 
-	export let tag: kurosearch.ModifiedTag;
-	export let active: boolean = false;
+	interface Props {
+		tag: kurosearch.ModifiedTag;
+		active?: boolean;
+		onclick?: (event: MouseEvent) => void;
+		oncontextmenu?: (event: MouseEvent) => void;
+	}
 
-	$: icon = TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon';
+	let { tag, active = false, onclick, oncontextmenu }: Props = $props();
+
+	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
 </script>
 
 <button
@@ -14,8 +20,8 @@
 	class:active
 	class="{MODIFIER_NAMES[tag.modifier]} {icon}"
 	title="Click to remove tag"
-	on:click
-	on:contextmenu|preventDefault
+	{onclick}
+	{oncontextmenu}
 >
 	{formatActiveTag(tag)}
 </button>

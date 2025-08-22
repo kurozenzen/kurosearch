@@ -1,11 +1,6 @@
-<script context="module" lang="ts">
-</script>
-
 <script lang="ts">
 	import NumberInput from './NumberInput.svelte';
-
 	import RadioGroup from './RadioGroup.svelte';
-
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
@@ -20,9 +15,17 @@
 		LABELS_SORT_PROPERTY
 	} from '../sort-filter-config/sortfilter';
 
-	export let dialog: HTMLDialogElement;
+	interface Props {
+		dialog: HTMLDialogElement;
+		onclose: () => void;
+	}
 
-	const close = () => dialog.close();
+	let { dialog = $bindable(), onclose }: Props = $props();
+
+	const oncloseinternal = () => {
+		dialog.close();
+		onclose();
+	};
 
 	const reset = () => {
 		sort.reset();
@@ -30,14 +33,19 @@
 	};
 </script>
 
-<Dialog bind:dialog on:close>
+<Dialog bind:dialog onclose={oncloseinternal}>
 	<div class="container">
 		<div class="row">
 			<h3>Sorting and Filtering</h3>
-			<div class="spacer" />
-			<button type="button" class="codicon codicon-close" on:click={close} />
+			<div class="spacer"></div>
+			<button
+				type="button"
+				class="codicon codicon-close"
+				onclick={oncloseinternal}
+				aria-label="Close"
+			>
+			</button>
 		</div>
-		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<div>
 			<b>Sorting</b>
 			<div class="row">
@@ -62,8 +70,8 @@
 			<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
 		</div>
 
-		<TextButton title="Return to searching" on:click={close}>Done</TextButton>
-		<TextButton title="Reset sort and filter" type="secondary" on:click={reset}>Reset</TextButton>
+		<TextButton title="Return to searching" onclick={oncloseinternal}>Done</TextButton>
+		<TextButton title="Reset sort and filter" type="secondary" onclick={reset}>Reset</TextButton>
 	</div>
 </Dialog>
 

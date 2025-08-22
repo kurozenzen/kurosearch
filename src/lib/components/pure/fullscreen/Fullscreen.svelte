@@ -1,21 +1,26 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, type Snippet } from 'svelte';
 
-	const dispatch = createEventDispatcher();
-	const close = () => dispatch('close');
+	interface Props {
+		children: Snippet;
+		onclose?: () => void;
+	}
+
+	let { children, onclose }: Props = $props();
+
 	const closeOnEscapePressed = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
-			close();
+			onclose?.();
 		}
 	};
 	const closeOnFullscreenExit = () => {
 		if (!document.fullscreenElement) {
-			close();
+			onclose?.();
 		}
 	};
 
 	let dialog: HTMLDivElement;
-	let ready = false;
+	let ready = $state(false);
 
 	onMount(async () => {
 		dialog.focus();
@@ -42,11 +47,13 @@
 	bind:this={dialog}
 	role="none"
 	tabindex="-1"
-	on:click|stopPropagation={() => {}}
-	on:keydown={closeOnEscapePressed}
+	onclick={(e) => {
+		e.stopPropagation();
+	}}
+	onkeydown={closeOnEscapePressed}
 >
 	{#if ready}
-		<slot />
+		{@render children()}
 	{/if}
 </div>
 

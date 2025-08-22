@@ -1,8 +1,12 @@
 <script lang="ts">
-	export let url: string;
+	interface Props {
+		url: string;
+	}
+
+	let { url }: Props = $props();
 </script>
 
-<a href={url} target="_newtab"><i class="codicon codicon-file" /> File</a>
+<a href={url} target="_newtab"><i class="codicon codicon-file"></i> File</a>
 
 <style>
 	a {

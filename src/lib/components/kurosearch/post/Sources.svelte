@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let links: URL[];
+	interface Props {
+		links: URL[];
+	}
+
+	let { links }: Props = $props();
 
 	const HOST_COLOR_MAPPING: Record<string, [string, string]> = {
 		'kurosearch.com': ['crimson', 'white'],

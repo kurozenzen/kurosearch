@@ -1,29 +1,31 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
-	import { createEventDispatcher } from 'svelte';
-	import Searchbar from '../searchbar/Searchbar.svelte';
-	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
-	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { nextModifier } from '$lib/logic/modifier-utils';
+	import Searchbar from '../searchbar/Searchbar.svelte';
+	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
 
-	export let dialog: HTMLDialogElement;
-	export let supertag: kurosearch.Supertag;
+	interface Props {
+		dialog: HTMLDialogElement;
+		supertag: kurosearch.Supertag;
+		onedit: (oldName: string, newSupertag: kurosearch.Supertag) => void;
+		onclose?: () => void;
+	}
 
-	const dispatch = createEventDispatcher();
-	const emitEdit = () => dispatch('edit', { oldName: supertag.name, newSupertag });
+	let { dialog = $bindable(), supertag, onedit, onclose }: Props = $props();
 
-	let newSupertag = { ...supertag, tags: [...supertag.tags] };
+	const emitEdit = () => onedit(supertag.name, newSupertag);
+
+	let newSupertag = $state({ ...supertag, tags: [...supertag.tags] });
 </script>
 
-<Dialog bind:dialog on:close>
+<Dialog bind:dialog {onclose}>
 	<div>
 		<h3>Edit Supertag</h3>
-		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<span>Name</span>
 		<TextInput bind:value={newSupertag.name} placeholder="Name" autocomplete="false" />
-		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<span>Description</span>
 		<TextInput
 			bind:value={newSupertag.description}
@@ -35,10 +37,10 @@
 		<Searchbar
 			placeholder="Search for tags"
 			fetchSuggestions={getTagSuggestions}
-			on:pick={(e) => {
+			onpick={(suggestion) => {
 				newSupertag.tags = [
 					...newSupertag.tags,
-					{ modifier: e.detail.modifier, name: e.detail.label }
+					{ modifier: suggestion.modifier, name: suggestion.label }
 				];
 			}}
 		/>
@@ -46,11 +48,11 @@
 			{#each newSupertag.tags as tag, i}
 				<ModifiedTag
 					{tag}
-					on:click={() => {
+					onclick={() => {
 						newSupertag.tags.splice(i, 1);
 						newSupertag.tags = [...newSupertag.tags];
 					}}
-					on:contextmenu={() => {
+					oncontextmenu={() => {
 						newSupertag.tags[i].modifier = nextModifier(tag.modifier);
 					}}
 				/>
@@ -58,14 +60,14 @@
 		</ul>
 		<TextButton
 			title="Save changes"
-			on:click={() => {
+			onclick={() => {
 				emitEdit();
 				dialog.close();
 			}}
 		>
 			Save
 		</TextButton>
-		<TextButton type="secondary" title="Cancel" on:click={() => dialog.close()}>Cancel</TextButton>
+		<TextButton type="secondary" title="Cancel" onclick={() => dialog.close()}>Cancel</TextButton>
 	</div>
 </Dialog>
 

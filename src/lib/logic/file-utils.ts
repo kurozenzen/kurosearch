@@ -1,3 +1,14 @@
+import type { StoreKey } from '$lib/store/store-keys';
+import type { SupertagsStore } from '$lib/store/supertags-store';
+
+export interface SettingsObject {
+	[StoreKey.LocalstorageEnabled]: boolean;
+	[StoreKey.Theme]: string;
+	[StoreKey.BlockedContent]: Record<kurosearch.BlockingGroup, boolean>;
+	[StoreKey.ResultColumns]: string;
+	[StoreKey.Supertags]: SupertagsStore;
+}
+
 export const saveFile = async (content: string) => {
 	try {
 		const filename = 'kurosearch-config.json';

@@ -1,26 +1,28 @@
 <script lang="ts">
-	import type kurosearch from '$lib/types/kurosearch';
-	import { createEventDispatcher } from 'svelte';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 
-	export let dialog: HTMLDialogElement;
-	export let name = '';
-	export let description = '';
-	export let tags: kurosearch.ModifiedTag[];
+	interface Props {
+		dialog: HTMLDialogElement;
+		name?: string;
+		description?: string;
+		tags: kurosearch.ModifiedTag[];
+		onsubmit: (supertag: kurosearch.Supertag) => void;
+	}
 
-	const dispatch = createEventDispatcher();
+	let { dialog = $bindable(), name = '', description = '', tags, onsubmit }: Props = $props();
+
 	const close = () => dialog.close();
 
-	$: valid = typeof name === 'string' && name !== '' && tags.length > 1;
+	let valid = $derived(typeof name === 'string' && name !== '' && tags.length > 1);
 </script>
 
-<Dialog on:close={close} bind:dialog>
+<Dialog onclose={close} bind:dialog>
 	<section>
 		<h3>Create Supertag</h3>
 
-		<button type="button" class="codicon codicon-close" on:click={close} />
+		<button type="button" class="codicon codicon-close" onclick={close} aria-label="Close"></button>
 
 		<div>
 			<label for="supertag-name"> Name </label>
@@ -49,8 +51,8 @@
 			<TextButton
 				title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
 				disabled={!valid}
-				on:click={() => {
-					dispatch('submit', {
+				onclick={() => {
+					onsubmit({
 						name,
 						description,
 						tags: tags.map(({ modifier, name }) => ({ modifier, name }))

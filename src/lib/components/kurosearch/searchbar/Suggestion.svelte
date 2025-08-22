@@ -1,24 +1,27 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
 	import { formatTagname } from '$lib/logic/format-tag';
-	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		suggestion: kurosearch.Suggestion;
+		selected?: boolean;
+		onclick: (suggestion: kurosearch.Suggestion) => void;
+	}
 
-	export let suggestion: kurosearch.Suggestion;
-	export let selected = false;
+	let { suggestion, selected = false, onclick }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-to-interactive-role -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <li
 	role="button"
 	tabindex="0"
-	on:click={() => dispatch('click', suggestion)}
+	onclick={() => onclick(suggestion)}
 	title={suggestion.label}
 	class:selected
 >
-	<i class={suggestion.type === 'supertag' ? 'codicon codicon-star-full' : 'codicon codicon-tag'} />
+	<i class={suggestion.type === 'supertag' ? 'codicon codicon-star-full' : 'codicon codicon-tag'}>
+	</i>
 	<span class="tag-name">{formatTagname(suggestion.label)}</span>
 	<span class="tag-count">{formatCount(suggestion.count)}</span>
 </li>

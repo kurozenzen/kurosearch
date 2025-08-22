@@ -1,21 +1,25 @@
 <script lang="ts">
-	import { base } from '$app/paths';
+	import loadSrc from '$lib/assets/load.svg?url';
+	import pauseSrc from '$lib/assets/pause.svg?url';
+	import playSrc from '$lib/assets/play.svg?url';
 
-	const LOAD_SRC = `${base}/assets/load.svg`;
-	const PLAY_SRC = `${base}/assets/play.svg`;
-	const PAUSE_SRC = `${base}/assets/pause.svg`;
+	interface Props {
+		playing: boolean;
+		loading: boolean;
+		onclick?: () => void;
+		class?: string;
+	}
 
-	export let playing: boolean;
-	export let loading: boolean;
+	let { playing = $bindable(), loading = $bindable(), onclick, ...rest }: Props = $props();
 </script>
 
-<button type="button" on:click class={$$props.class}>
+<button type="button" {onclick} class={rest.class}>
 	{#if loading}
-		<img src={LOAD_SRC} alt="Loading GIF" width="16" height="32" />
+		<img src={loadSrc} alt="Loading GIF" width="16" height="32" />
 	{:else if playing}
-		<img src={PAUSE_SRC} alt="Stop GIF" width="16" height="32" />
+		<img src={pauseSrc} alt="Stop GIF" width="16" height="32" />
 	{:else}
-		<img src={PLAY_SRC} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
+		<img src={playSrc} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
 	{/if}
 </button>
 

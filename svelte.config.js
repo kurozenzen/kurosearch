@@ -38,6 +38,7 @@ const config = {
 				],
 				'img-src': [
 					'self',
+					'data:',
 					'https://rule34.xxx',
 					'https://*.rule34.xxx',
 					'https://*.googleusercontent.com',

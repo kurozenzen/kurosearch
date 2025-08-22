@@ -37,31 +37,37 @@
 		}
 	};
 
-	$: query = getQueryUrl(
-		new SearchBuilder()
-			.withApiKey($apiKey)
-			.withUserId($userId)
-			.withPid($results.pageCount)
-			.withTags($activeTags)
-			.withBlockedContent($blockedContent)
-			.withSortProperty($sort.property)
-			.withSortDirection($sort.direction)
-			.withScoreValue($filter.scoreValue)
-			.withScoreComparator($filter.scoreComparator)
-			.withRating($filter.rating)
-			.withSupertags($activeSupertags)
-			.getQuery()
+	let query = $derived(
+		getQueryUrl(
+			new SearchBuilder()
+				.withApiKey($apiKey)
+				.withUserId($userId)
+				.withPid($results.pageCount)
+				.withTags($activeTags)
+				.withBlockedContent($blockedContent)
+				.withSortProperty($sort.property)
+				.withSortDirection($sort.direction)
+				.withScoreValue($filter.scoreValue)
+				.withScoreComparator($filter.scoreComparator)
+				.withRating($filter.rating)
+				.withSupertags($activeSupertags)
+				.getQuery()
+		)
 	);
 
-	$: base = query && `${query.protocol}//${query.hostname}`;
-	$: fixedParams = query
-		? [...query.searchParams.entries()].filter(([key]) =>
-				['page', 's', 'q', 'fields', 'json', 'limit'].includes(key)
-			)
-		: [];
-	$: tags = query
-		? ([...query.searchParams.entries()].find(([key]) => key === 'tags') ?? ['tags', ''])
-		: ['tags', ''];
+	let server = $derived(query && `${query.protocol}//${query.hostname}`);
+	let fixedParams = $derived(
+		query
+			? [...query.searchParams.entries()].filter(([key]) =>
+					['page', 's', 'q', 'fields', 'json', 'limit'].includes(key)
+				)
+			: []
+	);
+	let tags = $derived(
+		query
+			? ([...query.searchParams.entries()].find(([key]) => key === 'tags') ?? ['tags', ''])
+			: ['tags', '']
+	);
 </script>
 
 <svelte:head>
@@ -77,9 +83,7 @@
 	<Searchbar
 		placeholder="Search for tags"
 		{fetchSuggestions}
-		on:pick={async (e) => {
-			const suggestion = e.detail;
-
+		onpick={async (suggestion) => {
 			if (suggestion.type === 'supertag') {
 				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
 				if (!supertag) {
@@ -88,11 +92,11 @@
 				}
 				activeSupertags.addOrReplace(supertag);
 			} else {
-				const tag = await getTagDetails(e.detail.label, $apiKey, $userId);
+				const tag = await getTagDetails(suggestion.label, $apiKey, $userId);
 				activeTags.addOrReplace({
-					name: e.detail.label,
-					modifier: e.detail.modifier,
-					count: e.detail.count,
+					name: suggestion.label,
+					modifier: suggestion.modifier,
+					count: suggestion.count,
 					type: tag?.type ?? 'tag'
 				});
 			}
@@ -100,14 +104,14 @@
 	/>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
-		on:click={(e) =>
-			'description' in e.detail
-				? activeSupertags.removeByName(e.detail.name)
-				: activeTags.removeByName(e.detail.name)}
-		on:contextmenu={(e) => {
-			if (!('description' in e.detail)) {
-				e.detail.modifier = nextModifier(e.detail.modifier);
-				activeTags.addOrReplace(e.detail);
+		onclick={(tag) =>
+			'description' in tag
+				? activeSupertags.removeByName(tag.name)
+				: activeTags.removeByName(tag.name)}
+		oncontextmenu={(tag) => {
+			if (!('description' in tag)) {
+				tag.modifier = nextModifier(tag.modifier);
+				activeTags.addOrReplace(tag);
 			}
 		}}
 	/>
@@ -116,7 +120,7 @@
 	</code>
 
 	<code>
-		<p class="base">{base}</p>
+		<p class="base">{server}</p>
 		{#each fixedParams as p}
 			<p class="fixed">{p[0]}={p[1]}</p>
 		{/each}

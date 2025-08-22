@@ -5,7 +5,11 @@
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
 
-	export let post: kurosearch.Post;
+	interface Props {
+		post: kurosearch.Post;
+	}
+
+	let { post }: Props = $props();
 </script>
 
 {#await getComments(post.id, $apiKey, $userId)}

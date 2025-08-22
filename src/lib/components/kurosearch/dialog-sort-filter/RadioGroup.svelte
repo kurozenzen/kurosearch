@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let name: string;
-	export let value: string;
-	export let options: Record<string, string>;
+	interface Props {
+		name: string;
+		value: string;
+		options: Record<string, string>;
+	}
+
+	let { name, value = $bindable(), options }: Props = $props();
 </script>
 
 <div id="group-{name}" role="radiogroup">

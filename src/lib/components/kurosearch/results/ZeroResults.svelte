@@ -1,18 +1,4 @@
-<script lang="ts">
-	import { base } from '$app/paths';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/filter-store';
-	import { createEventDispatcher } from 'svelte';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import { BLOCKING_GROUP_TAGS } from '$lib/logic/blocking-group-data';
-
-	const dispatch = createEventDispatcher();
-
-	$: conflictingTags = validateTags($activeTagsStore, $blockedContent, $activeSupertagsStore);
-
+<script module lang="ts">
 	const validateTags = (
 		activeTags: kurosearch.ModifiedTag[],
 		blockedContent: Record<kurosearch.BlockingGroup, boolean>,
@@ -83,13 +69,29 @@
 	};
 </script>
 
+<script lang="ts">
+	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
+	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { BLOCKING_GROUP_TAGS } from '$lib/logic/blocking-group-data';
+	import activeSupertagsStore from '$lib/store/active-supertags-store';
+	import activeTagsStore from '$lib/store/active-tags-store';
+	import blockedContent from '$lib/store/blocked-content-store';
+	import filter from '$lib/store/filter-store';
+	import sort from '$lib/store/sort-store';
+
+	interface Props {
+		onsortfilterupdate: () => void;
+	}
+
+	let { onsortfilterupdate }: Props = $props();
+
+	let conflictingTags = $derived(
+		validateTags($activeTagsStore, $blockedContent, $activeSupertagsStore)
+	);
+</script>
+
 <section>
-	<img
-		src="{base}/assets/lynxy-chibi-not-found.webp"
-		alt="Nothing here..."
-		width="1231"
-		height="864"
-	/>
+	<img src={notFoundSrc} alt="Nothing here..." width="1231" height="864" />
 
 	{#if conflictingTags.length}
 		<h6>
@@ -112,10 +114,10 @@
 		<TextButton
 			type="secondary"
 			title="In case your filter caused all posts to vanish. Reset it."
-			on:click={() => {
+			onclick={() => {
 				sort.reset();
 				filter.reset();
-				dispatch('sortfilterupdate');
+				onsortfilterupdate();
 			}}
 		>
 			Reset Filter
@@ -123,7 +125,7 @@
 		<TextButton
 			type="secondary"
 			title="Tag combinations that are too specific will not yield results."
-			on:click={() => {
+			onclick={() => {
 				activeTagsStore.reset();
 				activeSupertagsStore.reset();
 			}}

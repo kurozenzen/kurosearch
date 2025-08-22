@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let options: Record<string, string>;
-	export let value: string;
+	interface Props {
+		options: Record<string, string>;
+		value: string;
+	}
+
+	let { options, value = $bindable() }: Props = $props();
 </script>
 
 <select bind:value>

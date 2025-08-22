@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
+	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import results from '$lib/store/results-store';
+	import PageJump from '../page-navigation/PageJump.svelte';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
-	export let loading: boolean;
+	interface Props {
+		loading: boolean;
+		onsortfilterupdate: () => void;
+	}
+
+	let { loading, onsortfilterupdate }: Props = $props();
 </script>
 
-<div>
+<div id="result-header">
 	<span class:loading>{formatCount($results.postCount)} posts</span>
-	<SortFilterConfig on:sortfilterupdate />
+	<SortFilterConfig {onsortfilterupdate} />
 </div>
 
 <style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -8,26 +9,30 @@
 	import Rule34Source from '../source-rule34/Rule34Source.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
-	export let post: kurosearch.Post;
+	interface Props {
+		post: kurosearch.Post;
+	}
 
-	$: file_url = post.file_url;
-	$: sample_url = post.sample_url;
-	$: tagsByType = post.tags.reduce(
-		(result, tag) => {
-			if (result[tag.type] === undefined) {
-				result[tag.type] = [];
-			}
+	let { post }: Props = $props();
 
-			result[tag.type].push(tag);
+	let tagsByType = $derived(
+		post.tags.reduce(
+			(result, tag) => {
+				if (result[tag.type] === undefined) {
+					result[tag.type] = [];
+				}
 
-			return result;
-		},
-		{} as Record<string, kurosearch.Tag[]>
+				result[tag.type].push(tag);
+
+				return result;
+			},
+			{} as Record<string, kurosearch.Tag[]>
+		)
 	);
 </script>
 
 <div class="details">
-	<img class="preview" src={sample_url} alt="preview" />
+	<img class="preview" src={post.sample_url} alt="preview" />
 	<h1>Post <b>#{post.id}</b></h1>
 	<div class="flex-row">
 		<Rating value={post.rating} />
@@ -39,11 +44,13 @@
 		<RelativeTime value={post.change} />
 	</div>
 	<div class="flex-row">
-		<KurosearchSource url="/post?id={post.id}&src={encodeURIComponent(file_url)}" />
+		<KurosearchSource
+			url="{resolve('/post')}?id={post.id}&src={encodeURIComponent(post.file_url)}"
+		/>
 		<span>•</span>
 		<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
 		<span>•</span>
-		<Rule34Source url={file_url} />
+		<Rule34Source url={post.file_url} />
 		{#if post.source}
 			<span>•</span>
 			<ExternalSource source={post.source} />

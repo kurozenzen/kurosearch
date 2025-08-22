@@ -1,24 +1,19 @@
 <script>
-	import { base } from '$app/paths';
+	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 </script>
 
 <section>
-	<img
-		src="{base}/assets/lynxy-chibi-not-found.webp"
-		alt="No more results to load"
-		width="1231"
-		height="864"
-	/>
+	<img src={notFoundSrc} alt="No more results to load" width="1231" height="864" />
 
 	<p>You have seen everything there is to see...</p>
 	<div>
 		<TextButton
 			type="secondary"
 			title="Scroll back up."
-			on:click={() => {
+			onclick={() => {
 				window.scrollTo({ top: 0 });
 			}}
 		>
@@ -27,7 +22,7 @@
 		<TextButton
 			type="secondary"
 			title="Reset tags."
-			on:click={() => {
+			onclick={() => {
 				activeTagsStore.reset();
 				activeSupertagsStore.reset();
 			}}
