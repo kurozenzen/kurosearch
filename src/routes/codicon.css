@@ -189,3 +189,7 @@ i.codicon {
 .codicon-pass:before {
 	content: '\eba4';
 }
+
+.codicon-ellipsis:before {
+	content: '\ea7c';
+}

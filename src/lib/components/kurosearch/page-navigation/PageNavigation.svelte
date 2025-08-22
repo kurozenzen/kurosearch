@@ -24,7 +24,7 @@
 		<PageButton pid={0} onclick={() => onpagechange(0)} />
 	{/if}
 	{#if prevPid > 1}
-		<div>...</div>
+		<i class="codicon codicon-ellipsis"></i>
 	{/if}
 	{#if prevPid >= 0}
 		<PageButton pid={prevPid} onclick={() => onpagechange(prevPid)} />
@@ -36,7 +36,7 @@
 		<PageButton pid={nextPid} onclick={() => onpagechange(nextPid)} />
 	{/if}
 	{#if lastPid - nextPid > 1}
-		<div>...</div>
+		<i class="codicon codicon-ellipsis"></i>
 	{/if}
 	{#if nextPid < lastPid}
 		<PageButton pid={lastPid} onclick={() => onpagechange(lastPid)} />
