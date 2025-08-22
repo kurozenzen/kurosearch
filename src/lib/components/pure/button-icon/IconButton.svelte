@@ -1,3 +1,7 @@
+<script module lang="ts">
+	export type ButtonVariant = 'transparent' | 'with-background';
+</script>
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
@@ -8,12 +12,20 @@
 		onclick?: MouseEventHandler<HTMLButtonElement>;
 		'aria-label'?: string;
 		class?: string;
+		variant?: ButtonVariant;
 	}
 
-	let { id, children, onclick, ...rest }: Props = $props();
+	let { id, children, onclick, variant = 'transparent', ...rest }: Props = $props();
 </script>
 
-<button type="button" {id} class={rest.class} aria-label={rest['aria-label']} {onclick}>
+<button
+	type="button"
+	{id}
+	class={rest.class}
+	class:background={variant === 'with-background'}
+	aria-label={rest['aria-label']}
+	{onclick}
+>
 	{@render children?.()}
 </button>
 
@@ -30,6 +42,10 @@
 		background-color: transparent;
 		font-size: var(--text-size-large);
 		vertical-align: middle;
+	}
+
+	button.background {
+		background-color: var(--background-1);
 	}
 
 	@media (hover: hover) {

@@ -7,7 +7,7 @@
 
 <a class="card" href="#{id}">
 	<div class="icon">
-		<i class="codicon codicon-{icon}" />
+		<i class="codicon codicon-{icon}"></i>
 	</div>
 	<div class="text">
 		<h3>{title}</h3>

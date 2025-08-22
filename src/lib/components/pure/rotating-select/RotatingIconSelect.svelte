@@ -20,4 +20,10 @@
 	};
 </script>
 
-<IconButton {id} class={icon} onclick={rotate} aria-label={rest['aria-label']} />
+<IconButton
+	{id}
+	class={icon}
+	onclick={rotate}
+	aria-label={rest['aria-label']}
+	variant="with-background"
+/>

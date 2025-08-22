@@ -15,21 +15,21 @@ const config = {
 			name: child_process.execSync('git rev-parse HEAD').toString().trim().substring(0, 7)
 		},
 		csp: {
-			mode: 'hash',
+			mode: 'auto',
 			directives: {
+				'worker-src': ['self'],
 				'default-src': ['self'],
 				'style-src': ['self', 'unsafe-inline'],
 				'script-src': [
 					'self',
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
-					'sha256-51fKcXgBxMbTyZzP+VnzmnhFOLZ64S73BpdPcaakIR0=',
-					'sha256-WzU0zYiNe3qRp3XlJtEt/mWMUNNFRK0WkIy73ZU4dIM='
+					'sha256-OkhWme9R0KBn9/HhayIdrq4L0tupV+XoB9Z6NlRtT8g=',
+					'sha256-QQcRtQ7ld24zg8Aw+N4rSSUV74xluhui+0R1h02Axi4='
 				],
 				'connect-src': [
 					'self',
 					'https://apis.google.com',
-					'https://rule34.xxx',
 					'https://*.rule34.xxx',
 					'https://*.googleapis.com',
 					'https://*.google-analytics.com',
@@ -39,12 +39,11 @@ const config = {
 				'img-src': [
 					'self',
 					'data:',
-					'https://rule34.xxx',
 					'https://*.rule34.xxx',
 					'https://*.googleusercontent.com',
 					'https://www.googletagmanager.com'
 				],
-				'media-src': ['self', 'https://rule34.xxx', 'https://*.rule34.xxx'],
+				'media-src': ['self', 'https://*.rule34.xxx'],
 				'frame-src': ['https://r34-react.firebaseapp.com']
 			}
 		}
