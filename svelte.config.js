@@ -17,7 +17,7 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'worker-src': ['self'],
+				'worker-src': ['self', 'blob:'],
 				'default-src': ['self'],
 				'style-src': ['self', 'unsafe-inline'],
 				'script-src': [

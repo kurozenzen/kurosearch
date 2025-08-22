@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type ButtonVariant = 'transparent' | 'with-background';
+	export type ButtonVariant = 'transparent' | 'with-background' | 'half-background';
 </script>
 
 <script lang="ts">
@@ -23,6 +23,7 @@
 	{id}
 	class={rest.class}
 	class:background={variant === 'with-background'}
+	class:half-background={variant === 'half-background'}
 	aria-label={rest['aria-label']}
 	{onclick}
 >
@@ -46,6 +47,10 @@
 
 	button.background {
 		background-color: var(--background-1);
+	}
+
+	button.half-background {
+		background-color: #0008;
 	}
 
 	@media (hover: hover) {

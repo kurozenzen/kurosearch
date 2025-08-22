@@ -147,7 +147,7 @@
 {/await}
 
 {#if $autoplayFullscreenEnabled}
-	<FullscreenProgress bind:value={currentTime} max={$autoplayFullscreenDelay} />
+	<FullscreenProgress bind:value={currentTime} max={$autoplayFullscreenDelay} type="image" />
 {/if}
 
 <style>

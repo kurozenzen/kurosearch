@@ -113,6 +113,7 @@
 		<FullscreenDetails post={postCurrent} />
 		<IconButton
 			class="details-button"
+			variant="half-background"
 			onclick={() => current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
 		>
 			<i class="codicon codicon-tag"></i>

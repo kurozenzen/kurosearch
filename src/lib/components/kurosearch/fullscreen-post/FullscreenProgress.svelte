@@ -2,14 +2,16 @@
 	interface Props {
 		value: number;
 		max: number;
+		type: 'video' | 'image';
 	}
 
-	let { value = $bindable(), max }: Props = $props();
+	let { value = $bindable(), max, type }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div
+	class={type}
 	onclick={(e) => {
 		e.stopPropagation();
 		e.preventDefault();
@@ -39,9 +41,17 @@
 		left: var(--grid-gap);
 		bottom: 0;
 		box-sizing: border-box;
-		width: calc(100vw - 3 * var(--grid-gap) - var(--line-height));
+		width: calc(100vw - 4 * var(--grid-gap) - 2 * var(--line-height));
 		z-index: var(--z-media-controls);
 		height: calc(2 * var(--grid-gap) + var(--line-height));
+	}
+
+	div.video {
+		width: calc(100vw - 4 * var(--grid-gap) - 2 * var(--line-height));
+	}
+
+	div.image {
+		width: calc(100vw - 3 * var(--grid-gap) - var(--line-height));
 	}
 
 	input {
