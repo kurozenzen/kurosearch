@@ -1,14 +1,10 @@
-<script module lang="ts">
-	let volume: number = $state(1);
-</script>
-
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { formatVideoTime } from '$lib/logic/format-time';
 	import { getVideoSources } from '$lib/logic/media-utils';
 	import { videoObserver } from '$lib/logic/video-observer';
 	import { onDestroy, onMount } from 'svelte';
-	import VolumeControl from '../media-video/VolumeControl.svelte';
+	import VolumeControl, { getVolume } from '../media-video/VolumeControl.svelte';
 	import FullscreenProgress from './FullscreenProgress.svelte';
 
 	interface Props {
@@ -87,7 +83,7 @@
 		e.preventDefault();
 		e.stopPropagation();
 	}}
-	{volume}
+	volume={getVolume()}
 >
 </video>
 

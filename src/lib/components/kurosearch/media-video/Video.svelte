@@ -17,7 +17,7 @@
 	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
 	import PlayButton from '../button-play/PlayButton.svelte';
-	import VolumeControl from './VolumeControl.svelte';
+	import VolumeControl, { getVolume } from './VolumeControl.svelte';
 
 	interface Props {
 		src: string;
@@ -155,6 +155,7 @@
 			}}
 			preload="metadata"
 			style="aspect-ratio: {width} / {height}"
+			volume={getVolume()}
 		></video>
 		<PlayButton
 			playing={!video?.paused}

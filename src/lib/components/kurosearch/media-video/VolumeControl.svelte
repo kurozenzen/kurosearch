@@ -1,5 +1,7 @@
 <script module lang="ts">
 	let volume: number = $state(1);
+
+	export const getVolume = () => volume;
 </script>
 
 <script lang="ts">
