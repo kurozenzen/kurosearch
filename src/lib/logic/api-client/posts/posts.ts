@@ -59,7 +59,6 @@ export const getCount = async (tags: string, apiKey: string = '', userId: string
 export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
 	const indexedPost = getIndexedPost(id);
 	if (indexedPost !== undefined) {
-		console.log('Post retrieved from cache:', id);
 		return indexedPost;
 	}
 
