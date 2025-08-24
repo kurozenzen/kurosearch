@@ -7,6 +7,7 @@
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -15,7 +16,7 @@
 		onended?: () => void;
 	}
 
-	let { post, postId = -1, onended }: Props = $props();
+	let { post, postId = -1, onended, ondetails }: Props = $props();
 
 	const getSources = (type: string, file_url: string, sample_url: string, preview_url: string) => {
 		if (type === 'gif') {
@@ -131,7 +132,7 @@
 		oncontextmenu={(e) => e.preventDefault()}
 		onclick={togglePaused}
 	/>
-	<div>
+	<div class="loading-animation-container">
 		<LoadingAnimation />
 	</div>
 {:then _}
@@ -147,9 +148,14 @@
 	/>
 {/await}
 
-{#if $autoplayFullscreenEnabled}
-	<FullscreenProgress bind:value={currentTime} max={$autoplayFullscreenDelay} type="image" />
-{/if}
+<div class="controls">
+	{#if $autoplayFullscreenEnabled}
+		<FullscreenProgress bind:value={currentTime} max={$autoplayFullscreenDelay} type="image" />
+	{/if}
+	<IconButton variant="half-background" onclick={ondetails} class="fs-video-details-button">
+		<i class="codicon codicon-tag"></i>
+	</IconButton>
+</div>
 
 <style>
 	img {
@@ -163,7 +169,7 @@
 		scroll-snap-stop: always;
 	}
 
-	div {
+	.loading-animation-container {
 		position: absolute;
 		display: flex;
 		align-items: center;
@@ -175,5 +181,26 @@
 		width: 48px;
 		height: 48px;
 		border-radius: 24px;
+	}
+
+	.controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100vw;
+
+		display: flex;
+		padding: var(--small-gap);
+		gap: var(--small-gap);
+		box-sizing: border-box;
+
+		align-items: center;
+		justify-content: end;
+
+		z-index: var(--z-media-controls);
+	}
+
+	.controls :global(.fullscreen-progress) {
+		flex-grow: 1;
 	}
 </style>
