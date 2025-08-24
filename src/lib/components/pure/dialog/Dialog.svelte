@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onpopstate } from '$lib/logic/use/onpopstate';
-	import { onMount, type Snippet } from 'svelte';
+	import { onDestroy, onMount, type Snippet } from 'svelte';
 
 	interface Props {
 		dialog: HTMLDialogElement;
@@ -14,19 +14,25 @@
 		dialog.close();
 	};
 
+	const listener = (event: MouseEvent) => {
+		const rect = dialog.getBoundingClientRect();
+		const isInDialog =
+			rect.top <= event.clientY &&
+			event.clientY <= rect.top + rect.height &&
+			rect.left <= event.clientX &&
+			event.clientX <= rect.left + rect.width;
+		if (event.target === dialog && !isInDialog) {
+			dialog?.close();
+		}
+	};
+
 	onMount(() => {
 		// Close on backdrop click
-		dialog.addEventListener('click', (event) => {
-			const rect = dialog.getBoundingClientRect();
-			const isInDialog =
-				rect.top <= event.clientY &&
-				event.clientY <= rect.top + rect.height &&
-				rect.left <= event.clientX &&
-				event.clientX <= rect.left + rect.width;
-			if (event.target === dialog && !isInDialog) {
-				dialog?.close();
-			}
-		});
+		dialog.addEventListener('click', listener);
+	});
+
+	onDestroy(() => {
+		dialog.removeEventListener('click', listener);
 	});
 </script>
 

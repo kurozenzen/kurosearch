@@ -48,6 +48,9 @@
 
 	const onscroll = (event: Event) => {
 		requestAnimationFrame(() => {
+			if (!event.target) {
+				return;
+			}
 			const target = event.target as HTMLDivElement;
 			const height = target.getBoundingClientRect().height;
 			const newIndex = target.scrollTop / height;
