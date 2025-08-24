@@ -1,10 +1,8 @@
-import { addIndexedTag } from '$lib/indexeddb/idb';
+import { addIndexedPost, addIndexedTag, getIndexedPost } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
 import { API_URL, R34_API_URL } from '../url';
-
-const postCache = new Map<number, kurosearch.Post>();
 
 export const PAGE_SIZE = 20;
 
@@ -27,7 +25,7 @@ export const getPage = async (
 		const posts = data.map(parsePost) as kurosearch.Post[];
 
 		posts.forEach((post) => {
-			postCache.set(post.id, post);
+			addIndexedPost(post);
 			post.tags.forEach((tag) => {
 				addIndexedTag(tag);
 			});
@@ -59,25 +57,26 @@ export const getCount = async (tags: string, apiKey: string = '', userId: string
 };
 
 export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
-	if (!postCache.has(id)) {
-		let url = '';
-		if (userId && apiKey) {
-			url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`;
-		} else {
-			url = `${API_URL}/post?id=${id}`;
-		}
-		const response = await fetch(url);
-		throwOnUnexpectedStatus(response);
-		const data = await response.json();
-		const post = parsePost(data[0]);
-		postCache.set(post.id, post);
+	const indexedPost = getIndexedPost(id);
+	if (indexedPost !== undefined) {
+		console.log('Post retrieved from cache:', id);
+		return indexedPost;
 	}
 
-	const post = postCache.get(id);
-
-	if (post === undefined) {
-		throw new Error('Post cannot be undefined');
+	let url = '';
+	if (userId && apiKey) {
+		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`;
+	} else {
+		url = `${API_URL}/post?id=${id}`;
 	}
+
+	const response = await fetch(url);
+	throwOnUnexpectedStatus(response);
+
+	const data = await response.json();
+	const post = parsePost(data[0]);
+
+	addIndexedPost(post);
 
 	return post;
 };

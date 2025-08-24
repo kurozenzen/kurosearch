@@ -1,3 +1,4 @@
+import { addIndexedComments, getIndexedComments } from '$lib/indexeddb/idb';
 import { API_URL, R34_API_URL } from '../url';
 
 export type Comment = {
@@ -6,13 +7,14 @@ export type Comment = {
 	content: string;
 };
 
-export const getComments = async (
-	postId: number | undefined = undefined,
-	apiKey: string = '',
-	userId: string = ''
-) => {
-	if (typeof postId !== 'number' && postId !== undefined) {
+export const getComments = async (postId: number, apiKey: string = '', userId: string = '') => {
+	if (typeof postId !== 'number') {
 		throw new TypeError('Invalid postId');
+	}
+
+	const indexedComments = await getIndexedComments(postId);
+	if (indexedComments !== undefined) {
+		return indexedComments;
 	}
 
 	let url: URL;
@@ -21,10 +23,7 @@ export const getComments = async (
 	} else {
 		url = new URL(`${API_URL}/comments`);
 	}
-
-	if (postId !== undefined) {
-		url.searchParams.append('post_id', String(postId));
-	}
+	url.searchParams.append('post_id', String(postId));
 
 	const response = await fetch(url);
 	if (!response.ok) {
@@ -39,6 +38,7 @@ export const getComments = async (
 	for (const comment of xml.getElementsByTagName('comment')) {
 		comments.push(parseComment(comment.attributes));
 	}
+	addIndexedComments(postId, comments);
 
 	return comments;
 };

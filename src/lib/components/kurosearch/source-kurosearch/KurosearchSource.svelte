@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	interface Props {
-		url: string;
+		id: number;
 	}
 
-	let { url }: Props = $props();
+	let { id }: Props = $props();
+
+	let url = $derived(`${resolve('/post')}?id=${id}`);
 </script>
 
 <a href={url} target="_newtab" class="codicon codicon-link-external">Open</a>
