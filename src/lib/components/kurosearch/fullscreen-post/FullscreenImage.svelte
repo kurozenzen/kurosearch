@@ -11,6 +11,7 @@
 	interface Props {
 		post: kurosearch.Post;
 		postId?: number;
+		ondetails: () => void;
 		onended?: () => void;
 	}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -11,9 +11,10 @@
 
 	interface Props {
 		post: kurosearch.Post;
+		onreturn: () => void;
 	}
 
-	let { post }: Props = $props();
+	let { post, onreturn }: Props = $props();
 
 	let tagsByType = $derived(
 		post.tags.reduce(
@@ -32,6 +33,9 @@
 </script>
 
 <div class="details">
+	<IconButton onclick={onreturn} class="fs-button-return">
+		<i class="codicon codicon-chevron-left"></i>
+	</IconButton>
 	<img class="preview" src={post.sample_url} alt="preview" />
 	<h1>Post <b>#{post.id}</b></h1>
 	<div class="flex-row">
@@ -101,5 +105,12 @@
 		justify-content: center;
 		align-items: center;
 		gap: var(--small-gap);
+	}
+
+	:global(.fs-button-return) {
+		position: absolute;
+		top: calc(2 * var(--grid-gap) + var(--line-height));
+		left: calc(100vw + var(--grid-gap));
+		z-index: var(--z-media-controls);
 	}
 </style>

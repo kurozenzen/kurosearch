@@ -3,19 +3,21 @@
 </script>
 
 <script lang="ts">
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { formatVideoTime } from '$lib/logic/format-time';
 	import { getVideoSources } from '$lib/logic/media-utils';
 	import { videoObserver } from '$lib/logic/video-observer';
 	import { onDestroy, onMount } from 'svelte';
+	import VolumeControl from '../media-video/VolumeControl.svelte';
 	import FullscreenProgress from './FullscreenProgress.svelte';
-	import { formatVideoTime } from '$lib/logic/format-time';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
+		ondetails: () => void;
 		onended?: () => void;
 	}
 
-	let { post, onended }: Props = $props();
+	let { post, onended, ondetails }: Props = $props();
 
 	let video: HTMLVideoElement | undefined;
 
@@ -23,8 +25,8 @@
 
 	let currentTime = $state(0);
 	let paused = $state(false);
-	let duration: number | undefined = $state(undefined);
-	let isVolumeVisible = $state(false);
+	let duration: number | undefined = $state(1);
+	let timeLeft = $derived(duration - currentTime);
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (video) {
@@ -86,56 +88,52 @@
 		e.stopPropagation();
 	}}
 	{volume}
-></video>
-
-{#if currentTime !== undefined && duration !== undefined}
-	<span>{formatVideoTime(currentTime)} / {formatVideoTime(duration)}</span>
-{/if}
-
-{#if isVolumeVisible}
-	<input
-		class="volume-slider"
-		type="range"
-		min="0"
-		max="1"
-		step="0.01"
-		bind:value={volume}
-		onclick={(e) => {
-			e.stopPropagation();
-			e.preventDefault();
-		}}
-	/>
-{/if}
-
-<IconButton
-	id="volume-button"
-	variant="half-background"
-	onclick={() => {
-		isVolumeVisible = !isVolumeVisible;
-	}}
 >
-	🔊
-</IconButton>
+</video>
 
-<FullscreenProgress bind:value={currentTime} max={duration} type="video" />
+<div class="fs-controls" class:tucked={!paused}>
+	<span>{formatVideoTime(timeLeft)}</span>
+	<FullscreenProgress bind:value={currentTime} max={duration} type="video" />
+	<VolumeControl class="fs-volume-button" />
+	<IconButton variant="half-background" onclick={ondetails} class="fs-video-details-button">
+		<i class="codicon codicon-tag"></i>
+	</IconButton>
+</div>
 
 <style>
 	video {
-		display: flex;
+		display: block;
 		width: 100vw;
 		height: 100vh;
+		contain: strict;
 		object-fit: contain;
-		contain: paint;
-
 		scroll-snap-align: start;
 		scroll-snap-stop: always;
+		z-index: var(--z-media);
+	}
+
+	.fs-controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100vw;
+
+		display: flex;
+		padding: var(--small-gap);
+		gap: var(--small-gap);
+		box-sizing: border-box;
+
+		align-items: center;
+
+		z-index: var(--z-media-controls);
 	}
 
 	span {
-		position: absolute;
-		bottom: 3rem;
-		left: var(--grid-gap);
+		grid-column: 1 / span 1;
+		grid-row: 1 / span 1;
 
+		align-self: center;
+		justify-self: start;
 		font-size: 12px;
 		background-color: #0008;
 		border-radius: var(--tiny-gap);
@@ -144,22 +142,35 @@
 		user-select: none;
 	}
 
-	:global(#volume-button) {
-		position: absolute;
-		bottom: 1rem;
-		right: calc(2 * var(--grid-gap) + var(--line-height));
-		z-index: var(--z-media-controls);
+	:global(.fs-controls .video) {
+		grid-column: 1 / span 2;
+		grid-row: 2;
+		flex-grow: 1;
 	}
 
-	.volume-slider {
-		writing-mode: vertical-lr;
-		display: flex;
-		justify-content: center;
-		position: absolute;
-		transform: rotate(180deg);
-		bottom: calc(2 * var(--grid-gap) + var(--line-height));
-		right: calc(2 * var(--grid-gap) + var(--line-height));
-		width: var(--line-height);
-		z-index: var(--z-media-controls);
+	:global(.fs-controls .fs-volume-button) {
+		grid-column: 3;
+		grid-row: 1 / span 2;
+	}
+
+	:global(.fs-controls .fs-video-details-button) {
+		grid-column: 4;
+		grid-row: 1 / span 2;
+	}
+
+	:global(.fs-controls .fullscreen-progress) {
+		transition: transform var(--default-transition-behaviour);
+	}
+
+	:global(.fs-controls button) {
+		transition: opacity var(--default-transition-behaviour);
+	}
+
+	:global(.fs-controls.tucked .fullscreen-progress) {
+		transform: translateY(calc(var(--small-gap) + 50% - 2px));
+	}
+
+	:global(.fs-controls.tucked button) {
+		opacity: 0;
 	}
 </style>

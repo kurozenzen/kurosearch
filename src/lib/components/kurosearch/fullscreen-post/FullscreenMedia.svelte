@@ -4,17 +4,18 @@
 
 	interface Props {
 		post: kurosearch.Post;
+		ondetails: () => void;
 		onended?: () => void;
 	}
 
-	let { post, onended }: Props = $props();
+	let { post, onended, ondetails }: Props = $props();
 </script>
 
 <div>
 	{#if post.type === 'video'}
-		<FullscreenVideo {post} {onended} />
+		<FullscreenVideo {post} {onended} {ondetails} />
 	{:else}
-		<FullscreenImage {post} {onended} />
+		<FullscreenImage {post} {onended} {ondetails}/>
 	{/if}
 </div>
 

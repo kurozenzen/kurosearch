@@ -1,9 +1,23 @@
+<script module lang="ts">
+	let playingVideo: HTMLVideoElement | undefined = $state(undefined);
+
+	export function pausePlayingVideo() {
+		if (playingVideo) {
+			playingVideo.pause();
+			playingVideo = undefined;
+		}
+	}
+
+	const SKIP_TIME = 5;
+</script>
+
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { formatVideoTime } from '$lib/logic/format-time';
 	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import PlayButton from '../button-play/PlayButton.svelte';
+	import VolumeControl from './VolumeControl.svelte';
 
 	interface Props {
 		src: string;
@@ -15,25 +29,44 @@
 		onclick?: () => void;
 	}
 
-	const SKIP_TIME = 5;
-
 	let { src, poster, width, height, loop = false, onclick, ...rest }: Props = $props();
 
 	let container: HTMLDivElement;
 	let video: HTMLVideoElement | undefined = $state(undefined);
 
-	let playing = $state(false);
-	let loading = $state(false);
-	let currentTime = $state(0);
-	let duration = $state(0);
 	let displayVideo = $state(false);
+
+	let paused = $state(true);
+	let loading = $state(false);
+
+	let duration = $state(0);
+	let currentTime = $state(0);
+	let timeLeft = $derived(duration - currentTime);
+	let percent = $derived((currentTime / duration) * 98 + 1);
+
 	let intentHideOverlay = $state(false);
+	let hideOverlay = $derived(!paused && !loading && intentHideOverlay);
+
+	const togglePlaying = () => {
+		if (video) {
+			if (video.paused) {
+				video.play();
+				playingVideo = video;
+			} else {
+				video.pause();
+			}
+		}
+	};
 
 	const skipBackward = () => {
-		currentTime = Math.max(0, currentTime - SKIP_TIME);
+		if (video) {
+			video.currentTime = Math.max(0, video.currentTime - SKIP_TIME);
+		}
 	};
 	const skipForward = () => {
-		currentTime = Math.min(duration, currentTime + SKIP_TIME);
+		if (video) {
+			video.currentTime = Math.min(video.duration, video.currentTime + SKIP_TIME);
+		}
 	};
 
 	const skip = (event: MouseEvent) => {
@@ -48,7 +81,7 @@
 		if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
 			event.stopPropagation();
-			playing = !playing;
+			togglePlaying();
 		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
 			event.preventDefault();
 			event.stopPropagation();
@@ -68,16 +101,8 @@
 							displayVideo = true;
 						} else {
 							if (video) {
-								playing = false;
-								loading = false;
-								video.addEventListener(
-									'error',
-									() => {
-										displayVideo = false;
-										playing = false;
-									},
-									{ once: true }
-								);
+								video.pause();
+								video.addEventListener('error', () => (displayVideo = false), { once: true });
 								video.src = '';
 							}
 						}
@@ -87,16 +112,6 @@
 			)
 		: null;
 
-	let timeLeft = $derived(duration - currentTime);
-	let paused = $derived(!playing);
-	let percent = $derived((currentTime / duration) * 98 + 1);
-	let hideOverlay = $derived(playing && !loading && intentHideOverlay);
-
-	const togglePlaying = () => {
-		playing = !playing;
-		loading = true;
-		intentHideOverlay = playing;
-	};
 	const toggleOverlay = () => {
 		intentHideOverlay = !intentHideOverlay;
 	};
@@ -130,7 +145,6 @@
 			onended={() => {
 				if (!loop) {
 					loading = false;
-					playing = false;
 				}
 			}}
 			onclick={toggleOverlay}
@@ -140,40 +154,45 @@
 				skip(e);
 			}}
 			preload="metadata"
-			style={`aspect-ratio: ${width} / ${height}`}
+			style="aspect-ratio: {width} / {height}"
 		></video>
-		<span class:hide={intentHideOverlay} class="hidable">{formatVideoTime(timeLeft)}</span>
-		<input
-			bind:value={currentTime}
-			type="range"
-			min={0}
-			max={duration}
-			step={0.0166666}
-			class="hidable"
-			class:hide={hideOverlay}
-			style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
-		/>
 		<PlayButton
-			{playing}
+			playing={!video?.paused}
 			{loading}
-			class={`center hidable ${hideOverlay ? 'hide' : ''}`}
+			class="center hidable {hideOverlay ? 'hide' : ''}"
 			onclick={togglePlaying}
 		/>
+		<div class="video-controls">
+			<span class:hide={hideOverlay} class="hidable">{formatVideoTime(timeLeft)}</span>
+			<input
+				bind:value={currentTime}
+				type="range"
+				min={0}
+				max={duration}
+				step={0.0166666}
+				class="hidable"
+				class:hide={hideOverlay}
+				style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
+			/>
+
+			<VolumeControl class="volume-control {hideOverlay ? 'hide' : ''}" />
+		</div>
 	{/if}
 </div>
 
 <style>
-	div {
+	.player {
 		width: 100%;
 		position: relative;
 		display: grid;
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: 1fr;
 		grid-template-rows: 1fr auto 1fr;
 		z-index: var(--z-media);
 	}
 	video {
 		width: 100%;
-		grid-area: 1/1/4/4;
+		grid-column: 1;
+		grid-row: 1 / span 3;
 		contain: strict;
 		object-fit: contain;
 	}
@@ -184,12 +203,18 @@
 		}
 	}
 
+	.video-controls {
+		grid-column: 1;
+		grid-row: 3;
+		display: flex;
+		align-items: center;
+		align-self: end;
+		gap: var(--small-gap);
+		padding: var(--small-gap);
+		z-index: var(--z-media-controls);
+	}
+
 	span {
-		z-index: 15;
-		grid-area: 3/3/4/4;
-		place-self: end;
-		margin-bottom: 26px;
-		margin-inline: 12px;
 		font-size: 12px;
 		background-color: #0008;
 		border-radius: var(--tiny-gap);
@@ -199,16 +224,15 @@
 	}
 
 	input[type='range'] {
+		flex-grow: 1;
 		appearance: none;
 		-webkit-appearance: none;
-		height: 26px;
-		z-index: 15;
+		height: var(--line-height);
 		margin: 0;
-		grid-area: 3/1/4/4;
 		align-self: flex-end;
 		background-clip: content-box;
-		padding-block: 12px;
-		margin-inline: 8px;
+		padding-block: 14px;
+		border-radius: 2px;
 	}
 
 	input[type='range']::-webkit-slider-runnable-track {
@@ -247,7 +271,9 @@
 
 	.player :global(.center) {
 		z-index: 15;
-		grid-area: 2/2/3/3;
+		grid-column: 1;
+		grid-row: 2;
+		justify-self: center;
 	}
 
 	.player :global(.hidable) {

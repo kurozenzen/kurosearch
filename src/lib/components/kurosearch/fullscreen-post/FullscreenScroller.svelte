@@ -112,15 +112,17 @@
 		bind:this={current}
 		style:top={offsetCurrent}
 	>
-		<FullscreenMedia post={postCurrent} onended={autoscroll} />
-		<FullscreenDetails post={postCurrent} />
-		<IconButton
-			class="details-button"
-			variant="half-background"
-			onclick={() => current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
-		>
-			<i class="codicon codicon-tag"></i>
-		</IconButton>
+		<FullscreenMedia
+			post={postCurrent}
+			onended={autoscroll}
+			ondetails={() =>
+				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
+		/>
+		<FullscreenDetails
+			post={postCurrent}
+			onreturn={() =>
+				current.scrollBy({ left: -container.clientWidth, top: 0, behavior: 'smooth' })}
+		/>
 	</div>
 	{#if postNext}
 		<FullscreenPreview post={postNext} offset={offsetNext} />
@@ -168,6 +170,7 @@
 
 	.current {
 		position: absolute;
+		overflow-y: hidden;
 	}
 
 	.horizontal {
@@ -200,12 +203,6 @@
 		100% {
 			transform: translateX(0px);
 		}
-	}
-
-	:global(.details-button) {
-		position: absolute;
-		bottom: var(--grid-gap);
-		right: var(--grid-gap);
 	}
 
 	:global(.hint > *) {
