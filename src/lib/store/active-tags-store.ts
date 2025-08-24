@@ -15,11 +15,11 @@ const createActiveTagsStore = () => {
 			update((previous) => {
 				const i = previous.findIndex((active) => active.name === tag.name);
 				if (i === -1) {
-					previous.push(tag);
+					previous.push({ ...tag });
 				} else {
-					previous[i] = tag;
+					previous[i] = { ...tag };
 				}
-				return previous;
+				return [...previous];
 			}),
 		addByName: async (
 			name: string,

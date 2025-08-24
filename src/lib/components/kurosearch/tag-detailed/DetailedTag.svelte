@@ -20,8 +20,16 @@
 	class:active
 	class="{MODIFIER_NAMES[tag.modifier]} {icon}"
 	title="Click to remove tag"
-	{onclick}
-	{oncontextmenu}
+	onclick={(e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		onclick?.(e);
+	}}
+	oncontextmenu={(e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		oncontextmenu?.(e);
+	}}
 >
 	{formatActiveTag(tag)}
 </button>

@@ -121,6 +121,7 @@
 			if (!('description' in tag)) {
 				tag.modifier = nextModifier(tag.modifier);
 				activeTags.addOrReplace(tag);
+				console.log(tag);
 			}
 		}}
 		oncreateSupertag={() => {
