@@ -1,4 +1,4 @@
-import { addIndexedPost, addIndexedTag, getIndexedPost } from '$lib/indexeddb/idb';
+import { addIndexedPosts, addIndexedPost, getIndexedPost } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
@@ -24,12 +24,7 @@ export const getPage = async (
 
 		const posts = data.map(parsePost) as kurosearch.Post[];
 
-		posts.forEach((post) => {
-			addIndexedPost(post);
-			post.tags.forEach((tag) => {
-				addIndexedTag(tag);
-			});
-		});
+		addIndexedPosts(posts);
 
 		return posts;
 	} catch (error) {

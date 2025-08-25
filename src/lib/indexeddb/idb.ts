@@ -3,74 +3,55 @@ const POST_LIFETIME_HOURS = 48;
 
 let idb: IDBDatabase | undefined;
 
-const cleanOldComments = async () =>
-	new Promise<void>((resolve) => {
-		if (!idb) {
-			resolve();
-			return;
-		}
-		const transaction = idb.transaction('comments', 'readwrite');
-		const store = transaction.objectStore('comments');
-		const index = store.index('indexedAt');
-		const threshold = new Date().getTime() / 1000 / 60 / 60 - COMMENT_LIFETIME_HOURS;
-		const range = IDBKeyRange.upperBound(threshold);
-		const request = index.openCursor(range);
-		request.onsuccess = (event) => {
-			const cursor = (event.target as IDBRequest).result;
-			if (cursor) {
-				store.delete(cursor.primaryKey);
-				cursor.continue();
-			}
-		};
-		transaction.oncomplete = () => resolve();
-		transaction.onerror = (event) => {
-			console.error('Error cleaning old comments:', event);
-			resolve();
-		};
-	});
+const currentHour = () => Math.round(new Date().getTime() / 1000 / 60 / 60);
 
-const cleanOldPosts = async () =>
+const clean = async () =>
 	new Promise<void>((resolve) => {
 		if (!idb) {
 			resolve();
 			return;
 		}
-		const transaction = idb.transaction('posts', 'readwrite');
-		const store = transaction.objectStore('posts');
-		const index = store.index('indexedAt');
-		const threshold = new Date().getTime() / 1000 / 60 / 60 - POST_LIFETIME_HOURS;
+
+		const transaction = idb.transaction(['comments', 'posts'], 'readwrite');
+		transaction.addEventListener('error', () => resolve());
+		transaction.addEventListener('complete', () => resolve());
+		transaction.addEventListener('abort', () => resolve());
+
+		const threshold = currentHour() - COMMENT_LIFETIME_HOURS;
 		const range = IDBKeyRange.upperBound(threshold);
-		const request = index.openCursor(range);
-		request.onsuccess = (event) => {
+
+		const commentStore = transaction.objectStore('comments');
+		const commentRequest = transaction.objectStore('comments').index('indexedAt').openCursor(range);
+		commentRequest.addEventListener('success', (event) => {
 			const cursor = (event.target as IDBRequest).result;
 			if (cursor) {
-				store.delete(cursor.primaryKey);
+				commentStore.delete(cursor.primaryKey);
 				cursor.continue();
 			}
-		};
-		transaction.oncomplete = () => resolve();
-		transaction.onerror = (event) => {
-			console.error('Error cleaning old posts:', event);
-			resolve();
-		};
+		});
+
+		const postStore = transaction.objectStore('posts');
+		const postRequest = postStore.index('indexedAt').openCursor(range);
+		postRequest.addEventListener('success', (event) => {
+			const cursor = (event.target as IDBRequest).result;
+			if (cursor) {
+				postStore.delete(cursor.primaryKey);
+				cursor.continue();
+			}
+		});
 	});
 
 const initIdb = async (): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
-		const dbRequest = indexedDB.open('kurosearch', 2);
-
-		dbRequest.onsuccess = (event) => resolve((event.target as IDBOpenDBRequest).result);
-		dbRequest.onerror = (event) => {
-			console.error('Error opening tag database:', event);
-			reject(event);
-		};
-		dbRequest.onupgradeneeded = (event) => {
+		const request = indexedDB.open('kurosearch', 3);
+		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		request.addEventListener('error', (e) => reject(e));
+		request.addEventListener('upgradeneeded', (event) => {
 			const db = (event.target as IDBOpenDBRequest).result;
 			const transaction = (event.target as IDBOpenDBRequest).transaction!;
-			db.onerror = (event) => {
-				console.error('Error during tag database upgrade:', event);
-				reject(event);
-			};
+			transaction.addEventListener('complete', () => resolve(db));
+			transaction.addEventListener('error', (e) => reject(e));
+			transaction.addEventListener('abort', (e) => reject(e));
 
 			// had too many indices in the past, oops. Remove them all first.
 			if (db.objectStoreNames.contains('tags')) {
@@ -105,19 +86,13 @@ const initIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('posts')) {
 				try {
-					let postStore = db.createObjectStore('posts', { keyPath: 'id' });
+					const postStore = db.createObjectStore('posts', { keyPath: 'id' });
 					postStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
 					reject(e);
 				}
 			}
-
-			transaction.oncomplete = () => resolve(db);
-			transaction.onerror = (event) => {
-				console.error('Error during tag database upgrade transaction:', event);
-				reject(event);
-			};
-		};
+		});
 	});
 };
 
@@ -125,119 +100,117 @@ initIdb()
 	.then((db) => {
 		idb = db;
 	})
-	.then(() => cleanOldPosts())
-	.then(() => cleanOldComments())
-	.catch((error) => {
-		console.error('Failed to initialize IndexedDB:', error);
-	});
+	.catch((error) => console.error('Failed to initialize IndexedDB:', error))
+	.then(clean)
+	.catch((error) => console.error('Failed to clean IndexedDB:', error));
 
-export const addIndexedTag = async (tag: kurosearch.Tag): Promise<void> => {
-	return new Promise((resolve, reject) => {
-		if (!idb) {
-			resolve();
-			return;
-		}
-		const request = idb.transaction('tags', 'readwrite').objectStore('tags').put(tag);
-		request.onsuccess = () => resolve();
-		request.onerror = (event) => {
-			console.error('Error adding tag:', event);
-			reject(event);
-		};
-	});
+export const addIndexedTag = (tag: kurosearch.Tag) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction('tags', 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Tag Index Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Tag Index Abort:', e));
+
+	const store = transaction.objectStore('tags');
+	const request = store.put(tag);
+	request.addEventListener('error', (e) => console.error('[R] Tag Index Error:', e));
 };
 
-export const getIndexedTag = async (name: string): Promise<kurosearch.Tag | undefined> => {
-	return new Promise((resolve) => {
+export const addIndexedComments = (postId: number, comments: kurosearch.Comment[]) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction('comments', 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Comment Index Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Comment Index Abort:', e));
+
+	const indexedAt = currentHour();
+	const request = transaction.objectStore('comments').put({ postId, comments, indexedAt });
+	request.addEventListener('error', (e) => console.error('[R] Comment Index Error:', e));
+};
+
+export const addIndexedPost = (post: kurosearch.Post) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction('posts', 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Post Index Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Post Index Abort:', e));
+
+	const indexedAt = currentHour();
+	const request = transaction.objectStore('posts').put({ ...post, indexedAt });
+	request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
+};
+
+export const addIndexedPosts = (posts: kurosearch.Post[]) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction(['posts', 'tags'], 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Posts Index Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Posts Index Abort:', e));
+
+	const indexedAt = currentHour();
+
+	for (const post of posts) {
+		const postStore = transaction.objectStore('posts');
+		const request = postStore.put({ ...post, indexedAt });
+		request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
+
+		for (const tag of post.tags) {
+			const tagStore = transaction.objectStore('tags');
+			const tagRequest = tagStore.put(tag);
+			tagRequest.addEventListener('error', (e) => console.error('[R] Tag Index Error:', e));
+		}
+	}
+};
+
+export const getIndexedTag = async (name: string): Promise<kurosearch.Tag | undefined> =>
+	new Promise((resolve) => {
 		if (!idb) {
 			resolve(undefined);
 			return;
 		}
-		idb.transaction('tags', 'readonly').objectStore('tags').get(name).onsuccess = (event) => {
-			const tag = (event.target as IDBRequest).result;
-			resolve(tag);
-		};
-	});
-};
+		const transaction = idb.transaction('tags', 'readonly');
+		transaction.addEventListener('error', () => resolve(undefined));
+		transaction.addEventListener('abort', () => resolve(undefined));
 
-export const addIndexedComments = async (
-	post_id: number,
-	comments: kurosearch.Comment[]
-): Promise<void> => {
-	return new Promise((resolve, reject) => {
-		if (!idb) {
-			resolve();
-			return;
-		}
-		const request = idb
-			.transaction('comments', 'readwrite')
-			.objectStore('comments')
-			.put({
-				postId: post_id,
-				comments: comments,
-				indexedAt: Math.round(new Date().getTime() / 1000 / 60 / 60) // store in hours
-			});
-		request.onsuccess = () => resolve();
-		request.onerror = (event) => {
-			console.error('Error adding comments:', event);
-			reject(event);
-		};
+		const request = transaction.objectStore('tags').get(name);
+		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 	});
-};
 
 export const getIndexedComments = async (
 	postId: number
-): Promise<kurosearch.Comment[] | undefined> => {
-	return new Promise((resolve) => {
+): Promise<kurosearch.Comment[] | undefined> =>
+	new Promise((resolve) => {
 		if (!idb) {
 			resolve(undefined);
 			return;
 		}
-		idb.transaction('comments', 'readonly').objectStore('comments').get(postId).onsuccess = (
-			event
-		) => {
-			const commentsWithPostId = (event.target as IDBRequest).result;
-			if (commentsWithPostId === undefined) {
-				resolve(undefined);
-			} else {
-				const comments: kurosearch.Comment[] = commentsWithPostId.comments;
-				resolve(comments);
-			}
-		};
+		const transaction = idb.transaction('comments', 'readonly');
+		transaction.addEventListener('error', () => resolve(undefined));
+		transaction.addEventListener('abort', () => resolve(undefined));
+
+		const request = transaction.objectStore('comments').get(postId);
+
+		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result?.comments));
 	});
-};
 
-export const addIndexedPost = async (post: kurosearch.Post): Promise<void> => {
-	return new Promise((resolve, reject) => {
-		if (!idb) {
-			resolve();
-			return;
-		}
-
-		const request = idb
-			.transaction('posts', 'readwrite')
-			.objectStore('posts')
-			.put({
-				...post,
-				indexedAt: Math.round(new Date().getTime() / 1000 / 60 / 60) // store in hours
-			});
-
-		request.onsuccess = () => resolve();
-		request.onerror = (event) => {
-			console.error('Error indexing post:', event);
-			reject(event);
-		};
-	});
-};
-
-export const getIndexedPost = async (id: number): Promise<kurosearch.Post | undefined> => {
-	return new Promise((resolve) => {
+export const getIndexedPost = async (id: number): Promise<kurosearch.Post | undefined> =>
+	new Promise((resolve) => {
 		if (!idb) {
 			resolve(undefined);
 			return;
 		}
-		idb.transaction('posts', 'readonly').objectStore('posts').get(id).onsuccess = (event) => {
-			const post = (event.target as IDBRequest).result;
-			resolve(post);
-		};
+		const transaction = idb.transaction('posts', 'readonly');
+		transaction.addEventListener('error', () => resolve(undefined));
+		transaction.addEventListener('abort', () => resolve(undefined));
+
+		const request = transaction.objectStore('posts').get(id);
+		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 	});
-};

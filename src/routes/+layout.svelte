@@ -22,6 +22,8 @@
 
 	const userPhoto: string | undefined = undefined;
 
+	const year = new Date().getFullYear()
+
 	theme.subscribe((value) => {
 		if (browser) {
 			const [accent, theme] = value.split(' ');
@@ -72,7 +74,7 @@
 			target="_blank"
 		/>
 
-		<span class="copyright">© 2023 kurozenzen</span>
+		<span class="copyright">© {year} kurozenzen</span>
 
 		<CodiconTextLink
 			title="About"
