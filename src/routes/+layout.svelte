@@ -22,7 +22,7 @@
 
 	const userPhoto: string | undefined = undefined;
 
-	const year = new Date().getFullYear()
+	const year = new Date().getFullYear();
 
 	theme.subscribe((value) => {
 		if (browser) {

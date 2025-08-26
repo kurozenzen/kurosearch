@@ -5,7 +5,6 @@
 	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
-	import type { FocusEventHandler } from 'svelte/elements';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import Suggestion from './Suggestion.svelte';
 

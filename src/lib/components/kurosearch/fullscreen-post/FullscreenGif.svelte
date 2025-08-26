@@ -1,6 +1,6 @@
 <script module lang="ts">
-	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
 
 	let enabled = false;
 	let delay = 15;
@@ -18,9 +18,9 @@
 </script>
 
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { getGifSources } from '$lib/logic/media-utils';
 	import { onDestroy, onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
@@ -32,13 +32,11 @@
 
 	let { post, postId = -1, onended, ondetails }: Props = $props();
 
-	let sources = $derived(
-		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
-	);
+	let sources = $derived(getGifSources(post.file_url, post.sample_url, post.preview_url));
 
 	let currentTime = $state(0);
 	let paused = $state(!$autoplayFullscreenEnabled);
-	let loading = $state(true);
+	let loading = $state($autoplayFullscreenEnabled);
 
 	let animationHandle: number;
 
@@ -116,17 +114,28 @@
 	});
 </script>
 
+{#if !paused}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<img
+		src={sources.animated}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		onload={() => (loading = false)}
+		use:pauseoffscreen
+	/>
+{/if}
+
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <img
-	src={sources[1]}
+	src={sources.static}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
-	use:pauseoffscreen
-	onload={() => (loading = false)}
 />
-<img src={sources[0]} alt="[{post.type}] post #{post.id}" title="[{post.type}] post #{post.id}" />
 
 <PostOverlay
-	mediaType="img"
+	mediaType="gif"
 	{paused}
 	{loading}
 	{ontoggleplay}

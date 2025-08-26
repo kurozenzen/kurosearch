@@ -1,5 +1,4 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
 	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';

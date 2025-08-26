@@ -4,22 +4,22 @@
 	import playSrc from '$lib/assets/play.svg?url';
 
 	interface Props {
-		playing: boolean;
+		paused: boolean;
 		loading: boolean;
-		onclick?: () => void;
+		onclick?: (e: MouseEvent) => void;
 		class?: string;
 	}
 
-	let { playing = $bindable(), loading = $bindable(), onclick, ...rest }: Props = $props();
+	let { paused, loading, onclick, ...rest }: Props = $props();
 </script>
 
 <button type="button" {onclick} class={rest.class}>
 	{#if loading}
 		<img src={loadSrc} alt="Loading GIF" width="16" height="32" />
-	{:else if playing}
-		<img src={pauseSrc} alt="Stop GIF" width="16" height="32" />
-	{:else}
+	{:else if paused}
 		<img src={playSrc} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
+	{:else}
+		<img src={pauseSrc} alt="Stop GIF" width="16" height="32" />
 	{/if}
 </button>
 

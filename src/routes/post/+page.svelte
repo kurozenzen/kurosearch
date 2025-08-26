@@ -10,7 +10,7 @@
 	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
 	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import PreviewedImage from '$lib/components/pure/smart-image/PreviewedImage.svelte';
+	import PostImage from '$lib/components/pure/smart-image/PostImage.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
@@ -35,7 +35,7 @@
 				<span>Post not found</span>
 			{:else}
 				{#if post.type === 'image'}
-					<PreviewedImage {post} />
+					<PostImage {post} />
 				{:else if post.type === 'video'}
 					{@const sources = getVideoSources(post.file_url, post.sample_url, post.preview_url)}
 					{@const animatedSource = sources.animated}

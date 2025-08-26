@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PostOverlay from '$lib/components/kurosearch/post-overlay/PostOverlay.svelte';
 	import {
 		calculateAspectRatio,
 		calculateAspectRatioCss
@@ -9,9 +10,10 @@
 	interface Props {
 		post: kurosearch.Post;
 		onclick?: () => void;
+		onfullscreen?: () => void;
 	}
 
-	let { post, onclick }: Props = $props();
+	let { post, onclick, onfullscreen }: Props = $props();
 
 	const onclickinternal = () => {
 		open = !open;
@@ -24,15 +26,21 @@
 	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
 	let alt = $derived(post.id.toString());
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
-	let expandable = $derived(ratio < 0.4);
+	let canOpen = $derived(ratio < 0.4);
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class:expandable class:open onclick={onclickinternal} style="aspect-ratio: {cssRation};">
+<div
+	class:can-open={canOpen}
+	class:open
+	onclick={onclickinternal}
+	style="aspect-ratio: {cssRation};"
+>
 	<ObservedImage src={previewSrc} {alt} width={post.width} height={post.height} />
 	<ObservedImage src={actualSrc} {alt} width={post.width} height={post.height} />
+	<PostOverlay mediaType="img" {onfullscreen} />
 </div>
 
 <style>
@@ -40,19 +48,18 @@
 		position: relative;
 	}
 
-	.expandable:not(.open) {
+	.can-open:not(.open) {
 		width: 100%;
 		max-height: 100vh;
 		overflow: hidden;
-		position: relative;
 	}
 
-	.expandable:not(.open)::before {
+	.can-open:not(.open)::before {
 		position: absolute;
 		z-index: 100;
 		text-align: center;
 		width: 100%;
-		content: 'Expand';
+		content: 'Show more';
 		padding: var(--grid-gap);
 		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
 		user-select: none;

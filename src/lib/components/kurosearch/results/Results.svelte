@@ -3,6 +3,7 @@
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
+	import { pausePlayingVideo } from '../media-video/Video.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 
@@ -22,6 +23,11 @@
 		fullscreenIndex = undefined;
 	};
 
+	const onfullscreen = (index: number) => {
+		pausePlayingVideo();
+		fullscreenIndex = index;
+	};
+
 	$effect(() => {
 		if (fullscreenIndex !== undefined) {
 			history.pushState({ ...history.state, fullscreen: true }, '');
@@ -36,23 +42,13 @@
 {#if $resultColumns === '1'}
 	<ol class="single-column">
 		{#each $results.posts as post, index}
-			<SingleColumnPost
-				{post}
-				onfullscreen={() => {
-					fullscreenIndex = index;
-				}}
-			/>
+			<SingleColumnPost {post} onfullscreen={() => onfullscreen(index)} />
 		{/each}
 	</ol>
 {:else}
 	<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
 		{#each $results.posts as post, index}
-			<MosaicPost
-				{post}
-				onclick={() => {
-					fullscreenIndex = index;
-				}}
-			/>
+			<MosaicPost {post} onclick={() => onfullscreen(index)} />
 		{/each}
 	</ol>
 {/if}

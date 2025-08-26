@@ -13,11 +13,10 @@
 
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { formatVideoTime } from '$lib/logic/format-time';
 	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import PlayButton from '../button-play/PlayButton.svelte';
-	import VolumeControl, { getVolume } from './VolumeControl.svelte';
+	import { getVolume } from './VolumeControl.svelte';
+	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
 		src: string;
@@ -27,9 +26,19 @@
 		loop?: boolean;
 		class?: string;
 		onclick?: () => void;
+		onfullscreen?: () => void;
 	}
 
-	let { src, poster, width, height, loop = false, onclick, ...rest }: Props = $props();
+	let {
+		src,
+		poster,
+		width,
+		height,
+		loop = false,
+		onclick,
+		onfullscreen,
+		...rest
+	}: Props = $props();
 
 	let container: HTMLDivElement;
 	let video: HTMLVideoElement | undefined = $state(undefined);
@@ -41,13 +50,8 @@
 
 	let duration = $state(0);
 	let currentTime = $state(0);
-	let timeLeft = $derived(duration - currentTime);
-	let percent = $derived((currentTime / duration) * 98 + 1);
 
-	let intentHideOverlay = $state(false);
-	let hideOverlay = $derived(!paused && !loading && intentHideOverlay);
-
-	const togglePlaying = () => {
+	const ontoggleplay = () => {
 		if (video) {
 			if (video.paused) {
 				video.play();
@@ -81,7 +85,7 @@
 		if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
 			event.stopPropagation();
-			togglePlaying();
+			ontoggleplay();
 		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
 			event.preventDefault();
 			event.stopPropagation();
@@ -112,10 +116,6 @@
 			)
 		: null;
 
-	const toggleOverlay = () => {
-		intentHideOverlay = !intentHideOverlay;
-	};
-
 	onMount(() => observer?.observe(container));
 	onDestroy(() => observer?.unobserve(container));
 </script>
@@ -124,7 +124,7 @@
 <div
 	bind:this={container}
 	onkeydown={handleKeyDown}
-	class="post-media player {rest.class}"
+	class={rest.class}
 	style="aspect-ratio:{width}/{height}"
 	{onclick}
 >
@@ -147,7 +147,6 @@
 					loading = false;
 				}
 			}}
-			onclick={toggleOverlay}
 			ondblclick={(e) => {
 				e.stopPropagation();
 				e.preventDefault();
@@ -157,32 +156,20 @@
 			style="aspect-ratio: {width} / {height}"
 			volume={getVolume()}
 		></video>
-		<PlayButton
-			playing={!video?.paused}
+		<PostOverlay
+			mediaType="video"
+			{onfullscreen}
+			{paused}
 			{loading}
-			class="center hidable {hideOverlay ? 'hide' : ''}"
-			onclick={togglePlaying}
+			{ontoggleplay}
+			bind:currentTime
+			{duration}
 		/>
-		<div class="video-controls">
-			<span class:hide={hideOverlay} class="hidable">{formatVideoTime(timeLeft)}</span>
-			<input
-				bind:value={currentTime}
-				type="range"
-				min={0}
-				max={duration}
-				step={0.0166666}
-				class="hidable"
-				class:hide={hideOverlay}
-				style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
-			/>
-
-			<VolumeControl class="volume-control {hideOverlay ? 'hide' : ''}" />
-		</div>
 	{/if}
 </div>
 
 <style>
-	.player {
+	div {
 		width: 100%;
 		position: relative;
 		display: grid;
@@ -190,6 +177,7 @@
 		grid-template-rows: 1fr auto 1fr;
 		z-index: var(--z-media);
 	}
+
 	video {
 		width: 100%;
 		grid-column: 1;
@@ -202,86 +190,5 @@
 		video {
 			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		}
-	}
-
-	.video-controls {
-		grid-column: 1;
-		grid-row: 3;
-		display: flex;
-		align-items: center;
-		align-self: end;
-		gap: var(--small-gap);
-		padding: var(--small-gap);
-		z-index: var(--z-media-controls);
-	}
-
-	span {
-		font-size: 12px;
-		background-color: #0008;
-		border-radius: var(--tiny-gap);
-		padding: var(--tiny-gap);
-		color: white;
-		user-select: none;
-	}
-
-	input[type='range'] {
-		flex-grow: 1;
-		appearance: none;
-		-webkit-appearance: none;
-		height: var(--line-height);
-		margin: 0;
-		align-self: flex-end;
-		background-clip: content-box;
-		padding-block: 14px;
-		border-radius: 2px;
-	}
-
-	input[type='range']::-webkit-slider-runnable-track {
-		-webkit-appearance: none;
-		content: '';
-		height: var(--tiny-gap);
-	}
-
-	input[type='range']::-moz-range-progress {
-		background-color: var(--accent);
-	}
-
-	input[type='range']::-ms-fill-lower {
-		background-color: var(--accent);
-	}
-
-	input[type='range']::-webkit-slider-thumb,
-	input[type='range']::-ms-thumb {
-		height: 16px;
-		width: 16px;
-		border-radius: 8px;
-		background-color: var(--accent);
-	}
-
-	input[type='range']::-moz-range-thumb {
-		height: 16px;
-		width: 16px;
-		border-radius: 8px;
-		background-color: var(--accent);
-		border: none;
-	}
-
-	input[type='range']::-webkit-slider-thumb {
-		margin-top: -6px;
-	}
-
-	.player :global(.center) {
-		z-index: 15;
-		grid-column: 1;
-		grid-row: 2;
-		justify-self: center;
-	}
-
-	.player :global(.hidable) {
-		transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-	}
-
-	:global(.hide) {
-		opacity: 0;
 	}
 </style>

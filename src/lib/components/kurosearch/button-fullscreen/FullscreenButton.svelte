@@ -1,12 +1,19 @@
 <script lang="ts">
 	interface Props {
+		class?: string;
 		onclick?: () => void;
 	}
 
-	let { onclick }: Props = $props();
+	let { onclick, ...rest }: Props = $props();
 </script>
 
-<button type="button" title="Enter Fullscreen mode" {onclick} aria-label="Enter Fullscreen mode">
+<button
+	type="button"
+	title="Enter Fullscreen mode"
+	{onclick}
+	aria-label="Enter Fullscreen mode"
+	class={rest.class}
+>
 	<i class="codicon codicon-screen-full"></i>
 </button>
 

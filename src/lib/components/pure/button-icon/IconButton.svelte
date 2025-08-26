@@ -25,7 +25,10 @@
 	class:background={variant === 'with-background'}
 	class:half-background={variant === 'half-background'}
 	aria-label={rest['aria-label']}
-	{onclick}
+	onclick={(e) => {
+		e.stopPropagation();
+		onclick?.(e);
+	}}
 >
 	{@render children?.()}
 </button>

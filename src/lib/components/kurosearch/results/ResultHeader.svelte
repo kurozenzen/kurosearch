@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
-	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import results from '$lib/store/results-store';
-	import PageJump from '../page-navigation/PageJump.svelte';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
 	interface Props {

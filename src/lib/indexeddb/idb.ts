@@ -17,11 +17,13 @@ const clean = async () =>
 		transaction.addEventListener('complete', () => resolve());
 		transaction.addEventListener('abort', () => resolve());
 
-		const threshold = currentHour() - COMMENT_LIFETIME_HOURS;
-		const range = IDBKeyRange.upperBound(threshold);
-
+		const commentThreshold = currentHour() - COMMENT_LIFETIME_HOURS;
+		const commentRange = IDBKeyRange.upperBound(commentThreshold);
 		const commentStore = transaction.objectStore('comments');
-		const commentRequest = transaction.objectStore('comments').index('indexedAt').openCursor(range);
+		const commentRequest = transaction
+			.objectStore('comments')
+			.index('indexedAt')
+			.openCursor(commentRange);
 		commentRequest.addEventListener('success', (event) => {
 			const cursor = (event.target as IDBRequest).result;
 			if (cursor) {
@@ -30,8 +32,10 @@ const clean = async () =>
 			}
 		});
 
+		const postThreshold = currentHour() - POST_LIFETIME_HOURS;
+		const postRange = IDBKeyRange.upperBound(postThreshold);
 		const postStore = transaction.objectStore('posts');
-		const postRequest = postStore.index('indexedAt').openCursor(range);
+		const postRequest = postStore.index('indexedAt').openCursor(postRange);
 		postRequest.addEventListener('success', (event) => {
 			const cursor = (event.target as IDBRequest).result;
 			if (cursor) {
