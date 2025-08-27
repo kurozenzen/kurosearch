@@ -16,6 +16,12 @@
 	let media: HTMLImageElement;
 	let paused = $state(true);
 	let loading = $state(false);
+	let overlayHidden = $state(true);
+
+	const onclick = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
 
 	const ontoggleplay = () => {
 		loading = true;
@@ -53,18 +59,29 @@
 		}}
 		onload={() => (loading = false)}
 		use:observeGif
+		{onclick}
 	/>
 	{#if $gifPreloadEnabled}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<img
 			data-src={animatedSource}
 			loading="lazy"
 			alt="animated source preload"
 			class="animated-preload"
 			use:observeGif
+			{onclick}
 		/>
 	{/if}
 
-	<PostOverlay mediaType="gif" {onfullscreen} {paused} {loading} {ontoggleplay} />
+	<PostOverlay
+		mediaType="gif"
+		hidden={overlayHidden}
+		{onfullscreen}
+		{paused}
+		{loading}
+		{ontoggleplay}
+	/>
 </div>
 
 <style>

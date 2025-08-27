@@ -2,7 +2,15 @@
 	import { observeImage } from '$lib/logic/image-observer';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
 
-	let { src, alt, width, height } = $props();
+	interface Props {
+		src: string;
+		alt: string;
+		width: number;
+		height: number;
+		onclick?: () => void;
+	}
+
+	let { src, alt, width, height, onclick } = $props();
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -17,6 +25,7 @@
 	tabindex="0"
 	onkeydown={clickOnEnter}
 	use:observeImage
+	{onclick}
 />
 
 <style>

@@ -21,6 +21,12 @@
 	let paused = $state(false);
 	let loading = $state(false);
 	let duration: number = $state(1);
+	let overlayHidden = $state(true);
+
+	const onclick = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
 
 	const ontoggleplay = () => {
 		if (video.paused) {
@@ -77,10 +83,12 @@
 		e.stopPropagation();
 	}}
 	volume={getVolume()}
+	{onclick}
 >
 </video>
 
 <PostOverlay
+	hidden={overlayHidden}
 	mediaType="video"
 	{paused}
 	{loading}

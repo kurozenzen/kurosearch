@@ -1,18 +1,16 @@
 <script lang="ts">
+	import { formatCount } from '$lib/logic/format-count';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
-	import { formatCount } from '$lib/logic/format-count';
 
 	interface Props {
 		post: kurosearch.Post;
 		active?: string;
 		links: number;
-		ontags: () => void;
-		oncomments: () => void;
-		onlinks: () => void;
+		ontabselected: (tab: string) => void;
 	}
 
-	let { post, active, links, ontags, oncomments, onlinks }: Props = $props();
+	let { post, active, links, ontabselected }: Props = $props();
 </script>
 
 <div class="summary">
@@ -26,7 +24,7 @@
 		class:active={active === 'links'}
 		onclick={(e) => {
 			e.stopPropagation();
-			onlinks();
+			ontabselected('links');
 		}}
 	>
 		{formatCount(links)}
@@ -38,7 +36,7 @@
 			class:active={active === 'comments'}
 			onclick={(e) => {
 				e.stopPropagation();
-				oncomments();
+				ontabselected('comments');
 			}}
 		>
 			{formatCount(post.comment_count)}
@@ -50,7 +48,7 @@
 		class:active={active === 'tags'}
 		onclick={(e) => {
 			e.stopPropagation();
-			ontags();
+			ontabselected('tags');
 		}}
 	>
 		{formatCount(post.tags.length)}

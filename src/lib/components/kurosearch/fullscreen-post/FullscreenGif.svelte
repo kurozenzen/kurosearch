@@ -38,6 +38,12 @@
 	let paused = $state(!$autoplayFullscreenEnabled);
 	let loading = $state($autoplayFullscreenEnabled);
 
+	let overlayHidden = $state(true);
+	const onclick = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
+
 	let animationHandle: number;
 
 	let lastFrameTime = Date.now();
@@ -122,6 +128,7 @@
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
 		onload={() => (loading = false)}
+		{onclick}
 		use:pauseoffscreen
 	/>
 {/if}
@@ -132,9 +139,11 @@
 	src={sources.static}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
+	{onclick}
 />
 
 <PostOverlay
+	hidden={overlayHidden}
 	mediaType="gif"
 	{paused}
 	{loading}

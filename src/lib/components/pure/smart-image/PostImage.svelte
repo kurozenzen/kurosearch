@@ -21,6 +21,12 @@
 	};
 
 	let open: boolean = $state(false);
+	let overlayHidden = $state(true);
+
+	const ontoggleoverlay = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
 
 	let previewSrc = $derived(post.preview_url);
 	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
@@ -38,9 +44,21 @@
 	onclick={onclickinternal}
 	style="aspect-ratio: {cssRation};"
 >
-	<ObservedImage src={previewSrc} {alt} width={post.width} height={post.height} />
-	<ObservedImage src={actualSrc} {alt} width={post.width} height={post.height} />
-	<PostOverlay mediaType="img" {onfullscreen} />
+	<ObservedImage
+		src={previewSrc}
+		{alt}
+		width={post.width}
+		height={post.height}
+		onclick={ontoggleoverlay}
+	/>
+	<ObservedImage
+		src={actualSrc}
+		{alt}
+		width={post.width}
+		height={post.height}
+		onclick={ontoggleoverlay}
+	/>
+	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
 </div>
 
 <style>

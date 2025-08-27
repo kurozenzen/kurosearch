@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { getExtension } from '$lib/logic/media-utils';
+	import { isValidUrl } from '$lib/logic/url-utils';
+
 	interface Props {
-		links: URL[];
+		post: kurosearch.Post;
 	}
 
-	let { links }: Props = $props();
+	let { post }: Props = $props();
 
 	const HOST_COLOR_MAPPING: Record<string, [string, string]> = {
 		'kurosearch.com': ['crimson', 'white'],
@@ -18,8 +21,24 @@
 		'deviantart.com': ['#00c787', 'black'],
 		default: ['var(--background-2)', 'white']
 	};
+
+	const links = [
+		new URL(`${window.location.origin}/post?id=${post.id}`),
+		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
+		...(post.source
+			? post.source
+					.split(' ')
+					.filter((x) => isValidUrl(x))
+					.map((x) => new URL(x))
+			: [])
+	];
+
+	const fileExt = getExtension(post.file_url);
+	const previewExt = getExtension(post.preview_url);
+	const sampleExt = getExtension(post.sample_url);
 </script>
 
+<p>Links</p>
 <ol>
 	{#each links as link}
 		{@const host = link.host.replace('www.', '')}
@@ -37,7 +56,51 @@
 	{/each}
 </ol>
 
+<p>Files</p>
+<div>
+	<a
+		href={post.file_url}
+		target="_blank"
+		class="codicon codicon-link"
+		download="{post.id}.{fileExt}"
+	>
+		{post.id}.{fileExt}
+	</a>
+	<a
+		href={post.preview_url}
+		target="_blank"
+		class="codicon codicon-link"
+		download="{post.id}_preview.{previewExt}"
+	>
+		{post.id}_preview.{previewExt}
+	</a>
+	<a
+		href={post.sample_url}
+		target="_blank"
+		class="codicon codicon-link"
+		download="{post.id}_sample.{sampleExt}"
+	>
+		{post.id}_sample.{sampleExt}
+	</a>
+</div>
+
 <style>
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: var(--small-gap);
+	}
+
+	div a {
+		color: var(--text-link);
+		font-size: var(--text-size);
+		text-decoration: none;
+		white-space: nowrap;
+		display: inline-flex;
+		gap: var(--tiny-gap);
+		align-items: center;
+	}
+
 	ol {
 		display: flex;
 		flex-wrap: wrap;
@@ -45,7 +108,7 @@
 		gap: var(--small-gap);
 	}
 
-	a {
+	ol a {
 		display: flex;
 		align-items: center;
 		height: var(--line-height);
@@ -55,20 +118,20 @@
 		border-radius: var(--border-radius);
 	}
 
-	a::before {
+	ol a::before {
 		padding-inline-end: var(--small-gap);
 	}
 
 	@media (hover: hover) {
-		a {
+		ol a {
 			transition: all var(--default-transition-behaviour);
 		}
 
-		a.black:hover {
+		ol a.black:hover {
 			filter: brightness(0.7);
 		}
 
-		a.white:hover {
+		ol a.white:hover {
 			filter: brightness(1.5);
 		}
 	}

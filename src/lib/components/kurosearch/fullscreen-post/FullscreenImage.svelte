@@ -17,6 +17,7 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
@@ -39,6 +40,12 @@
 	let currentTime = $state(0);
 	let paused = $state(!$autoplayFullscreenEnabled);
 	let loading = $state(true);
+
+	let overlayHidden = $state(true);
+	const onclick = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
 
 	let animationHandle: number;
 
@@ -116,16 +123,27 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <img
 	src={sources[1]}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
 	use:pauseoffscreen
 	onload={() => (loading = false)}
+	{onclick}
 />
-<img src={sources[0]} alt="[{post.type}] post #{post.id}" title="[{post.type}] post #{post.id}" />
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<img
+	src={sources[0]}
+	alt="[{post.type}] post #{post.id}"
+	title="[{post.type}] post #{post.id}"
+	{onclick}
+/>
 
 <PostOverlay
+	hidden={overlayHidden}
 	mediaType="img"
 	{paused}
 	{loading}

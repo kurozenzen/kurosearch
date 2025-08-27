@@ -9,3 +9,8 @@ export const getVideoSources = (full: string, sample: string, preview: string) =
 export const isLoop = (tags: kurosearch.Tag[]) => tags.some((t) => t.name === 'loop');
 
 export const isAnimated = (url: string) => isGif(url) || isVideo(url);
+
+export const getExtension = (url: string) => {
+	const parts = url.split('.');
+	return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
+};

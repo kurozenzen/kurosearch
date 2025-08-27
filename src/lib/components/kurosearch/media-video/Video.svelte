@@ -25,20 +25,10 @@
 		height: number;
 		loop?: boolean;
 		class?: string;
-		onclick?: () => void;
 		onfullscreen?: () => void;
 	}
 
-	let {
-		src,
-		poster,
-		width,
-		height,
-		loop = false,
-		onclick,
-		onfullscreen,
-		...rest
-	}: Props = $props();
+	let { src, poster, width, height, loop = false, onfullscreen, ...rest }: Props = $props();
 
 	let container: HTMLDivElement;
 	let video: HTMLVideoElement | undefined = $state(undefined);
@@ -50,6 +40,12 @@
 
 	let duration = $state(0);
 	let currentTime = $state(0);
+
+	let overlayHidden = $state(true);
+	const onclick = (e: Event) => {
+		e.stopPropagation();
+		overlayHidden = !overlayHidden;
+	};
 
 	const ontoggleplay = () => {
 		if (video) {
@@ -155,9 +151,11 @@
 			preload="metadata"
 			style="aspect-ratio: {width} / {height}"
 			volume={getVolume()}
+			{onclick}
 		></video>
 		<PostOverlay
 			mediaType="video"
+			hidden={overlayHidden}
 			{onfullscreen}
 			{paused}
 			{loading}

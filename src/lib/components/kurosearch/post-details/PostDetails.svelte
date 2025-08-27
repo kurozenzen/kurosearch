@@ -2,8 +2,8 @@
 	import { isValidUrl } from '$lib/logic/url-utils';
 	import Comments from '../post-comment/Comments.svelte';
 	import Summary from '../post-summary/Summary.svelte';
-	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 	import Sources from '../post/Sources.svelte';
+	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -31,21 +31,13 @@
 </script>
 
 <div class="details">
-	<Summary
-		{post}
-		active={openTab}
-		links={links.length}
-		ontags={() => ontabselected('tags')}
-		oncomments={() => ontabselected('comments')}
-		onlinks={() => ontabselected('links')}
-	/>
-
+	<Summary {post} active={openTab} links={links.length} {ontabselected} />
 	{#if openTab === 'tags'}
 		<PostDetailsTagList tags={post.tags} />
 	{:else if openTab === 'comments'}
 		<Comments {post} />
 	{:else if openTab === 'links'}
-		<Sources {links} />
+		<Sources {post} />
 	{/if}
 </div>
 

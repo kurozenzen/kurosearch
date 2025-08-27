@@ -5,11 +5,16 @@
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { onMount } from 'svelte';
 
 	let message = $state('Update');
 
-	let latestCommitPromise: Promise<{ sha: string }> = $state(undefined);
+	const getLatestCommit = async () => {
+		const response = await fetch('https://api.github.com/repos/kurozenzen/kurosearch/commits/main');
+		if (response.ok) {
+			return response.json();
+		}
+		return '???????';
+	};
 
 	const forceUpdate = async () => {
 		message = 'Updating...';
@@ -17,15 +22,9 @@
 			const registrations = await navigator.serviceWorker.getRegistrations();
 			await Promise.all(registrations.map((r) => r.update()));
 		}
-		// @ts-expect-error
-		window.location.reload(true);
+		window.location.reload();
 		message = 'Done';
 	};
-	onMount(() => {
-		latestCommitPromise = fetch(
-			'https://api.github.com/repos/kurozenzen/kurosearch/commits/main'
-		).then((r) => r.json());
-	});
 </script>
 
 <svelte:head>
@@ -40,7 +39,7 @@
 		<img src="/favicon.svg" alt="kuroseach logo" />
 		<h2>kurosearch</h2>
 		<span>
-			Version: {version}{#await latestCommitPromise then commit}
+			Version: {version}{#await getLatestCommit() then commit}
 				, Newest is: {commit?.sha?.substring(0, 7)}
 			{/await}
 		</span>
