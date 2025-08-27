@@ -52,7 +52,7 @@ export const getCount = async (tags: string, apiKey: string = '', userId: string
 };
 
 export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
-	const indexedPost = getIndexedPost(id);
+	const indexedPost = await getIndexedPost(id);
 	if (indexedPost !== undefined) {
 		return indexedPost;
 	}
