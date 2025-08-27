@@ -1,22 +1,22 @@
 <script lang="ts">
-	import FullscreenVideo from './FullscreenVideo.svelte';
-	import FullscreenImage from './FullscreenImage.svelte';
-	import FullscreenGif from './FullscreenGif.svelte';
-	import { calculateAspectRatio } from '../post/ratio';
 	import FullscreenComic from './FullscreenComic.svelte';
+	import FullscreenGif from './FullscreenGif.svelte';
+	import FullscreenImage from './FullscreenImage.svelte';
+	import FullscreenVideo from './FullscreenVideo.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
 		ondetails: () => void;
 		onended?: () => void;
+		startAt?: number;
 	}
 
-	let { post, onended, ondetails }: Props = $props();
+	let { post, onended, ondetails, startAt }: Props = $props();
 </script>
 
 <div>
 	{#if post.type === 'video'}
-		<FullscreenVideo {post} {onended} {ondetails} />
+		<FullscreenVideo {post} {onended} {ondetails} {startAt} />
 	{:else if post.type === 'gif'}
 		<FullscreenGif {post} {onended} {ondetails} />
 	{:else if post.width / post.height < 0.4}

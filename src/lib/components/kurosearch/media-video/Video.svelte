@@ -25,7 +25,7 @@
 		height: number;
 		loop?: boolean;
 		class?: string;
-		onfullscreen?: () => void;
+		onfullscreen?: (currentTime?: number) => void;
 	}
 
 	let { src, poster, width, height, loop = false, onfullscreen, ...rest }: Props = $props();

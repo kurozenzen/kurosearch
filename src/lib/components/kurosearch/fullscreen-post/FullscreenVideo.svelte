@@ -9,9 +9,10 @@
 		post: kurosearch.Post;
 		ondetails: () => void;
 		onended?: () => void;
+		startAt?: number;
 	}
 
-	let { post, onended, ondetails }: Props = $props();
+	let { post, onended, ondetails, startAt }: Props = $props();
 
 	let video: HTMLVideoElement;
 
@@ -57,6 +58,9 @@
 	onMount(() => {
 		videoObserver.observe(video);
 		document.addEventListener('keydown', keybinds);
+		if (startAt !== undefined) {
+			video.currentTime = startAt;
+		}
 	});
 	onDestroy(() => {
 		videoObserver.unobserve(video);

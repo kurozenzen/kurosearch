@@ -9,7 +9,7 @@
 
 	interface Props {
 		post: kurosearch.Post;
-		onfullscreen: () => void;
+		onfullscreen: (currentTime?: number) => void;
 	}
 
 	let { post, onfullscreen }: Props = $props();

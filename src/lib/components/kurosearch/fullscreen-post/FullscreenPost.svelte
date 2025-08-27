@@ -8,9 +8,10 @@
 		index: number;
 		onendreached: () => void;
 		onclose: (index: number) => void;
+		startAt?: number;
 	}
 
-	let { index, onendreached, onclose }: Props = $props();
+	let { index, onendreached, onclose, startAt }: Props = $props();
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (event.key === 'f') {
@@ -37,7 +38,7 @@
 </script>
 
 <Fullscreen onclose={() => onclose(index)}>
-	<FullscreenScroller bind:index {onendreached} />
+	<FullscreenScroller bind:index {onendreached} {startAt}/>
 	<IconButton class="button-close" onclick={() => onclose(index)}>
 		<i class="codicon codicon-close"></i>
 	</IconButton>

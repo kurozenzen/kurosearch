@@ -15,6 +15,7 @@
 	let { onendreached }: Props = $props();
 
 	let fullscreenIndex: undefined | number = $state(undefined);
+	let fullscreenCurrentTime: undefined | number = $state(undefined);
 
 	const exitFullscreen = (postIndex: number) => {
 		const post = $results.posts[postIndex];
@@ -23,9 +24,10 @@
 		fullscreenIndex = undefined;
 	};
 
-	const onfullscreen = (index: number) => {
+	const onfullscreen = (index: number, currentTime?: number) => {
 		pausePlayingVideo();
 		fullscreenIndex = index;
+		fullscreenCurrentTime = currentTime;
 	};
 
 	$effect(() => {
@@ -42,7 +44,7 @@
 {#if $resultColumns === '1'}
 	<ol class="single-column">
 		{#each $results.posts as post, index}
-			<SingleColumnPost {post} onfullscreen={() => onfullscreen(index)} />
+			<SingleColumnPost {post} onfullscreen={(currentTime) => onfullscreen(index, currentTime)} />
 		{/each}
 	</ol>
 {:else}
@@ -54,7 +56,12 @@
 {/if}
 
 {#if fullscreenIndex !== undefined}
-	<FullscreenPost index={fullscreenIndex} onclose={exitFullscreen} {onendreached} />
+	<FullscreenPost
+		index={fullscreenIndex}
+		onclose={exitFullscreen}
+		{onendreached}
+		startAt={fullscreenCurrentTime}
+	/>
 {/if}
 
 <style>

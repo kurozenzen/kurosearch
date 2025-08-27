@@ -9,7 +9,7 @@
 	interface Props {
 		// images / gifs / videos
 		hidden: boolean;
-		onfullscreen?: () => void;
+		onfullscreen?: (currentTime?: number) => void;
 
 		// gifs / videos
 		mediaType: string;
@@ -50,7 +50,10 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="overlay" class:hidden>
 	{#if onfullscreen !== undefined}
-		<FullscreenButton onclick={onfullscreen} class="post-overlay-button-fullscreen" />
+		<FullscreenButton
+			onclick={() => onfullscreen(currentTime)}
+			class="post-overlay-button-fullscreen"
+		/>
 	{/if}
 	{#if paused !== undefined && loading !== undefined && ontoggleplay !== undefined}
 		<PlayButton

@@ -8,7 +8,13 @@
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
 
-	let { index = $bindable(), onendreached } = $props();
+	interface Props {
+		index: number;
+		onendreached: () => void;
+		startAt?: number;
+	}
+
+	let { index = $bindable(), onendreached, startAt }: Props = $props();
 
 	let container: HTMLDivElement;
 	let current: HTMLDivElement;
@@ -114,6 +120,7 @@
 		<FullscreenMedia
 			post={postCurrent}
 			onended={autoscroll}
+			{startAt}
 			ondetails={() =>
 				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
 		/>
