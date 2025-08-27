@@ -142,16 +142,18 @@
 	{onclick}
 />
 
-<PostOverlay
-	hidden={overlayHidden}
-	mediaType="img"
-	{paused}
-	{loading}
-	{ontoggleplay}
-	bind:currentTime
-	{duration}
-	{ondetails}
-/>
+{#if $autoplayFullscreenEnabled}
+	<PostOverlay
+		hidden={overlayHidden}
+		mediaType="img"
+		{paused}
+		{loading}
+		{ontoggleplay}
+		bind:currentTime
+		{duration}
+		{ondetails}
+	/>
+{/if}
 
 <style>
 	img {

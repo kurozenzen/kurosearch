@@ -15,7 +15,7 @@
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 
-	let idString = page.url.searchParams.get('id');
+	let idString = $derived(page.url.searchParams.get('id'));
 	let id = $derived(idString ? parseInt(idString) : null);
 </script>
 
