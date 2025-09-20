@@ -1,216 +1,216 @@
 .codicon,
 .custom-icon {
-    display: inline-block;
-    text-decoration: none;
-    text-rendering: auto;
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+	display: inline-block;
+	text-decoration: none;
+	text-rendering: auto;
+	text-align: center;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 i.codicon {
-    font: normal normal normal 16px/1 codicon;
+	font: normal normal normal 16px/1 codicon;
 }
 
 .codicon:before {
-    font-family: codicon, serif;
-    font-style: unset;
-    line-height: 16px;
-    width: 16px;
-    height: 16px;
+	font-family: codicon, serif;
+	font-style: unset;
+	line-height: 16px;
+	width: 16px;
+	height: 16px;
 }
 
 .codicon-notebook:before {
-    content: '\ebaf';
+	content: '\ebaf';
 }
 
 .codicon-bookmark:before {
-    content: '\eaa5';
+	content: '\eaa5';
 }
 
 .codicon-server:before {
-    content: '\eb50';
+	content: '\eb50';
 }
 
 .codicon-source-control:before {
-    content: '\ea68';
+	content: '\ea68';
 }
 
 .custom-icon-wave::before {
-    content: '⁓';
+	content: '⁓';
 }
 
 .codicon-trashcan:before {
-    content: "\ea81"
+	content: '\ea81';
 }
 
 .codicon-plus:before {
-    content: '\ea60';
+	content: '\ea60';
 }
 
 .codicon-tag:before {
-    content: '\ea66';
+	content: '\ea66';
 }
 
 .codicon-person:before {
-    content: '\ea67';
+	content: '\ea67';
 }
 
 .codicon-comment:before {
-    content: '\ea6b';
+	content: '\ea6b';
 }
 
 .codicon-search:before {
-    content: '\ea6d';
+	content: '\ea6d';
 }
 
 .codicon-eye:before {
-    content: '\ea70';
+	content: '\ea70';
 }
 
 .codicon-edit:before {
-    content: '\ea73';
+	content: '\ea73';
 }
 
 .codicon-info:before {
-    content: '\ea74';
+	content: '\ea74';
 }
 
 .codicon-error:before {
-    content: '\ea87';
+	content: '\ea87';
 }
 
 .codicon-folder:before {
-    content: '\ea83';
+	content: '\ea83';
 }
 
 .codicon-github:before {
-    content: '\ea84';
+	content: '\ea84';
 }
 
 .codicon-zap:before {
-    content: '\ea86';
+	content: '\ea86';
 }
 
 .codicon-arrow-down:before {
-    content: '\ea9a';
+	content: '\ea9a';
 }
 
 .codicon-chevron-down:before {
-    content: '\eab4';
+	content: '\eab4';
 }
 
 .codicon-chevron-left:before {
-    content: '\eab5';
+	content: '\eab5';
 }
 
 .codicon-chevron-right:before {
-    content: '\eab6';
+	content: '\eab6';
 }
 
 .codicon-arrow-up:before {
-    content: '\eaa1';
+	content: '\eaa1';
 }
 
 .codicon-book:before {
-    content: '\eaa4';
+	content: '\eaa4';
 }
 
 .codicon-close:before {
-    content: '\eab8';
+	content: '\eab8';
 }
 
 .codicon-calendar:before {
-    content: '\eab0';
+	content: '\eab0';
 }
 
 .codicon-code:before {
-    content: '\eac4';
+	content: '\eac4';
 }
 
 .codicon-comment-discussion:before {
-    content: '\eac7';
+	content: '\eac7';
 }
 
 .codicon-debug-disconnect:before {
-    content: '\ead0';
+	content: '\ead0';
 }
 
 .codicon-filter:before {
-    content: '\eaf1';
+	content: '\eaf1';
 }
 
 .codicon-heart:before {
-    content: '\eb05';
+	content: '\eb05';
 }
 
 .codicon-link-external:before {
-    content: '\eb14';
+	content: '\eb14';
 }
 
 .codicon-link:before {
-    content: '\eb15';
+	content: '\eb15';
 }
 
 .codicon-list-ordered:before {
-    content: '\eb16';
+	content: '\eb16';
 }
 
 .codicon-question:before {
-    content: '\eb32';
+	content: '\eb32';
 }
 
 .codicon-settings-gear:before {
-    content: '\eb51';
+	content: '\eb51';
 }
 
 .codicon-star-full:before {
-    content: '\eb59';
+	content: '\eb59';
 }
 
 .codicon-unverified:before {
-    content: '\eb76';
+	content: '\eb76';
 }
 
 .codicon-whole-word:before {
-    content: '\eb7e';
+	content: '\eb7e';
 }
 
 .codicon-account:before {
-    content: '\eb99';
+	content: '\eb99';
 }
 
 .codicon-arrow-swap:before {
-    content: '\ebcb';
+	content: '\ebcb';
 }
 
 .codicon-dash:before {
-    content: '\eaba';
+	content: '\eaba';
 }
 
 .codicon-file:before {
-    content: '\ea7b';
+	content: '\ea7b';
 }
 
 .codicon-cloud:before {
-    content: '\ebaa';
+	content: '\ebaa';
 }
 
 .codicon-screen-full:before {
-    content: '\eb4c';
+	content: '\eb4c';
 }
 
 .codicon-copy:before {
-    content: '\ebcc';
+	content: '\ebcc';
 }
 
 .codicon-pass:before {
-    content: '\eba4';
+	content: '\eba4';
 }
 
 .codicon-ellipsis:before {
-    content: '\ea7c';
+	content: '\ea7c';
 }

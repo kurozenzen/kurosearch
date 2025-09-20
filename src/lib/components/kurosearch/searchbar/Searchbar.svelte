@@ -142,7 +142,12 @@
 			{#if loading}
 				<LoadingAnimation />
 			{:else}
-				<IconButton aria-label="Search with the selected tags" onclick={onsubmit} variant="transparent" class="codicon codicon-search"></IconButton>
+				<IconButton
+					aria-label="Search with the selected tags"
+					onclick={onsubmit}
+					variant="transparent"
+					class="codicon codicon-search"
+				></IconButton>
 			{/if}
 		</TextButton>
 	</div>

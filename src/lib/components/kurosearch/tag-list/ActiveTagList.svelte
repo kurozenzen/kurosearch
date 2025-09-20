@@ -77,10 +77,7 @@
 			</TagButton>
 		{/if}
 		{#if tags.length > 0}
-			<TagButton
-				title="Clear the current selection."
-				onclick={() => clearSelection()}
-			>
+			<TagButton title="Clear the current selection." onclick={() => clearSelection()}>
 				<i class="codicon codicon-trashcan"></i>
 			</TagButton>
 		{/if}
@@ -91,11 +88,11 @@
 </ul>
 
 <style lang="scss">
-  ul {
-    min-height: var(--line-height-small);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--small-gap);
-    justify-content: center;
-  }
+	ul {
+		min-height: var(--line-height-small);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--small-gap);
+		justify-content: center;
+	}
 </style>
