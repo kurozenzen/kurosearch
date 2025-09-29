@@ -83,6 +83,7 @@
 	<KurosearchTitle />
 	<Searchbar
 		placeholder="Search for tags"
+		onsubmit={() => {}}
 		{fetchSuggestions}
 		onpick={async (suggestion) => {
 			if (suggestion.type === 'supertag') {

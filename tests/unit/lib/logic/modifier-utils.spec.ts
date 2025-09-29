@@ -5,16 +5,16 @@ import { getNextModifier } from '$lib/logic/modifier-utils';
 // We still assert behavior for valid and invalid inputs.
 
 describe('modifier-utils nextModifier', () => {
-	it("cycles '+' -> '-'", () => {
-		expect(getNextModifier('+')).toBe('-');
+	it("cycles '+' -> '~'", () => {
+		expect(getNextModifier('+')).toBe('~');
 	});
 
-	it("cycles '-' -> '~'", () => {
-		expect(getNextModifier('-')).toBe('~');
+	it("cycles '+' -> '~'", () => {
+		expect(getNextModifier('+')).toBe('~');
 	});
 
-	it("cycles '~' -> '+' (wrap-around)", () => {
-		expect(getNextModifier('~')).toBe('+');
+	it("cycles '-' -> '+' (wrap-around)", () => {
+		expect(getNextModifier('-')).toBe('+');
 	});
 
 	it('unknown modifier falls back to start "+"', () => {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 
 	interface Props {

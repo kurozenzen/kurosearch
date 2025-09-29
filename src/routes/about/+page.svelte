@@ -4,7 +4,7 @@
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { onMount } from 'svelte';
 	import { APP_NAME } from '$lib/logic/app-config';
 	import { LATEST_RELEASE_URL } from '$lib/logic/api-client/url';

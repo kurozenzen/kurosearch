@@ -5,7 +5,7 @@
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
 	import { getNextModifier } from '$lib/logic/modifier-utils';
@@ -113,12 +113,6 @@
 				? activeSupertags.removeByName(tag.name)
 				: activeTags.removeByName(tag.name)}
 		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = getNextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
-		onlongpress={(tag) => {
 			if (!('description' in tag)) {
 				tag.modifier = getNextModifier(tag.modifier);
 				activeTags.addOrReplace(tag);

@@ -10,7 +10,6 @@
 		tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
 		oncontextmenu: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
 		onclick: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
-		onlongpress?: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
 		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;
 	}
 
@@ -18,7 +17,6 @@
 		tags,
 		oncontextmenu,
 		onclick,
-		onlongpress,
 		oncreateSupertag: createSupertag
 	}: Props = $props();
 
@@ -55,7 +53,6 @@
 					tag={{ name: tag.name, type: 'supertag', modifier: '+', count: tag.tags.length }}
 					onclick={() => onclick(tag)}
 					oncontextmenu={() => oncontextmenu(tag)}
-					onlongpress={onlongpress ? () => onlongpress(tag) : undefined}
 					active
 				/>
 			{:else}
@@ -63,7 +60,6 @@
 					{tag}
 					onclick={() => onclick(tag)}
 					oncontextmenu={() => oncontextmenu(tag)}
-					onlongpress={onlongpress ? () => onlongpress(tag) : undefined}
 					active
 				/>
 			{/if}

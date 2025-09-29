@@ -3,7 +3,7 @@
 	import RadioGroup from './RadioGroup.svelte';
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';

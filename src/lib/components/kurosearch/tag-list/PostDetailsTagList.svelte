@@ -16,25 +16,28 @@
 		<SimpleTag
 			{tag}
 			onclick={() => {
-				const nextModifier = getNextModifierNullable(activeTag?.modifier);
-				if (nextModifier === undefined) {
+					const nextModifier = getNextModifierNullable(activeTag?.modifier);
+					if (nextModifier === undefined) {
+						activeTagsStore.removeByName(tag.name);
+					} else {
+						activeTagsStore.addOrReplace({ ...tag, modifier: nextModifier });
+					}
+				}}
+			oncontextmenu={() => {
 					activeTagsStore.removeByName(tag.name);
-				} else {
-					activeTagsStore.addOrReplace({ ...tag, modifier: nextModifier });
-				}
-			}}
-			onLongPress={() => {
-				activeTagsStore.removeByName(tag.name);
-			}}
+				}}
+			onlongpress={() => {
+					activeTagsStore.removeByName(tag.name);
+				}}
 			modifier={activeTag?.modifier}
 		/>
 	{/each}
 </ul>
 
 <style lang="scss">
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-	}
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 </style>

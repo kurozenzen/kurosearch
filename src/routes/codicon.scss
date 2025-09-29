@@ -1,0 +1,210 @@
+// ============================================================================
+// Codicon Icon Font Styles - SCSS Version
+// ============================================================================
+
+// Variables
+$codicon-font-family: codicon, serif;
+$codicon-font-size: 16px;
+$codicon-line-height: 16px;
+$codicon-dimensions: 16px;
+
+// Base icon styles mixin
+@mixin base-icon-styles {
+  display: inline-block;
+  text-decoration: none;
+  text-rendering: auto;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+// Codicon before pseudo-element mixin
+@mixin codicon-before($content: '') {
+  &:before {
+    font-family: $codicon-font-family;
+    font-style: unset;
+    line-height: $codicon-line-height;
+    width: $codicon-dimensions;
+    height: $codicon-dimensions;
+    @if $content != '' {
+      content: $content;
+    }
+  }
+}
+
+// Icon content map
+$codicon-icons: (
+  // Navigation & UI
+  'chevron-down': '\eab4',
+  'chevron-left': '\eab5', 
+  'chevron-right': '\eab6',
+  'arrow-down': '\ea9a',
+  'arrow-up': '\eaa1',
+  'arrow-swap': '\ebcb',
+  'close': '\eab8',
+  'ellipsis': '\ea7c',
+  
+  // Actions & Controls
+  'search': '\ea6d',
+  'edit': '\ea73',
+  'copy': '\ebcc',
+  'trashcan': '\ea81',
+  'plus': '\ea60',
+  'filter': '\eaf1',
+  'settings-gear': '\eb51',
+  'screen-full': '\eb4c',
+  
+  // Content & Files
+  'file': '\ea7b',
+  'folder': '\ea83',
+  'notebook': '\ebaf',
+  'book': '\eaa4',
+  'code': '\eac4',
+  'cloud': '\ebaa',
+  
+  // Social & Communication
+  'comment': '\ea6b',
+  'comment-discussion': '\eac7',
+  'person': '\ea67',
+  'account': '\eb99',
+  'github': '\ea84',
+  
+  // Status & Feedback
+  'info': '\ea74',
+  'error': '\ea87',
+  'question': '\eb32',
+  'eye': '\ea70',
+  'heart': '\eb05',
+  'star-full': '\eb59',
+  'bookmark': '\eaa5',
+  'pass': '\eba4',
+  'unverified': '\eb76',
+  
+  // Links & External
+  'link': '\eb15',
+  'link-external': '\eb14',
+  
+  // Lists & Organization
+  'list-ordered': '\eb16',
+  'tag': '\ea66',
+  'calendar': '\eab0',
+  
+  // Technical & Development
+  'server': '\eb50',
+  'source-control': '\ea68',
+  'debug-disconnect': '\ead0',
+  'zap': '\ea86',
+  'whole-word': '\eb7e',
+  'dash': '\eaba'
+);
+
+// Base classes
+.codicon,
+.custom-icon {
+  @include base-icon-styles;
+}
+
+// Codicon font styling
+i.codicon {
+  font: normal normal normal #{$codicon-font-size}/1 codicon;
+}
+
+// Base codicon before pseudo-element
+.codicon {
+  @include codicon-before;
+}
+
+// Generate all codicon classes using the map
+@each $name, $content in $codicon-icons {
+  .codicon-#{$name} {
+    @include codicon-before($content);
+  }
+}
+
+// Custom icons (non-codicon)
+.custom-icon {
+  &-wave {
+    &::before {
+      content: '⁓';
+    }
+  }
+}
+
+// ============================================================================
+// Grouped Icon Collections (for easier maintenance and discovery)
+// ============================================================================
+
+// Navigation icons
+%navigation-icons {
+  .codicon-chevron-down,
+  .codicon-chevron-left,
+  .codicon-chevron-right,
+  .codicon-arrow-down,
+  .codicon-arrow-up,
+  .codicon-arrow-swap {
+    // Common navigation icon styles can be added here
+  }
+}
+
+// Action icons
+%action-icons {
+  .codicon-search,
+  .codicon-edit,
+  .codicon-copy,
+  .codicon-trashcan,
+  .codicon-plus,
+  .codicon-filter,
+  .codicon-settings-gear {
+    // Common action icon styles can be added here
+  }
+}
+
+// Status icons
+%status-icons {
+  .codicon-info,
+  .codicon-error,
+  .codicon-question,
+  .codicon-pass,
+  .codicon-unverified {
+    // Common status icon styles can be added here
+  }
+}
+
+// Utility mixins for common icon modifications
+@mixin icon-size($size) {
+  &:before {
+    font-size: $size;
+    width: $size;
+    height: $size;
+    line-height: $size;
+  }
+}
+
+@mixin icon-color($color) {
+  &:before {
+    color: $color;
+  }
+}
+
+@mixin icon-rotate($degrees) {
+  &:before {
+    transform: rotate(#{$degrees}deg);
+    display: inline-block;
+  }
+}
+
+// Example usage classes for common modifications
+.codicon {
+  // Size variants
+  &--small { @include icon-size(12px); }
+  &--large { @include icon-size(20px); }
+  &--xl { @include icon-size(24px); }
+  
+  // Rotation variants (useful for arrows)
+  &--rotate-90 { @include icon-rotate(90); }
+  &--rotate-180 { @include icon-rotate(180); }
+  &--rotate-270 { @include icon-rotate(270); }
+}

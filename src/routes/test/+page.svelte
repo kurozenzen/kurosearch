@@ -6,7 +6,7 @@
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import ToggleIcon from '$lib/components/pure/toggle-icon/ToggleIcon.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
@@ -19,6 +19,9 @@
 	import defaultUserSrc from '$lib/assets/default-user.png';
 	import { resolve } from '$app/paths';
 	import { APP_NAME } from '$lib/logic/app-config';
+	import Button from '$lib/components/pure/button/Button.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
+	import ScrollUpButton from '$lib/components/pure/button/icon-button/ScrollUpButton.svelte';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
@@ -53,6 +56,15 @@
 	Clicked {count} times
 </TextButton>
 
+<IconButton icon="info" />
+
+<Button size="small">small</Button>
+<Button size="small" variant="secondary">small</Button>
+<Button>medium</Button>
+<Button variant="secondary">medium</Button>
+<Button size="large">large</Button>
+<Button size="large" variant="secondary">large</Button>
+
 <TextInput placeholder="Name" bind:value={name} />
 <p>Hi {name}</p>
 
@@ -77,3 +89,5 @@
 <CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
 <SettingsLink />
 <AccountLink src={disabled ? defaultUserSrc : undefined} />
+
+<ScrollUpButton></ScrollUpButton>

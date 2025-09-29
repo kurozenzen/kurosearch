@@ -12,12 +12,12 @@
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import { SOURCE_CODE_URL, SPONSOR_URL } from '$lib/logic/app-config';
 
-	import './codicon.css';
-	import './defaults.css';
-	import './fonts.css';
-	import './reset.css';
-	import './scrollbar.css';
-	import './theme.css';
+	import './codicon.scss';
+	import './defaults.scss';
+	import './fonts.scss';
+	import './reset.scss';
+	import './scrollbar.scss';
+	import './theme.scss';
 
 	interface Props {
 		children?: import('svelte').Snippet;

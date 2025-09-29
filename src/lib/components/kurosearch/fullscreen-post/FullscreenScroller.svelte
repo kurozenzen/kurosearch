@@ -210,9 +210,4 @@
 			transform: translateX(0px);
 		}
 	}
-
-	:global(.hint > *) {
-		animation: scroll-hint 1s ease-in-out;
-		animation-delay: 0.5s;
-	}
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getNextModifier } from '$lib/logic/modifier-utils';
 	import Searchbar from '../searchbar/Searchbar.svelte';

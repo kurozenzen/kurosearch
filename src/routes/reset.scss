@@ -1,0 +1,170 @@
+// ============================================================================
+// CSS Reset - SCSS Version
+// ============================================================================
+// A modern CSS reset leveraging SCSS capabilities for maintainable and 
+// extensible reset styles across the application.
+
+@use 'sass:map';
+@use 'sass:list';
+
+// ============================================================================
+// SCSS Variables
+// ============================================================================
+
+// Common reset values
+$reset-unset: unset !default;
+$reset-zero: 0 !default;
+
+// CSS Layer name for reset styles
+$reset-layer: 'reset' !default;
+
+// ============================================================================
+// Element Configuration Maps
+// ============================================================================
+
+// Base layout elements that need spacing reset
+$layout-elements: (
+  html: (
+    properties: (padding),
+    value: $reset-unset
+  ),
+  body: (
+    properties: (margin),
+    value: $reset-unset
+  )
+) !default;
+
+// List elements configuration
+$list-elements: (
+  'ol, ul': (
+    properties: (margin-block, padding-left),
+    value: $reset-unset
+  )
+) !default;
+
+// Typography elements configuration
+$typography-elements: (
+  'p, h1, h2, h3, h6': (
+    properties: (font-weight, margin-block),
+    value: $reset-unset
+  ),
+  a: (
+    properties: (text-decoration),
+    value: $reset-unset
+  )
+) !default;
+
+// Interactive elements configuration
+$interactive-elements: (
+  button: (
+    properties: (border, padding),
+    value: $reset-unset
+  ),
+  dialog: (
+    properties: (border),
+    value: $reset-unset
+  ),
+  input: (
+    properties: (border, color),
+    value: $reset-unset
+  ),
+  select: (
+    properties: (background, border),
+    value: $reset-unset
+  )
+) !default;
+
+// Master configuration map
+$reset-config: (
+  layout: $layout-elements,
+  lists: $list-elements,
+  typography: $typography-elements,
+  interactive: $interactive-elements
+) !default;
+
+// ============================================================================
+// Mixins
+// ============================================================================
+
+// Apply reset properties to a single element or selector
+// @param {String} $selector - CSS selector
+// @param {List} $properties - List of properties to reset
+// @param {*} $value - Value to apply (default: unset)
+@mixin reset-properties($selector, $properties, $value: $reset-unset) {
+  #{$selector} {
+    @each $property in $properties {
+      #{$property}: $value;
+    }
+  }
+}
+
+// Apply reset styles from a configuration map
+// @param {Map} $config - Configuration map with selectors and properties
+@mixin apply-reset-config($config) {
+  @each $selector, $settings in $config {
+    $properties: map.get($settings, properties);
+    $value: map.get($settings, value);
+    @include reset-properties($selector, $properties, $value);
+  }
+}
+
+// Generate all reset styles from the master configuration
+// @param {Map} $config - Master reset configuration
+// @param {String} $layer - CSS layer name
+@mixin generate-reset($config: $reset-config, $layer: $reset-layer) {
+  @layer #{$layer} {
+    @each $category, $elements in $config {
+      @include apply-reset-config($elements);
+    }
+  }
+}
+
+// Utility mixin for custom element reset
+// @param {String} $selector - CSS selector
+// @param {Map} $properties - Map of property-value pairs
+@mixin custom-reset($selector, $properties) {
+  #{$selector} {
+    @each $property, $value in $properties {
+      #{$property}: $value;
+    }
+  }
+}
+
+// ============================================================================
+// Reset Style Generation
+// ============================================================================
+
+// Generate all reset styles using the comprehensive mixin
+@include generate-reset();
+
+// ============================================================================
+// Extension Points
+// ============================================================================
+// This structure supports easy customization and extension:
+//
+// - Add new element categories to $reset-config
+// - Override specific element configurations
+// - Create custom reset patterns using mixins
+// - Extend with additional CSS layers if needed
+//
+// Example usage for custom additions:
+//
+// @include custom-reset('table', (
+//   border-collapse: collapse,
+//   border-spacing: 0
+// ));
+//
+// Or add to existing configuration:
+//
+// $custom-elements: (
+//   'table, th, td': (
+//     properties: (border, padding),
+//     value: unset
+//   )
+// );
+//
+// $extended-config: map.merge($reset-config, (
+//   tables: $custom-elements
+// ));
+//
+// @include generate-reset($extended-config);

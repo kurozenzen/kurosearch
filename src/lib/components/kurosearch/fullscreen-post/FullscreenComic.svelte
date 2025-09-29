@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
@@ -39,9 +39,7 @@
 	{#if loading}
 		<LoadingAnimation />
 	{/if}
-	<IconButton variant="half-background" onclick={ondetails} class="details-button">
-		<i class="codicon codicon-tag"></i>
-	</IconButton>
+	<IconButton icon="tag" variant="half-background" onclick={ondetails} class="details-button" />
 </div>
 
 <style>
@@ -75,18 +73,5 @@
 		user-select: none;
 		bottom: 0;
 		color: var(--text-highlight);
-	}
-
-	.scrollable :global(.details-button) {
-		position: fixed;
-		right: var(--small-gap);
-		bottom: 45px;
-	}
-
-	.scrollable :global(svg) {
-		position: fixed;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
 	}
 </style>

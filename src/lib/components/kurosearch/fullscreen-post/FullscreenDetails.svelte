@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -106,12 +106,5 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: var(--small-gap);
-	}
-
-	:global(.fs-button-return) {
-		position: absolute;
-		top: calc(2 * var(--grid-gap) + var(--line-height));
-		left: calc(100vw + var(--grid-gap));
-		z-index: var(--z-media-controls);
 	}
 </style>
