@@ -33,7 +33,7 @@
 	<button
 		type="button"
 		title={dynamicTitle}
-		onclick={onclick}
+		{onclick}
 		oncontextmenu={handleContextMenu}
 		use:longpress={onlongpress}
 		class:active={active || tag.modifier === '+'}
@@ -50,143 +50,143 @@
 </li>
 
 <style lang="scss">
-  @use 'sass:map';
+	@use 'sass:map';
 
-  // Color scheme maps
-  $default-colors: (
-          background: var(--background-2),
-          background-hover: var(--background-3),
-          color: var(--text)
-  );
+	// Color scheme maps
+	$default-colors: (
+		background: var(--background-2),
+		background-hover: var(--background-3),
+		color: var(--text)
+	);
 
-  $accent-colors: (
-          background: var(--accent),
-          background-hover: var(--accent-light),
-          color: var(--text-accent)
-  );
+	$accent-colors: (
+		background: var(--accent),
+		background-hover: var(--accent-light),
+		color: var(--text-accent)
+	);
 
-  $modifier-colors: (
-          active: (
-                  background: var(--tag-active-background),
-                  background-hover: var(--tag-active-background-hover),
-                  color: var(--tag-active-color)
-          ),
-          negated: (
-                  background: var(--tag-negated-background),
-                  background-hover: var(--tag-negated-background-hover),
-                  color: var(--tag-negated-color)
-          ),
-          optional: (
-                  background: var(--tag-optional-background),
-                  background-hover: var(--tag-optional-background-hover),
-                  color: var(--tag-optional-color)
-          )
-  );
+	$modifier-colors: (
+		active: (
+			background: var(--tag-active-background),
+			background-hover: var(--tag-active-background-hover),
+			color: var(--tag-active-color)
+		),
+		negated: (
+			background: var(--tag-negated-background),
+			background-hover: var(--tag-negated-background-hover),
+			color: var(--tag-negated-color)
+		),
+		optional: (
+			background: var(--tag-optional-background),
+			background-hover: var(--tag-optional-background-hover),
+			color: var(--tag-optional-color)
+		)
+	);
 
-  $tag-type-colors: (
-          codicon-edit: (
-                  background: var(--artist-background),
-                  background-hover: var(--artist-background-hover),
-                  color: var(--artist-color)
-          ),
-          codicon-person: (
-                  background: var(--character-background),
-                  background-hover: var(--character-background-hover),
-                  color: var(--character-color)
-          ),
-          codicon-folder: (
-                  background: var(--copyright-background),
-                  background-hover: var(--copyright-background-hover),
-                  color: var(--copyright-color)
-          ),
-          codicon-info: (
-                  background: var(--metadata-background),
-                  background-hover: var(--metadata-background-hover),
-                  color: var(--metadata-color)
-          ),
-          codicon-tag: (
-                  background: var(--general-background),
-                  background-hover: var(--general-background-hover),
-                  color: var(--general-color)
-          )
-  );
+	$tag-type-colors: (
+		codicon-edit: (
+			background: var(--artist-background),
+			background-hover: var(--artist-background-hover),
+			color: var(--artist-color)
+		),
+		codicon-person: (
+			background: var(--character-background),
+			background-hover: var(--character-background-hover),
+			color: var(--character-color)
+		),
+		codicon-folder: (
+			background: var(--copyright-background),
+			background-hover: var(--copyright-background-hover),
+			color: var(--copyright-color)
+		),
+		codicon-info: (
+			background: var(--metadata-background),
+			background-hover: var(--metadata-background-hover),
+			color: var(--metadata-color)
+		),
+		codicon-tag: (
+			background: var(--general-background),
+			background-hover: var(--general-background-hover),
+			color: var(--general-color)
+		)
+	);
 
-  // Optimized mixins
-  @mixin tag-base-style {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--tag-gap);
-    height: var(--tag-height);
-    border-radius: var(--tag-border-radius);
-    font-size: var(--tag-font-size);
-    user-select: none;
-    padding-inline: 8px 16px;
-    border: none;
-    cursor: pointer;
-    transform: translateZ(0);
-  }
+	// Optimized mixins
+	@mixin tag-base-style {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--tag-gap);
+		height: var(--tag-height);
+		border-radius: var(--tag-border-radius);
+		font-size: var(--tag-font-size);
+		user-select: none;
+		padding-inline: 8px 16px;
+		border: none;
+		cursor: pointer;
+		transform: translateZ(0);
+	}
 
-  @mixin color-scheme($colors) {
-    background-color: map.get($colors, background);
-    color: map.get($colors, color);
-    --bg-hover: #{map.get($colors, background-hover)};
-  }
+	@mixin color-scheme($colors) {
+		background-color: map.get($colors, background);
+		color: map.get($colors, color);
+		--bg-hover: #{map.get($colors, background-hover)};
+	}
 
-  @mixin hover-transition {
-    @media (hover: hover) {
-      will-change: background-color;
-      transition: background-color 150ms ease-out;
+	@mixin hover-transition {
+		@media (hover: hover) {
+			will-change: background-color;
+			transition: background-color 150ms ease-out;
 
-      &:hover {
-        background-color: var(--bg-hover);
-      }
-    }
-  }
+			&:hover {
+				background-color: var(--bg-hover);
+			}
+		}
+	}
 
-  button {
-    @include tag-base-style;
-    @include color-scheme($default-colors);
-    @include hover-transition;
+	button {
+		@include tag-base-style;
+		@include color-scheme($default-colors);
+		@include hover-transition;
 
-    &:active {
-      background-color: var(--background-1);
-      transform: translateZ(0) scale(0.98);
-    }
+		&:active {
+			background-color: var(--background-1);
+			transform: translateZ(0) scale(0.98);
+		}
 
-    &.no-icon {
-      padding-inline: 16px;
-    }
+		&.no-icon {
+			padding-inline: 16px;
+		}
 
-    &.active {
-      @include color-scheme(map.get($modifier-colors, active));
-    }
+		&.active {
+			@include color-scheme(map.get($modifier-colors, active));
+		}
 
-    &.optional {
-      @include color-scheme(map.get($modifier-colors, optional));
-      font-style: italic;
-      opacity: var(--tag-optional-opacity, 0.7);
-    }
+		&.optional {
+			@include color-scheme(map.get($modifier-colors, optional));
+			font-style: italic;
+			opacity: var(--tag-optional-opacity, 0.7);
+		}
 
-    &.negated {
-      @include color-scheme(map.get($modifier-colors, negated));
-      text-decoration: line-through;
-      opacity: var(--tag-negated-opacity, 0.7);
-    }
+		&.negated {
+			@include color-scheme(map.get($modifier-colors, negated));
+			text-decoration: line-through;
+			opacity: var(--tag-negated-opacity, 0.7);
+		}
 
-    &.supertag {
-      @include color-scheme($accent-colors);
-      border: dashed var(--supertag-border-width) var(--text-accent);
-    }
+		&.supertag {
+			@include color-scheme($accent-colors);
+			border: dashed var(--supertag-border-width) var(--text-accent);
+		}
 
-    @each $class, $colors in $tag-type-colors {
-      &.#{$class}:not(.active):not(.optional):not(.negated):not(.supertag) {
-        @include color-scheme($colors);
-      }
-    }
-  }
+		@each $class, $colors in $tag-type-colors {
+			&.#{$class}:not(.active):not(.optional):not(.negated):not(.supertag) {
+				@include color-scheme($colors);
+			}
+		}
+	}
 
-  .count {
-    opacity: 0.8;
-    font-size: 0.9em;
-  }
+	.count {
+		opacity: 0.8;
+		font-size: 0.9em;
+	}
 </style>

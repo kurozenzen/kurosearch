@@ -23,8 +23,7 @@
 		fetchSuggestions,
 		onpick,
 		loading = false,
-		onsubmit = () => {
-		}
+		onsubmit = () => {}
 	}: Props = $props();
 
 	let searchTerm = $state('');
@@ -145,100 +144,92 @@
 		{/await}
 	</ol>
 	<div class="search-button-wrapper">
-		<span
-			class="loading"
-			class:visible={loading}
-		>
+		<span class="loading" class:visible={loading}>
 			<LoadingAnimation />
 		</span>
-		<IconButton
-			id="btn-search"
-			title="Search with the selected tags"
-			onclick={onsubmit}
-		>
+		<IconButton id="btn-search" title="Search with the selected tags" onclick={onsubmit}>
 			<i class="codicon codicon-search"></i>
 		</IconButton>
 	</div>
 </div>
 
 <style lang="scss">
+	.loading {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		background-color: rgba(0, 0, 0, 0.5);
+		transition: opacity 200ms ease-in-out;
+		opacity: 0;
+		pointer-events: none;
 
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: opacity 200ms ease-in-out;
-    opacity: 0;
-    pointer-events: none;
+		&.visible {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
 
-    &.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
+	.searchbar {
+		display: flex;
+		align-items: center;
+		height: var(--line-height-large);
+		background-color: var(--background-1);
+		padding-inline: calc((var(--line-height-large) - 32px) / 2);
+		border-radius: calc(var(--line-height-large) / 2);
+		width: 100%;
+		max-width: 512px;
+		margin: 0 auto;
+		position: relative;
+		isolation: isolate;
+		z-index: var(--z-searchbar);
+		gap: 8px;
 
-  .searchbar {
-    display: flex;
-    align-items: center;
-    height: var(--line-height-large);
-    background-color: var(--background-1);
-    padding-inline: calc((var(--line-height-large) - 32px) / 2);
-    border-radius: calc(var(--line-height-large) / 2);
-    width: 100%;
-    max-width: 512px;
-    margin: 0 auto;
-    position: relative;
-    isolation: isolate;
-    z-index: var(--z-searchbar);
-    gap: 8px;
+		&.open {
+			border-radius: 22px 22px 0 0;
+			filter: drop-shadow(0px 3px 5px black);
+		}
 
-    &.open {
-      border-radius: 22px 22px 0 0;
-      filter: drop-shadow(0px 3px 5px black);
-    }
+		input {
+			font-size: var(--text-size);
+			background-color: transparent;
+			border: none;
+			color: var(--text);
+			flex-grow: 1;
+			outline: none;
+			min-width: 0;
+			height: 100%;
+			padding: unset;
+		}
 
-    input {
-      font-size: var(--text-size);
-      background-color: transparent;
-      border: none;
-      color: var(--text);
-      flex-grow: 1;
-      outline: none;
-      min-width: 0;
-      height: 100%;
-      padding: unset;
-    }
+		ol {
+			display: none;
+			box-sizing: border-box;
+			position: absolute;
+			top: var(--line-height-large);
+			left: 0;
+			width: 100%;
+			background-color: var(--background-1);
+			border-radius: 0 0 22px 22px;
+			overflow: hidden;
+			min-height: 22px;
 
-    ol {
-      display: none;
-      box-sizing: border-box;
-      position: absolute;
-      top: var(--line-height-large);
-      left: 0;
-      width: 100%;
-      background-color: var(--background-1);
-      border-radius: 0 0 22px 22px;
-      overflow: hidden;
-      min-height: 22px;
+			&.open {
+				display: block;
+			}
+		}
 
-      &.open {
-        display: block;
-      }
-    }
-
-    .suggestion-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px;
-      gap: var(--small-gap);
-    }
-  }
+		.suggestion-footer {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 8px;
+			gap: var(--small-gap);
+		}
+	}
 </style>

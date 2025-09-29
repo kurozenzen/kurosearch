@@ -16,8 +16,8 @@ $font-base-path: '/font' !default;
 
 // Supported font formats with their corresponding format declarations
 $font-formats: (
-  woff2: 'woff2',
-  woff: 'woff'
+	woff2: 'woff2',
+	woff: 'woff'
 ) !default;
 
 // ============================================================================
@@ -26,58 +26,58 @@ $font-formats: (
 
 // Zen Kaku Gothic New font configuration
 $zen-kaku-gothic-config: (
-  family: 'Zen Kaku Gothic New',
-  variants: (
-    black: (
-      weight: 900,
-      files: (
-        woff2: 'ZenKakuGothicNew-Black-subset.woff2',
-        woff: 'ZenKakuGothicNew-Black-subset.woff'
-      )
-    )
-  )
+	family: 'Zen Kaku Gothic New',
+	variants: (
+		black: (
+			weight: 900,
+			files: (
+				woff2: 'ZenKakuGothicNew-Black-subset.woff2',
+				woff: 'ZenKakuGothicNew-Black-subset.woff'
+			)
+		)
+	)
 ) !default;
 
 // Roboto font configuration
 $roboto-config: (
-  family: 'Roboto',
-  variants: (
-    regular: (
-      weight: 400,
-      files: (
-        woff2: 'Roboto-Regular.woff2',
-        woff: 'Roboto-Regular.woff'
-      )
-    ),
-    italic: (
-      weight: 400,
-      style: italic,
-      files: (
-        woff2: 'Roboto-Italic.woff2',
-        woff: 'Roboto-Italic.woff'
-      )
-    )
-  )
+	family: 'Roboto',
+	variants: (
+		regular: (
+			weight: 400,
+			files: (
+				woff2: 'Roboto-Regular.woff2',
+				woff: 'Roboto-Regular.woff'
+			)
+		),
+		italic: (
+			weight: 400,
+			style: italic,
+			files: (
+				woff2: 'Roboto-Italic.woff2',
+				woff: 'Roboto-Italic.woff'
+			)
+		)
+	)
 ) !default;
 
 // Codicon font configuration
 $codicon-config: (
-  family: 'codicon',
-  variants: (
-    regular: (
-      files: (
-        woff2: 'codicon.woff2',
-        woff: 'codicon.woff'
-      )
-    )
-  )
+	family: 'codicon',
+	variants: (
+		regular: (
+			files: (
+				woff2: 'codicon.woff2',
+				woff: 'codicon.woff'
+			)
+		)
+	)
 ) !default;
 
 // Master font configurations map
 $font-configs: (
-  zen-kaku-gothic: $zen-kaku-gothic-config,
-  roboto: $roboto-config,
-  codicon: $codicon-config
+	zen-kaku-gothic: $zen-kaku-gothic-config,
+	roboto: $roboto-config,
+	codicon: $codicon-config
 ) !default;
 
 // ============================================================================
@@ -89,23 +89,23 @@ $font-configs: (
 // @param {String} $format - The font format (woff2, woff, etc.)
 // @param {String} $base-path - Base path to font directory
 @function font-url($filename, $format, $base-path: $font-base-path) {
-  @return url('#{$base-path}/#{$filename}') format('#{map.get($font-formats, $format)}');
+	@return url('#{$base-path}/#{$filename}') format('#{map.get($font-formats, $format)}');
 }
 
 // Generate src declarations for multiple font formats
 // @param {Map} $files - Map of format to filename
 // @param {String} $base-path - Base path to font directory
 @mixin font-src($files, $base-path: $font-base-path) {
-  $src-list: ();
-  
-  @each $format, $filename in $files {
-    @if map.has-key($font-formats, $format) {
-      $url: font-url($filename, $format, $base-path);
-      $src-list: list.append($src-list, $url, comma);
-    }
-  }
-  
-  src: $src-list;
+	$src-list: ();
+
+	@each $format, $filename in $files {
+		@if map.has-key($font-formats, $format) {
+			$url: font-url($filename, $format, $base-path);
+			$src-list: list.append($src-list, $url, comma);
+		}
+	}
+
+	src: $src-list;
 }
 
 // Generate a complete @font-face declaration
@@ -113,40 +113,40 @@ $font-configs: (
 // @param {Map} $variant - Variant configuration (weight, style, files)
 // @param {String} $base-path - Base path to font directory
 @mixin font-face($family, $variant, $base-path: $font-base-path) {
-  @font-face {
-    font-family: $family;
-    
-    @if map.has-key($variant, weight) {
-      font-weight: map.get($variant, weight);
-    }
-    
-    @if map.has-key($variant, style) {
-      font-style: map.get($variant, style);
-    }
-    
-    @include font-src(map.get($variant, files), $base-path);
-  }
+	@font-face {
+		font-family: $family;
+
+		@if map.has-key($variant, weight) {
+			font-weight: map.get($variant, weight);
+		}
+
+		@if map.has-key($variant, style) {
+			font-style: map.get($variant, style);
+		}
+
+		@include font-src(map.get($variant, files), $base-path);
+	}
 }
 
 // Generate @font-face declarations for an entire font family
 // @param {Map} $font-config - Complete font configuration
 // @param {String} $base-path - Base path to font directory
 @mixin font-family($font-config, $base-path: $font-base-path) {
-  $family: map.get($font-config, family);
-  $variants: map.get($font-config, variants);
-  
-  @each $variant-name, $variant-config in $variants {
-    @include font-face($family, $variant-config, $base-path);
-  }
+	$family: map.get($font-config, family);
+	$variants: map.get($font-config, variants);
+
+	@each $variant-name, $variant-config in $variants {
+		@include font-face($family, $variant-config, $base-path);
+	}
 }
 
 // Generate all configured font families
 // @param {Map} $configs - Map of all font configurations
 // @param {String} $base-path - Base path to font directory
 @mixin generate-all-fonts($configs: $font-configs, $base-path: $font-base-path) {
-  @each $font-name, $font-config in $configs {
-    @include font-family($font-config, $base-path);
-  }
+	@each $font-name, $font-config in $configs {
+		@include font-family($font-config, $base-path);
+	}
 }
 
 // ============================================================================
@@ -160,7 +160,7 @@ $font-configs: (
 // Individual font family generation examples:
 //
 // @include font-family($zen-kaku-gothic-config);
-// @include font-family($roboto-config);  
+// @include font-family($roboto-config);
 // @include font-family($codicon-config);
 
 // ============================================================================

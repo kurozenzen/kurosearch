@@ -13,12 +13,7 @@
 		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;
 	}
 
-	let {
-		tags,
-		oncontextmenu,
-		onclick,
-		oncreateSupertag: createSupertag
-	}: Props = $props();
+	let { tags, oncontextmenu, onclick, oncreateSupertag: createSupertag }: Props = $props();
 
 	// Sort tags by modifier first, then alphabetically by name
 	let sortedTags = $derived(

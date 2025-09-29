@@ -19,9 +19,9 @@ $default-list-style: none !default;
 
 // Common reset values that might be expanded in the future
 $reset-values: (
-  margin: 0,
-  padding: 0,
-  box-sizing: $default-box-sizing
+	margin: 0,
+	padding: 0,
+	box-sizing: $default-box-sizing
 ) !default;
 
 // ============================================================================
@@ -31,38 +31,38 @@ $reset-values: (
 // Universal box-sizing reset mixin
 // Ensures all elements use border-box sizing for predictable layouts
 @mixin universal-box-sizing($sizing: $default-box-sizing) {
-  *,
-  *::before,
-  *::after {
-    box-sizing: $sizing;
-  }
+	*,
+	*::before,
+	*::after {
+		box-sizing: $sizing;
+	}
 }
 
 // List reset mixin - removes default list styling
 // @param {List} $elements - List of elements to target (default: ol, ul)
 // @param {String} $style - List style to apply (default: none)
 @mixin reset-lists($elements: $list-elements, $style: $default-list-style) {
-  #{$elements} {
-    list-style-type: $style;
-    
-    // Remove default margins and padding that browsers add to lists
-    margin: 0;
-    padding: 0;
-    
-    // Nested lists inherit the reset
-    #{$elements} {
-      margin: 0;
-      padding: 0;
-    }
-  }
+	#{$elements} {
+		list-style-type: $style;
+
+		// Remove default margins and padding that browsers add to lists
+		margin: 0;
+		padding: 0;
+
+		// Nested lists inherit the reset
+		#{$elements} {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
 // Comprehensive reset mixin for future expansion
 // Applies common reset values to specified elements
 @mixin comprehensive-reset($properties: $reset-values) {
-  @each $property, $value in $properties {
-    #{$property}: $value;
-  }
+	@each $property, $value in $properties {
+		#{$property}: $value;
+	}
 }
 
 // ============================================================================
@@ -92,7 +92,7 @@ $reset-values: (
 // This section can be expanded with additional reset patterns as needed:
 //
 // - Form element normalization
-// - Typography baseline settings  
+// - Typography baseline settings
 // - Focus outline management
 // - Print media defaults
 // - Accessibility improvements
