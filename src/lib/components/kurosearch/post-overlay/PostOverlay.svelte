@@ -19,6 +19,7 @@
 
 		// videos
 		currentTime?: number;
+		bufferedTime?: number;
 		duration?: number;
 
 		// fullscreen
@@ -31,6 +32,7 @@
 		loading,
 		ontoggleplay,
 		currentTime = $bindable(),
+		bufferedTime = 0,
 		duration,
 		ondetails,
 		mediaType,
@@ -71,7 +73,7 @@
 			{:else}
 				<span class="media-type">{mediaType}</span>
 			{/if}
-			<VideoSeekInput bind:currentTime {duration} />
+			<VideoSeekInput bind:currentTime {bufferedTime} {duration} />
 			<VolumeControl />
 			{#if ondetails !== undefined}
 				<IconButton variant="half-background" onclick={ondetails}>

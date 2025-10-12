@@ -19,6 +19,8 @@
 	let sources = $derived(getVideoSources(post.file_url, post.sample_url, post.preview_url));
 
 	let currentTime = $state(0);
+	let buffered = $state([{ start: 0, end: 0 }]);
+	let bufferedTime = $derived(buffered.reduce((acc, cur) => Math.max(acc, cur.end), 0));
 	let paused = $state(false);
 	let loading = $state(false);
 	let duration: number = $state(1);
@@ -79,6 +81,7 @@
 	bind:currentTime
 	bind:paused
 	bind:duration
+	bind:buffered
 	onwaiting={() => (loading = true)}
 	onplaying={() => (loading = false)}
 	{onended}
@@ -98,6 +101,7 @@
 	{loading}
 	{ontoggleplay}
 	bind:currentTime
+	{bufferedTime}
 	{duration}
 	{ondetails}
 />

@@ -1,13 +1,15 @@
 <script lang="ts">
 	interface Props {
 		currentTime: number;
+		bufferedTime: number;
 		duration: number;
 		class?: string;
 	}
 
-	let { currentTime = $bindable(), duration, ...rest }: Props = $props();
+	let { currentTime = $bindable(), bufferedTime, duration, ...rest }: Props = $props();
 
-	let percent = $derived((currentTime / duration) * 98 + 1);
+	let percentCurrentTime = $derived((currentTime / duration) * 98 + 1);
+	let percentBuffered = $derived((bufferedTime / duration) * 98 + 1);
 </script>
 
 <input
@@ -16,13 +18,14 @@
 	min={0}
 	max={duration}
 	step={0.01}
-	style="--progress: {percent}%"
+	style="--current-time: {percentCurrentTime}%; --buffered-time: {percentBuffered}%"
 	class={rest.class}
 />
 
 <style>
 	input[type='range'] {
-		--progress: 0% default;
+		--current-time: 0% default;
+		--buffered-time: 0% default;
 		flex-grow: 1;
 		appearance: none;
 		-webkit-appearance: none;
@@ -34,12 +37,14 @@
 		margin-top: calc(-14px - var(--line-height));
 		border-radius: 2px;
 
-		touch-action: manipulation; /* FIREFOX: Prevent all touch gestures */
+		touch-action: manipulation; /* FIREFOX: Prevent all touch gestures except scroll down */
 
 		background-image: linear-gradient(
 			90deg,
-			var(--accent) var(--progress),
-			var(--background-2) var(--progress)
+			var(--accent) var(--current-time),
+			#888 var(--current-time),
+			#888 var(--buffered-time),
+			var(--background-2) var(--buffered-time)
 		);
 	}
 

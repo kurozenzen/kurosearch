@@ -25,6 +25,7 @@
 	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
+	import LynxMain from './LynxMain.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -134,22 +135,7 @@
 	/>
 </svelte:head>
 
-<!-- <LynxMain /> -->
-
-<d class="news">
-	<span>❤</span>
-	<span>
-		Hey, sorry for the trouble in the last few days. Everything should be back working again but we
-		have some rough times ahead...
-	</span>
-</d>
-<d class="news">
-	<span>🆕</span>
-	<span>
-		If you are interested, you can specify your own API key in the settings, which will improve
-		performance and reliability.
-	</span>
-</d>
+<LynxMain />
 
 <SearchForm {loading} onsubmit={getFirstPage} />
 
@@ -230,15 +216,5 @@
 		height: 100vh;
 		border-radius: var(--border-radius-large);
 		animation: sweep ease-in-out 3s infinite;
-	}
-
-	.news {
-		display: flex;
-		align-items: center;
-		height: min(100%, 150px);
-		background-color: var(--background-1);
-		margin-inline: 0.5rem;
-		padding: 1rem;
-		gap: 1rem;
 	}
 </style>

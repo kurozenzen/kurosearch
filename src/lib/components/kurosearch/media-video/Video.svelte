@@ -40,6 +40,8 @@
 
 	let duration = $state(0);
 	let currentTime = $state(0);
+	let buffered = $state([{ start: 0, end: 0 }]);
+	let bufferedTime = $derived(buffered.reduce((acc, cur) => Math.max(acc, cur.end), 0));
 
 	let overlayHidden = $state(true);
 	const onclick = (e: Event) => {
@@ -135,6 +137,7 @@
 			bind:paused
 			bind:currentTime
 			bind:duration
+			bind:buffered
 			onwaiting={() => (loading = true)}
 			onplaying={() => (loading = false)}
 			onpause={() => (loading = false)}
@@ -161,6 +164,7 @@
 			{loading}
 			{ontoggleplay}
 			bind:currentTime
+			{bufferedTime}
 			{duration}
 		/>
 	{/if}
