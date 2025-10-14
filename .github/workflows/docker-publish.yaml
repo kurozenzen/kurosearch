@@ -56,7 +56,7 @@ jobs:
             type=raw,value=canary
             type=raw,value=${{ steps.package-version.outputs.version }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=sha-
 
       - name: Build and push Docker image
         id: build
