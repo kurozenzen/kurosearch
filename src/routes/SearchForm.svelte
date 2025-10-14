@@ -8,7 +8,6 @@
 	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import { getNextModifier } from '$lib/logic/modifier-utils';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
@@ -108,16 +107,6 @@
 	/>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
-		onclick={(tag) =>
-			'description' in tag
-				? activeSupertags.removeByName(tag.name)
-				: activeTags.removeByName(tag.name)}
-		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = getNextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
 		oncreateSupertag={() => {
 			createSupertagDialog?.showModal();
 			addHistory('dialog');

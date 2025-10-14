@@ -18,19 +18,24 @@
 </script>
 
 <script lang="ts">
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { getGifSources } from '$lib/logic/media-utils';
-	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
 		postId?: number;
-		ondetails: () => void;
-		onended?: () => void;
 	}
 
-	let { post, postId = -1, onended, ondetails }: Props = $props();
+	let { post, postId = -1 }: Props = $props();
+
+	// Get callbacks from context instead of props to avoid drilling
+	const { ondetails, onended } = getContext<{
+		ondetails: () => void;
+		onended?: () => void;
+	}>('fullscreen-callbacks');
 
 	let sources = $derived(getGifSources(post.file_url, post.sample_url, post.preview_url));
 
@@ -127,6 +132,7 @@
 		src={sources.animated}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
+		class:blurred={$blurEnabled}
 		onload={() => (loading = false)}
 		{onclick}
 		use:pauseoffscreen
@@ -139,6 +145,7 @@
 	src={sources.static}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
+	class:blurred={$blurEnabled}
 	{onclick}
 />
 
@@ -153,12 +160,16 @@
 	{ondetails}
 />
 
-<style>
+<style lang="scss">
 	img {
 		display: flex;
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
 		contain: strict;
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 </style>

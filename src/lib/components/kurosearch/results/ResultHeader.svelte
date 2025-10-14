@@ -5,15 +5,14 @@
 
 	interface Props {
 		loading: boolean;
-		onsortfilterupdate: () => void;
 	}
 
-	let { loading, onsortfilterupdate }: Props = $props();
+	let { loading }: Props = $props();
 </script>
 
 <div id="result-header">
 	<span class:loading>{formatCount($results.postCount)} posts</span>
-	<SortFilterConfig {onsortfilterupdate} />
+	<SortFilterConfig />
 </div>
 
 <style lang="scss">

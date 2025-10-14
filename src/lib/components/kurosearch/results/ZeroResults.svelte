@@ -79,12 +79,7 @@
 	import blockedContent from '$lib/store/blocked-content-store';
 	import filter from '$lib/store/filter-store';
 	import sort from '$lib/store/sort-store';
-
-	interface Props {
-		onsortfilterupdate: () => void;
-	}
-
-	let { onsortfilterupdate }: Props = $props();
+	import { searchActions } from '$lib/store/search-actions-store';
 
 	let conflictingTags = $derived(
 		validateTags($activeTagsStore, $blockedContent, $activeSupertagsStore)
@@ -118,7 +113,7 @@
 			onclick={() => {
 				sort.reset();
 				filter.reset();
-				onsortfilterupdate();
+				$searchActions.refreshSearch();
 			}}
 		>
 			Reset Filter

@@ -25,6 +25,7 @@
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import { APP_NAME } from '$lib/logic/app-config';
+	import { searchActions } from '$lib/store/search-actions-store';
 	import './global.scss';
 
 	let loading = $state(false);
@@ -110,6 +111,11 @@
 		if (browser) {
 			document.addEventListener('keydown', keybinds);
 		}
+
+		// Set up search actions for other components to use
+		searchActions.set({
+			refreshSearch: getFirstPage
+		});
 	});
 
 	onDestroy(() => {
@@ -135,16 +141,16 @@
 	<PageJump onpagechange={getPage} />
 {/if}
 
-<ResultHeader {loading} onsortfilterupdate={getFirstPage} />
+<ResultHeader {loading} />
 
 {#if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
 		{#if $results.postCount === 0}
-			<ZeroResults onsortfilterupdate={getFirstPage} />
+			<ZeroResults />
 		{:else}
-			<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
+			<Results onendreached={getNextPage} />
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else if $pageNavigationEnabled}

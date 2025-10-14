@@ -3,6 +3,7 @@
 	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
 	import { calculateAspectRatio } from './ratio';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -36,7 +37,14 @@
 	{onclick}
 	onkeydown={handleKeydown}
 >
-	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
+	<img
+		src={previewSrc}
+		alt="post"
+		class="post-media"
+		class:blurred={$blurEnabled}
+		tabindex="-1"
+		loading="lazy"
+	/>
 	{#if post.type !== 'image'}
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>
 	{/if}
@@ -54,6 +62,10 @@
 		grid-row: 1 / 4;
 		max-height: 100vh;
 		transition: all var(--default-transition-behaviour);
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 
 	.post {

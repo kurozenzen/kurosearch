@@ -2,7 +2,7 @@
 
 # Common args
 ARG PNPM_VERSION=10.17.0
-ARG PLAYWRIGHT_BROWSERS="chromium"
+ARG PLAYWRIGHT_BROWSERS="chromium firefox webkit"
 ARG PROJECT_VERSION=1.1.0
 
 FROM node:lts-bookworm AS node-tests
@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
  && pnpm run test:unit
 
 
-FROM mcr.microsoft.com/playwright:v1.55.0-noble AS playwright-tests
+FROM mcr.microsoft.com/playwright:v1.56.0-noble AS playwright-tests
 WORKDIR /home/pwuser
 
 ARG PNPM_VERSION

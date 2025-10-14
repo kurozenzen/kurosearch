@@ -1,18 +1,22 @@
 <script lang="ts">
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { getVideoSources } from '$lib/logic/media-utils';
 	import { videoObserver } from '$lib/logic/video-observer';
-	import { onDestroy, onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
-		ondetails: () => void;
-		onended?: () => void;
 		startAt?: number;
 	}
 
-	let { post, onended, ondetails, startAt }: Props = $props();
+	let { post, startAt }: Props = $props();
+
+	// Get callbacks from context instead of props to avoid drilling
+	const { ondetails, onended } = getContext<{
+		ondetails: () => void;
+		onended?: () => void;
+	}>('fullscreen-callbacks');
 
 	let video: HTMLVideoElement;
 

@@ -3,6 +3,7 @@
 	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { calculateAspectRatioCss } from '../post/ratio';
 
@@ -46,6 +47,7 @@
 	<img
 		bind:this={media}
 		class="post-media media-img"
+		class:blurred={$blurEnabled}
 		loading="lazy"
 		data-src={data_src}
 		alt={post.id.toString()}
@@ -98,6 +100,10 @@
 		height: 100%;
 		object-fit: contain;
 		contain: strict;
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 
 	.animated-preload {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { observeImage } from '$lib/logic/image-observer';
 	import { clickOnEnter } from '$lib/logic/keyboard-utils';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 
 	let { src, alt, width, height, onclick } = $props();
 	const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
@@ -10,6 +11,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <img
 	class="post-media"
+	class:blurred={$blurEnabled}
 	loading="lazy"
 	data-src={src}
 	{alt}
@@ -31,6 +33,10 @@
 		object-fit: contain;
 		contain: strict;
 		z-index: var(--z-media);
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 
 	@container (min-width: 800px) {

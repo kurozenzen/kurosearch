@@ -9,7 +9,6 @@
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import blockedContent from '$lib/store/blocked-content-store';
-	import { getNextModifier } from '$lib/logic/modifier-utils';
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import { SearchBuilder } from '$lib/logic/search-builder';
@@ -104,19 +103,7 @@
 			}
 		}}
 	/>
-	<ActiveTagList
-		tags={[...$activeTags, ...$activeSupertags]}
-		onclick={(tag) =>
-			'description' in tag
-				? activeSupertags.removeByName(tag.name)
-				: activeTags.removeByName(tag.name)}
-		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = getNextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
-	/>
+	<ActiveTagList tags={[...$activeTags, ...$activeSupertags]} />
 	<code>
 		{@html query}
 	</code>

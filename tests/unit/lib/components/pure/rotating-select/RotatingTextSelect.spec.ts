@@ -15,12 +15,12 @@ describe('RotatingTextSelect', () => {
 
 		const button: HTMLButtonElement = screen.getByRole('button');
 		expect(button).toBeDefined();
-		expect(button.textContent).toBe('ONE');
+		expect(button.textContent?.trim()).toBe('ONE');
 		await fireEvent.click(button);
-		expect(button.textContent).toBe('TWO');
+		expect(button.textContent?.trim()).toBe('TWO');
 		await fireEvent.click(button);
-		expect(button.textContent).toBe('THREE');
+		expect(button.textContent?.trim()).toBe('THREE');
 		await fireEvent.click(button);
-		expect(button.textContent).toBe('ONE');
+		expect(button.textContent?.trim()).toBe('ONE');
 	});
 });

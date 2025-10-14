@@ -3,36 +3,73 @@
 	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
 	import ShareButton from '../button-share/ShareButton.svelte';
 	import { supportsUrlSharing } from '$lib/logic/feature-support';
-	import { getIndexOfModifier } from '$lib/logic/modifier-utils';
+	import { getIndexOfModifier, getNextModifier } from '$lib/logic/modifier-utils';
 	import activeTagsStore from '$lib/store/active-tags-store';
 
 	interface Props {
 		tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
-		oncontextmenu: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
-		onclick: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
+		oncontextmenu?: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
+		onclick?: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
 		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;
 	}
 
 	let { tags, oncontextmenu, onclick, oncreateSupertag: createSupertag }: Props = $props();
 
+	let sortingPaused = $state(false);
+	let sortingTimeout: ReturnType<typeof setTimeout>;
+
+	const handleClick = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => {
+		// If parent provided onclick, use it; otherwise toggle selection
+		if (onclick) {
+			onclick(tag);
+		} else {
+			// Remove the tag from active tags
+			activeTagsStore.removeByName(tag.name);
+		}
+	};
+
+	const handleCycle = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => {
+		// Pause sorting to prevent reordering during interaction
+		sortingPaused = true;
+		clearTimeout(sortingTimeout);
+		sortingTimeout = setTimeout(() => {
+			sortingPaused = false;
+		}, 500);
+
+		// If parent provided oncontextmenu, use it; otherwise cycle modifiers
+		if (oncontextmenu) {
+			oncontextmenu(tag);
+		} else if ('description' in tag) {
+			// Supertags can't be cycled, just ignore
+			return;
+		} else {
+			// Cycle through modifiers: + → ~ → - → +
+			const nextModifier = getNextModifier(tag.modifier);
+			activeTagsStore.addOrReplace({ ...tag, modifier: nextModifier });
+		}
+	};
+
 	// Sort tags by modifier first, then alphabetically by name
+	// Pause sorting during interactions to prevent reordering
 	let sortedTags = $derived(
-		[...tags].sort((a, b) => {
-			// Get modifier for each tag (supertags have '+' modifier)
-			const modifierA = 'description' in a ? '+' : a.modifier;
-			const modifierB = 'description' in b ? '+' : b.modifier;
+		sortingPaused
+			? tags
+			: [...tags].sort((a, b) => {
+					// Get modifier for each tag (supertags have '+' modifier)
+					const modifierA = 'description' in a ? '+' : a.modifier;
+					const modifierB = 'description' in b ? '+' : b.modifier;
 
-			// First sort by modifier priority
-			const priorityA = getIndexOfModifier(modifierA);
-			const priorityB = getIndexOfModifier(modifierB);
+					// First sort by modifier priority
+					const priorityA = getIndexOfModifier(modifierA);
+					const priorityB = getIndexOfModifier(modifierB);
 
-			if (priorityA !== priorityB) {
-				return priorityA - priorityB;
-			}
+					if (priorityA !== priorityB) {
+						return priorityA - priorityB;
+					}
 
-			// Then sort alphabetically by name
-			return a.name.localeCompare(b.name);
-		})
+					// Then sort alphabetically by name
+					return a.name.localeCompare(b.name);
+				})
 	);
 
 	const clearSelection = () => {
@@ -42,19 +79,21 @@
 
 <ul>
 	{#if tags.length > 0}
-		{#each sortedTags as tag}
+		{#each sortedTags as tag (tag.name)}
 			{#if 'description' in tag}
 				<DetailedTag
 					tag={{ name: tag.name, type: 'supertag', modifier: '+', count: tag.tags.length }}
-					onclick={() => onclick(tag)}
-					oncontextmenu={() => oncontextmenu(tag)}
+					onclick={() => handleClick(tag)}
+					oncontextmenu={() => handleCycle(tag)}
+					onlongpress={() => handleCycle(tag)}
 					active
 				/>
 			{:else}
 				<DetailedTag
 					{tag}
-					onclick={() => onclick(tag)}
-					oncontextmenu={() => oncontextmenu(tag)}
+					onclick={() => handleClick(tag)}
+					oncontextmenu={() => handleCycle(tag)}
+					onlongpress={() => handleCycle(tag)}
 					active
 				/>
 			{/if}
