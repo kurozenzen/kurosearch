@@ -60,7 +60,7 @@ jobs:
           fi
 
           # Save to file to handle multiline content
-          cat << 'EOF' > release_notes.txt
+          cat << EOF > release_notes.txt
           $NOTES
           EOF
 
