@@ -3,6 +3,32 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: (id) => {
+					// Split large vendor libraries into separate chunks
+					if (id.includes('node_modules')) {
+						if (id.includes('firebase')) {
+							return 'vendor-firebase';
+						}
+						if (id.includes('svelte')) {
+							return 'vendor-svelte';
+						}
+						return 'vendor';
+					}
+				}
+			}
+		},
+		// Enable minification and tree-shaking
+		minify: 'terser',
+		terserOptions: {
+			compress: {
+				drop_console: false, // Keep console for debugging
+				passes: 2
+			}
+		}
+	},
 	plugins: [
 		sveltekit(),
 		VitePWA({

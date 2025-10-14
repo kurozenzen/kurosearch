@@ -45,12 +45,16 @@ describe('semi-persistent-store', () => {
 		expect(v).toEqual({ a: 7 });
 	});
 
-	it('writes to both sessionStorage and localStorage on set', async () => {
+	it('writes to chosen storage with debouncing on set', async () => {
 		const mod = await loadModule(true);
 		const store = mod.semiPersistentWritable('k', { a: 1 });
 		store.set({ a: 2 });
+
+		// After optimization, writes are debounced (200ms), so we need to wait
+		await new Promise((resolve) => setTimeout(resolve, 250));
+
+		// Should write to localStorage by default (when localstorage-enabled is not set or true)
 		expect(window.localStorage.getItem('k')).toBe(JSON.stringify({ a: 2 }));
-		expect(window.sessionStorage.getItem('k')).toBe(JSON.stringify({ a: 2 }));
 	});
 
 	it('merges objects, but not arrays', async () => {

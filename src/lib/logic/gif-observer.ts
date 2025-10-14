@@ -7,9 +7,8 @@ const observer = browser
 					if (entry.isIntersecting) {
 						const dataSrc = entry.target.getAttribute('data-src') ?? '';
 						entry?.target?.setAttribute('src', dataSrc);
-					} else {
-						entry?.target?.setAttribute('src', '//:0'); // unload
 					}
+					// Removed unload behavior - keep GIFs loaded for better UX and less bandwidth waste
 				}
 			},
 			{ rootMargin: '1250px' }

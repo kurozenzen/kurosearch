@@ -187,16 +187,27 @@ export const addIndexedPosts = (posts: kurosearch.Post[]) => {
 
 	const indexedAt = currentHour();
 
+	// Get stores once outside loop for better performance
+	const postStore = transaction.objectStore('posts');
+	const tagStore = transaction.objectStore('tags');
+
+	// Deduplicate tags before writing
+	const uniqueTags = new Map<string, kurosearch.Tag>();
+
 	for (const post of posts) {
-		const postStore = transaction.objectStore('posts');
 		const request = postStore.put({ ...post, indexedAt });
 		request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
 
+		// Collect unique tags
 		for (const tag of post.tags) {
-			const tagStore = transaction.objectStore('tags');
-			const tagRequest = tagStore.put(tag);
-			tagRequest.addEventListener('error', (e) => console.error('[R] Tag Index Error:', e));
+			uniqueTags.set(tag.name, tag);
 		}
+	}
+
+	// Write unique tags only once
+	for (const tag of uniqueTags.values()) {
+		const tagRequest = tagStore.put(tag);
+		tagRequest.addEventListener('error', (e) => console.error('[R] Tag Index Error:', e));
 	}
 };
 

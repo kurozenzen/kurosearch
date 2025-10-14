@@ -44,7 +44,7 @@ describe('gif-observer', () => {
 		delete (globalThis as any).IntersectionObserver;
 	});
 
-	it('observes node and swaps src on intersect/non-intersect', async () => {
+	it('observes node and swaps src on intersect (no unload optimization)', async () => {
 		await withMockedEnv(true, async ({ observeGif }) => {
 			// Prepare element
 			const img = document.createElement('img');
@@ -58,8 +58,10 @@ describe('gif-observer', () => {
 			expect(spy).toHaveBeenCalledWith('src', 'https://example.com/a.gif');
 
 			// simulate leaving viewport
+			spy.mockClear();
 			IO.cb?.([{ target: img, isIntersecting: false } as any], {} as any);
-			expect(spy).toHaveBeenCalledWith('src', '//:0');
+			// After optimization, we no longer unload GIFs for better performance
+			expect(spy).not.toHaveBeenCalled();
 
 			// cleanup should not throw
 			expect(() => destroy()).not.toThrow();

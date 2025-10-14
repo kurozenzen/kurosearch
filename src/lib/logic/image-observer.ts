@@ -11,9 +11,8 @@ const observer = browser
 							return;
 						}
 						entry?.target?.setAttribute('src', dataSrc);
-					} else {
-						entry?.target?.setAttribute('src', '//:0'); // unload
 					}
+					// Removed unload behavior - keep images loaded for better UX and less bandwidth waste
 				}
 			},
 			{ rootMargin: '1250px' }

@@ -64,7 +64,7 @@ describe('image-observer', () => {
 		});
 	});
 
-	it('unloads src when not intersecting', async () => {
+	it('does not unload src when not intersecting (optimization)', async () => {
 		await withMockedEnv(true, async ({ observeImage }) => {
 			const img = document.createElement('img');
 			img.setAttribute('data-src', 'x');
@@ -72,7 +72,8 @@ describe('image-observer', () => {
 			observeImage(img);
 			const IO = globalThis.IntersectionObserver as any;
 			IO.cb?.([{ target: img, isIntersecting: false } as any], {} as any);
-			expect(spy).toHaveBeenCalledWith('src', '//:0');
+			// After optimization, we no longer unload images for better performance
+			expect(spy).not.toHaveBeenCalled();
 		});
 	});
 
