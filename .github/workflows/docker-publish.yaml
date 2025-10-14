@@ -34,7 +34,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Extract version from package.json
         id: package-version
