@@ -182,6 +182,17 @@
 			aspect-ratio: 1;
 		}
 
+		// Icon button - ensure perfect circle
+		&.icon-button {
+			width: var(--button-width);
+			height: var(--button-height);
+			min-width: var(--button-width);
+			min-height: var(--button-height);
+			max-width: var(--button-width);
+			max-height: var(--button-height);
+			padding: 0;
+		}
+
 		// Full-width button
 		&.full-width {
 			width: 100%;
@@ -219,12 +230,12 @@
 
 	// Responsive adjustments
 	@media (max-width: 768px) {
-		.button {
+		.button:not(.icon-button) {
 			// Slightly larger touch targets on mobile
 			min-height: 44px;
 		}
 
-		.button--small {
+		.button--small:not(.icon-button) {
 			min-height: 36px;
 		}
 	}

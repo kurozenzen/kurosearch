@@ -17,6 +17,7 @@
 
 	let sortingPaused = $state(false);
 	let sortingTimeout: ReturnType<typeof setTimeout>;
+	let frozenTags: Array<kurosearch.ModifiedTag | kurosearch.Supertag> = $state([]);
 
 	const handleClick = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => {
 		// If parent provided onclick, use it; otherwise toggle selection
@@ -29,12 +30,14 @@
 	};
 
 	const handleCycle = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => {
-		// Pause sorting to prevent reordering during interaction
+		// Freeze the current sorted order before making changes
+		if (!sortingPaused) {
+			frozenTags = sortedTags;
+		}
+
+		// Pause sorting to prevent reordering during and shortly after interaction
 		sortingPaused = true;
 		clearTimeout(sortingTimeout);
-		sortingTimeout = setTimeout(() => {
-			sortingPaused = false;
-		}, 500);
 
 		// If parent provided oncontextmenu, use it; otherwise cycle modifiers
 		if (oncontextmenu) {
@@ -47,13 +50,22 @@
 			const nextModifier = getNextModifier(tag.modifier);
 			activeTagsStore.addOrReplace({ ...tag, modifier: nextModifier });
 		}
+
+		// Resume sorting after a delay (enough time for gesture to complete)
+		sortingTimeout = setTimeout(() => {
+			sortingPaused = false;
+		}, 800);
 	};
 
 	// Sort tags by modifier first, then alphabetically by name
 	// Pause sorting during interactions to prevent reordering
 	let sortedTags = $derived(
 		sortingPaused
-			? tags
+			? // When paused, update the frozen tags with new data but keep the order
+				frozenTags.map((frozenTag) => {
+					const updatedTag = tags.find((t) => t.name === frozenTag.name);
+					return updatedTag || frozenTag;
+				})
 			: [...tags].sort((a, b) => {
 					// Get modifier for each tag (supertags have '+' modifier)
 					const modifierA = 'description' in a ? '+' : a.modifier;

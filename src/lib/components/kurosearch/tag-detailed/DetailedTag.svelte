@@ -21,11 +21,33 @@
 	let formattedCount = $derived(tag.count > 0 ? formatCount(tag.count) : undefined);
 	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
 
+	let longPressActive = $state(false);
+	let longPressTimeout: ReturnType<typeof setTimeout>;
+
 	const handleContextMenu = (e: MouseEvent) => {
 		if (oncontextmenu) {
 			e.preventDefault();
 			oncontextmenu();
 		}
+	};
+
+	const handleLongPress = () => {
+		longPressActive = true;
+		clearTimeout(longPressTimeout);
+		onlongpress?.();
+		// Reset flag after enough time for all related events to fire
+		longPressTimeout = setTimeout(() => {
+			longPressActive = false;
+		}, 300);
+	};
+
+	const handleClick = (e: MouseEvent) => {
+		if (longPressActive) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
+		onclick?.();
 	};
 </script>
 
@@ -33,9 +55,9 @@
 	<button
 		type="button"
 		title={dynamicTitle}
-		{onclick}
+		onclick={handleClick}
 		oncontextmenu={handleContextMenu}
-		use:longpress={onlongpress}
+		use:longpress={handleLongPress}
 		class:active={active || tag.modifier === '+'}
 		class:negated={tag.modifier === '-'}
 		class:optional={tag.modifier === '~'}
