@@ -56,7 +56,7 @@ RUN --mount=type=cache,id=playwright-browsers,target=/app/node_modules/playwrigh
 
 RUN pnpm run test:integration
 
-FROM node:lts-debian AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /app
 
 ARG PNPM_VERSION
