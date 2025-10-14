@@ -1,0 +1,45 @@
+// Scrollbar Variables
+$scrollbar-thumb-base-color: rgba(200, 200, 255, 0.11);
+$scrollbar-thumb-hover-color: rgba(200, 200, 255, 0.22);
+$scrollbar-track-color: transparent;
+
+// Scrollbar Mixin
+@mixin webkit-scrollbar-base {
+	width: var(--scrollbar-size);
+	height: var(--scrollbar-size);
+	transition: background-color var(--default-transition-behaviour);
+}
+
+@mixin webkit-scrollbar-track {
+	background: $scrollbar-track-color;
+}
+
+@mixin webkit-scrollbar-thumb($color: $scrollbar-thumb-base-color) {
+	background: $color;
+	border-radius: var(--border-radius-full);
+}
+
+// Scrollbar Styles
+@media (pointer: fine) {
+	::-webkit-scrollbar {
+		@include webkit-scrollbar-base;
+	}
+
+	html,
+	body,
+	main {
+		scrollbar-width: thin;
+	}
+
+	::-webkit-scrollbar-track {
+		@include webkit-scrollbar-track;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@include webkit-scrollbar-thumb;
+
+		&:hover {
+			@include webkit-scrollbar-thumb($scrollbar-thumb-hover-color);
+		}
+	}
+}

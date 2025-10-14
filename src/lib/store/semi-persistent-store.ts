@@ -30,22 +30,27 @@ export const semiPersistentWritable = <T>(
 	const loaded = getInitialValue(initial, stored, parser);
 	const store = writable(loaded);
 
+	// Debounce storage writes to reduce I/O
+	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+	const debouncedWrite = (value: T) => {
+		if (debounceTimer) clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(() => {
+			if (browser && storage) {
+				storage.setItem(key, serializer(value));
+			}
+		}, 200);
+	};
+
 	return {
 		subscribe: store.subscribe,
 		set: (v: T) => {
 			store.set(v);
-			if (browser) {
-				window.sessionStorage.setItem(key, serializer(v));
-				window.localStorage.setItem(key, serializer(v));
-			}
+			debouncedWrite(v);
 		},
 		update: (fn: (v: T) => T) => {
 			store.update((cur) => {
 				const v = fn(cur);
-				if (browser) {
-					window.sessionStorage.setItem(key, serializer(v));
-					window.localStorage.setItem(key, serializer(v));
-				}
+				debouncedWrite(v);
 				return v;
 			});
 		}

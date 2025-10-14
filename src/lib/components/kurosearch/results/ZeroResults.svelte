@@ -73,18 +73,13 @@
 
 <script lang="ts">
 	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import filter from '$lib/store/filter-store';
 	import sort from '$lib/store/sort-store';
-
-	interface Props {
-		onsortfilterupdate: () => void;
-	}
-
-	let { onsortfilterupdate }: Props = $props();
+	import { searchActions } from '$lib/store/search-actions-store';
 
 	let conflictingTags = $derived(
 		validateTags($activeTagsStore, $blockedContent, $activeSupertagsStore)
@@ -118,7 +113,7 @@
 			onclick={() => {
 				sort.reset();
 				filter.reset();
-				onsortfilterupdate();
+				$searchActions.refreshSearch();
 			}}
 		>
 			Reset Filter

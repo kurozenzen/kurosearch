@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # Common args
-ARG PNPM_VERSION=10.16.0
-ARG PLAYWRIGHT_BROWSERS="chromium"
-ARG PROJECT_VERSION=1.1.0
+ARG PNPM_VERSION=10.18.2
+ARG PLAYWRIGHT_BROWSERS="chromium firefox webkit"
+ARG FLUR34_VERSION=1.2.0
 
 FROM node:lts-bookworm AS node-tests
 WORKDIR /app
@@ -35,7 +35,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
  && pnpm run test:unit
 
 
-FROM mcr.microsoft.com/playwright:v1.55.0-noble AS playwright-tests
+FROM mcr.microsoft.com/playwright:v1.56.0-noble AS playwright-tests
 WORKDIR /home/pwuser
 
 ARG PNPM_VERSION
@@ -75,13 +75,13 @@ RUN pnpm run build && \
 
 FROM gcr.io/distroless/nodejs22-debian12:nonroot AS runtime
 
-ARG PROJECT_VERSION
+ARG FLUR34_VERSION
 ARG PNPM_VERSION
 
 LABEL author=flurbudurbur \
     org.opencontainers.image.title="flur34" \
     org.opencontainers.image.description="A self-contained version of kurosearch.com" \
-    org.opencontainers.image.version=${PROJECT_VERSION} \
+    org.opencontainers.image.version=${FLUR34_VERSION} \
     org.opencontainers.image.source="https://github.com/flur34/flur34" \
     org.opencontainers.image.authors="flurbudurbur 69259138+flurbudurbur@users.noreply.github.com"
 

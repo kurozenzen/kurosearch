@@ -3,7 +3,7 @@
 	import Supertag from '$lib/components/kurosearch/supertag/Supertag.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { loadFile, saveFile, type SettingsObject } from '$lib/logic/file-utils';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import blockedContent from '$lib/store/blocked-content-store';

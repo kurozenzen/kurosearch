@@ -1,95 +1,214 @@
 <script lang="ts">
-	import { formatActiveTag } from '$lib/logic/format-tag';
-	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
+	import { formatTagname } from '$lib/logic/format-tag';
 	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
+	import { MODIFIER_TITLES } from '$lib/logic/tag-modifier-data';
+	import { formatCount } from '$lib/logic/format-count';
+	import { longpress } from '$lib/actions/longpress';
 
 	interface Props {
 		tag: kurosearch.ModifiedTag;
+		onclick?: () => void;
+		oncontextmenu?: () => void;
+		onlongpress?: () => void;
 		active?: boolean;
-		onclick?: (event: MouseEvent) => void;
-		oncontextmenu?: (event: MouseEvent) => void;
 	}
 
-	let { tag, active = false, onclick, oncontextmenu }: Props = $props();
+	let { tag, onclick, oncontextmenu, onlongpress, active = false }: Props = $props();
 
+	// Memoize expensive computations
+	let formattedTagName = $derived(formatTagname(tag.name));
+	let dynamicTitle = $derived(MODIFIER_TITLES[tag.modifier ?? '+']);
+	let formattedCount = $derived(tag.count > 0 ? formatCount(tag.count) : undefined);
 	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
+
+	let longPressActive = $state(false);
+	let longPressTimeout: ReturnType<typeof setTimeout>;
+
+	const handleContextMenu = (e: MouseEvent) => {
+		if (oncontextmenu) {
+			e.preventDefault();
+			oncontextmenu();
+		}
+	};
+
+	const handleLongPress = () => {
+		longPressActive = true;
+		clearTimeout(longPressTimeout);
+		onlongpress?.();
+		// Reset flag after enough time for all related events to fire
+		longPressTimeout = setTimeout(() => {
+			longPressActive = false;
+		}, 300);
+	};
+
+	const handleClick = (e: MouseEvent) => {
+		if (longPressActive) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
+		onclick?.();
+	};
 </script>
 
-<button
-	type="button"
-	class:active
-	class="{MODIFIER_NAMES[tag.modifier]} {icon}"
-	title="Click to remove tag"
-	onclick={(e) => {
-		e.preventDefault();
-		e.stopPropagation();
-		onclick?.(e);
-	}}
-	oncontextmenu={(e) => {
-		e.preventDefault();
-		e.stopPropagation();
-		oncontextmenu?.(e);
-	}}
->
-	{formatActiveTag(tag)}
-</button>
+<li>
+	<button
+		type="button"
+		title={dynamicTitle}
+		onclick={handleClick}
+		oncontextmenu={handleContextMenu}
+		use:longpress={handleLongPress}
+		class:active={active || tag.modifier === '+'}
+		class:negated={tag.modifier === '-'}
+		class:optional={tag.modifier === '~'}
+		class:supertag={tag.type === 'supertag'}
+		class={icon}
+	>
+		{formattedTagName}
+		{#if formattedCount}
+			<span class="count">({formattedCount})</span>
+		{/if}
+	</button>
+</li>
 
 <style lang="scss">
-	button {
+	@use 'sass:map';
+
+	// Color scheme maps
+	$default-colors: (
+		background: var(--background-2),
+		background-hover: var(--background-3),
+		color: var(--text)
+	);
+
+	$accent-colors: (
+		background: var(--accent),
+		background-hover: var(--accent-light),
+		color: var(--text-accent)
+	);
+
+	$modifier-colors: (
+		active: (
+			background: var(--tag-active-background),
+			background-hover: var(--tag-active-background-hover),
+			color: var(--tag-active-color)
+		),
+		negated: (
+			background: var(--tag-negated-background),
+			background-hover: var(--tag-negated-background-hover),
+			color: var(--tag-negated-color)
+		),
+		optional: (
+			background: var(--tag-optional-background),
+			background-hover: var(--tag-optional-background-hover),
+			color: var(--tag-optional-color)
+		)
+	);
+
+	$tag-type-colors: (
+		codicon-edit: (
+			background: var(--artist-background),
+			background-hover: var(--artist-background-hover),
+			color: var(--artist-color)
+		),
+		codicon-person: (
+			background: var(--character-background),
+			background-hover: var(--character-background-hover),
+			color: var(--character-color)
+		),
+		codicon-folder: (
+			background: var(--copyright-background),
+			background-hover: var(--copyright-background-hover),
+			color: var(--copyright-color)
+		),
+		codicon-info: (
+			background: var(--metadata-background),
+			background-hover: var(--metadata-background-hover),
+			color: var(--metadata-color)
+		),
+		codicon-tag: (
+			background: var(--general-background),
+			background-hover: var(--general-background-hover),
+			color: var(--general-color)
+		)
+	);
+
+	// Optimized mixins
+	@mixin tag-base-style {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--tiny-gap);
-		height: var(--line-height-small);
-		/* border-radius: var(--line-height-small); */
-		border-radius: var(--border-radius);
-		font-size: var(--text-size-small);
-		padding-left: 6px;
-		padding-right: 12px;
+		gap: var(--tag-gap);
+		height: var(--tag-height);
+		border-radius: var(--tag-border-radius);
+		font-size: var(--tag-font-size);
 		user-select: none;
-		contain: content;
+		padding-inline: 8px 16px;
+		border: none;
+		cursor: pointer;
+		transform: translateZ(0);
 	}
 
-	button:not(.active) {
-		background-color: var(--background-2);
-		color: var(--text);
+	@mixin color-scheme($colors) {
+		background-color: map.get($colors, background);
+		color: map.get($colors, color);
+		--bg-hover: #{map.get($colors, background-hover)};
 	}
 
-	button.active {
-		background-color: var(--accent);
-		color: var(--text-accent);
-	}
+	@mixin hover-transition {
+		@media (hover: hover) {
+			will-change: background-color;
+			transition: background-color 150ms ease-out;
 
-	button.no-icon {
-		padding-left: 12px;
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: background-color var(--default-transition-behaviour);
-		}
-
-		button:not(.active):hover {
-			background-color: var(--background-3);
-		}
-
-		button.active:hover {
-			background-color: var(--accent-light);
+			&:hover {
+				background-color: var(--bg-hover);
+			}
 		}
 	}
 
-	button:not(.active):active {
-		background-color: var(--background-2);
+	button {
+		@include tag-base-style;
+		@include color-scheme($default-colors);
+		@include hover-transition;
+
+		&:active {
+			background-color: var(--background-1);
+			transform: translateZ(0) scale(0.98);
+		}
+
+		&.no-icon {
+			padding-inline: 16px;
+		}
+
+		&.active {
+			@include color-scheme(map.get($modifier-colors, active));
+		}
+
+		&.optional {
+			@include color-scheme(map.get($modifier-colors, optional));
+			font-style: italic;
+			opacity: var(--tag-optional-opacity, 0.7);
+		}
+
+		&.negated {
+			@include color-scheme(map.get($modifier-colors, negated));
+			text-decoration: line-through;
+			opacity: var(--tag-negated-opacity, 0.7);
+		}
+
+		&.supertag {
+			@include color-scheme($accent-colors);
+			border: dashed var(--supertag-border-width) var(--text-accent);
+		}
+
+		@each $class, $colors in $tag-type-colors {
+			&.#{$class}:not(.active):not(.optional):not(.negated):not(.supertag) {
+				@include color-scheme($colors);
+			}
+		}
 	}
 
-	button.active:active {
-		background-color: var(--accent);
-	}
-
-	.exclude {
-		text-decoration: line-through;
-	}
-
-	.optional {
-		font-style: italic;
+	.count {
+		opacity: 0.8;
+		font-size: 0.9em;
 	}
 </style>

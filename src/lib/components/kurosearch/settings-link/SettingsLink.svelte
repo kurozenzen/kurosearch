@@ -16,9 +16,5 @@
 		i {
 			transition: transform 0.5s ease-out;
 		}
-
-		:global(.gear:hover i) {
-			transform: rotate(180deg);
-		}
 	}
 </style>

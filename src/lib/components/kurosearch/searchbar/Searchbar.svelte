@@ -7,14 +7,24 @@
 	import userId from '$lib/store/user-id-store';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import Suggestion from './Suggestion.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 
 	interface Props {
 		placeholder: string;
 		fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;
 		onpick: (suggestion: kurosearch.Suggestion & { modifier: kurosearch.TagModifier }) => void;
+		loading?: boolean;
+		onsubmit?: () => void;
 	}
 
-	let { placeholder, fetchSuggestions, onpick }: Props = $props();
+	let {
+		placeholder,
+		fetchSuggestions,
+		onpick,
+		loading = false,
+		onsubmit = () => {}
+	}: Props = $props();
 
 	let searchTerm = $state('');
 	let previousSearchTerm = $state('');
@@ -133,9 +143,38 @@
 			</div>
 		{/await}
 	</ol>
+	<div class="search-button-wrapper">
+		<span class="loading" class:visible={loading}>
+			<LoadingAnimation />
+		</span>
+		<IconButton id="btn-search" title="Search with the selected tags" onclick={onsubmit}>
+			<i class="codicon codicon-search"></i>
+		</IconButton>
+	</div>
 </div>
 
 <style lang="scss">
+	.loading {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		background-color: rgba(0, 0, 0, 0.5);
+		transition: opacity 200ms ease-in-out;
+		opacity: 0;
+		pointer-events: none;
+
+		&.visible {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+
 	.searchbar {
 		display: flex;
 		align-items: center;

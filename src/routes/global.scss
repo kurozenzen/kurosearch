@@ -1,0 +1,149 @@
+// ScrollUpButton styles
+.scroll-up-button {
+	border-radius: 50% !important;
+	aspect-ratio: 1;
+	position: fixed;
+	bottom: -4rem;
+	right: 2rem;
+	transition:
+		background-color var(--default-transition-behaviour),
+		bottom var(--default-transition-behaviour);
+	box-shadow: var(--default-shadow);
+	z-index: var(--z-scroll-up);
+}
+
+@media (min-width: 1024px) {
+	.scroll-up-button {
+		right: calc(2rem + calc(100vw - 1024px) / 2);
+	}
+}
+
+.scroll-up-button.visible {
+	bottom: 2rem;
+}
+
+@media (hover: hover) {
+	.scroll-up-button:hover {
+		background-color: var(--accent-light) !important;
+	}
+}
+
+// PostOverlay styles
+.overlay * {
+	pointer-events: auto;
+}
+
+.overlay .post-overlay-button-fullscreen {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.overlay .post-overlay-button-play {
+	grid-column: 1;
+	grid-row: 2;
+	place-self: center;
+}
+
+// FullscreenComic styles
+.scrollable .details-button {
+	position: fixed;
+	right: var(--small-gap);
+	bottom: 45px;
+}
+
+.scrollable svg {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// CookieMessage styles
+:root[data-cookies='false'] .backdrop {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+// FullscreenDetails styles
+.fs-button-return {
+	position: fixed;
+	top: var(--small-gap);
+	left: var(--small-gap);
+	z-index: var(--z-fullscreen-return);
+}
+
+// FullscreenPost styles
+.button-close {
+	position: fixed;
+	top: var(--small-gap);
+	right: var(--small-gap);
+	z-index: var(--z-fullscreen-close);
+}
+
+// FullscreenScroller styles
+.hint > * {
+	pointer-events: none;
+}
+
+// VolumeControl styles
+#volume-button {
+	color: white;
+
+	// Show nesting by scoping the slider to the button
+	.volume-slider {
+		writing-mode: vertical-lr;
+		position: absolute;
+		transform: rotate(180deg);
+		bottom: calc(2 * var(--small-gap) + var(--line-height));
+		width: var(--line-height);
+		z-index: var(--z-media-controls);
+	}
+}
+
+// Searchbar styles
+.search-button-wrapper button {
+	border-radius: 9999px;
+	padding-inline: 0;
+	margin-inline: 0;
+	aspect-ratio: 1;
+}
+
+// SettingsLink styles
+.gear:hover i {
+	transform: rotate(180deg);
+}
+
+// SimpleTag styles
+:root {
+	--tag-color: hsl(var(--tag-hue), var(--tag-saturation), var(--tag-lightness));
+	--tag-height: 24px;
+	--tag-border-radius: var(--border-radius);
+	--tag-font-size: var(--text-size-small);
+	--tag-gap: var(--tiny-gap);
+	--supertag-border-width: 2px;
+}
+
+// Layout styles
+body {
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-0);
+	scrollbar-gutter: stable;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	width: 100%;
+	align-items: center;
+	overflow-y: scroll;
+}
+
+// Main page styles
+main {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	padding: var(--grid-gap);
+	gap: var(--grid-gap);
+}

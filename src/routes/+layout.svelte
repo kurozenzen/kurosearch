@@ -10,14 +10,15 @@
 	import CodiconTextLink from '$lib/components/pure/icon-link/CodiconTextLink.svelte';
 	import theme from '$lib/store/theme-store';
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 	import { SOURCE_CODE_URL, SPONSOR_URL } from '$lib/logic/app-config';
 
-	import './codicon.css';
-	import './defaults.css';
-	import './fonts.css';
-	import './reset.css';
-	import './scrollbar.css';
-	import './theme.css';
+	import './codicon.scss';
+	import './defaults.scss';
+	import './fonts.scss';
+	import './reset.scss';
+	import './scrollbar.scss';
+	import './theme.scss';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -34,6 +35,14 @@
 			const [accent, theme] = value.split(' ');
 			document.documentElement.dataset.theme = theme;
 			document.documentElement.dataset.accent = accent;
+		}
+	});
+
+	// Watch for URL parameter changes to enable/disable blur
+	$effect(() => {
+		if (browser) {
+			const shouldBlur = page.url.searchParams.has('blur');
+			blurEnabled.set(shouldBlur);
 		}
 	});
 </script>

@@ -6,14 +6,16 @@
 
 	const name = browser ? new URL(document.location.href).searchParams.get('name') : undefined;
 
+	// Cache DOMParser instance for reuse
+	const parser = browser ? new DOMParser() : undefined;
+
 	const loadTag = async (name: string) => {
 		const response = await fetch(
 			`https://rule34.xxx/index.php?page=tags&s=list&tags=${name}&sort=asc&order_by=index_count`
 		);
 		const text = await response.text();
-		const parser = new DOMParser();
-		const xml = parser.parseFromString(text, 'text/xml');
-		const tds = xml.querySelectorAll('#content tr td').values();
+		const xml = parser?.parseFromString(text, 'text/xml');
+		const tds = xml?.querySelectorAll('#content tr td').values();
 
 		return JSON.stringify(tds);
 	};

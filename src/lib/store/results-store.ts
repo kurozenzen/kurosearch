@@ -51,10 +51,12 @@ const createResultsStore = () => {
 			update((previous) => {
 				const newPosts = page.filter((p) => !previous.ids.has(p.id));
 
+				// Add to existing array instead of spreading for better performance
+				const updatedPosts = previous.posts.concat(newPosts);
 				newPosts.forEach((p) => previous.ids.add(p.id));
 
 				return {
-					posts: [...previous.posts, ...newPosts],
+					posts: updatedPosts,
 					pageCount: previous.pageCount + 1,
 					ids: previous.ids,
 					postCount: count ?? previous.postCount,
@@ -67,7 +69,7 @@ const createResultsStore = () => {
 			update((previous) => {
 				page.forEach((p) => previous.ids.add(p.id));
 				return {
-					posts: [...page],
+					posts: page,
 					pageCount: pid + 1,
 					ids: previous.ids,
 					postCount: previous.postCount,

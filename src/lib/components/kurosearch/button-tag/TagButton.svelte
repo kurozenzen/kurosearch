@@ -3,7 +3,7 @@
 
 	interface Props {
 		title: string;
-		onclick: (event: MouseEvent) => void;
+		onclick: (event: MouseEvent | TouchEvent) => void;
 		children: Snippet;
 	}
 

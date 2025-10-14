@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '../button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 
 	interface Props {
 		id?: string;
@@ -19,4 +19,6 @@
 	};
 </script>
 
-<IconButton {id} onclick={rotate} variant="with-background">{text}</IconButton>
+<IconButton {id} onclick={rotate} variant="with-background">
+	{text}
+</IconButton>

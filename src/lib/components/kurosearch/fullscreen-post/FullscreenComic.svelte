@@ -1,16 +1,22 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { getContext } from 'svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
 
 	interface Props {
 		post: kurosearch.Post;
 		postId?: number;
-		ondetails: () => void;
-		onended?: () => void;
 	}
 
-	let { post, ondetails }: Props = $props();
+	let { post }: Props = $props();
+
+	// Get callbacks from context instead of props to avoid drilling
+	const { ondetails } = getContext<{
+		ondetails: () => void;
+		onended?: () => void;
+	}>('fullscreen-callbacks');
 
 	let sources = $derived(
 		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
@@ -28,10 +34,12 @@
 		src={sources[1]}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
+		class:blurred={$blurEnabled}
 		onload={() => (loading = false)}
 	/>
 	<img
 		class="preview"
+		class:blurred={$blurEnabled}
 		src={sources[0]}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
@@ -39,12 +47,10 @@
 	{#if loading}
 		<LoadingAnimation />
 	{/if}
-	<IconButton variant="half-background" onclick={ondetails} class="details-button">
-		<i class="codicon codicon-tag"></i>
-	</IconButton>
+	<IconButton icon="tag" variant="half-background" onclick={ondetails} class="details-button" />
 </div>
 
-<style>
+<style lang="scss">
 	.scrollable {
 		width: 100vw;
 		height: 100vh;
@@ -58,6 +64,10 @@
 	img {
 		width: 100%;
 		height: auto;
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 
 	.preview {
@@ -75,18 +85,5 @@
 		user-select: none;
 		bottom: 0;
 		color: var(--text-highlight);
-	}
-
-	.scrollable :global(.details-button) {
-		position: fixed;
-		right: var(--small-gap);
-		bottom: 45px;
-	}
-
-	.scrollable :global(svg) {
-		position: fixed;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
 	}
 </style>

@@ -5,10 +5,9 @@
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import { nextModifier } from '$lib/logic/modifier-utils';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
@@ -83,6 +82,8 @@
 	<KurosearchTitle />
 	<Searchbar
 		placeholder="Search for tags"
+		{loading}
+		{onsubmit}
 		{fetchSuggestions}
 		onpick={async (suggestion) => {
 			if (suggestion.type === 'supertag') {
@@ -104,25 +105,8 @@
 			}
 		}}
 	/>
-	<TextButton id="btn-search" title="Search with the tags above" onclick={onsubmit}>
-		{#if loading}
-			<LoadingAnimation />
-		{:else}
-			Search
-		{/if}
-	</TextButton>
 	<ActiveTagList
 		tags={[...$activeTags, ...$activeSupertags]}
-		onclick={(tag) =>
-			'description' in tag
-				? activeSupertags.removeByName(tag.name)
-				: activeTags.removeByName(tag.name)}
-		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = nextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
 		oncreateSupertag={() => {
 			createSupertagDialog?.showModal();
 			addHistory('dialog');
@@ -143,9 +127,5 @@
 		align-items: center;
 		gap: var(--grid-gap);
 		padding-inline: var(--small-gap);
-	}
-
-	:global(#btn-search) {
-		width: 10rem;
 	}
 </style>

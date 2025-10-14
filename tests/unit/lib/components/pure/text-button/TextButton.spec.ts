@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/svelte';
-import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+import TextButton from '$lib/components/pure/button/TextButton.svelte';
 
 describe('TextButton', () => {
 	const TITLE = 'Test Title';

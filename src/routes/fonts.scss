@@ -1,0 +1,197 @@
+// ============================================================================
+// Font Face Definitions - SCSS Version
+// ============================================================================
+// This file provides @font-face declarations for all custom fonts used in the
+// application, leveraging SCSS capabilities for maintainable font management.
+
+@use 'sass:map';
+@use 'sass:list';
+
+// ============================================================================
+// SCSS Variables
+// ============================================================================
+
+// Base font directory path
+$font-base-path: '/font' !default;
+
+// Supported font formats with their corresponding format declarations
+$font-formats: (
+	woff2: 'woff2',
+	woff: 'woff'
+) !default;
+
+// ============================================================================
+// Font Configuration Maps
+// ============================================================================
+
+// Zen Kaku Gothic New font configuration
+$zen-kaku-gothic-config: (
+	family: 'Zen Kaku Gothic New',
+	variants: (
+		black: (
+			weight: 900,
+			files: (
+				woff2: 'ZenKakuGothicNew-Black-subset.woff2',
+				woff: 'ZenKakuGothicNew-Black-subset.woff'
+			)
+		)
+	)
+) !default;
+
+// Roboto font configuration
+$roboto-config: (
+	family: 'Roboto',
+	variants: (
+		regular: (
+			weight: 400,
+			files: (
+				woff2: 'Roboto-Regular.woff2',
+				woff: 'Roboto-Regular.woff'
+			)
+		),
+		italic: (
+			weight: 400,
+			style: italic,
+			files: (
+				woff2: 'Roboto-Italic.woff2',
+				woff: 'Roboto-Italic.woff'
+			)
+		)
+	)
+) !default;
+
+// Codicon font configuration
+$codicon-config: (
+	family: 'codicon',
+	variants: (
+		regular: (
+			files: (
+				woff2: 'codicon.woff2',
+				woff: 'codicon.woff'
+			)
+		)
+	)
+) !default;
+
+// Master font configurations map
+$font-configs: (
+	zen-kaku-gothic: $zen-kaku-gothic-config,
+	roboto: $roboto-config,
+	codicon: $codicon-config
+) !default;
+
+// ============================================================================
+// Mixins
+// ============================================================================
+
+// Generate font URL with proper format declaration (function, not mixin)
+// @param {String} $filename - The font file name
+// @param {String} $format - The font format (woff2, woff, etc.)
+// @param {String} $base-path - Base path to font directory
+@function font-url($filename, $format, $base-path: $font-base-path) {
+	@return url('#{$base-path}/#{$filename}') format('#{map.get($font-formats, $format)}');
+}
+
+// Generate src declarations for multiple font formats
+// @param {Map} $files - Map of format to filename
+// @param {String} $base-path - Base path to font directory
+@mixin font-src($files, $base-path: $font-base-path) {
+	$src-list: ();
+
+	@each $format, $filename in $files {
+		@if map.has-key($font-formats, $format) {
+			$url: font-url($filename, $format, $base-path);
+			$src-list: list.append($src-list, $url, comma);
+		}
+	}
+
+	src: $src-list;
+}
+
+// Generate a complete @font-face declaration
+// @param {String} $family - Font family name
+// @param {Map} $variant - Variant configuration (weight, style, files)
+// @param {String} $base-path - Base path to font directory
+@mixin font-face($family, $variant, $base-path: $font-base-path) {
+	@font-face {
+		font-family: $family;
+
+		@if map.has-key($variant, weight) {
+			font-weight: map.get($variant, weight);
+		}
+
+		@if map.has-key($variant, style) {
+			font-style: map.get($variant, style);
+		}
+
+		@include font-src(map.get($variant, files), $base-path);
+	}
+}
+
+// Generate @font-face declarations for an entire font family
+// @param {Map} $font-config - Complete font configuration
+// @param {String} $base-path - Base path to font directory
+@mixin font-family($font-config, $base-path: $font-base-path) {
+	$family: map.get($font-config, family);
+	$variants: map.get($font-config, variants);
+
+	@each $variant-name, $variant-config in $variants {
+		@include font-face($family, $variant-config, $base-path);
+	}
+}
+
+// Generate all configured font families
+// @param {Map} $configs - Map of all font configurations
+// @param {String} $base-path - Base path to font directory
+@mixin generate-all-fonts($configs: $font-configs, $base-path: $font-base-path) {
+	@each $font-name, $font-config in $configs {
+		@include font-family($font-config, $base-path);
+	}
+}
+
+// ============================================================================
+// Font Face Generation
+// ============================================================================
+
+// Generate all font faces using the comprehensive mixin
+@include generate-all-fonts();
+
+// Alternative explicit approach for reference (commented out)
+// Individual font family generation examples:
+//
+// @include font-family($zen-kaku-gothic-config);
+// @include font-family($roboto-config);
+// @include font-family($codicon-config);
+
+// ============================================================================
+// Future Expansion Areas
+// ============================================================================
+// This structure supports easy expansion:
+//
+// - Adding new font families to $font-configs map
+// - Supporting additional font formats in $font-formats
+// - Adding font-display, font-stretch properties to variant configs
+// - Implementing font loading optimization strategies
+// - Adding font subsetting configurations
+//
+// Example for future font additions:
+//
+// $new-font-config: (
+//   family: 'New Font Family',
+//   variants: (
+//     regular: (
+//       weight: 400,
+//       files: (
+//         woff2: 'NewFont-Regular.woff2',
+//         woff: 'NewFont-Regular.woff'
+//       )
+//     ),
+//     bold: (
+//       weight: 700,
+//       files: (
+//         woff2: 'NewFont-Bold.woff2',
+//         woff: 'NewFont-Bold.woff'
+//       )
+//     )
+//   )
+// );

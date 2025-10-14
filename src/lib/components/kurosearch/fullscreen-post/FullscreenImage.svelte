@@ -21,17 +21,22 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import { onDestroy, onMount } from 'svelte';
+	import { blurEnabled } from '$lib/store/blur-enabled-store';
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
 		postId?: number;
-		ondetails: () => void;
-		onended?: () => void;
 	}
 
-	let { post, postId = -1, onended, ondetails }: Props = $props();
+	let { post, postId = -1 }: Props = $props();
+
+	// Get callbacks from context instead of props to avoid drilling
+	const { ondetails, onended } = getContext<{
+		ondetails: () => void;
+		onended?: () => void;
+	}>('fullscreen-callbacks');
 
 	let sources = $derived(
 		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
@@ -129,6 +134,7 @@
 	src={sources[1]}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
+	class:blurred={$blurEnabled}
 	use:pauseoffscreen
 	onload={() => (loading = false)}
 	{onclick}
@@ -139,6 +145,7 @@
 	src={sources[0]}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
+	class:blurred={$blurEnabled}
 	{onclick}
 />
 
@@ -162,5 +169,9 @@
 		height: 100vh;
 		object-fit: contain;
 		contain: strict;
+
+		&.blurred {
+			filter: blur(20px);
+		}
 	}
 </style>

@@ -5,10 +5,10 @@
 	import ResultHeader from '$lib/components/kurosearch/results/ResultHeader.svelte';
 	import Results from '$lib/components/kurosearch/results/Results.svelte';
 	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import ScrollUpButton from '$lib/components/pure/button/icon-button/ScrollUpButton.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
@@ -25,6 +25,8 @@
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import { APP_NAME } from '$lib/logic/app-config';
+	import { searchActions } from '$lib/store/search-actions-store';
+	import './global.scss';
 
 	let loading = $state(false);
 	let error: Error | undefined = $state();
@@ -109,6 +111,11 @@
 		if (browser) {
 			document.addEventListener('keydown', keybinds);
 		}
+
+		// Set up search actions for other components to use
+		searchActions.set({
+			refreshSearch: getFirstPage
+		});
 	});
 
 	onDestroy(() => {
@@ -134,16 +141,16 @@
 	<PageJump onpagechange={getPage} />
 {/if}
 
-<ResultHeader {loading} onsortfilterupdate={getFirstPage} />
+<ResultHeader {loading} />
 
 {#if error}
 	<SearchError {error} />
 {:else if $results.requested}
 	<section>
 		{#if $results.postCount === 0}
-			<ZeroResults onsortfilterupdate={getFirstPage} />
+			<ZeroResults />
 		{:else}
-			<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
+			<Results onendreached={getNextPage} />
 			{#if $results.posts.length === $results.postCount}
 				<NoMoreResults />
 			{:else if $pageNavigationEnabled}

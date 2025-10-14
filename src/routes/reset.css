@@ -5,13 +5,11 @@
 	body {
 		margin: unset;
 	}
-
 	ol,
 	ul {
 		margin-block: unset;
 		padding-left: unset;
 	}
-
 	p,
 	h1,
 	h2,
@@ -20,27 +18,24 @@
 		font-weight: unset;
 		margin-block: unset;
 	}
-
 	a {
 		text-decoration: unset;
 	}
-
 	button {
 		border: unset;
 		padding: unset;
 	}
-
 	dialog {
 		border: unset;
 	}
-
 	input {
 		border: unset;
 		color: unset;
 	}
-
 	select {
 		background: unset;
 		border: unset;
 	}
 }
+
+/*# sourceMappingURL=reset.css.map */

@@ -1,6 +1,5 @@
-<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
-	import IconButton from '../button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 
 	interface Props {
 		id?: string;

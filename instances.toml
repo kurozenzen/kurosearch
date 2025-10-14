@@ -16,6 +16,6 @@ country = 'United States'
 description = "The original kurosearch container project"
 source = 'https://github.com/flur34/flur34'
 [instance.details]
-version = '1.1.0'
+version = '1.2.0'
 last_check = '1756386211'
 uptime = 100

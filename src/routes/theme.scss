@@ -1,0 +1,381 @@
+@use 'sass:map';
+
+// Accent color configurations
+$accent-configs: (
+	crimson: (
+		accent-color: crimson,
+		h: 348,
+		s: 83%,
+		l: 47%,
+		text-accent: #fff,
+		hover-lighten: 20%
+	),
+	hotpink: (
+		accent-color: hsl(330, 98%, 67%),
+		h: 330,
+		s: 100%,
+		l: 60%,
+		text-accent: #fff,
+		hover-lighten: 10%
+	)
+);
+
+// Theme configurations
+$theme-configs: (
+	dark: (
+		backgrounds: (
+			0: #000000,
+			1: #151520,
+			2: #303040,
+			3: #454560
+		),
+		text: (
+			primary: #aaa,
+			highlight: #fff,
+			muted: #777
+		),
+		color-scheme: dark,
+		tag-types: (
+			artist: (
+				background: #a223,
+				background-hover: #a228,
+				color: #fff
+			),
+			character: (
+				background: #2a23,
+				background-hover: #2a28,
+				color: #fff
+			),
+			copyright: (
+				background: #b4b3,
+				background-hover: #b4b8,
+				color: #fff
+			),
+			metadata: (
+				background: #f823,
+				background-hover: #f828,
+				color: #fff
+			),
+			general: (
+				background: #6623,
+				background-hover: #6628,
+				color: #fff
+			)
+		),
+		tag-modifiers: (
+			active: (
+				background: var(--accent),
+				background-hover: var(--accent-light),
+				color: var(--text-accent)
+			),
+			negated: (
+				background: #d443,
+				background-hover: #d448,
+				color: #fff,
+				opacity: 0.8
+			),
+			optional: (
+				background: #4d43,
+				background-hover: #4d48,
+				color: #fff,
+				opacity: 0.9
+			)
+		),
+		modifiers: (
+			excluded: #fff,
+			optional: #384
+		)
+	),
+	light: (
+		backgrounds: (
+			0: #fff,
+			1: #ddd,
+			2: #bbb,
+			3: #999
+		),
+		text: (
+			primary: #444,
+			highlight: #000,
+			muted: #888
+		),
+		color-scheme: light,
+		tag-types: (
+			artist: (
+				background: #a228,
+				background-hover: #a22a,
+				color: #333
+			),
+			character: (
+				background: #2a28,
+				background-hover: #2a2a,
+				color: #333
+			),
+			copyright: (
+				background: #b4b8,
+				background-hover: #b4ba,
+				color: #333
+			),
+			metadata: (
+				background: #f828,
+				background-hover: #f82a,
+				color: #333
+			),
+			general: (
+				background: #6628,
+				background-hover: #662a,
+				color: #333
+			)
+		),
+		tag-modifiers: (
+			active: (
+				background: var(--accent),
+				background-hover: var(--accent-light),
+				color: var(--text-accent)
+			),
+			negated: (
+				background: #d446,
+				background-hover: #d44a,
+				color: #fff,
+				opacity: 0.8
+			),
+			optional: (
+				background: #4d46,
+				background-hover: #4d4a,
+				color: #fff,
+				opacity: 0.9
+			)
+		)
+	),
+	coffee: (
+		backgrounds: (
+			0: #191515,
+			1: #3f3535,
+			2: #655555,
+			3: #8b7575
+		),
+		text: (
+			primary: #aaa,
+			highlight: #fff,
+			muted: #555
+		),
+		color-scheme: dark,
+		tag-types: (
+			artist: (
+				background: #a223,
+				background-hover: #a228,
+				color: #fff
+			),
+			character: (
+				background: #2a23,
+				background-hover: #2a28,
+				color: #fff
+			),
+			copyright: (
+				background: #b4b3,
+				background-hover: #b4b8,
+				color: #fff
+			),
+			metadata: (
+				background: #f823,
+				background-hover: #f828,
+				color: #fff
+			),
+			general: (
+				background: #6623,
+				background-hover: #6628,
+				color: #fff
+			)
+		),
+		tag-modifiers: (
+			active: (
+				background: var(--accent),
+				background-hover: var(--accent-light),
+				color: var(--text-accent)
+			),
+			negated: (
+				background: #d443,
+				background-hover: #d448,
+				color: #fff,
+				opacity: 0.8
+			),
+			optional: (
+				background: #4d43,
+				background-hover: #4d48,
+				color: #fff,
+				opacity: 0.9
+			)
+		)
+	)
+);
+
+// Global design tokens
+$design-tokens: (
+	dimensions: (
+		line-height-small: 24px,
+		line-height: 32px,
+		box-height: 36px,
+		line-height-large: 44px,
+		grid-gap: 1rem,
+		small-gap: 0.5rem,
+		tiny-gap: 4px,
+		icon-size: 32px,
+		body-width: 800px
+	),
+	border-radius: (
+		default: 5px,
+		large: 10px,
+		full: 9999px
+	),
+	scrollbar: (
+		size: 6px
+	),
+	typography: (
+		size-small: 12px,
+		size-default: 14px,
+		size-large: 16px,
+		size-h1: 3.75rem,
+		size-h3: 1.5rem
+	),
+	transitions: (
+		default: 0.2s ease-out
+	),
+	colors: (
+		link: #58a6ff
+	),
+	shadows: (
+		default: 0px 3px 10px 3px rgba(0, 0, 0, 0.75)
+	),
+	z-index: (
+		dialog: 999,
+		scroll-up: 10,
+		searchbar: 3,
+		media-controls: 2,
+		media: 1
+	)
+);
+
+// Mixins for generating CSS custom properties
+@mixin generate-accent-variables($config) {
+	--accent-color: #{map.get($config, accent-color)};
+	--h: #{map.get($config, h)};
+	--s: #{map.get($config, s)};
+	--l: #{map.get($config, l)};
+	--text-accent: #{map.get($config, text-accent)};
+	--hover-lighten: #{map.get($config, hover-lighten)};
+}
+
+@mixin generate-background-variables($backgrounds) {
+	@each $level, $color in $backgrounds {
+		--background-#{$level}: #{$color};
+	}
+}
+
+@mixin generate-text-variables($text-config) {
+	--text: #{map.get($text-config, primary)};
+	--text-highlight: #{map.get($text-config, highlight)};
+	--text-muted: #{map.get($text-config, muted)};
+}
+
+@mixin generate-tag-type-variables($tag-types) {
+	@each $type, $config in $tag-types {
+		--#{$type}-background: #{map.get($config, background)};
+		--#{$type}-background-hover: #{map.get($config, background-hover)};
+		--#{$type}-color: #{map.get($config, color)};
+	}
+}
+
+@mixin generate-tag-modifier-variables($modifiers) {
+	@each $modifier, $config in $modifiers {
+		--tag-#{$modifier}-background: #{map.get($config, background)};
+		--tag-#{$modifier}-background-hover: #{map.get($config, background-hover)};
+		--tag-#{$modifier}-color: #{map.get($config, color)};
+
+		@if map.has-key($config, opacity) {
+			--tag-#{$modifier}-opacity: #{map.get($config, opacity)};
+		}
+	}
+}
+
+@mixin generate-design-token-variables($tokens) {
+	@each $category, $values in $tokens {
+		@if $category == dimensions {
+			@each $property, $value in $values {
+				--#{$property}: #{$value};
+			}
+		} @else if $category == border-radius {
+			@each $size, $value in $values {
+				@if $size == default {
+					--border-radius: #{$value};
+				} @else {
+					--border-radius-#{$size}: #{$value};
+				}
+			}
+		} @else if $category == typography {
+			@each $property, $value in $values {
+				@if $property == size-default {
+					--text-size: #{$value};
+				} @else {
+					--text-#{$property}: #{$value};
+				}
+			}
+		} @else if $category == transitions {
+			--default-transition-behaviour: #{map.get($values, default)};
+		} @else if $category == colors {
+			--text-link: #{map.get($values, link)};
+		} @else if $category == shadows {
+			--default-shadow: #{map.get($values, default)};
+		} @else if $category == scrollbar {
+			--scrollbar-size: #{map.get($values, size)};
+		} @else if $category == z-index {
+			@each $element, $value in $values {
+				--z-#{$element}: #{$value};
+			}
+		}
+	}
+}
+
+// Generate accent configurations
+:root {
+	@each $accent, $config in $accent-configs {
+		&[data-accent='#{'' + $accent}'] {
+			@include generate-accent-variables($config);
+		}
+	}
+
+	// Generate theme configurations
+	@each $theme, $config in $theme-configs {
+		&[data-theme='#{$theme}'] {
+			@include generate-background-variables(map.get($config, backgrounds));
+			@include generate-text-variables(map.get($config, text));
+			@include generate-tag-type-variables(map.get($config, tag-types));
+			@include generate-tag-modifier-variables(map.get($config, tag-modifiers));
+
+			color-scheme: #{map.get($config, color-scheme)};
+
+			@if map.has-key($config, modifiers) {
+				$modifiers: map.get($config, modifiers);
+				--modifier-excluded: #{map.get($modifiers, excluded)};
+				--modifier-optional: #{map.get($modifiers, optional)};
+			}
+		}
+	}
+
+	// Generate global design tokens
+	@include generate-design-token-variables($design-tokens);
+
+	// Computed accent properties
+	--accent: hsl(var(--h), var(--s), var(--l));
+	--accent-light: hsl(var(--h), var(--s), calc(var(--l) + var(--hover-lighten)));
+
+	// Global styles
+	accent-color: var(--accent);
+	font-family: 'Roboto', sans-serif;
+	background-color: var(--background-0);
+}
+
+html {
+	color: var(--text);
+	background-color: var(--background-0);
+	font-size: var(--text-size);
+	transition: background var(--default-transition-behaviour);
+}

@@ -8,7 +8,6 @@
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 
 	interface Props {
-		onsortfilterupdate: () => void;
 		onendreached: () => void;
 	}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import LynxMain from '../../../../routes/LynxMain.svelte';
 	import { APP_NAME } from '$lib/logic/app-config';
@@ -84,10 +84,6 @@
 	h3,
 	p {
 		text-align: center;
-	}
-
-	:global(:root[data-cookies='false'] .backdrop) {
-		display: flex;
 	}
 
 	.backdrop {

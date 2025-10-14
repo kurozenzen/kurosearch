@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { setContext } from 'svelte';
 	import FullscreenComic from './FullscreenComic.svelte';
 	import FullscreenGif from './FullscreenGif.svelte';
 	import FullscreenImage from './FullscreenImage.svelte';
@@ -12,17 +13,20 @@
 	}
 
 	let { post, onended, ondetails, startAt }: Props = $props();
+
+	// Provide callbacks via context to avoid prop drilling through media type components
+	setContext('fullscreen-callbacks', { ondetails, onended });
 </script>
 
 <div>
 	{#if post.type === 'video'}
-		<FullscreenVideo {post} {onended} {ondetails} {startAt} />
+		<FullscreenVideo {post} {startAt} />
 	{:else if post.type === 'gif'}
-		<FullscreenGif {post} {onended} {ondetails} />
+		<FullscreenGif {post} />
 	{:else if post.width / post.height < 0.4}
-		<FullscreenComic {post} {onended} {ondetails} />
+		<FullscreenComic {post} />
 	{:else}
-		<FullscreenImage {post} {onended} {ondetails} />
+		<FullscreenImage {post} />
 	{/if}
 </div>
 

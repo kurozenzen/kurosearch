@@ -9,7 +9,6 @@
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import blockedContent from '$lib/store/blocked-content-store';
-	import { nextModifier } from '$lib/logic/modifier-utils';
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import { SearchBuilder } from '$lib/logic/search-builder';
@@ -83,6 +82,7 @@
 	<KurosearchTitle />
 	<Searchbar
 		placeholder="Search for tags"
+		onsubmit={() => {}}
 		{fetchSuggestions}
 		onpick={async (suggestion) => {
 			if (suggestion.type === 'supertag') {
@@ -103,19 +103,7 @@
 			}
 		}}
 	/>
-	<ActiveTagList
-		tags={[...$activeTags, ...$activeSupertags]}
-		onclick={(tag) =>
-			'description' in tag
-				? activeSupertags.removeByName(tag.name)
-				: activeTags.removeByName(tag.name)}
-		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = nextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
-	/>
+	<ActiveTagList tags={[...$activeTags, ...$activeSupertags]} />
 	<code>
 		{@html query}
 	</code>

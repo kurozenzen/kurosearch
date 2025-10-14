@@ -19,7 +19,7 @@
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';

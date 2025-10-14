@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button/TextButton.svelte';
 
 	interface Props {
 		dialog: HTMLDialogElement;

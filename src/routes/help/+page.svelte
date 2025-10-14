@@ -1,7 +1,7 @@
 <script>
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import ScrollUpButton from '$lib/components/pure/button/icon-button/ScrollUpButton.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import SummaryCard from '$lib/components/pure/summary-card/SummaryCard.svelte';

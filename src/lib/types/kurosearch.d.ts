@@ -8,7 +8,8 @@ namespace kurosearch {
 		| 'Vore'
 		| 'Yuri'
 		| 'Yaoi';
-	type TagModifier = '+' | '-' | '~';
+	type TagModifier = '+' | '~' | '-';
+	type NullableTagModifier = TagModifier | undefined;
 	type TagType =
 		| 'general'
 		| 'character'

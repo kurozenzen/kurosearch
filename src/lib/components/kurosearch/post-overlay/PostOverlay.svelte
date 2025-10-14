@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 	import FullscreenButton from '../button-fullscreen/FullscreenButton.svelte';
 	import PlayButton from '../button-play/PlayButton.svelte';
 	import VideoSeekInput from '../media-video/VideoSeekInput.svelte';
@@ -98,21 +98,6 @@
 
 		transition: opacity var(--default-transition-behaviour);
 		pointer-events: none;
-	}
-
-	.overlay :global(*) {
-		pointer-events: auto;
-	}
-
-	.overlay :global(.post-overlay-button-fullscreen) {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	.overlay :global(.post-overlay-button-play) {
-		grid-column: 1;
-		grid-row: 2;
-		place-self: center;
 	}
 
 	.video-controls {

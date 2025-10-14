@@ -56,7 +56,8 @@ describe('active-tags-store', () => {
 		let v = await current<any[]>(store);
 		expect(v[0]).toEqual({ modifier: '+', name: 'tag1', count: 5, type: 'artist' });
 
-		// clear persisted state between scenarios
+		// clear persisted state between scenarios and wait for debounce
+		await new Promise((resolve) => setTimeout(resolve, 250));
 		localStorage.clear();
 		sessionStorage.clear();
 

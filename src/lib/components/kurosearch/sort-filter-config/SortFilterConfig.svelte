@@ -4,12 +4,7 @@
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import { getFilterLabel, getSortLabel } from './sortfilter';
-
-	interface Props {
-		onsortfilterupdate: () => void;
-	}
-
-	let { onsortfilterupdate }: Props = $props();
+	import { searchActions } from '$lib/store/search-actions-store';
 
 	const serializeSortFilter = (sort: SortStoreData, filter: FilterStoreData) =>
 		JSON.stringify(Object.assign({}, sort, filter));
@@ -42,7 +37,7 @@
 	onclose={() => {
 		const sortFilterAfter = serializeSortFilter($sort, $filter);
 		if (sortFilterAfter !== sortFilterBefore) {
-			onsortfilterupdate();
+			$searchActions.refreshSearch();
 		}
 	}}
 />

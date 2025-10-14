@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '$lib/components/pure/button/IconButton.svelte';
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import FullscreenScroller from './FullscreenScroller.svelte';
@@ -43,12 +43,3 @@
 		<i class="codicon codicon-close"></i>
 	</IconButton>
 </Fullscreen>
-
-<style lang="scss">
-	:global(.button-close) {
-		position: fixed;
-		top: var(--grid-gap);
-		left: var(--grid-gap);
-		z-index: var(--z-dialog);
-	}
-</style>

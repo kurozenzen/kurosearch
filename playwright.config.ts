@@ -1,11 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// @ts-ignore
 export default defineConfig({
 	webServer: {
 		command: 'pnpm run dev',
 		port: 5173,
 		timeout: 120 * 1000,
-		/* @ts-expect-error: Process var outside Node.js */
 		reuseExistingServer: !process.env.CI
 	},
 	testDir: 'tests/integration',
@@ -23,6 +23,14 @@ export default defineConfig({
 					args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
 				}
 			}
+		},
+		{
+			name: 'firefox',
+			use: { ...devices['Desktop Firefox'] }
+		},
+		{
+			name: 'webkit',
+			use: { ...devices['Desktop Safari'] }
 		}
 	],
 	timeout: 60 * 1000,
