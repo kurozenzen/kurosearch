@@ -36,9 +36,7 @@
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
+<button
 	class:can-open={canOpen}
 	class:open
 	onclick={onclickinternal}
@@ -59,11 +57,16 @@
 		onclick={ontoggleoverlay}
 	/>
 	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
-</div>
+</button>
 
 <style lang="scss">
-	div {
+	button {
 		position: relative;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		width: 100%;
 	}
 
 	.can-open:not(.open) {

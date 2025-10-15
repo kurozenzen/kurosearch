@@ -29,8 +29,8 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
+<button
+	type="button"
 	id={getPostId(post.id)}
 	class="post"
 	style="grid-row: span {rows};"
@@ -49,10 +49,11 @@
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>
 	{/if}
 	<span class="score">{formatCount(post.score)}</span>
-</div>
+</button>
 
 <style lang="scss">
 	img {
+		pointer-events: none;
 		object-fit: cover;
 		object-position: top;
 		display: block;
@@ -76,6 +77,11 @@
 		background-color: var(--background-1);
 		border-radius: 5px;
 		contain: content;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		width: 100%;
+		text-align: left;
 	}
 
 	.score {

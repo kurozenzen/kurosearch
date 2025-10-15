@@ -116,16 +116,8 @@
 	onDestroy(() => observer?.unobserve(container));
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-	bind:this={container}
-	onkeydown={handleKeyDown}
-	class={rest.class}
-	style="aspect-ratio:{width}/{height}"
-	{onclick}
->
+<div bind:this={container} class={rest.class} style="aspect-ratio:{width}/{height}">
 	{#if displayVideo}
-		<!-- svelte-ignore a11y_media_has_caption -->
 		<video
 			tabindex="0"
 			{poster}
@@ -148,11 +140,15 @@
 				e.preventDefault();
 				skip(e);
 			}}
+			onkeydown={handleKeyDown}
 			preload="metadata"
 			style="aspect-ratio: {width} / {height}"
 			volume={getVolume()}
 			{onclick}
-		></video>
+			aria-label="Video player"
+		>
+			<track kind="captions" />
+		</video>
 		<PostOverlay
 			mediaType="video"
 			hidden={overlayHidden}

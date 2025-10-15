@@ -5,16 +5,9 @@
 </script>
 
 <div>
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<img
-		id="happy"
-		src={lynxChibiSrc}
-		alt="Helheim Lynx"
-		width="1231"
-		height="864"
-		onclick={() => (details = !details)}
-	/>
+	<button type="button" onclick={() => (details = !details)}>
+		<img id="happy" src={lynxChibiSrc} alt="Helheim Lynx" width="1231" height="864" />
+	</button>
 	{#if details}
 		<a
 			href="https://www.twitch.tv/helheim_lynx"
@@ -35,6 +28,14 @@
 		height: 200px;
 		contain: strict;
 		padding-inline: var(--small-gap);
+	}
+
+	button {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		display: block;
 	}
 
 	a {

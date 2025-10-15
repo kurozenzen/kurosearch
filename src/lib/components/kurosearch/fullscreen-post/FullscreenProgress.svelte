@@ -9,19 +9,7 @@
 	let percent = $derived((value / max) * 98 + 1);
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<div
-	class="fullscreen-progress {type}"
-	onclick={(e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}}
-	onscroll={(e) => {
-		e.stopPropagation();
-		e.preventDefault();
-	}}
->
+<div class="fullscreen-progress {type}">
 	<input
 		type="range"
 		bind:value
@@ -29,10 +17,14 @@
 		min="0"
 		{max}
 		style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
+		onclick={(e) => {
+			e.stopPropagation();
+		}}
 		onscroll={(e) => {
 			e.stopPropagation();
 			e.preventDefault();
 		}}
+		aria-label={type === 'video' ? 'Video progress' : 'Image progress'}
 	/>
 </div>
 

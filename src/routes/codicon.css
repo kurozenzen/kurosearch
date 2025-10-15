@@ -1,485 +1,485 @@
 @charset "UTF-8";
 .codicon,
 .custom-icon {
-	display: inline-block;
-	text-decoration: none;
-	text-rendering: auto;
-	text-align: center;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
+  display: inline-block;
+  text-decoration: none;
+  text-rendering: auto;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 i.codicon {
-	font: normal normal normal 16px/1 codicon;
+  font: normal normal normal 16px/1 codicon;
 }
 
 .codicon:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .codicon-chevron-down:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eab4';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eab4";
 }
 
 .codicon-chevron-left:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eab5';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eab5";
 }
 
 .codicon-chevron-right:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eab6';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eab6";
 }
 
 .codicon-arrow-down:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea9a';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea9a";
 }
 
 .codicon-arrow-up:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eaa1';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eaa1";
 }
 
 .codicon-arrow-swap:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ebcb';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ebcb";
 }
 
 .codicon-close:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eab8';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eab8";
 }
 
 .codicon-ellipsis:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea7c';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea7c";
 }
 
 .codicon-search:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea6d';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea6d";
 }
 
 .codicon-edit:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea73';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea73";
 }
 
 .codicon-copy:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ebcc';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ebcc";
 }
 
 .codicon-trashcan:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea81';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea81";
 }
 
 .codicon-plus:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea60';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea60";
 }
 
 .codicon-filter:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eaf1';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eaf1";
 }
 
 .codicon-settings-gear:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb51';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb51";
 }
 
 .codicon-screen-full:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb4c';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb4c";
 }
 
 .codicon-file:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea7b';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea7b";
 }
 
 .codicon-folder:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea83';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea83";
 }
 
 .codicon-notebook:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ebaf';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ebaf";
 }
 
 .codicon-book:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eaa4';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eaa4";
 }
 
 .codicon-code:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eac4';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eac4";
 }
 
 .codicon-cloud:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ebaa';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ebaa";
 }
 
 .codicon-comment:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea6b';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea6b";
 }
 
 .codicon-comment-discussion:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eac7';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eac7";
 }
 
 .codicon-person:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea67';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea67";
 }
 
 .codicon-account:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb99';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb99";
 }
 
 .codicon-github:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea84';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea84";
 }
 
 .codicon-info:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea74';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea74";
 }
 
 .codicon-error:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea87';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea87";
 }
 
 .codicon-question:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb32';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb32";
 }
 
 .codicon-eye:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea70';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea70";
 }
 
 .codicon-heart:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb05';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb05";
 }
 
 .codicon-star-full:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb59';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb59";
 }
 
 .codicon-bookmark:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eaa5';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eaa5";
 }
 
 .codicon-pass:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eba4';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eba4";
 }
 
 .codicon-unverified:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb76';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb76";
 }
 
 .codicon-link:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb15';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb15";
 }
 
 .codicon-link-external:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb14';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb14";
 }
 
 .codicon-list-ordered:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb16';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb16";
 }
 
 .codicon-tag:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea66';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea66";
 }
 
 .codicon-calendar:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eab0';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eab0";
 }
 
 .codicon-server:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb50';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb50";
 }
 
 .codicon-source-control:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea68';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea68";
 }
 
 .codicon-debug-disconnect:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ead0';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ead0";
 }
 
 .codicon-zap:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\ea86';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\ea86";
 }
 
 .codicon-whole-word:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eb7e';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eb7e";
 }
 
 .codicon-dash:before {
-	font-family: codicon, serif;
-	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
-	content: '\eaba';
+  font-family: codicon, serif;
+  font-style: unset;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  content: "\eaba";
 }
 
 .custom-icon-wave::before {
-	content: '⁓';
+  content: "⁓";
 }
 
 .codicon--small:before {
-	font-size: 12px;
-	width: 12px;
-	height: 12px;
-	line-height: 12px;
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
 }
 .codicon--large:before {
-	font-size: 20px;
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
 }
 .codicon--xl:before {
-	font-size: 24px;
-	width: 24px;
-	height: 24px;
-	line-height: 24px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
 }
 .codicon--rotate-90:before {
-	transform: rotate(90deg);
-	display: inline-block;
+  transform: rotate(90deg);
+  display: inline-block;
 }
 .codicon--rotate-180:before {
-	transform: rotate(180deg);
-	display: inline-block;
+  transform: rotate(180deg);
+  display: inline-block;
 }
 .codicon--rotate-270:before {
-	transform: rotate(270deg);
-	display: inline-block;
+  transform: rotate(270deg);
+  display: inline-block;
 }
 
 /*# sourceMappingURL=codicon.css.map */

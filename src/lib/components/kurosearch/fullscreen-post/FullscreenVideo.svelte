@@ -72,7 +72,6 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_media_has_caption -->
 <video
 	src={sources.animated}
 	poster={sources.static}
@@ -93,6 +92,7 @@
 	volume={getVolume()}
 	{onclick}
 >
+	<track kind="captions" />
 </video>
 
 <PostOverlay

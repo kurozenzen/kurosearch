@@ -27,9 +27,7 @@
 	let open: boolean = $state(false);
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="scrollable" class:open onclick={() => (open = !open)}>
+<button type="button" class="scrollable" class:open onclick={() => (open = !open)}>
 	<img
 		src={sources[1]}
 		alt="[{post.type}] post #{post.id}"
@@ -48,10 +46,15 @@
 		<LoadingAnimation />
 	{/if}
 	<IconButton icon="tag" variant="half-background" onclick={ondetails} class="details-button" />
-</div>
+</button>
 
 <style lang="scss">
 	.scrollable {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		text-align: center;
 		width: 100vw;
 		height: 100vh;
 		overflow-y: hidden;
