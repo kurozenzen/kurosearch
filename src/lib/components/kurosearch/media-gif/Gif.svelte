@@ -42,32 +42,32 @@
 </script>
 
 <div style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}">
-	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<img
-		bind:this={media}
-		class="post-media media-img"
-		class:blurred={$blurEnabled}
-		loading="lazy"
-		data-src={data_src}
-		alt={post.id.toString()}
-		width={post.width}
-		height={post.height}
-		src={transparentPixel}
-		tabindex="0"
+	<button
+		type="button"
+		class="gif-button"
+		{onclick}
 		onkeydown={(event) => {
 			if (isSpace(event) || event.key === 'k') {
 				event.preventDefault();
 				ontoggleplay();
 			}
 		}}
-		onload={() => (loading = false)}
-		use:observeGif
-		{onclick}
-	/>
+	>
+		<img
+			bind:this={media}
+			class="post-media media-img"
+			class:blurred={$blurEnabled}
+			loading="lazy"
+			data-src={data_src}
+			alt={post.id.toString()}
+			width={post.width}
+			height={post.height}
+			src={transparentPixel}
+			onload={() => (loading = false)}
+			use:observeGif
+		/>
+	</button>
 	{#if $gifPreloadEnabled}
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<img
 			src={transparentPixel}
 			data-src={animatedSource}
@@ -75,7 +75,6 @@
 			alt="animated source preload"
 			class="animated-preload"
 			use:observeGif
-			{onclick}
 		/>
 	{/if}
 
@@ -94,12 +93,23 @@
 		position: relative;
 	}
 
+	.gif-button {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
 	.media-img {
 		display: block;
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
 		contain: strict;
+		pointer-events: none;
 
 		&.blurred {
 			filter: blur(20px);

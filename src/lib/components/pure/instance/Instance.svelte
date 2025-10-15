@@ -43,17 +43,15 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<!-- svelte-ignore a11y_role_supports_aria_props_implicit -->
-<tbody
-	class="instance-group"
-	tabindex="0"
-	onclick={toggleDetails}
-	onkeyup={onKeyDown}
-	aria-expanded={expanded}
->
-	<tr class="overview">
+<tbody class="instance-group">
+	<tr
+		class="overview"
+		role="button"
+		tabindex="0"
+		onclick={toggleDetails}
+		onkeyup={onKeyDown}
+		aria-expanded={expanded}
+	>
 		<td>
 			<CodiconTextLink
 				title="{name} url"

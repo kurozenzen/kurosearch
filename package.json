@@ -72,5 +72,5 @@
 		"firebase": "^12.4.0",
 		"smol-toml": "^1.4.2"
 	},
-	"packageManager": "pnpm@10.18.2"
+	"packageManager": "pnpm@10.18.3"
 }

@@ -1,21 +1,17 @@
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-ol,
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+ol, ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
-ol ol,
-ol ul,
-ul ol,
-ul ul {
-	margin: 0;
-	padding: 0;
+ol ol, ol ul, ul ol, ul ul {
+  margin: 0;
+  padding: 0;
 }
 
 /*# sourceMappingURL=defaults.css.map */
