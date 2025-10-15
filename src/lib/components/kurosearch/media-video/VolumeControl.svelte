@@ -24,6 +24,9 @@
 	onclick={() => {
 		isVolumeVisible = !isVolumeVisible;
 	}}
+	aria-label="Volume control"
+	title="Adjust volume"
+	aria-expanded={isVolumeVisible}
 >
 	<VolumeIcon />
 	{#if isVolumeVisible}
@@ -34,6 +37,11 @@
 			max="1"
 			step="0.01"
 			bind:value={volume}
+			aria-label="Volume slider"
+			aria-valuemin={0}
+			aria-valuemax={1}
+			aria-valuenow={volume}
+			aria-valuetext="{Math.round(volume * 100)}%"
 			onclick={(e) => {
 				e.stopPropagation();
 				e.preventDefault();

@@ -39,10 +39,11 @@
 	style="grid-row: span {rows};"
 	{onclick}
 	onkeydown={handleKeydown}
+	aria-label="View post {post.id}, {post.type}, score: {formatCount(post.score)}"
 >
 	<img
 		src={previewSrc}
-		alt="post"
+		alt="Post {post.id}, score: {formatCount(post.score)}"
 		class="post-media"
 		class:blurred={$blurEnabled}
 		tabindex="-1"

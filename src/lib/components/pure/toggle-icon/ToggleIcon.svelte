@@ -3,16 +3,27 @@
 		title: string;
 		icon: string;
 		active: boolean;
+		'aria-label'?: string;
 	}
 
-	let { title, icon, active = $bindable() }: Props = $props();
+	let { title, icon, active = $bindable(), ...rest }: Props = $props();
 
 	const toggleActive = () => {
 		active = !active;
 	};
+
+	let ariaLabel = $derived(rest['aria-label'] || title);
 </script>
 
-<button type="button" {title} class={icon} class:active onclick={toggleActive} aria-label="Toggle">
+<button
+	type="button"
+	{title}
+	class={icon}
+	class:active
+	onclick={toggleActive}
+	aria-label={ariaLabel}
+	aria-pressed={active}
+>
 </button>
 
 <style lang="scss">

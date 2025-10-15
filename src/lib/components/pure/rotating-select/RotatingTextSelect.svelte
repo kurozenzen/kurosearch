@@ -5,9 +5,10 @@
 		id?: string;
 		options: Record<string, string>;
 		value: string;
+		'aria-label'?: string;
 	}
 
-	let { id, options, value = $bindable() }: Props = $props();
+	let { id, options, value = $bindable(), ...rest }: Props = $props();
 
 	let index = $derived(Object.keys(options).indexOf(value));
 	let entries = $derived(Object.entries(options));
@@ -17,8 +18,16 @@
 		index = (index + 1) % entries.length;
 		value = entries[index][0];
 	};
+
+	let ariaLabel = $derived(rest['aria-label'] ? `${rest['aria-label']}: ${text}` : `Select option: ${text}`);
 </script>
 
-<IconButton {id} onclick={rotate} variant="with-background">
+<IconButton
+	{id}
+	onclick={rotate}
+	variant="with-background"
+	aria-label={ariaLabel}
+	title={ariaLabel}
+>
 	{text}
 </IconButton>

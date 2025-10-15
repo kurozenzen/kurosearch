@@ -10,7 +10,14 @@
 	let { title, href, newtab = false, className = '', children }: Props = $props();
 </script>
 
-<a {title} {href} target={newtab ? '_blank' : '_self'} class={className}>
+<a
+	{title}
+	{href}
+	target={newtab ? '_blank' : '_self'}
+	rel={newtab ? 'noopener noreferrer' : undefined}
+	aria-label={title}
+	class={className}
+>
 	{@render children?.()}
 </a>
 

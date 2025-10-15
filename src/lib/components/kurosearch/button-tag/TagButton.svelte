@@ -5,12 +5,13 @@
 		title: string;
 		onclick: (event: MouseEvent | TouchEvent) => void;
 		children: Snippet;
+		'aria-label'?: string;
 	}
 
-	let { title, onclick, children }: Props = $props();
+	let { title, onclick, children, ...rest }: Props = $props();
 </script>
 
-<button type="button" {title} {onclick}>
+<button type="button" {title} {onclick} aria-label={rest['aria-label']}>
 	{@render children()}
 </button>
 
