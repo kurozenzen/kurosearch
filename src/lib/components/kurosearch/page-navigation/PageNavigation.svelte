@@ -29,7 +29,7 @@
 	{#if prevPid >= 0}
 		<PageButton pid={prevPid} onclick={() => onpagechange(prevPid)} />
 	{/if}
-	<span>
+	<span aria-current="page" role="status" aria-live="polite">
 		{pageLabel(currPid)}
 	</span>
 	{#if nextPid <= lastPid}

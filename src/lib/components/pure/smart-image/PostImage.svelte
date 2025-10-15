@@ -41,6 +41,8 @@
 	class:open
 	onclick={onclickinternal}
 	style="aspect-ratio: {cssRation};"
+	aria-label={open ? 'Show less of image' : 'Show full image'}
+	aria-expanded={open}
 >
 	<ObservedImage
 		src={previewSrc}
@@ -77,6 +79,8 @@
 
 	.can-open:not(.open)::before {
 		position: absolute;
+		left: 0;
+		bottom: 0;
 		z-index: 100;
 		text-align: center;
 		width: 100%;
@@ -84,7 +88,6 @@
 		padding: var(--grid-gap);
 		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
 		user-select: none;
-		bottom: 0;
 		color: var(--text-highlight);
 	}
 </style>

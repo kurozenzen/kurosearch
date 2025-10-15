@@ -21,8 +21,8 @@
 	};
 </script>
 
-<TagButton title="Share current search." onclick={share}>
-	<img src={shareSrc} alt="No more results to load" width="24" height="24" />
+<TagButton title="Share current search." onclick={share} aria-label="Share current search">
+	<img src={shareSrc} alt="Share icon" width="24" height="24" />
 </TagButton>
 
 <style lang="scss">

@@ -55,6 +55,7 @@
 	<button
 		type="button"
 		title={dynamicTitle}
+		aria-label={`${formattedTagName} tag, ${dynamicTitle}`}
 		onclick={handleClick}
 		oncontextmenu={handleContextMenu}
 		use:longpress={handleLongPress}

@@ -135,6 +135,12 @@
 
 <!-- <LynxMain /> -->
 
+<div class="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+	{#if loading}
+		Loading search results...
+	{/if}
+</div>
+
 <SearchForm {loading} onsubmit={getFirstPage} />
 
 {#if $pageNavigationEnabled}
@@ -184,6 +190,18 @@
 {/if}
 
 <style lang="scss">
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
 	:global(main) {
 		display: flex;
 		flex-direction: column;

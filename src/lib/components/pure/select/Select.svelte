@@ -2,12 +2,14 @@
 	interface Props {
 		options: Record<string, string>;
 		value: string;
+		id?: string;
+		'aria-label'?: string;
 	}
 
-	let { options, value = $bindable() }: Props = $props();
+	let { options, value = $bindable(), id, ...rest }: Props = $props();
 </script>
 
-<select bind:value>
+<select bind:value {id} aria-label={rest['aria-label']}>
 	{#each Object.entries(options) as [value, label]}
 		<option {value}>{label}</option>
 	{/each}

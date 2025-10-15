@@ -30,6 +30,8 @@
 <style lang="scss">
 	button {
 		position: absolute;
+		top: 0;
+		left: 0;
 		background: none;
 		border: none;
 		padding: 0;
@@ -41,6 +43,8 @@
 
 	img {
 		position: absolute;
+		top: 0;
+		left: 0;
 		display: block;
 		width: 100%;
 		height: auto;

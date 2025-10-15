@@ -6,9 +6,12 @@
 		dialog: HTMLDialogElement;
 		onclose?: () => void;
 		children: Snippet;
+		'aria-labelledby'?: string;
+		'aria-describedby'?: string;
+		'aria-label'?: string;
 	}
 
-	let { dialog = $bindable(), onclose, children }: Props = $props();
+	let { dialog = $bindable(), onclose, children, ...rest }: Props = $props();
 
 	const onPopState = () => {
 		dialog.close();
@@ -36,7 +39,15 @@
 	});
 </script>
 
-<dialog bind:this={dialog} {onclose} use:onpopstate={onPopState}>
+<dialog
+	bind:this={dialog}
+	{onclose}
+	use:onpopstate={onPopState}
+	aria-labelledby={rest['aria-labelledby']}
+	aria-describedby={rest['aria-describedby']}
+	aria-label={rest['aria-label']}
+	aria-modal="true"
+>
 	{@render children()}
 </dialog>
 
