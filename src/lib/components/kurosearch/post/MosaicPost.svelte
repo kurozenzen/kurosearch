@@ -67,6 +67,7 @@
 		grid-row: 1 / 4;
 		max-height: 100vh;
 		transition: all var(--default-transition-behaviour);
+		border-radius: var(--border-radius);
 
 		&.blurred {
 			filter: blur(20px);
@@ -79,7 +80,7 @@
 		grid-template-rows: auto 1fr auto;
 		justify-content: space-between;
 		background-color: var(--background-1);
-		border-radius: 5px;
+		border-radius: var(--border-radius);
 		contain: content;
 		border: none;
 		padding: 0;

@@ -66,4 +66,15 @@
 			outline-offset: 2px;
 		}
 	}
+
+	@container (min-width: 800px) {
+		.post {
+			border-radius: var(--border-radius-large);
+			overflow: hidden;
+		}
+	}
+
+	.media {
+		line-height: 0;
+	}
 </style>

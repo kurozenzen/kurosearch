@@ -52,12 +52,19 @@
 		contain: strict;
 		pointer-events: none;
 
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+
 		&.blurred {
 			filter: blur(20px);
 		}
 	}
 
 	@container (min-width: 800px) {
+		button {
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+			overflow: hidden;
+		}
+
 		img {
 			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		}
