@@ -178,6 +178,7 @@
 		grid-row: 1 / span 3;
 		contain: strict;
 		object-fit: contain;
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 	}
 
 	@container (min-width: 800px) {

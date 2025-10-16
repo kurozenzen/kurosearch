@@ -19,7 +19,9 @@
 		value = entries[index][0];
 	};
 
-	let ariaLabel = $derived(rest['aria-label'] ? `${rest['aria-label']}: ${text}` : `Select option: ${text}`);
+	let ariaLabel = $derived(
+		rest['aria-label'] ? `${rest['aria-label']}: ${text}` : `Select option: ${text}`
+	);
 </script>
 
 <IconButton

@@ -69,6 +69,7 @@
 		padding: 0;
 		cursor: pointer;
 		width: 100%;
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 	}
 
 	.can-open:not(.open) {
@@ -89,5 +90,12 @@
 		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
 		user-select: none;
 		color: var(--text-highlight);
+	}
+
+	@container (min-width: 800px) {
+		button {
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+			overflow: hidden;
+		}
 	}
 </style>
