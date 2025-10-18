@@ -17,7 +17,7 @@ const seedOldData = async () => {
 	await ensureFakeIndexedDB();
 
 	return await new Promise<void>((resolve, reject) => {
-		const request = indexedDB.open('kurosearch', 3);
+		const request = indexedDB.open('kurosearch', 4);
 		request.addEventListener('upgradeneeded', (event) => {
 			const db = (event.target as IDBOpenDBRequest).result;
 			// Create object stores and indices similar to production
@@ -57,6 +57,12 @@ describe('idb module init behavior', () => {
 		// @ts-ignore
 		delete (globalThis as any).IDBKeyRange;
 
+		// Mock window.location.search to enable debug mode
+		Object.defineProperty(window, 'location', {
+			value: { search: '?debug' },
+			writable: true
+		});
+
 		const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 		await import('$lib/indexeddb/idb');
 		expect(warn).toHaveBeenCalled();
@@ -75,7 +81,7 @@ describe('idb module basic operations with fake-indexeddb', () => {
 
 		// Old entries should be cleaned
 		await new Promise<void>((resolve, reject) => {
-			const req = indexedDB.open('kurosearch', 3);
+			const req = indexedDB.open('kurosearch', 4);
 			req.addEventListener('success', (e) => {
 				const db = (e.target as IDBOpenDBRequest).result;
 				const tx = db.transaction(['comments', 'posts'], 'readonly');
@@ -150,12 +156,12 @@ describe('idb module basic operations with fake-indexeddb', () => {
 			req.addEventListener('error', (e) => reject(e));
 		});
 
-		// Now import module; it opens with version 3 and should remove those indices
+		// Now import module; it opens with version 4 and should remove those indices
 		await import('$lib/indexeddb/idb');
 		await delay(10);
 
 		await new Promise<void>((resolve, reject) => {
-			const req = indexedDB.open('kurosearch', 3);
+			const req = indexedDB.open('kurosearch', 4);
 			req.addEventListener('success', (e) => {
 				const db = (e.target as IDBOpenDBRequest).result;
 				const tx = db.transaction('tags', 'readonly');
