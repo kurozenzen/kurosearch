@@ -1,15 +1,20 @@
 import { addIndexedPosts, addIndexedPost, getIndexedPost } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
-import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { parseJson } from '$lib/logic/parse-utils';
+import { parseJson, parseXml } from '$lib/logic/parse-utils';
 
 export const PAGE_SIZE = 20;
 const API_ENDPOINT = '/api/posts';
 
-const getPageAbortController: AbortController | null = null;
+let getPageAbortController: AbortController | null = null;
+let getCountAbortController: AbortController | null = null;
 
 const isTestEnv = typeof import.meta !== 'undefined' && (import.meta as any).env?.MODE === 'test';
+const isDebugMode = () => {
+	if (typeof window === 'undefined') return false;
+	const params = new URLSearchParams(window.location.search);
+	return params.has('debug');
+};
 
 export const getPage = async (
 	pageNumber: number,
@@ -17,8 +22,16 @@ export const getPage = async (
 	apiKey: string = '',
 	userId: string = ''
 ) => {
+	// Abort previous request if it exists
+	if (getPageAbortController) {
+		getPageAbortController.abort();
+	}
+
+	// Create new controller for this request
+	getPageAbortController = new AbortController();
+
 	const url = getPostsUrl(pageNumber, tags, apiKey, userId);
-	const response = await fetchAbortPrevious(url, getPageAbortController);
+	const response = await fetch(url, { signal: getPageAbortController.signal });
 	throwOnUnexpectedStatus(response);
 
 	try {
@@ -32,29 +45,35 @@ export const getPage = async (
 
 		return posts;
 	} catch (error) {
-		if (!isTestEnv) console.warn('Failed to get posts', error);
+		if (!isTestEnv && isDebugMode()) console.warn('Failed to get posts', error);
 		return [];
 	}
 };
 
 export const getCount = async (tags: string, apiKey: string = '', userId: string = '') => {
 	try {
-		const response = await fetchAbortPrevious(
-			getCountUrl(tags, apiKey, userId),
-			getPageAbortController
-		);
+		// Abort previous request if it exists
+		if (getCountAbortController) {
+			getCountAbortController.abort();
+		}
+
+		// Create new controller for this request
+		getCountAbortController = new AbortController();
+
+		const response = await fetch(getCountUrl(tags, apiKey, userId), {
+			signal: getCountAbortController.signal
+		});
 
 		throwOnUnexpectedStatus(response);
 		const text = await response.text();
-		const parser = new DOMParser();
-		const xml = parser.parseFromString(text, 'text/xml');
+		const xml = parseXml(text);
 		const count = Number(xml.getElementsByTagName('posts')[0].getAttribute('count'));
 
 		throwOnInvalidCount(count);
 
 		return count;
 	} catch (error) {
-		if (!isTestEnv) console.warn('Failed to get count', error);
+		if (!isTestEnv && isDebugMode()) console.warn('Failed to get count', error);
 		return 0;
 	}
 };

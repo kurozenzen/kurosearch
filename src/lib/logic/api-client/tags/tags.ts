@@ -1,17 +1,24 @@
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
-import { fetchAbortPrevious } from '../fetchAbortPrevious';
 import { parseJson, parseXml } from '$lib/logic/parse-utils';
 
-const getTagSuggestionsAbortController: AbortController | null = null;
+let getTagSuggestionsAbortController: AbortController | null = null;
 const API_ENDPOINT = '/api/tags';
 
 export const getTagSuggestions = async (term: string): Promise<kurosearch.Suggestion[]> => {
+	// Abort previous request if it exists
+	if (getTagSuggestionsAbortController) {
+		getTagSuggestionsAbortController.abort();
+	}
+
+	// Create new controller for this request
+	getTagSuggestionsAbortController = new AbortController();
+
 	const url = new URL(
 		`${API_ENDPOINT}?autocomplete=1&q=${encodeURIComponent(term.replaceAll(' ', '_'))}`,
 		typeof window !== 'undefined' ? window.location.origin : 'http://localhost'
 	);
 
-	const res = await fetchAbortPrevious(url.toString(), getTagSuggestionsAbortController);
+	const res = await fetch(url.toString(), { signal: getTagSuggestionsAbortController.signal });
 	if (res.ok) {
 		const json = await parseJson(res);
 		if (Array.isArray(json)) {

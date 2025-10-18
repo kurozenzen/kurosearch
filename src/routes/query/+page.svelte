@@ -11,6 +11,7 @@
 	import blockedContent from '$lib/store/blocked-content-store';
 	import supertags from '$lib/store/supertags-store';
 	import activeSupertags from '$lib/store/active-supertags-store';
+	import { allActiveTags } from '$lib/store/all-active-tags-store';
 	import { SearchBuilder } from '$lib/logic/search-builder';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
@@ -103,7 +104,7 @@
 			}
 		}}
 	/>
-	<ActiveTagList tags={[...$activeTags, ...$activeSupertags]} />
+	<ActiveTagList tags={$allActiveTags} />
 	<code>
 		{@html query}
 	</code>

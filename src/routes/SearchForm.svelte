@@ -11,6 +11,7 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
+	import { allActiveTags } from '$lib/store/all-active-tags-store';
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
@@ -106,7 +107,7 @@
 		}}
 	/>
 	<ActiveTagList
-		tags={[...$activeTags, ...$activeSupertags]}
+		tags={$allActiveTags}
 		oncreateSupertag={() => {
 			createSupertagDialog?.showModal();
 			addHistory('dialog');

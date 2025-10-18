@@ -3,18 +3,16 @@
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
+	import { parseXml } from '$lib/logic/parse-utils';
 
 	const name = browser ? new URL(document.location.href).searchParams.get('name') : undefined;
-
-	// Cache DOMParser instance for reuse
-	const parser = browser ? new DOMParser() : undefined;
 
 	const loadTag = async (name: string) => {
 		const response = await fetch(
 			`https://rule34.xxx/index.php?page=tags&s=list&tags=${name}&sort=asc&order_by=index_count`
 		);
 		const text = await response.text();
-		const xml = parser?.parseFromString(text, 'text/xml');
+		const xml = parseXml(text);
 		const tds = xml?.querySelectorAll('#content tr td').values();
 
 		return JSON.stringify(tds);
