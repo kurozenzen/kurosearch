@@ -64,6 +64,10 @@ jobs:
           $NOTES
           EOF
 
+          # Save notes for Discord embed (escape quotes and newlines for JSON)
+          NOTES_ESCAPED=$(echo "$NOTES" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}' | sed 's/\\n$//')
+          echo "notes=$NOTES_ESCAPED" >> $GITHUB_OUTPUT
+
           echo "Release notes generated"
 
       - name: Create GitHub Release
@@ -82,3 +86,15 @@ jobs:
         if: steps.check-tag.outputs.exists == 'true'
         run: |
           echo "Release v${{ steps.package-version.outputs.version }} already exists, skipping creation"
+
+      - name: Send Discord notification
+        if: steps.check-tag.outputs.exists == 'false'
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: ${{ secrets.DISCORD_USERNAME }}
+          DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR }}
+          DISCORD_MENTIONS: ${{ secrets.DISCORD_MENTIONS }}
+          DISCORD_EMBEDS: '[{"title":"Release v${{ steps.package-version.outputs.version }}","description":"${{ steps.release-notes.outputs.notes }}","url":"https://github.com/${{ github.repository }}/releases/tag/v${{ steps.package-version.outputs.version }}","color":1289103,"footer":{"text":"${{ github.repository }}"}}]'
+        with:
+          args: 'New release **v${{ steps.package-version.outputs.version }}** has been published!'
