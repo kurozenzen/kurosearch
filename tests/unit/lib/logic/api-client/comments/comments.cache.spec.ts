@@ -7,7 +7,7 @@ const delay = (ms = 10) => new Promise((r) => setTimeout(r, ms));
 
 const clearStores = async () => {
 	await new Promise<void>((resolve, reject) => {
-		const req = indexedDB.open('kurosearch', 3);
+		const req = indexedDB.open('kurosearch', 4);
 		req.addEventListener('success', (e) => {
 			const db = (e.target as IDBOpenDBRequest).result;
 			const tx = db.transaction(['comments', 'posts', 'tags'], 'readwrite');

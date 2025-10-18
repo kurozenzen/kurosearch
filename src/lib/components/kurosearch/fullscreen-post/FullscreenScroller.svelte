@@ -51,8 +51,17 @@
 		}
 	};
 
+	let scrollRafId: number | null = null;
+
 	const onscroll = (event: Event) => {
-		requestAnimationFrame(() => {
+		// Throttle using requestAnimationFrame - only schedule if not already scheduled
+		if (scrollRafId !== null) {
+			return;
+		}
+
+		scrollRafId = requestAnimationFrame(() => {
+			scrollRafId = null;
+
 			if (!event.target) {
 				return;
 			}
@@ -104,6 +113,11 @@
 	onDestroy(() => {
 		$fullscreenHintDone = true;
 		document.removeEventListener('keydown', keybinds);
+		// Cancel any pending animation frame
+		if (scrollRafId !== null) {
+			cancelAnimationFrame(scrollRafId);
+			scrollRafId = null;
+		}
 	});
 </script>
 

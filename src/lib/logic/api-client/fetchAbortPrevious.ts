@@ -1,6 +1,9 @@
 import { isValidUrl } from '../url-utils';
 
-export const fetchAbortPrevious = (url: string, abortController: AbortController | null) => {
+export const fetchAbortPrevious = (
+	url: string,
+	abortController: AbortController | null
+): Promise<Response> => {
 	if (!isValidUrl(url)) {
 		throw new TypeError('Invalid URL passed to fetchAbortPrevious');
 	}
@@ -13,10 +16,10 @@ export const fetchAbortPrevious = (url: string, abortController: AbortController
 		abortController.abort();
 	}
 
-	abortController = new AbortController();
+	const newController = new AbortController();
 
 	return fetch(url, {
-		signal: abortController.signal
+		signal: newController.signal
 	});
 };
 
