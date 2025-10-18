@@ -36,13 +36,13 @@
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
+<button
 	class:can-open={canOpen}
 	class:open
 	onclick={onclickinternal}
 	style="aspect-ratio: {cssRation};"
+	aria-label={open ? 'Show less of image' : 'Show full image'}
+	aria-expanded={open}
 >
 	<ObservedImage
 		src={previewSrc}
@@ -59,11 +59,17 @@
 		onclick={ontoggleoverlay}
 	/>
 	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
-</div>
+</button>
 
 <style lang="scss">
-	div {
+	button {
 		position: relative;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		width: 100%;
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 	}
 
 	.can-open:not(.open) {
@@ -74,6 +80,8 @@
 
 	.can-open:not(.open)::before {
 		position: absolute;
+		left: 0;
+		bottom: 0;
 		z-index: 100;
 		text-align: center;
 		width: 100%;
@@ -81,7 +89,13 @@
 		padding: var(--grid-gap);
 		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
 		user-select: none;
-		bottom: 0;
 		color: var(--text-highlight);
+	}
+
+	@container (min-width: 800px) {
+		button {
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+			overflow: hidden;
+		}
 	}
 </style>

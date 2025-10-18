@@ -57,8 +57,10 @@
 
 <TermsOfUseDialog />
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <header>
-	<nav>
+	<nav aria-label="Main navigation">
 		<CodiconLink title="Sponsor" href={SPONSOR_URL} icon="codicon codicon-heart" newtab />
 		<DiscordLink />
 		<CodiconLink title="Documentation" href={resolve('/help')} icon="codicon codicon-book" />
@@ -70,7 +72,7 @@
 	</nav>
 </header>
 
-<main class:extra-wide={$wideLayoutEnabled && page.url.pathname === '/'}>
+<main id="main-content" class:extra-wide={$wideLayoutEnabled && page.url.pathname === '/'}>
 	{@render children?.()}
 </main>
 
@@ -117,6 +119,23 @@
 </footer>
 
 <style lang="scss">
+	.skip-link {
+		position: absolute;
+		top: -40px;
+		left: 0;
+		background: var(--accent);
+		color: var(--text-accent);
+		padding: 8px;
+		text-decoration: none;
+		z-index: 9999;
+		border-radius: var(--border-radius);
+	}
+
+	.skip-link:focus {
+		top: 8px;
+		left: 8px;
+	}
+
 	:global(body) {
 		display: flex;
 		flex-direction: column;

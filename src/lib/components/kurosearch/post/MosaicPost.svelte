@@ -32,17 +32,18 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
+<button
+	type="button"
 	id={getPostId(post.id)}
 	class="post"
 	style="grid-row: span {rows};"
 	{onclick}
 	onkeydown={handleKeydown}
+	aria-label="View post {post.id}, {post.type}, score: {formatCount(post.score)}"
 >
 	<img
 		src={previewSrc}
-		alt="post"
+		alt="Post {post.id}, score: {formatCount(post.score)}"
 		class="post-media"
 		class:blurred={$blurEnabled}
 		tabindex="-1"
@@ -52,10 +53,11 @@
 		<span class="type">{post.type === 'video' ? '▶' : 'GIF'}</span>
 	{/if}
 	<span class="score">{formatCount(post.score)}</span>
-</div>
+</button>
 
 <style lang="scss">
 	img {
+		pointer-events: none;
 		object-fit: cover;
 		object-position: top;
 		display: block;
@@ -65,6 +67,7 @@
 		grid-row: 1 / 4;
 		max-height: 100vh;
 		transition: all var(--default-transition-behaviour);
+		border-radius: var(--border-radius);
 
 		&.blurred {
 			filter: blur(20px);
@@ -77,8 +80,13 @@
 		grid-template-rows: auto 1fr auto;
 		justify-content: space-between;
 		background-color: var(--background-1);
-		border-radius: 5px;
+		border-radius: var(--border-radius);
 		contain: content;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		width: 100%;
+		text-align: left;
 	}
 
 	.score {

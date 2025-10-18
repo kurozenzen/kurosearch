@@ -7,32 +7,52 @@
 	const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
+<button
 	class="post-media"
 	class:blurred={$blurEnabled}
-	loading="lazy"
-	data-src={src}
-	{alt}
-	{width}
-	{height}
-	src={transparentPixel}
-	tabindex="0"
-	onkeydown={clickOnEnter}
-	use:observeImage
+	type="button"
 	{onclick}
-/>
+	style="background: none; border: none; padding: 0; width: 100%; height: 100%; display: block;"
+>
+	<img
+		class="post-media"
+		class:blurred={$blurEnabled}
+		loading="lazy"
+		data-src={src}
+		{alt}
+		{width}
+		{height}
+		src={transparentPixel}
+		use:observeImage
+	/>
+</button>
 
 <style lang="scss">
+	button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		width: 100%;
+		height: 100%;
+		z-index: var(--z-media);
+	}
+
 	img {
 		position: absolute;
+		top: 0;
+		left: 0;
 		display: block;
 		width: 100%;
 		height: auto;
 		object-fit: contain;
 		contain: strict;
-		z-index: var(--z-media);
+		pointer-events: none;
+
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 
 		&.blurred {
 			filter: blur(20px);
@@ -40,6 +60,11 @@
 	}
 
 	@container (min-width: 800px) {
+		button {
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+			overflow: hidden;
+		}
+
 		img {
 			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		}

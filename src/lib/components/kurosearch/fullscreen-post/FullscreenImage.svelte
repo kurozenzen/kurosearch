@@ -17,7 +17,6 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
@@ -128,26 +127,24 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources[1]}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	class:blurred={$blurEnabled}
-	use:pauseoffscreen
-	onload={() => (loading = false)}
-	{onclick}
-/>
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources[0]}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	class:blurred={$blurEnabled}
-	{onclick}
-/>
+<button type="button" {onclick} class="image-button">
+	<img
+		src={sources[1]}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		class:blurred={$blurEnabled}
+		use:pauseoffscreen
+		onload={() => (loading = false)}
+	/>
+</button>
+<button type="button" {onclick} class="image-button">
+	<img
+		src={sources[0]}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		class:blurred={$blurEnabled}
+	/>
+</button>
 
 {#if $autoplayFullscreenEnabled}
 	<PostOverlay
@@ -163,12 +160,23 @@
 {/if}
 
 <style lang="scss">
+	.image-button {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		display: flex;
+		width: 100vw;
+		height: 100vh;
+	}
+
 	img {
 		display: flex;
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
 		contain: strict;
+		pointer-events: none;
 
 		&.blurred {
 			filter: blur(20px);

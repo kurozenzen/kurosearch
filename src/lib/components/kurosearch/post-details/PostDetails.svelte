@@ -48,6 +48,7 @@
 		gap: var(--small-gap);
 		padding: var(--small-gap);
 		background-color: var(--background-1);
+		border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
 	}
 
 	@container (min-width: 800px) {

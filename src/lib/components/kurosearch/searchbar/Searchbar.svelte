@@ -125,7 +125,11 @@
 		onblur={closeIfFocusOutside}
 		onkeydown={handleKeyDown}
 		onkeyup={search}
-		aria-label="Search for tags."
+		aria-label="Search for tags"
+		aria-autocomplete="list"
+		aria-controls="search-suggestions"
+		aria-expanded={focusInside && hasDropdownContent}
+		role="combobox"
 	/>
 
 	<CodiconLink
@@ -133,7 +137,12 @@
 		href="{resolve('/help')}#search"
 		icon="codicon codicon-question"
 	/>
-	<ol class:open={focusInside && hasDropdownContent}>
+	<ol
+		id="search-suggestions"
+		class:open={focusInside && hasDropdownContent}
+		role="listbox"
+		aria-label="Tag suggestions"
+	>
 		{#await searchPromise}
 			<div class="suggestion-footer">
 				<LoadingAnimation />

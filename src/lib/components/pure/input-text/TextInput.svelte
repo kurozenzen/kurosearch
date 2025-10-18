@@ -3,12 +3,21 @@
 		placeholder?: string;
 		value?: string;
 		autocomplete?: HTMLInputElement['autocomplete'];
+		'aria-label'?: string;
+		id?: string;
 	}
 
-	let { placeholder = '', value = $bindable(), autocomplete = 'off' }: Props = $props();
+	let { placeholder = '', value = $bindable(), autocomplete = 'off', ...rest }: Props = $props();
 </script>
 
-<input type="text" bind:value {placeholder} {autocomplete} />
+<input
+	type="text"
+	bind:value
+	{placeholder}
+	{autocomplete}
+	id={rest.id}
+	aria-label={rest['aria-label']}
+/>
 
 <style lang="scss">
 	input {

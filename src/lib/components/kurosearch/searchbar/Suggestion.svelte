@@ -11,7 +11,15 @@
 	let { suggestion, selected = false, onclick }: Props = $props();
 </script>
 
-<button tabindex="0" onclick={() => onclick(suggestion)} title={suggestion.label} class:selected>
+<button
+	tabindex="0"
+	onclick={() => onclick(suggestion)}
+	title={suggestion.label}
+	aria-label="{formatTagname(suggestion.label)} tag, {formatCount(suggestion.count)} posts"
+	aria-selected={selected}
+	role="option"
+	class:selected
+>
 	<i class={suggestion.type === 'supertag' ? 'codicon codicon-star-full' : 'codicon codicon-tag'}>
 	</i>
 	<span class="tag-name">{formatTagname(suggestion.label)}</span>

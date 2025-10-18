@@ -126,28 +126,26 @@
 </script>
 
 {#if !paused}
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<button type="button" {onclick} class="image-button">
+		<img
+			src={sources.animated}
+			alt="[{post.type}] post #{post.id}"
+			title="[{post.type}] post #{post.id}"
+			class:blurred={$blurEnabled}
+			onload={() => (loading = false)}
+			use:pauseoffscreen
+		/>
+	</button>
+{/if}
+
+<button type="button" {onclick} class="image-button">
 	<img
-		src={sources.animated}
+		src={sources.static}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
 		class:blurred={$blurEnabled}
-		onload={() => (loading = false)}
-		{onclick}
-		use:pauseoffscreen
 	/>
-{/if}
-
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources.static}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	class:blurred={$blurEnabled}
-	{onclick}
-/>
+</button>
 
 <PostOverlay
 	hidden={overlayHidden}
@@ -161,12 +159,23 @@
 />
 
 <style lang="scss">
+	.image-button {
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		display: flex;
+		width: 100vw;
+		height: 100vh;
+	}
+
 	img {
 		display: flex;
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
 		contain: strict;
+		pointer-events: none;
 
 		&.blurred {
 			filter: blur(20px);

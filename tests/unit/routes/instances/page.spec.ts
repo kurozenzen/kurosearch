@@ -59,14 +59,16 @@ describe('routes/instances +page', () => {
 		expect(groups.length).toBe(2);
 
 		// Expand the second (missing details) and assert defaults shown
-		await fireEvent.click(groups[1]);
+		const secondRow = groups[1].querySelector('tr[role="button"]');
+		await fireEvent.click(secondRow!);
 		expect(await screen.findByText('Version:')).toBeTruthy();
 		const naEls = await screen.findAllByText('N/A');
 		expect(naEls.length).toBeGreaterThan(0); // version fallback present
 		expect(await screen.findByText('0%')).toBeTruthy(); // uptime fallback
 
 		// Expand the first and assert provided version appears
-		await fireEvent.click(groups[0]);
+		const firstRow = groups[0].querySelector('tr[role="button"]');
+		await fireEvent.click(firstRow!);
 		expect(await screen.findAllByText('Version:')).toBeTruthy();
 		expect(screen.getByText('1.2.3')).toBeTruthy();
 	});

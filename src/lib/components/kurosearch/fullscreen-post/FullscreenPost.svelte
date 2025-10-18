@@ -39,7 +39,12 @@
 
 <Fullscreen onclose={() => onclose(index)}>
 	<FullscreenScroller bind:index {onendreached} {startAt} />
-	<IconButton class="button-close" onclick={() => onclose(index)}>
+	<IconButton
+		class="button-close"
+		onclick={() => onclose(index)}
+		aria-label="Close fullscreen view"
+		title="Close fullscreen (press F)"
+	>
 		<i class="codicon codicon-close"></i>
 	</IconButton>
 </Fullscreen>
