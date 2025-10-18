@@ -20,7 +20,9 @@
 			intersectionObserver.observe(ref);
 		}
 		return () => {
-			intersectionObserver.disconnect();
+			if (ref) {
+				intersectionObserver.unobserve(ref);
+			}
 		};
 	});
 </script>
