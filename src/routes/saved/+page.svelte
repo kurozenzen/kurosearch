@@ -2,14 +2,23 @@
 	import savedPosts from '$lib/store/saved-posts-store';
 	import SingleColumnPost from '$lib/components/kurosearch/post/SingleColumnPost.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
+	import { getIndexedPost } from '$lib/indexeddb/idb';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 
 	let posts: kurosearch.Post[] = [];
 
 	$: {
-		Promise.all($savedPosts.posts.map((post) => getPost(post.id))).then(
-			(resolvedPosts) => (posts = resolvedPosts)
-		);
+		Promise.all(
+			$savedPosts.posts.map(async (savedPost) => {
+				// Check IndexedDB first
+				const cachedPost = await getIndexedPost(savedPost.id);
+				if (cachedPost !== undefined) {
+					return cachedPost;
+				}
+				// Fall back to API request if not in cache
+				return getPost(savedPost.id);
+			})
+		).then((resolvedPosts) => (posts = resolvedPosts));
 	}
 </script>
 
