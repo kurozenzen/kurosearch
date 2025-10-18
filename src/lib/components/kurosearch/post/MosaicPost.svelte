@@ -12,10 +12,13 @@
 
 	let { post, onclick }: Props = $props();
 
-	let maxRatio = 1 / 3;
-	let rowsPerSquare = 5;
-	let ratio = calculateAspectRatio(post.width, post.height);
-	let rows = Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2);
+	const maxRatio = 1 / 3;
+	const rowsPerSquare = 5;
+
+	let ratio = $derived(calculateAspectRatio(post.width, post.height));
+	let rows = $derived(
+		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
+	);
 
 	const isImage = (src: string) =>
 		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');

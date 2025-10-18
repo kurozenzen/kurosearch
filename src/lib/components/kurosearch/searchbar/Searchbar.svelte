@@ -29,21 +29,34 @@
 	let searchTerm = $state('');
 	let previousSearchTerm = $state('');
 	let searchPromise: Promise<kurosearch.Suggestion[]> | undefined = $state(undefined);
+	let suggestionItems = $state<kurosearch.Suggestion[]>([]);
 	let selectedIndex = $state(0);
 	let modifier: kurosearch.TagModifier = $state('+');
 	let focusInside = $state(false);
 	let hasDropdownContent = $state(false);
-
-	// hacky, I'd like to avoid caching this but i need it in the keydown handler
-	let suggestionItems: kurosearch.Suggestion[] = [];
 
 	const search = () => {
 		if (searchTerm !== '' && searchTerm !== previousSearchTerm) {
 			selectedIndex = 0;
 			previousSearchTerm = searchTerm;
 			hasDropdownContent = true;
-			searchPromise = fetchSuggestions(searchTerm);
-			searchPromise.then((s) => (suggestionItems = s)).catch(() => (suggestionItems = []));
+			const promise = fetchSuggestions(searchTerm);
+			searchPromise = promise;
+
+			// Update suggestions when promise resolves
+			promise
+				.then((suggestions) => {
+					// Only update if this is still the current search
+					if (searchPromise === promise) {
+						suggestionItems = suggestions;
+					}
+				})
+				.catch(() => {
+					// Only update if this is still the current search
+					if (searchPromise === promise) {
+						suggestionItems = [];
+					}
+				});
 		}
 	};
 
