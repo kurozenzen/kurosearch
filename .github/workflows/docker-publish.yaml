@@ -18,7 +18,123 @@ permissions:
   packages: write
 
 jobs:
+  # Install dependencies once and cache for parallel jobs
+  install:
+    runs-on: ubuntu-latest
+    outputs:
+      pnpm-version: ${{ steps.pnpm-version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract pnpm version from package.json
+        id: pnpm-version
+        run: |
+          PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
+          echo "version=$PNPM_VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted pnpm version: $PNPM_VERSION"
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ steps.pnpm-version.outputs.version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache workspace
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+            .pnpm-store
+            ~/.cache/ms-playwright
+          key: workspace-${{ github.sha }}
+
+  # Run type checking and unit tests
+  unit-tests:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ needs.install.outputs.pnpm-version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Restore workspace
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            .pnpm-store
+            ~/.cache/ms-playwright
+          key: workspace-${{ github.sha }}
+          fail-on-cache-miss: true
+
+      - name: Run type check
+        run: pnpm run check
+
+      - name: Run unit tests
+        run: pnpm run test:unit
+
+  # Run integration tests in parallel with unit tests
+  integration-tests:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ needs.install.outputs.pnpm-version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Restore workspace
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            .pnpm-store
+            ~/.cache/ms-playwright
+          key: workspace-${{ github.sha }}
+          fail-on-cache-miss: true
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run integration tests
+        run: pnpm exec playwright test --project=${{ matrix.browser }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 7
+
+  # Build and push Docker image only after all tests pass
   build-and-push:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [unit-tests, integration-tests]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -47,6 +163,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
 
+      - name: Extract pnpm version from package.json
+        id: pnpm-version
+        run: |
+          PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
+          echo "version=$PNPM_VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted pnpm version: $PNPM_VERSION"
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
@@ -56,14 +179,14 @@ jobs:
             type=raw,value=canary
             type=raw,value=${{ steps.package-version.outputs.version }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha,prefix=sha-
+            type=sha,prefix=sha-,format=short
 
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./container/Dockerfile
+          file: ./container/Dockerfile.prod
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -71,7 +194,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             FLUR34_VERSION=${{ steps.package-version.outputs.version }}
-            PNPM_VERSION=10.18.2
+            PNPM_VERSION=${{ steps.pnpm-version.outputs.version }}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
