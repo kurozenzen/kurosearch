@@ -1,15 +1,18 @@
 name: Create Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build and Publish Docker Image"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   release:
+    # Only create release if the CI workflow succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:

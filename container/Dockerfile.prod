@@ -1,0 +1,59 @@
+# syntax=docker/dockerfile:1
+
+ARG PNPM_VERSION=10.18.2
+ARG FLUR34_VERSION=1.2.0
+
+# Builder stage - assumes tests already passed in CI
+FROM node:lts-alpine AS builder
+WORKDIR /app
+
+ARG PNPM_VERSION
+
+ENV NODE_ENV=production \
+    PNPM_HOME=/root/.local/share/pnpm \
+    PATH="/root/.local/share/pnpm:$PATH"
+
+RUN corepack enable \
+  && corepack prepare pnpm@${PNPM_VERSION} --activate
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies with cache mount
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm fetch
+
+# Copy source code
+COPY . .
+
+# Install and build (production dependencies only)
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --offline \
+  && pnpm run build \
+  && pnpm --filter=flur34 deploy --prod /app/prod
+
+# Runtime stage - minimal distroless image
+FROM gcr.io/distroless/nodejs22-debian12:nonroot AS runtime
+
+ARG FLUR34_VERSION
+ARG PNPM_VERSION
+
+LABEL author=flurbudurbur \
+    org.opencontainers.image.title="flur34" \
+    org.opencontainers.image.description="A self-contained version of kurosearch.com" \
+    org.opencontainers.image.version=${FLUR34_VERSION} \
+    org.opencontainers.image.source="https://github.com/flur34/flur34" \
+    org.opencontainers.image.authors="flurbudurbur 69259138+flurbudurbur@users.noreply.github.com"
+
+ENV NODE_ENV=production \
+    PORT=8080
+
+WORKDIR /app
+
+# Copy only production dependencies and build output
+COPY --chown=nonroot:nonroot --from=builder /app/prod/node_modules ./node_modules
+COPY --chown=nonroot:nonroot --from=builder /app/build ./build
+
+EXPOSE 8080
+
+CMD ["/app/build/index.js"]
