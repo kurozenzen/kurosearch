@@ -24,6 +24,7 @@
 	onclick={() => {
 		isVolumeVisible = !isVolumeVisible;
 	}}
+	aria-label={isVolumeVisible ? 'Close Volume Control' : 'Open Volume Control'}
 >
 	<VolumeIcon />
 	{#if isVolumeVisible}

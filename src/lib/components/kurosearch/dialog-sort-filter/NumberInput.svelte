@@ -6,9 +6,10 @@
 		min: number;
 		max: number;
 		step: number;
+		'aria-label'?: string;
 	}
 
-	let { value = $bindable(), min, max, step }: Props = $props();
+	let { value = $bindable(), min, max, step, ...rest }: Props = $props();
 
 	let internalValue: string = $state(`${value}`);
 
@@ -27,7 +28,15 @@
 	});
 </script>
 
-<input type="number" {min} {max} {step} bind:value={internalValue} onkeyup={blurOnEnter} />
+<input
+	type="number"
+	{min}
+	{max}
+	{step}
+	bind:value={internalValue}
+	onkeyup={blurOnEnter}
+	aria-label={rest['aria-label']}
+/>
 
 <style>
 	input[type='number'] {

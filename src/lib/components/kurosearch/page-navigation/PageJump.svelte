@@ -16,7 +16,13 @@
 </script>
 
 <div>
-	Go to page <NumberInput min={1} max={totalPages} bind:value={jumpPid} step={1} /> of {totalPages}
+	Go to page <NumberInput
+		min={1}
+		max={totalPages}
+		bind:value={jumpPid}
+		step={1}
+		aria-label="Page number input"
+	/> of {totalPages}
 	<TextButton
 		onclick={() => onpagechange(jumpPid)}
 		title=" Page"

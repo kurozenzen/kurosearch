@@ -20,6 +20,7 @@
 	step={0.01}
 	style="--current-time: {percentCurrentTime}%; --buffered-time: {percentBuffered}%"
 	class={rest.class}
+	aria-label="Video seek input"
 />
 
 <style>
