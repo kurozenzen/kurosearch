@@ -22,18 +22,20 @@
 
 <div id="cookie-dialog" class="backdrop">
 	<section>
-		<LynxMain />
-		<h2>kurosearch</h2>
-		<h3>Terms of Use</h3>
-		<span></span>
-		<h4>Mature Content</h4>
-		<p>
-			This website contains mature content. By using this website you confirm that you are at
-			legally allowed to view such content.
-		</p>
-		<span></span>
-		<h4>Use of Cookies</h4>
-		<p>Additinally, this website uses cookies to provide functionality.</p>
+		<div class="scroll">
+			<LynxMain />
+			<h2>kurosearch</h2>
+			<h3>Terms of Use</h3>
+			<span></span>
+			<h4>Mature Content</h4>
+			<p>
+				This website contains mature content. By using this website you confirm that you are at
+				legally allowed to view such content.
+			</p>
+			<span></span>
+			<h4>Cookies</h4>
+			<p>This website uses cookies.</p>
+		</div>
 		<div class="row">
 			<TextButton title="Accept terms of use" onclick={accept}>Accept</TextButton>
 			<TextButton title="Leave website" type="secondary" onclick={leave}>Leave</TextButton>
@@ -49,6 +51,7 @@
 		gap: var(--grid-gap);
 		padding: var(--grid-gap);
 		max-width: 500px;
+		max-height: 99vh;
 		border-radius: var(--border-radius-large);
 	}
 
@@ -56,11 +59,15 @@
 		font-family: 'Zen Kaku Gothic New', sans-serif;
 		font-size: 72px;
 		color: var(--accent);
-		margin-block: -0.25em;
+		margin-block: -3rem 0;
+	}
+
+	h3 {
+		font-size: 24px;
 	}
 
 	@media (max-width: 600px) {
-		h1 {
+		h2 {
 			font-size: 12vw;
 		}
 	}
@@ -77,8 +84,17 @@
 		text-align: center;
 	}
 
+	h4 {
+		font-size: 18px;
+		font-weight: bold;
+	}
+
 	:global(:root[data-cookies='false'] .backdrop) {
 		display: flex;
+	}
+
+	:global(:root[data-cookies='false'] body) {
+		overflow: hidden;
 	}
 
 	.backdrop {
@@ -109,6 +125,13 @@
 	.row {
 		align-self: center;
 		display: flex;
+		gap: var(--grid-gap);
+	}
+
+	.scroll {
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
 		gap: var(--grid-gap);
 	}
 </style>
