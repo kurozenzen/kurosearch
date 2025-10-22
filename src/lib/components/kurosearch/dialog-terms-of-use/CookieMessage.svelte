@@ -23,16 +23,16 @@
 <div id="cookie-dialog" class="backdrop">
 	<section>
 		<LynxMain />
-		<h1>kurosearch</h1>
-		<h2>Terms of Use</h2>
+		<h2>kurosearch</h2>
+		<h3>Terms of Use</h3>
 		<span></span>
-		<h3>Mature Content</h3>
+		<h4>Mature Content</h4>
 		<p>
 			This website contains mature content. By using this website you confirm that you are at
 			legally allowed to view such content.
 		</p>
 		<span></span>
-		<h3>Use of Cookies</h3>
+		<h4>Use of Cookies</h4>
 		<p>Additinally, this website uses cookies to provide functionality.</p>
 		<div class="row">
 			<TextButton title="Accept terms of use" onclick={accept}>Accept</TextButton>
@@ -52,7 +52,7 @@
 		border-radius: var(--border-radius-large);
 	}
 
-	h1 {
+	h2 {
 		font-family: 'Zen Kaku Gothic New', sans-serif;
 		font-size: 72px;
 		color: var(--accent);
@@ -70,9 +70,9 @@
 		height: 2px;
 	}
 
-	h1,
 	h2,
 	h3,
+	h4,
 	p {
 		text-align: center;
 	}

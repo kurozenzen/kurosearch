@@ -33,6 +33,10 @@
 
 <svelte:head>
 	<title>kurosearch - Component Test</title>
+	<meta
+		name="description"
+		content="Frontend test layouts."
+	/>
 </svelte:head>
 
 <Heading1>Testing</Heading1>

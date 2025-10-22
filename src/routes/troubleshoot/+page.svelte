@@ -19,6 +19,14 @@
 	];
 </script>
 
+<svelte:head>
+	<title>kurosearch - Troubleshoot</title>
+	<meta
+		name="description"
+		content="Diagnose issues while using kurosearch."
+	/>
+</svelte:head>
+
 <h1>Troubleshooting</h1>
 
 <h3>Network Checks</h3>

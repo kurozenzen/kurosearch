@@ -131,7 +131,7 @@
 	<title>kurosearch - Rule34 Hentai</title>
 	<meta
 		name="description"
-		content="Simple and powerful Rule34 browsing site with a focus on simplicity and user experience."
+		content="Simple and powerful Rule34/Hentai browsing site with a focus on simplicity and user experience. Supports excluding tags, sorting and filtering."
 	/>
 </svelte:head>
 

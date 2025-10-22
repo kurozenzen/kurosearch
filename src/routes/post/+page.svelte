@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-	<title>kurosearch - Post # {id}</title>
+	<title>kurosearch - Post {id}</title>
 	<meta name="description" content="View a single post." />
 </svelte:head>
 
