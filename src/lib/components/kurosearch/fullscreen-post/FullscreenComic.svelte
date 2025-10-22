@@ -74,7 +74,7 @@
 		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
 		user-select: none;
 		bottom: 0;
-		color: var(--text-highlight);
+		color: #fff;
 	}
 
 	.scrollable :global(.details-button) {

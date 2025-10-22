@@ -23,11 +23,6 @@
 	let open: boolean = $state(false);
 	let overlayHidden = $state(true);
 
-	const ontoggleoverlay = (e: Event) => {
-		e.stopPropagation();
-		overlayHidden = !overlayHidden;
-	};
-
 	let previewSrc = $derived(post.preview_url);
 	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
 	let alt = $derived(post.id.toString());
@@ -49,14 +44,12 @@
 		{alt}
 		width={post.width}
 		height={post.height}
-		onclick={ontoggleoverlay}
 	/>
 	<ObservedImage
 		src={actualSrc}
 		{alt}
 		width={post.width}
 		height={post.height}
-		onclick={ontoggleoverlay}
 	/>
 	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
 </div>
@@ -79,9 +72,9 @@
 		width: 100%;
 		content: 'Show more';
 		padding: var(--grid-gap);
-		background: linear-gradient(0deg, var(--background-0) 0%, transparent 100%);
+		background: linear-gradient(0deg, black 0%, transparent 100%);
 		user-select: none;
 		bottom: 0;
-		color: var(--text-highlight);
+		color: white;
 	}
 </style>

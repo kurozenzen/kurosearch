@@ -113,8 +113,6 @@
 		align-items: center;
 		height: var(--line-height);
 		padding-inline: var(--small-gap);
-		background-color: var(--background-2);
-		color: var(--text-highlight);
 		border-radius: var(--border-radius);
 	}
 

@@ -4,7 +4,11 @@
 		'crimson light': 'Light',
 		'hotpink light': 'Bubblegum',
 		'hotpink dark': 'Dark Bubblegum',
-		'crimson coffee': 'Coffee'
+		'crimson coffee': 'Coffee',
+		'green rule34': 'Classic Rule34',
+		'white dark': 'Monochrome Dark',
+		'black light': 'Monochrome Light',
+		'purple purple': 'Purple',
 	});
 	const RESULT_COLUMNS_OPTIONS = Object.freeze({
 		'1': 'Single Column',

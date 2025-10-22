@@ -45,7 +45,6 @@
 		}
 
 		button:hover {
-			color: var(--text-highlight);
 			background-color: #222;
 		}
 	}

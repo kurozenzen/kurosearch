@@ -99,7 +99,7 @@
 		z-index: var(--z-media-controls);
 
 		transition: opacity var(--default-transition-behaviour);
-		pointer-events: none;
+		pointer-events:none;
 	}
 
 	.overlay :global(*) {
