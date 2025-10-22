@@ -1,3 +1,5 @@
+import { browser } from '$app/environment';
+
 const COMMENT_LIFETIME_HOURS = 48;
 const POST_LIFETIME_HOURS = 48;
 
@@ -46,6 +48,10 @@ const clean = async () =>
 	});
 
 const initIdb = async (): Promise<IDBDatabase> => {
+	if (!browser) {
+		return Promise.resolve(null as unknown as IDBDatabase);
+	}
+
 	return new Promise((resolve, reject) => {
 		const request = indexedDB.open('kurosearch', 3);
 		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));

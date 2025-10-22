@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { addIndexedComments, getIndexedComments } from '$lib/indexeddb/idb';
 import { API_URL, R34_API_URL } from '../url';
 
@@ -8,6 +9,10 @@ export type Comment = {
 };
 
 export const getComments = async (postId: number, apiKey: string = '', userId: string = '') => {
+	if (!browser) {
+		return [];
+	}
+
 	if (typeof postId !== 'number') {
 		throw new TypeError('Invalid postId');
 	}

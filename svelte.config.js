@@ -6,7 +6,7 @@ import * as child_process from 'node:child_process';
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({ strict: true }),
 		paths: {
 			base: ''
 		},

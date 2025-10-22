@@ -111,12 +111,12 @@
 	onMount(() => {
 		if ($autoplayFullscreenEnabled) {
 			animationHandle = requestAnimationFrame(updateSlider);
-			document.addEventListener('keydown', keybinds);
+			browser && document.addEventListener('keydown', keybinds);
 		}
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
-		document.removeEventListener('keydown', keybinds);
+		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

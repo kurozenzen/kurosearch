@@ -3,6 +3,7 @@
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import FullscreenScroller from './FullscreenScroller.svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		index: number;
@@ -28,12 +29,12 @@
 	};
 
 	onMount(() => {
-		window.addEventListener('popstate', exitOnStateChange);
-		document.addEventListener('keydown', keybinds);
+		browser && window.addEventListener('popstate', exitOnStateChange);
+		browser && document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
-		window.removeEventListener('popstate', exitOnStateChange);
-		document.removeEventListener('keydown', keybinds);
+		browser && window.removeEventListener('popstate', exitOnStateChange);
+		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

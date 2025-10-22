@@ -7,6 +7,7 @@
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import FullscreenPreview from './FullscreenPreview.svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		index: number;
@@ -99,11 +100,11 @@
 				current.scrollLeft = 0;
 			}
 		});
-		document.addEventListener('keydown', keybinds);
+		browser && document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
 		$fullscreenHintDone = true;
-		document.removeEventListener('keydown', keybinds);
+		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

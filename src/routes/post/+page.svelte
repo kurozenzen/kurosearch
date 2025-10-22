@@ -1,4 +1,5 @@
 <script>
+	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
@@ -15,7 +16,7 @@
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 
-	let idString = $derived(page.url.searchParams.get('id'));
+	let idString = $derived(browser ? page.url.searchParams.get('id') : null);
 	let id = $derived(idString ? parseInt(idString) : null);
 </script>
 

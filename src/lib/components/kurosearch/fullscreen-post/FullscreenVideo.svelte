@@ -4,6 +4,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -58,15 +59,15 @@
 	};
 
 	onMount(() => {
-		videoObserver.observe(video);
-		document.addEventListener('keydown', keybinds);
+		browser && videoObserver.observe(video);
+		browser && document.addEventListener('keydown', keybinds);
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
 	});
 	onDestroy(() => {
-		videoObserver.unobserve(video);
-		document.removeEventListener('keydown', keybinds);
+		browser && videoObserver.unobserve(video);
+		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

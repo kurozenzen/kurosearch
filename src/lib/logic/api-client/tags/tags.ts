@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
@@ -6,6 +7,10 @@ import { API_URL, R34_API_URL } from '../url';
 let getTagSuggestionsAbortController: AbortController | null = null;
 
 export const getTagSuggestions = async (term: string): Promise<kurosearch.Suggestion[]> => {
+	if (!browser) {
+		return [];
+	}
+
 	const url = new URL('https://api.rule34.xxx/autocomplete.php');
 	url.searchParams.append('q', term.replaceAll(' ', '_'));
 
@@ -33,6 +38,10 @@ export const getTagDetails = async (
 	apiKey: string,
 	userId: string
 ): Promise<kurosearch.Tag | undefined> => {
+	if (!browser) {
+		return undefined;
+	}
+
 	let indexedTag = await getIndexedTag(name);
 	if (indexedTag) {
 		return indexedTag;

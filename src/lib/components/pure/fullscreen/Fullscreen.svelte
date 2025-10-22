@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onDestroy, onMount, type Snippet } from 'svelte';
 
 	interface Props {
@@ -23,22 +24,27 @@
 	let ready = $state(false);
 
 	onMount(async () => {
-		dialog.focus();
-		document.addEventListener('fullscreenchange', closeOnFullscreenExit);
-		try {
-			await dialog.requestFullscreen();
-		} catch {
-			// ignored
+		if (browser) {
+			dialog.focus();
+
+			document.addEventListener('fullscreenchange', closeOnFullscreenExit);
+			try {
+				await dialog.requestFullscreen();
+			} catch {
+				// ignored
+			}
+			ready = true;
 		}
-		ready = true;
 	});
 
 	onDestroy(async () => {
-		document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
-		try {
-			await document.exitFullscreen();
-		} catch {
-			// ignored
+		if (browser) {
+			document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
+			try {
+				await document.exitFullscreen();
+			} catch {
+				// ignored
+			}
 		}
 	});
 </script>

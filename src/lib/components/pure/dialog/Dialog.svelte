@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onpopstate } from '$lib/logic/use/onpopstate';
 	import { onDestroy, onMount, type Snippet } from 'svelte';
 
@@ -28,11 +29,11 @@
 
 	onMount(() => {
 		// Close on backdrop click
-		dialog.addEventListener('click', listener);
+		if (browser) dialog.addEventListener('click', listener);
 	});
 
 	onDestroy(() => {
-		dialog.removeEventListener('click', listener);
+		if (browser) dialog.removeEventListener('click', listener);
 	});
 </script>
 
