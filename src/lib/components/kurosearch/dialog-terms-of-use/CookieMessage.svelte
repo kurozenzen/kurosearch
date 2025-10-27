@@ -59,7 +59,7 @@
 		font-family: 'Zen Kaku Gothic New', sans-serif;
 		font-size: 72px;
 		color: var(--accent);
-		margin-block: -3rem 0;
+		margin-block: -1rem 0;
 	}
 
 	h3 {
