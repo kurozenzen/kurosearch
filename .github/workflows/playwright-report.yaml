@@ -1,0 +1,239 @@
+name: Publish Playwright Report
+
+on:
+  workflow_run:
+    workflows: ['Test']
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+  id-token: write
+
+jobs:
+  publish-report:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: artifacts
+
+      - name: Check for Playwright reports
+        id: check-reports
+        run: |
+          if ls artifacts/playwright-report-* 1> /dev/null 2>&1; then
+            echo "has_reports=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_reports=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Merge Playwright reports
+        if: steps.check-reports.outputs.has_reports == 'true'
+        run: |
+          mkdir -p merged-report
+
+          # Copy all browser reports
+          for dir in artifacts/playwright-report-*/; do
+            if [ -d "$dir" ]; then
+              browser=$(basename "$dir" | sed 's/playwright-report-//')
+              echo "Processing report for: $browser"
+
+              # Create browser-specific directory
+              mkdir -p "merged-report/$browser"
+
+              # Copy report files
+              if [ -d "${dir}data" ]; then
+                cp -r "${dir}data" "merged-report/$browser/" 2>/dev/null || true
+              fi
+              if [ -d "${dir}trace" ]; then
+                cp -r "${dir}trace" "merged-report/$browser/" 2>/dev/null || true
+              fi
+              if [ -f "${dir}index.html" ]; then
+                cp "${dir}index.html" "merged-report/$browser/" 2>/dev/null || true
+              fi
+            fi
+          done
+
+          # Create index page
+          cat > merged-report/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Playwright Test Reports</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem;
+                background: #f5f5f5;
+              }
+              h1 {
+                color: #2e7d32;
+                border-bottom: 3px solid #2e7d32;
+                padding-bottom: 0.5rem;
+              }
+              .reports {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin-top: 2rem;
+              }
+              .report-card {
+                background: white;
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                transition: transform 0.2s, box-shadow 0.2s;
+              }
+              .report-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+              }
+              .report-card h2 {
+                margin-top: 0;
+                color: #1976d2;
+                text-transform: capitalize;
+              }
+              .report-card a {
+                display: inline-block;
+                margin-top: 1rem;
+                padding: 0.5rem 1rem;
+                background: #1976d2;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                transition: background 0.2s;
+              }
+              .report-card a:hover {
+                background: #1565c0;
+              }
+              .meta {
+                color: #666;
+                font-size: 0.9rem;
+                margin-top: 1rem;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>🎭 Playwright Test Reports</h1>
+            <div class="meta">
+              <strong>Workflow:</strong> ${{ github.event.workflow_run.name }}<br>
+              <strong>Branch:</strong> ${{ github.event.workflow_run.head_branch }}<br>
+              <strong>Commit:</strong> <code>${{ github.event.workflow_run.head_sha }}</code><br>
+              <strong>Run:</strong> <a href="${{ github.event.workflow_run.html_url }}" target="_blank">${{ github.event.workflow_run.id }}</a>
+            </div>
+            <div class="reports">
+              <div class="report-card">
+                <h2>🌐 Chromium</h2>
+                <p>Test results from Chromium browser</p>
+                <a href="./chromium/index.html">View Report →</a>
+              </div>
+              <div class="report-card">
+                <h2>🦊 Firefox</h2>
+                <p>Test results from Firefox browser</p>
+                <a href="./firefox/index.html">View Report →</a>
+              </div>
+              <div class="report-card">
+                <h2>🧭 WebKit</h2>
+                <p>Test results from WebKit browser</p>
+                <a href="./webkit/index.html">View Report →</a>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        if: steps.check-reports.outputs.has_reports == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload to GitHub Pages
+        if: steps.check-reports.outputs.has_reports == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: merged-report
+
+      - name: Deploy to GitHub Pages
+        if: steps.check-reports.outputs.has_reports == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Comment on PR with report link
+        if: steps.check-reports.outputs.has_reports == 'true' && github.event.workflow_run.event == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const reportUrl = '${{ steps.deployment.outputs.page_url }}';
+
+            // Get PR number from workflow run
+            const { data: pullRequests } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: '${{ github.event.workflow_run.head_sha }}'
+            });
+
+            if (pullRequests.length === 0) {
+              console.log('No PR found for this commit');
+              return;
+            }
+
+            const prNumber = pullRequests[0].number;
+
+            const comment = `## 🎭 Playwright Test Report
+
+            Test results are available at: ${reportUrl}
+
+            **Reports by browser:**
+            - [Chromium](${reportUrl}chromium/index.html)
+            - [Firefox](${reportUrl}firefox/index.html)
+            - [WebKit](${reportUrl}webkit/index.html)
+
+            <sub>Report generated from workflow run [#${{ github.event.workflow_run.id }}](${{ github.event.workflow_run.html_url }})</sub>
+            `;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Playwright Test Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: comment
+              });
+            }
+
+      - name: Summary
+        if: steps.check-reports.outputs.has_reports == 'true'
+        run: |
+          echo "## 🎭 Playwright Reports Published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Reports are available at: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
