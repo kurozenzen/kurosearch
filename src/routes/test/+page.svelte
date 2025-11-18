@@ -18,6 +18,8 @@
 	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
 	import defaultUserSrc from '$lib/assets/default-user.png';
 	import { resolve } from '$app/paths';
+	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
+	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
@@ -33,10 +35,7 @@
 
 <svelte:head>
 	<title>kurosearch - Component Test</title>
-	<meta
-		name="description"
-		content="Frontend test layouts."
-	/>
+	<meta name="description" content="Frontend test layouts." />
 </svelte:head>
 
 <Heading1>Testing</Heading1>
@@ -80,3 +79,14 @@
 <CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
 <SettingsLink />
 <AccountLink src={disabled ? defaultUserSrc : undefined} />
+<br />
+<img src={lynxChibiSrc} alt="default lynx" />
+<br />
+<img src={lynxChibiHalloweenSrc} alt="halloween lynx" />
+
+<style>
+	img {
+		max-width: 200px;
+		height: auto;
+	}
+</style>
