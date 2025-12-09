@@ -3,8 +3,8 @@
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
 	import lynxChibiChristmasSrc from '$lib/assets/lynxy-chibi-christmas.webp';
 
-	let month = $state(new Date().getMonth());
-	let src = $derived.by(() => {
+	const computeSrc = () => {
+		const month = new Date().getMonth();
 		switch (month) {
 			case 9:
 				return lynxChibiHalloweenSrc;
@@ -13,8 +13,9 @@
 			default:
 				return lynxChibiSrc;
 		}
-	});
+	};
 
+	let src = $state(computeSrc());
 	let details = $state(false);
 </script>
 
