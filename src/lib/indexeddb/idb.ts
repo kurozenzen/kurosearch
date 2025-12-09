@@ -7,6 +7,16 @@ let idb: IDBDatabase | undefined;
 
 const currentHour = () => Math.round(new Date().getTime() / 1000 / 60 / 60);
 
+export const initIdb = async () => {
+	return ensureIdb()
+		.then((db) => {
+			idb = db;
+		})
+		.catch((error) => console.error('Failed to initialize IndexedDB:', error))
+		.then(clean)
+		.catch((error) => console.error('Failed to clean IndexedDB:', error));
+};
+
 const clean = async () =>
 	new Promise<void>((resolve) => {
 		if (!idb) {
@@ -47,7 +57,7 @@ const clean = async () =>
 		});
 	});
 
-const initIdb = async (): Promise<IDBDatabase> => {
+const ensureIdb = async (): Promise<IDBDatabase> => {
 	if (!browser) {
 		return Promise.resolve(null as unknown as IDBDatabase);
 	}
@@ -105,14 +115,6 @@ const initIdb = async (): Promise<IDBDatabase> => {
 		});
 	});
 };
-
-initIdb()
-	.then((db) => {
-		idb = db;
-	})
-	.catch((error) => console.error('Failed to initialize IndexedDB:', error))
-	.then(clean)
-	.catch((error) => console.error('Failed to clean IndexedDB:', error));
 
 export const addIndexedTag = (tag: kurosearch.Tag) => {
 	if (!idb) {

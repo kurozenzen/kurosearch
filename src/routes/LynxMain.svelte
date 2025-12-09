@@ -1,22 +1,33 @@
 <script lang="ts">
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
+	import lynxChibiChristmasSrc from '$lib/assets/lynxy-chibi-christmas.webp';
 
-	let src = new Date().getMonth() === 9 ? lynxChibiHalloweenSrc : lynxChibiSrc;
+	let month = $state(new Date().getMonth());
+	let src = $derived.by(() => {
+		switch (month) {
+			case 9:
+				return lynxChibiHalloweenSrc;
+			case 11:
+				return lynxChibiChristmasSrc;
+			default:
+				return lynxChibiSrc;
+		}
+	});
 
-	let details = false;
+	let details = $state(false);
 </script>
 
 <div>
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<img
 		id="happy"
 		{src}
 		alt="Helheim Lynx"
 		width="1231"
 		height="864"
-		on:click={() => (details = !details)}
+		onclick={() => (details = !details)}
 	/>
 	{#if details}
 		<a
