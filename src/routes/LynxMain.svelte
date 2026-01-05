@@ -2,6 +2,7 @@
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
 	import lynxChibiChristmasSrc from '$lib/assets/lynxy-chibi-christmas.webp';
+	import { onMount } from 'svelte';
 
 	const computeSrc = () => {
 		const month = new Date().getMonth();
@@ -17,6 +18,10 @@
 
 	let src = $state(computeSrc());
 	let details = $state(false);
+
+	onMount(() => {
+		src = computeSrc();
+	})
 </script>
 
 <div>

@@ -35,10 +35,10 @@
 			<span></span>
 			<h4>Cookies</h4>
 			<p>This website uses cookies.</p>
-		</div>
-		<div class="row">
-			<TextButton title="Accept terms of use" onclick={accept}>Accept</TextButton>
-			<TextButton title="Leave website" type="secondary" onclick={leave}>Leave</TextButton>
+			<div class="row">
+				<TextButton title="Accept terms of use" onclick={accept}>Accept</TextButton>
+				<TextButton title="Leave website" type="secondary" onclick={leave}>Leave</TextButton>
+			</div>
 		</div>
 	</section>
 </div>
@@ -93,10 +93,6 @@
 		display: flex;
 	}
 
-	:global(:root[data-cookies='false'] body) {
-		overflow: hidden;
-	}
-
 	.backdrop {
 		z-index: var(--z-dialog);
 		position: fixed;
@@ -126,6 +122,7 @@
 		align-self: center;
 		display: flex;
 		gap: var(--grid-gap);
+		margin-bottom: 2rem;
 	}
 
 	.scroll {
