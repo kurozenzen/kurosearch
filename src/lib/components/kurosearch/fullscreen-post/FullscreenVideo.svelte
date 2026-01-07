@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getVideoSources } from '$lib/logic/media-utils';
-	import { videoObserver } from '$lib/logic/video-observer';
 	import { onDestroy, onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
-	import { browser } from '$app/environment';
+	import { screenintersection } from '$lib/logic/use/screenintersection';
+	import { clearsrc } from '$lib/logic/use/clearsrc';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -58,21 +58,30 @@
 		}
 	};
 
+	const onIntersectionChange = (isIntersecting: boolean) => {
+		if (isIntersecting && video.autoplay && video.paused) {
+			video.play();
+		}
+		if (!isIntersecting && !video.paused) {
+			video.pause();
+		}
+	};
+
 	onMount(() => {
-		browser && videoObserver.observe(video);
-		browser && document.addEventListener('keydown', keybinds);
+		document.addEventListener('keydown', keybinds);
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
 	});
 	onDestroy(() => {
-		browser && videoObserver.unobserve(video);
-		browser && document.removeEventListener('keydown', keybinds);
+		document.removeEventListener('keydown', keybinds);
 	});
 </script>
 
 <!-- svelte-ignore a11y_media_has_caption -->
 <video
+	{@attach screenintersection(onIntersectionChange)}
+	{@attach clearsrc}
 	src={sources.animated}
 	poster={sources.static}
 	title="[VIDEO] post #{post.id}"

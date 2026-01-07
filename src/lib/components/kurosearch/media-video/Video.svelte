@@ -12,11 +12,11 @@
 </script>
 
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { clearsrc } from '$lib/logic/use/clearsrc';
 	import { isSpace } from '$lib/logic/keyboard-utils';
-	import { onDestroy, onMount } from 'svelte';
 	import { getVolume } from './VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { screenintersection } from '$lib/logic/use/screenintersection';
 
 	interface Props {
 		src: string;
@@ -30,7 +30,6 @@
 
 	let { src, poster, width, height, loop = false, onfullscreen, ...rest }: Props = $props();
 
-	let container: HTMLDivElement;
 	let video: HTMLVideoElement | undefined = $state(undefined);
 
 	let displayVideo = $state(false);
@@ -94,33 +93,11 @@
 			skipForward();
 		}
 	};
-
-	const observer = browser
-		? new IntersectionObserver(
-				(entries) => {
-					for (const entry of entries) {
-						if (entry.isIntersecting) {
-							displayVideo = true;
-						} else {
-							if (video) {
-								video.pause();
-								video.addEventListener('error', () => (displayVideo = false), { once: true });
-								video.src = '';
-							}
-						}
-					}
-				},
-				{ rootMargin: '0px' }
-			)
-		: null;
-
-	onMount(() => observer?.observe(container));
-	onDestroy(() => observer?.unobserve(container));
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	bind:this={container}
+	{@attach screenintersection((isIntersecting) => (displayVideo = isIntersecting))}
 	onkeydown={handleKeyDown}
 	class={rest.class}
 	style="aspect-ratio:{width}/{height}"
@@ -129,6 +106,7 @@
 	{#if displayVideo}
 		<!-- svelte-ignore a11y_media_has_caption -->
 		<video
+			{@attach clearsrc}
 			tabindex="0"
 			{poster}
 			{loop}
