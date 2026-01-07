@@ -12,7 +12,7 @@ if (browser) {
 				onchange?.(entry.isIntersecting);
 			}
 		},
-		{ rootMargin: '0px' }
+		{ rootMargin: '1000px' }
 	);
 }
 

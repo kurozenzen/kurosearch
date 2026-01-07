@@ -4,8 +4,9 @@
 		calculateAspectRatio,
 		calculateAspectRatioCss
 	} from '$lib/components/kurosearch/post/ratio';
+	import { clearsrc } from '$lib/logic/use/clearsrc';
+	import { screenintersection } from '$lib/logic/use/screenintersection';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import ObservedImage from './ObservedImage.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -15,12 +16,8 @@
 
 	let { post, onclick, onfullscreen }: Props = $props();
 
-	const onclickinternal = () => {
-		open = !open;
-		onclick?.();
-	};
-
-	let open: boolean = $state(false);
+	let visible = $state(false);
+	let open = $state(false);
 	let overlayHidden = $state(true);
 
 	let previewSrc = $derived(post.preview_url);
@@ -29,28 +26,40 @@
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let canOpen = $derived(ratio < 0.4);
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
+
+	const onIntersectionChange = (isIntersecting: boolean) => {
+		visible = isIntersecting;
+	};
+
+	const onclickinternal = () => {
+		open = !open;
+		onclick?.();
+	};
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
+	{@attach screenintersection(onIntersectionChange)}
 	class:can-open={canOpen}
 	class:open
 	onclick={onclickinternal}
 	style="aspect-ratio: {cssRation};"
 >
-	<ObservedImage
-		src={previewSrc}
-		{alt}
-		width={post.width}
-		height={post.height}
-	/>
-	<ObservedImage
-		src={actualSrc}
-		{alt}
-		width={post.width}
-		height={post.height}
-	/>
+	{#if visible}
+		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+		<img
+			{@attach clearsrc}
+			class="post-media"
+			loading="lazy"
+			tabindex="0"
+			src={actualSrc}
+			{alt}
+			width={post.width}
+			height={post.height}
+		/>
+	{/if}
+
 	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
 </div>
 
@@ -76,5 +85,21 @@
 		user-select: none;
 		bottom: 0;
 		color: white;
+	}
+
+	img {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+		contain: strict;
+		z-index: var(--z-media);
+	}
+
+	@container (min-width: 800px) {
+		img {
+			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+		}
 	}
 </style>
