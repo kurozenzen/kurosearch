@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getPostId } from '$lib/logic/id-utils';
+	import { videoStore } from '$lib/store/active-video-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
-	import { pausePlayingVideo } from '../media-video/Video.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
 
@@ -25,7 +25,7 @@
 	};
 
 	const onfullscreen = (index: number, currentTime?: number) => {
-		pausePlayingVideo();
+		videoStore.stop();
 		fullscreenIndex = index;
 		fullscreenCurrentTime = currentTime;
 	};

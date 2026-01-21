@@ -1,13 +1,4 @@
 <script module lang="ts">
-	let playingVideo: HTMLVideoElement | undefined = $state(undefined);
-
-	export function pausePlayingVideo() {
-		if (playingVideo) {
-			playingVideo.pause();
-			playingVideo = undefined;
-		}
-	}
-
 	const SKIP_TIME = 5;
 </script>
 
@@ -17,6 +8,7 @@
 	import { getVolume } from './VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
+	import { videoStore } from '$lib/store/active-video-store';
 
 	interface Props {
 		src: string;
@@ -51,10 +43,9 @@
 	const ontoggleplay = () => {
 		if (video) {
 			if (video.paused) {
-				video.play();
-				playingVideo = video;
+				videoStore.play(video);
 			} else {
-				video.pause();
+				videoStore.stop();
 			}
 		}
 	};
@@ -80,8 +71,8 @@
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		displayVideo = isIntersecting;
-		if (video && !video.paused && !isIntersecting) {
-			video.pause();
+		if (video && !isIntersecting) {
+			paused = true;
 		}
 	};
 
