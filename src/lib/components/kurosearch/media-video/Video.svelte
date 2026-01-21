@@ -78,6 +78,13 @@
 		}
 	};
 
+	const onIntersectionChange = (isIntersecting: boolean) => {
+		displayVideo = isIntersecting;
+		if (video && !video.paused && !isIntersecting) {
+			video.pause();
+		}
+	};
+
 	const handleKeyDown = (event: KeyboardEvent) => {
 		if (isSpace(event) || event.key === 'k') {
 			event.preventDefault();
@@ -97,7 +104,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	{@attach screenintersection((isIntersecting) => (displayVideo = isIntersecting))}
+	{@attach screenintersection(onIntersectionChange)}
 	onkeydown={handleKeyDown}
 	class={rest.class}
 	style="aspect-ratio:{width}/{height}"
