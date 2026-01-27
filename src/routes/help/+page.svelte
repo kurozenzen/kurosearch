@@ -123,10 +123,10 @@
 		<li><span><kbd>S</kbd></span><span>Focus searchbar</span></li>
 		<li><span><kbd>Ctrl</kbd> + <kbd>M</kbd></span><span>Rotate searchbar modifier</span></li>
 		<li><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><span>Search with active tags</span></li>
-		<li><span><kbd>Ctrl</kbd> + <kbd>⬇</kbd></span><span>Scroll to next post</span></li>
-		<li><span><kbd>Ctrl</kbd> + <kbd>⬆</kbd></span><span>Scroll to previous post</span></li>
-		<li><span><kbd>⬅</kbd></span><span>Skip video backward</span></li>
-		<li><span><kbd>➡</kbd></span><span>Skip video forward</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>▼</kbd></span><span>Scroll to next post</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>▲</kbd></span><span>Scroll to previous post</span></li>
+		<li><span><kbd>◄</kbd></span><span>Skip video backward</span></li>
+		<li><span><kbd>►</kbd></span><span>Skip video forward</span></li>
 		<li><span><kbd>F</kbd></span><span>Enter fullscreen mode</span></li>
 		<li><span><kbd>Space</kbd></span><span>Play/Pause Video, Acts as click</span></li>
 		<li><span><kbd>Enter</kbd></span><span>Play/Pause Video, Acts as click</span></li>
@@ -138,8 +138,8 @@
 		<li><span>Fullscreen Mode</span><span></span></li>
 		<li><span><kbd>F</kbd></span><span>Exit fullscreen mode</span></li>
 		<li><span><kbd>D</kbd></span><span>Switch between post and details</span></li>
-		<li><span><kbd>⬇</kbd></span><span>Scroll to next post</span></li>
-		<li><span><kbd>⬆</kbd></span><span>Scroll to previous post</span></li>
+		<li><span><kbd>▼</kbd></span><span>Scroll to next post</span></li>
+		<li><span><kbd>▲</kbd></span><span>Scroll to previous post</span></li>
 	</ul>
 
 	<h2 id="tags">Tags</h2>
