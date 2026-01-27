@@ -103,6 +103,10 @@
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
+		if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+			return; // don't interfere with typing
+		}
+
 		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
 			const posts = document.getElementsByClassName('post-media');
 
