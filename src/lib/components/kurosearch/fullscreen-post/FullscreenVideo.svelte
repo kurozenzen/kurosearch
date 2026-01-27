@@ -35,47 +35,27 @@
 
 	const ontoggleplay = () => {
 		if (video.paused) {
-			videoStore.play(video);
+			videoStore.play();
 		} else {
-			videoStore.stop();
-		}
-	};
-
-	const keybinds = (event: KeyboardEvent) => {
-		if (event.key === 'ArrowLeft') {
-			event.preventDefault();
-			event.stopPropagation();
-			video.currentTime = Math.max(0, video.currentTime - 5);
-		}
-		if (event.key === 'ArrowRight') {
-			event.preventDefault();
-			event.stopPropagation();
-			video.currentTime = Math.min(video.duration, video.currentTime + 5);
-		}
-		if (event.key === 'Space') {
-			event.preventDefault();
-			event.stopPropagation();
-			paused = !paused;
+			videoStore.pause();
 		}
 	};
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
-		if (isIntersecting && video.autoplay && video.paused) {
-			videoStore.play(video);
-		}
-		if (!isIntersecting && !video.paused) {
-			videoStore.stop();
+		if (isIntersecting) {
+			videoStore.target(video);
+			if (video.autoplay && video.paused) {
+				videoStore.play();
+			}
+		} else if (!video.paused) {
+			videoStore.pause();
 		}
 	};
 
 	onMount(() => {
-		document.addEventListener('keydown', keybinds);
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
-	});
-	onDestroy(() => {
-		document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

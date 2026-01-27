@@ -115,6 +115,31 @@
 
 	<p>The filter selection is located at the top right of the first post</p>
 
+	<Heading3>Keyboard Navigation</Heading3>
+
+	<ul class="keyboard-shortcuts">
+		<li><span>General</span><span></span></li>
+		<li><span><kbd>/</kbd></span><span>Focus searchbar</span></li>
+		<li><span><kbd>S</kbd></span><span>Focus searchbar</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>M</kbd></span><span>Rotate searchbar modifier</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><span>Search with active tags</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>⬇</kbd></span><span>Scroll to next post</span></li>
+		<li><span><kbd>Ctrl</kbd> + <kbd>⬆</kbd></span><span>Scroll to previous post</span></li>
+		<li><span><kbd>⬅</kbd></span><span>Skip video backward</span></li>
+		<li><span><kbd>➡</kbd></span><span>Skip video forward</span></li>
+		<li><span><kbd>F</kbd></span><span>Enter fullscreen mode</span></li>
+		<li><span><kbd>Space</kbd></span><span>Play/Pause Video, Acts as click</span></li>
+		<li><span><kbd>Enter</kbd></span><span>Play/Pause Video, Acts as click</span></li>
+		<li><span><kbd>U</kbd></span><span>Scroll to previous post</span></li>
+		<li><span><kbd>O</kbd></span><span>Scroll to next post</span></li>
+		<li><span><kbd>J</kbd></span><span>Skip video backward</span></li>
+		<li><span><kbd>K</kbd></span><span>Play/Pause Video</span></li>
+		<li><span><kbd>L</kbd></span><span>Skip video forward</span></li>
+		<li><span>Fullscreen Mode</span><span></span></li>
+		<li><span><kbd>F</kbd></span><span>Exit fullscreen mode</span></li>
+		<li><span><kbd>D</kbd></span><span>Switch between post and details</span></li>
+	</ul>
+
 	<h2 id="tags">Tags</h2>
 
 	<p>
@@ -294,6 +319,34 @@
 
 	em {
 		color: var(--text-highlight);
+	}
+
+	.keyboard-shortcuts {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--small-gap) var(--grid-gap);
+		padding-inline-start: 0;
+		list-style: none;
+
+		li {
+			display: contents;
+
+			span:first-child {
+				text-align: right;
+				font-family: var(--font-monospace);
+				font-size: var(--text-size-large);
+				color: var(--text-muted);
+			}
+		}
+	}
+
+	kbd {
+		background-color: var(--background-1);
+		border: 1px solid var(--background-2);
+		border-radius: var(--border-radius);
+		padding: 0.2rem 0.5rem;
+		font-size: var(--text-size-small);
+		font-family: var(--font-monospace);
 	}
 
 	p,

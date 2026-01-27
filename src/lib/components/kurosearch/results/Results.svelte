@@ -25,7 +25,7 @@
 	};
 
 	const onfullscreen = (index: number, currentTime?: number) => {
-		videoStore.stop();
+		videoStore.pause();
 		fullscreenIndex = index;
 		fullscreenCurrentTime = currentTime;
 	};

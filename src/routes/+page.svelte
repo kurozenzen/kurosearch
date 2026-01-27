@@ -26,6 +26,10 @@
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import LynxMain from './LynxMain.svelte';
+	import { videoStore } from '$lib/store/active-video-store';
+	import { clamp } from '$lib/logic/math';
+
+	const SKIP_SECONDS = 5;
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -33,9 +37,9 @@
 		'color:unset;font-size:auto;'
 	);
 
-	let loading = false;
-	let error: Error | undefined;
-	let nextFocus = 0;
+	let loading = $state(false);
+	let error: Error | undefined = $state(undefined);
+	let nextFocus = $state(0);
 
 	const createDefaultSearch = () =>
 		new SearchBuilder()
@@ -99,18 +103,63 @@
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'ArrowDown') {
+		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
 			const posts = document.getElementsByClassName('post-media');
+
+			console.log(nextFocus + 1, 0, posts.length, ' =>', clamp(nextFocus + 1, 0, posts.length - 1));
+
+			nextFocus = clamp(nextFocus + 1, 0, posts.length - 1);
+			posts[nextFocus].scrollIntoView();
 			// @ts-expect-error - they will be focusable
-			posts[nextFocus].focus();
-			nextFocus = Math.min(nextFocus + 1, Math.max(0, posts.length - 1));
+			posts[nextFocus]?.focus?.();
+			setTimeout(() => {
+				let video = posts[nextFocus].querySelector('video');
+				if (video) {
+					video.focus();
+					videoStore.target(video);
+				}
+			}, 1);
 		}
 
-		if (event.ctrlKey && event.key === 'ArrowUp') {
+		if ((event.ctrlKey && event.key === 'ArrowUp') || event.key === 'u') {
 			const posts = document.getElementsByClassName('post-media');
+			nextFocus = clamp(nextFocus - 1, 0, posts.length - 1);
+			posts[nextFocus].scrollIntoView();
 			// @ts-expect-error - they will be focusable
-			posts[nextFocus].focus();
-			nextFocus = Math.max(nextFocus - 1, 0);
+			posts[nextFocus]?.focus?.();
+			setTimeout(() => {
+				let video = posts[nextFocus].querySelector('video');
+				if (video) {
+					video.focus();
+					videoStore.target(video);
+				}
+			}, 1);
+		}
+
+		switch ((event as KeyboardEvent).key) {
+			case ' ':
+			case 'k':
+				if (videoStore.toggle()) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+
+			case 'ArrowLeft':
+			case 'j':
+				if (videoStore.skip(-SKIP_SECONDS)) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+
+			case 'ArrowRight':
+			case 'l':
+				if (videoStore.skip(SKIP_SECONDS)) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
 		}
 	};
 

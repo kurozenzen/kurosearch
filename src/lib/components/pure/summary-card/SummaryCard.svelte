@@ -48,7 +48,7 @@
 		transition: border-color var(--default-transition-behaviour);
 	}
 
-	i {
+	i.codicon {
 		font-size: 32px;
 		height: 32px;
 		color: var(--accent);

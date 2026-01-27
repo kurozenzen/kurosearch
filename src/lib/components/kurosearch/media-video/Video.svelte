@@ -1,14 +1,9 @@
-<script module lang="ts">
-	const SKIP_TIME = 5;
-</script>
-
 <script lang="ts">
 	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { isSpace } from '$lib/logic/keyboard-utils';
 	import { getVolume } from './VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
-	import { videoStore } from '$lib/store/active-video-store';
+	import { SKIP_TIME, videoStore } from '$lib/store/active-video-store';
 
 	interface Props {
 		src: string;
@@ -42,30 +37,21 @@
 
 	const ontoggleplay = () => {
 		if (video) {
-			if (video.paused) {
-				videoStore.play(video);
-			} else {
-				videoStore.stop();
-			}
-		}
-	};
-
-	const skipBackward = () => {
-		if (video) {
-			video.currentTime = Math.max(0, video.currentTime - SKIP_TIME);
-		}
-	};
-	const skipForward = () => {
-		if (video) {
-			video.currentTime = Math.min(video.duration, video.currentTime + SKIP_TIME);
+			videoStore.target(video);
+			videoStore.toggle();
 		}
 	};
 
 	const skip = (event: MouseEvent) => {
-		if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 2) {
-			skipBackward();
-		} else {
-			skipForward();
+		event.stopPropagation();
+		event.preventDefault();
+		if (video) {
+			let skipTime = SKIP_TIME;
+			if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 2) {
+				skipTime = -SKIP_TIME;
+			}
+			videoStore.target(video);
+			videoStore.skip(skipTime);
 		}
 	};
 
@@ -75,29 +61,14 @@
 			paused = true;
 		}
 	};
-
-	const handleKeyDown = (event: KeyboardEvent) => {
-		if (isSpace(event) || event.key === 'k') {
-			event.preventDefault();
-			event.stopPropagation();
-			ontoggleplay();
-		} else if (event.key === 'ArrowLeft' || event.key === 'j') {
-			event.preventDefault();
-			event.stopPropagation();
-			skipBackward();
-		} else if (event.key === 'ArrowRight' || event.key === 'l') {
-			event.preventDefault();
-			event.stopPropagation();
-			skipForward();
-		}
-	};
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	{@attach screenintersection(onIntersectionChange)}
-	onkeydown={handleKeyDown}
-	class={rest.class}
+	class="post-media {rest.class}"
 	style="aspect-ratio:{width}/{height}"
 	{onclick}
 >
@@ -122,11 +93,7 @@
 					loading = false;
 				}
 			}}
-			ondblclick={(e) => {
-				e.stopPropagation();
-				e.preventDefault();
-				skip(e);
-			}}
+			ondblclick={skip}
 			preload="metadata"
 			style="aspect-ratio: {width} / {height}"
 			volume={getVolume()}
