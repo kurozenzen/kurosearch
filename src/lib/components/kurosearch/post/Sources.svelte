@@ -22,7 +22,7 @@
 		default: ['var(--background-2)', 'white']
 	};
 
-	const links = [
+	let links = $derived([
 		new URL(`${window.location.origin}/post?id=${post.id}`),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
 		...(post.source
@@ -31,11 +31,11 @@
 					.filter((x) => isValidUrl(x))
 					.map((x) => new URL(x))
 			: [])
-	];
+	]);
 
-	const fileExt = getExtension(post.file_url);
-	const previewExt = getExtension(post.preview_url);
-	const sampleExt = getExtension(post.sample_url);
+	let fileExt = $derived(getExtension(post.file_url));
+	let previewExt = $derived(getExtension(post.preview_url));
+	let sampleExt = $derived(getExtension(post.sample_url));
 </script>
 
 <p>Links</p>

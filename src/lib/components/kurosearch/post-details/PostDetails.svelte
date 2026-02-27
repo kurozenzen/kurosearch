@@ -17,7 +17,7 @@
 		openTab = openTab === tab ? undefined : tab;
 	};
 
-	const links = [
+	let links = $derived([
 		new URL(`${window.location.origin}/post?id=${post.id}`),
 		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
 		new URL(post.file_url),
@@ -27,7 +27,7 @@
 					.filter((x) => isValidUrl(x))
 					.map((x) => new URL(x))
 			: [])
-	];
+	]);
 </script>
 
 <div class="details">

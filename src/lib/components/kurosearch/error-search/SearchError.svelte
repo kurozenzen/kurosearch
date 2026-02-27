@@ -5,15 +5,20 @@
 
 	let { error }: Props = $props();
 
-	let title = error.message === 'Failed to fetch' ? 'Connection Error' : 'Application Error';
-	let icon =
+	let title = $derived(
+		error.message === 'Failed to fetch' ? 'Connection Error' : 'Application Error'
+	);
+
+	let icon = $derived(
 		error.message === 'Failed to fetch'
 			? 'codicon codicon-debug-disconnect'
-			: 'codicon codicon-error';
-	let message =
+			: 'codicon codicon-error'
+	);
+	let message = $derived(
 		error.message === 'Failed to fetch'
 			? 'Failed to connect to the server. Make sure you have a stable internet connection.'
-			: error.message;
+			: error.message
+	);
 </script>
 
 <div class="error">

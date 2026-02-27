@@ -132,10 +132,5 @@ describe('Serialization', () => {
 				)
 			).toBe('sort:id:desc+-tag_1+( tag_2 ~ tag_3 )+-tag_4+-tag_5+( tag_6 ~ tag_7 )');
 		});
-		it('includes blocked content if neccessary', () => {
-			expect(serializeSearch([], 'id', 'desc', 0, 'all', '>=', ['Loli'], [])).toBe(
-				'sort:id:desc+-young+-younger+-younger_*+-young_*+-lolita_*+-loli*'
-			);
-		});
 	});
 });

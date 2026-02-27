@@ -8,7 +8,7 @@
 			supertagEntry.tags.map((tag) => ({ ...tag, supertag: supertagEntry.name }))
 		);
 		const blockedTags = (Object.keys(blockedContent) as kurosearch.BlockingGroup[])
-			.filter((key) => blockedContent[key])
+			.filter((x) => x in BLOCKING_GROUP_TAGS)
 			.flatMap((groupName) =>
 				BLOCKING_GROUP_TAGS[groupName].map((name) => ({
 					modifier: '-',

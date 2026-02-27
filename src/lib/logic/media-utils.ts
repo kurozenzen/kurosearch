@@ -14,3 +14,6 @@ export const getExtension = (url: string) => {
 	const parts = url.split('.');
 	return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
 };
+
+export const isImage = (src: string) =>
+		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');

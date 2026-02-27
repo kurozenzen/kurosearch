@@ -2,7 +2,11 @@
 	import { formatCount } from '$lib/logic/format-count';
 	import { getPostId } from '$lib/logic/id-utils';
 	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { isImage } from '$lib/logic/media-utils';
 	import { calculateAspectRatio } from './ratio';
+
+		const maxRatio = 1 / 3;
+	const rowsPerSquare = 5;
 
 	interface Props {
 		post: kurosearch.Post;
@@ -11,14 +15,8 @@
 
 	let { post, onclick }: Props = $props();
 
-	let maxRatio = 1 / 3;
-	let rowsPerSquare = 5;
-	let ratio = calculateAspectRatio(post.width, post.height);
-	let rows = Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2);
-
-	const isImage = (src: string) =>
-		src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
-
+	let ratio = $derived(calculateAspectRatio(post.width, post.height));
+	let rows = $derived(Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2));
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
 </script>
 

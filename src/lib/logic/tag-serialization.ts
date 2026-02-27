@@ -51,6 +51,7 @@ export const serializeSearch = (
 
 	if (blockedContent.length > 0) {
 		const blockedTags: kurosearch.SearchableTag[] = blockedContent
+			.filter((x) => x in BLOCKING_GROUP_TAGS)
 			.flatMap((groupName) => BLOCKING_GROUP_TAGS[groupName])
 			.map((name) => ({ modifier: '-', name }));
 		const blockedString = serializeSearchableTags(blockedTags);
