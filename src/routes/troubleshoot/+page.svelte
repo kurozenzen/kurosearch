@@ -5,6 +5,18 @@
 
 	const networkChecks = [
 		{
+			title: 'api.rule34.xxx',
+			promise: fetch('https://api.rule34.xxx')
+		},
+		{
+			title: 'Netlify - Count',
+			promise: fetch('https://rule34-api.netlify.app/count')
+		},
+		{
+			title: 'Netlify - Posts',
+			promise: fetch('https://rule34-api.netlify.app/posts?limit=1&pid=0')
+		},
+		{
 			title: 'Tags',
 			promise: getTagSuggestions('big')
 		},
@@ -21,10 +33,7 @@
 
 <svelte:head>
 	<title>kurosearch - Troubleshoot</title>
-	<meta
-		name="description"
-		content="Diagnose issues while using kurosearch."
-	/>
+	<meta name="description" content="Diagnose issues while using kurosearch." />
 </svelte:head>
 
 <h1>Troubleshooting</h1>

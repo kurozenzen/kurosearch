@@ -59,6 +59,13 @@
 		>
 			<p>Rule34.xxx URL Comparison</p>
 		</IconLink>
+		<IconLink
+			title="Troubleshooting"
+			className="codicon codicon-link"
+			href={resolve('/troubleshoot')}
+		>
+			<p>Troubleshooting</p>
+		</IconLink>
 	</section>
 </div>
 

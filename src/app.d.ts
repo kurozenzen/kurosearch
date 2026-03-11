@@ -16,7 +16,8 @@ declare global {
 			| 'Gore'
 			| 'Scat'
 			| 'AI-Generated'
-			| 'Vore';
+			| 'Vore'
+			| 'Incest';
 		type TagModifier = '+' | '-' | '~';
 		type TagType =
 			| 'general'

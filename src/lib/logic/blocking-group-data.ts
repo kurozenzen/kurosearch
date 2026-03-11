@@ -4,7 +4,8 @@ export const ALL_BLOCKING_GROUPS: readonly kurosearch.BlockingGroup[] = Object.f
 	'Non-Consentual',
 	'Gore',
 	'Scat',
-	'Vore'
+	'Vore',
+	'Incest'
 ]);
 
 export const BLOCKING_GROUP_TAGS: Record<kurosearch.BlockingGroup, readonly string[]> =
@@ -34,5 +35,15 @@ export const BLOCKING_GROUP_TAGS: Record<kurosearch.BlockingGroup, readonly stri
 		]),
 		Gore: Object.freeze(['gore', 'necrophilia', 'amputee', 'guro', 'blood']),
 		Scat: Object.freeze(['scat', 'diaper', 'fart']),
-		Vore: Object.freeze(['vore'])
+		Vore: Object.freeze(['vore']),
+		Incest: Object.freeze([
+			'incest',
+			'*incest*',
+			'incest*',
+			'*incest',
+			'stepmother',
+			'stepfather',
+			'stepsister',
+			'stepbrother'
+		])
 	});
