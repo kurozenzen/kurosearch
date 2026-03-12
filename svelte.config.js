@@ -45,7 +45,7 @@ const config = {
 					'https://www.googletagmanager.com'
 				],
 				'media-src': ['self', 'https://*.rule34.xxx'],
-				'frame-src': ['https://r34-react.firebaseapp.com']
+				'frame-src': ['https://r34-react.firebaseapp.com', 'https://rule34.xxx']
 			}
 		}
 	}
