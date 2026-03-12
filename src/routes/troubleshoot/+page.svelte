@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import { API_URL } from '$lib/logic/api-client/url';
 
 	fetch('https://rule34-api.netlify.app/posts?limit=1&pid=0')
 		.then((response) => response.json())
@@ -22,7 +23,7 @@
 <Heading3>Network Checks</Heading3>
 <ol>
 	<li>
-		<span>api.rule34.xxx...</span>
+		<span>api.rule34.xxx ...</span>
 		{#await fetch('https://api.rule34.xxx')}
 			<span>⏳</span>
 		{:then _}
@@ -32,35 +33,35 @@
 		{/await}
 	</li>
 	<li>
-		<span>rule34-api.netlify.app/count...</span>
-		{#await fetch('https://rule34-api.netlify.app/count')}
+		<span>{new URL(API_URL).host}/count ...</span>
+		{#await fetch(`${API_URL}/count`)}
 			<span>⏳</span>
 		{:then response}
 			{#await response.text() then data}
 				{#if /count="\d+"/.test(data)}
 					<span>✅ Good</span>
 				{:else}
-					<span>❌ Invalid format - Check if rule34.xxx is okay</span>
+					<span>❌ Invalid format <br /> Check if rule34.xxx is okay</span>
 				{/if}
 			{:catch}
-				<span>❌ Failed to parse XML - Check if rule34.xxx is okay</span>
+				<span>❌ Failed to parse XML <br /> Check if rule34.xxx is okay</span>
 			{/await}
 		{:catch}
-			<span>❌ Failed to connect - Check if rule34.xxx is okay</span>
+			<span>❌ Failed to connect <br /> Check if rule34.xxx is okay</span>
 		{/await}
 	</li>
 	<li>
-		<span>https://rule34-api.netlify.app/posts...</span>
-		{#await fetch('https://rule34-api.netlify.app/posts?limit=1&pid=0')}
+		<span>{new URL(API_URL).host}/posts ...</span>
+		{#await fetch(`${API_URL}/posts?limit=1&pid=0`)}
 			<span>⏳</span>
 		{:then response}
 			{#await response.json() then _}
 				<span>✅ Good</span>
 			{:catch}
-				<span>❌ Failed to parse JSON - Check if rule34.xxx is okay</span>
+				<span>❌ Failed to parse JSON <br /> Check if rule34.xxx is okay</span>
 			{/await}
 		{:catch}
-			<span>❌ Failed to connect - Check if rule34.xxx is okay</span>
+			<span>❌ Failed to connect <br /> Check if rule34.xxx is okay</span>
 		{/await}
 	</li>
 </ol>

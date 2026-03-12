@@ -18,19 +18,14 @@ export const getPage = async (
 	const response = await fetchAbortPrevious(url, getPageAbortController);
 	throwOnUnexpectedStatus(response);
 
-	try {
-		let data = await response.json();
-		data = data.filter((x: r34.Post) => x.change); // sometimes api returns placeholders that cause lots of null issues
+	let data = await response.json();
+	data = data.filter((x: r34.Post) => x.change); // sometimes api returns placeholders that cause lots of null issues
 
-		const posts = data.map(parsePost) as kurosearch.Post[];
+	const posts = data.map(parsePost) as kurosearch.Post[];
 
-		addIndexedPosts(posts);
+	addIndexedPosts(posts);
 
-		return posts;
-	} catch (error) {
-		console.warn('Failed to get posts', error);
-		return [];
-	}
+	return posts;
 };
 
 export const getCount = async (tags: string, apiKey: string = '', userId: string = '') => {

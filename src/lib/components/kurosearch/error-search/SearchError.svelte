@@ -1,24 +1,41 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
+	interface NiceError {
+		title: string;
+		message: string;
+		icon: string;
+	}
+
 	interface Props {
 		error: Error;
 	}
 
+	const resolveError = (error: Error): NiceError => {
+		if (error.message === 'Failed to fetch') {
+			return {
+				title: 'Connection Error',
+				message: 'Failed to connect to the server',
+				icon: 'codicon codicon-debug-disconnect'
+			};
+		} else if (error.message.includes('JSON')) {
+			return {
+				title: 'Data Error',
+				message: 'Received malformed data from the server',
+				icon: 'codicon codicon-error'
+			};
+		} else {
+			return {
+				title: 'Application Error',
+				message: error.message,
+				icon: 'codicon codicon-error'
+			};
+		}
+	};
+
 	let { error }: Props = $props();
 
-	let title = $derived(
-		error.message === 'Failed to fetch' ? 'Connection Error' : 'Application Error'
-	);
-
-	let icon = $derived(
-		error.message === 'Failed to fetch'
-			? 'codicon codicon-debug-disconnect'
-			: 'codicon codicon-error'
-	);
-	let message = $derived(
-		error.message === 'Failed to fetch'
-			? 'Failed to connect to the server. Make sure you have a stable internet connection.'
-			: error.message
-	);
+	let { title, icon, message } = $derived(resolveError(error));
 </script>
 
 <div class="error">
@@ -27,7 +44,10 @@
 	</div>
 	<div>
 		<h3>{title}</h3>
-		<span>{message}</span>
+		<p>{message}</p>
+		<p>
+			Use the <a href={resolve('/troubleshoot')}>Troubleshooting Page</a> to get more details
+		</p>
 	</div>
 </div>
 
@@ -52,6 +72,9 @@
 		flex-shrink: 0;
 		border: 2px solid var(--background-2);
 		border-radius: var(--border-radius);
+	}
+	div p {
+		margin-top: 4px;
 	}
 
 	i {
