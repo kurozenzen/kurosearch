@@ -28,6 +28,7 @@
 	import LynxMain from './LynxMain.svelte';
 	import { videoStore } from '$lib/store/active-video-store';
 	import { clamp } from '$lib/logic/math';
+	import { switchApiUrl } from '$lib/logic/api-client/url';
 
 	const SKIP_SECONDS = 5;
 
@@ -68,8 +69,15 @@
 			await operation();
 			logSearch(pid).catch(() => {});
 		} catch (e) {
-			error = e as Error;
-			console.warn(e);
+			switchApiUrl();
+			try {
+				const pid = $results.pageCount;
+				await operation();
+				logSearch(pid).catch(() => {});
+			} catch {
+				error = e as Error;
+				console.warn(e);
+			}
 		} finally {
 			loading = false;
 		}
@@ -103,7 +111,10 @@
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
-		if (document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA') {
+		if (
+			document.activeElement?.tagName === 'INPUT' ||
+			document.activeElement?.tagName === 'TEXTAREA'
+		) {
 			return; // don't interfere with typing
 		}
 

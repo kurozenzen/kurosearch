@@ -36,6 +36,7 @@ const config = {
 					'https://api.github.com',
 					'https://rule34-api.netlify.app',
 					'https://rule34-api-shiro.netlify.app',
+					'https://rule-34-api-vercel.vercel.app',
 					'https://*.ingest.us.sentry.io'
 				],
 				'img-src': [

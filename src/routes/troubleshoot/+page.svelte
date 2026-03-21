@@ -1,16 +1,7 @@
 <script lang="ts">
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-	import { API_URL } from '$lib/logic/api-client/url';
-
-	fetch('https://rule34-api.netlify.app/posts?limit=1&pid=0')
-		.then((response) => response.json())
-		.then((data) => {
-			console.log('Count API Response:', data);
-		})
-		.catch((error) => {
-			console.error('Count API Error:', error);
-		});
+	import { apiUrl } from '$lib/logic/api-client/url';
 </script>
 
 <svelte:head>
@@ -33,8 +24,8 @@
 		{/await}
 	</li>
 	<li>
-		<span>{new URL(API_URL).host}/count ...</span>
-		{#await fetch(`${API_URL}/count`)}
+		<span>{new URL(apiUrl()).host}/count ...</span>
+		{#await fetch(`${apiUrl()}/count`)}
 			<span>⏳</span>
 		{:then response}
 			{#await response.text() then data}
@@ -51,8 +42,8 @@
 		{/await}
 	</li>
 	<li>
-		<span>{new URL(API_URL).host}/posts ...</span>
-		{#await fetch(`${API_URL}/posts?limit=1&pid=0`)}
+		<span>{new URL(apiUrl()).host}/posts ...</span>
+		{#await fetch(`${apiUrl()}/posts?limit=1&pid=0`)}
 			<span>⏳</span>
 		{:then response}
 			{#await response.json() then _}

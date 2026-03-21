@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { API_URL, R34_API_URL } from '../url';
+import { apiUrl, R34_API_URL, switchApiUrl } from '../url';
 
 let getTagSuggestionsAbortController: AbortController | null = null;
 
@@ -51,11 +51,16 @@ export const getTagDetails = async (
 	if (userId && apiKey) {
 		url = new URL(`${R34_API_URL}&s=tag&q=index&limit=1&api_key=${apiKey}&user_id=${userId}`);
 	} else {
-		url = new URL(`${API_URL}/tag-details`);
+		url = new URL(`${apiUrl()}/tag-details`);
 	}
 	url.searchParams.append('name', name);
 
 	const response = await fetch(url.toString());
+	if (!response.ok) {
+		switchApiUrl();
+		throw new Error('Failed to get tag details');
+	}
+
 	const text = await response.text();
 	const parser = new DOMParser();
 	const xml = parser.parseFromString(text, 'text/xml');

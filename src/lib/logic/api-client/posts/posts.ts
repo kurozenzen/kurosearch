@@ -2,7 +2,7 @@ import { addIndexedPosts, addIndexedPost, getIndexedPost } from '$lib/indexeddb/
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
 import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { API_URL, R34_API_URL } from '../url';
+import { apiUrl, R34_API_URL, switchApiUrl } from '../url';
 
 export const PAGE_SIZE = 20;
 
@@ -56,7 +56,7 @@ export const getPost = async (id: number, apiKey: string = '', userId: string = 
 	if (userId && apiKey) {
 		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`;
 	} else {
-		url = `${API_URL}/post?id=${id}`;
+		url = `${apiUrl()}/post?id=${id}`;
 	}
 
 	const response = await fetch(url);
@@ -72,6 +72,7 @@ export const getPost = async (id: number, apiKey: string = '', userId: string = 
 
 const throwOnUnexpectedStatus = (response: Response) => {
 	if (!response.ok) {
+		switchApiUrl();
 		throw new Error(`getPage failed with http status ${response.status}`);
 	}
 };
@@ -149,7 +150,7 @@ export const getPostsUrl = (
 	if (userId && apiKey) {
 		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&api_key=${apiKey}&user_id=${userId}&limit=${PAGE_SIZE}&pid=${pageNumber}`;
 	} else {
-		url = `${API_URL}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
+		url = `${apiUrl()}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
 	}
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
@@ -159,7 +160,7 @@ export const getCountUrl = (serializedTags: string, apiKey: string, userId: stri
 	if (userId && apiKey) {
 		url = `${R34_API_URL}&s=post&q=index&limit=0&api_key=${apiKey}&user_id=${userId}`;
 	} else {
-		url = `${API_URL}/count`;
+		url = `${apiUrl()}/count`;
 	}
 	return serializedTags === '' ? url : `${url}?tags=${serializedTags}`;
 };
