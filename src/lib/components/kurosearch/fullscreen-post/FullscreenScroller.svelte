@@ -1,7 +1,6 @@
 <script lang="ts">
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
 	import results from '$lib/store/results-store';
 	import { onDestroy, onMount } from 'svelte';
 	import Screen from './Screen.svelte';
@@ -105,7 +104,7 @@
 	}
 
 	.snap-container {
-		/* scroll-snap-type: y mandatory; */
+		scroll-snap-type: y mandatory;
 	}
 
 	.screen::-webkit-scrollbar {
@@ -115,29 +114,6 @@
 
 	.screen {
 		scrollbar-width: none;
-	}
-
-	@keyframes scroll-hint {
-		0% {
-			transform: translateX(0px);
-		}
-
-		33% {
-			transform: translateX(-75px);
-		}
-
-		67% {
-			transform: translateX(-75px);
-		}
-
-		100% {
-			transform: translateX(0px);
-		}
-	}
-
-	:global(.hint > *) {
-		animation: scroll-hint 1s ease-in-out;
-		animation-delay: 0.5s;
 	}
 
 	/* p {
