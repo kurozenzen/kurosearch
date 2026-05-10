@@ -76,7 +76,7 @@
 		height: 100vh;
 
 		scroll-snap-align: start;
-		scroll-snap-stop: always;
+		/* scroll-snap-stop: always; */
 
 		display: grid;
 		grid-template-columns: 100vw 100vw;
