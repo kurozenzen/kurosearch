@@ -69,9 +69,7 @@
 	[DEBUG S]<br />
 	S: {scrollTop}<br />
 	H: {window.screen.availHeight}<br />
-	FRAC: {scrollTop / window.screen.availHeight}<br />
-	[xxx]<br />
-	[DEBUG E]
+	FRAC: {scrollTop / window.screen.availHeight}
 </p>
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
@@ -99,7 +97,7 @@
 	}
 
 	.snap-container {
-		scroll-snap-type: y mandatory;
+		/* scroll-snap-type: y mandatory; */
 	}
 
 	.screen::-webkit-scrollbar {
@@ -136,6 +134,8 @@
 
 	p {
 		position: absolute;
+		z-index: 1000;
+		background: rgba(0, 0, 0, 0.5);
 		top: 0;
 		left: 0;
 	}
