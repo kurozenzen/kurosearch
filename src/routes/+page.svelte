@@ -181,6 +181,9 @@
 	onMount(async () => {
 		if (browser) {
 			document.addEventListener('keydown', keybinds);
+			if ($results.postCount === 0) {
+				getFirstPage();
+			}
 		}
 	});
 

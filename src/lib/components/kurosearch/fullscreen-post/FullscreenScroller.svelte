@@ -1,13 +1,9 @@
 <script lang="ts">
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
 	import results from '$lib/store/results-store';
 	import { onDestroy, onMount } from 'svelte';
-	import FullscreenDetails from './FullscreenDetails.svelte';
-	import FullscreenMedia from './FullscreenMedia.svelte';
-	import FullscreenPreview from './FullscreenPreview.svelte';
-	import { browser } from '$app/environment';
+	import Screen from './Screen.svelte';
 
 	interface Props {
 		index: number;
@@ -17,33 +13,30 @@
 
 	let { index = $bindable(), onendreached, startAt }: Props = $props();
 
+	let desiredIndex = $state(index);
 	let container: HTMLDivElement;
-	let current: HTMLDivElement;
 
-	let postCurrent = $derived($results.posts[index]);
-	let postPrevious = $derived(index > 0 ? $results.posts[index - 1] : undefined);
-	let postNext = $derived(
-		index < $results.posts.length - 1 ? $results.posts[index + 1] : undefined
-	);
+	let center = $state(0);
 
-	let offsetCurrent = $derived(`${index * 100}vh`);
-	let offsetPrevious = $derived(`${(index - 1) * 100}vh`);
-	let offsetNext = $derived(`${(index + 1) * 100}vh`);
+	// let message = $derived(
+	// 	`[DEBUG S]<br />
+	// 	SCROLL: ${container?.scrollTop ?? 0}<br />
+	// 	OFFSET: ${window.pageYOffset}<br />
+	// 	SH: ${window.screen.height}<br />
+	// 	SAH: ${window.screen.availHeight}<br />
+	// 	IH: ${window.innerHeight}<br />
+	// 	OH: ${window.outerHeight}<br />
+	// 	DCH: ${document.documentElement.clientHeight}<br />
+	// 	DSH: ${document.documentElement.scrollHeight}<br />
+	// 	FRAC: ${(container?.scrollTop ?? 0) / window.outerHeight}`
+	// );
 
 	const scrollToPrevious = () => {
-		container.scrollTo({
-			left: 0,
-			top: container.clientHeight * (index - 1),
-			behavior: 'smooth'
-		});
+		container.scrollBy({ top: -window.outerHeight, behavior: 'smooth' });
 	};
 
 	const scrollToNext = () => {
-		container.scrollTo({
-			left: 0,
-			top: container.clientHeight * (index + 1),
-			behavior: 'smooth'
-		});
+		container.scrollBy({ top: window.outerHeight, behavior: 'smooth' });
 	};
 
 	const autoscroll = () => {
@@ -53,34 +46,13 @@
 	};
 
 	const onscroll = (event: Event) => {
-		requestAnimationFrame(() => {
-			if (!event.target) {
-				return;
-			}
-			const target = event.target as HTMLDivElement;
-			const height = target.getBoundingClientRect().height;
-			const newIndex = target.scrollTop / height;
-			const roundedIndex = Math.round(newIndex);
-
-			if (roundedIndex != index) {
-				index = roundedIndex;
-				if (current) {
-					current.scrollLeft = 0;
-				}
-			}
-		});
+		if (event.target instanceof HTMLDivElement) {
+			center = event.target.scrollTop + window.outerHeight / 2;
+			desiredIndex = Math.floor(center / outerHeight);
+		}
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
-		if (event.key === 'd') {
-			event.preventDefault();
-			event.stopPropagation();
-			if (current.scrollLeft === 0) {
-				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' });
-			} else {
-				current.scrollBy({ left: -container.clientWidth, top: 0, behavior: 'smooth' });
-			}
-		}
 		if (event.key === 'ArrowUp') {
 			event.preventDefault();
 			event.stopPropagation();
@@ -94,52 +66,25 @@
 	};
 
 	onMount(() => {
-		requestAnimationFrame(() => {
-			if (current) {
-				current.scrollIntoView();
-				current.scrollLeft = 0;
-			}
-		});
-		browser && document.addEventListener('keydown', keybinds);
+		container.scrollTop = desiredIndex * window.screen.availHeight;
+		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
-		$fullscreenHintDone = true;
-		browser && document.removeEventListener('keydown', keybinds);
+		document.removeEventListener('keydown', keybinds);
 	});
 </script>
 
+<!-- <p>
+	{@html message}
+</p> -->
+
 <div class="root screen snap-container" bind:this={container} {onscroll}>
-	{#if postPrevious}
-		<FullscreenPreview post={postPrevious} offset={offsetPrevious} />
-	{/if}
-	<div
-		class="screen snap-container horizontal current"
-		class:hint={!$fullscreenHintDone}
-		bind:this={current}
-		style:top={offsetCurrent}
-	>
-		<FullscreenMedia
-			post={postCurrent}
-			onended={autoscroll}
-			{startAt}
-			ondetails={() =>
-				current.scrollBy({ left: container.clientWidth, top: 0, behavior: 'smooth' })}
-		/>
-		<FullscreenDetails
-			post={postCurrent}
-			onreturn={() =>
-				current.scrollBy({ left: -container.clientWidth, top: 0, behavior: 'smooth' })}
-		/>
-	</div>
-	{#if postNext}
-		<FullscreenPreview post={postNext} offset={offsetNext} />
-	{/if}
-	{#each { length: $results.posts.length } as _, i}
-		<div class="pseudo snap-item" style:top="{i * 100}vh"></div>
-	{/each}
+	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
+	<Screen offset={1} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
+	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
-		rootMargin="{window.innerHeight * 3}px"
+		rootMargin="{window.outerHeight * 3}px"
 		onintersection={onendreached}
 	/>
 </div>
@@ -151,38 +96,14 @@
 	}
 
 	.screen {
-		width: 100vw;
-		height: 100vh;
+		width: 100lvw;
+		height: 100lvh;
 		overflow: scroll;
 		contain: strict;
 	}
 
 	.snap-container {
-		scroll-snap-type: both mandatory;
-	}
-
-	.pseudo {
-		width: 100vw;
-		height: 100vh;
-		contain: strict;
-		position: absolute;
-		user-select: none;
-		pointer-events: none;
-	}
-
-	.snap-item {
-		scroll-snap-align: start;
-		scroll-snap-stop: always;
-	}
-
-	.current {
-		position: absolute;
-		overflow-y: hidden;
-	}
-
-	.horizontal {
-		display: grid;
-		grid-template-columns: 100vw 100vw;
+		scroll-snap-type: y mandatory;
 	}
 
 	.screen::-webkit-scrollbar {
@@ -194,26 +115,11 @@
 		scrollbar-width: none;
 	}
 
-	@keyframes scroll-hint {
-		0% {
-			transform: translateX(0px);
-		}
-
-		33% {
-			transform: translateX(-75px);
-		}
-
-		67% {
-			transform: translateX(-75px);
-		}
-
-		100% {
-			transform: translateX(0px);
-		}
-	}
-
-	:global(.hint > *) {
-		animation: scroll-hint 1s ease-in-out;
-		animation-delay: 0.5s;
-	}
+	/* p {
+		position: absolute;
+		z-index: 1000;
+		background: rgba(0, 0, 0, 0.5);
+		top: 0;
+		left: 0;
+	} */
 </style>

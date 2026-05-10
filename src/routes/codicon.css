@@ -138,6 +138,10 @@ i.codicon {
 	content: '\eb16';
 }
 
+.codicon-megaphone:before {
+	content: '\eb1e';
+}
+
 .codicon-question:before {
 	content: '\eb32';
 }

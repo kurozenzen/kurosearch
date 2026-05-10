@@ -63,12 +63,9 @@
 		}
 	};
 
-	onMount(async () => {
+	onMount(() => {
 		if (browser) {
 			document.addEventListener('keydown', keybinds);
-			if ($results.postCount === 0) {
-				onsubmit();
-			}
 		}
 	});
 

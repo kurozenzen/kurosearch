@@ -29,17 +29,21 @@
 	};
 
 	onMount(() => {
-		browser && window.addEventListener('popstate', exitOnStateChange);
-		browser && document.addEventListener('keydown', keybinds);
+		if (browser) {
+			window.addEventListener('popstate', exitOnStateChange);
+			document.addEventListener('keydown', keybinds);
+		}
 	});
 	onDestroy(() => {
-		browser && window.removeEventListener('popstate', exitOnStateChange);
-		browser && document.removeEventListener('keydown', keybinds);
+		if (browser) {
+			window.removeEventListener('popstate', exitOnStateChange);
+			document.removeEventListener('keydown', keybinds);
+		}
 	});
 </script>
 
 <Fullscreen onclose={() => onclose(index)}>
-	<FullscreenScroller bind:index {onendreached} {startAt}/>
+	<FullscreenScroller bind:index {onendreached} {startAt} />
 	<IconButton class="button-close" onclick={() => onclose(index)}>
 		<i class="codicon codicon-close"></i>
 	</IconButton>

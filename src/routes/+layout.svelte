@@ -43,6 +43,14 @@
 
 <TermsOfUseDialog />
 
+<div class="news">
+	<i class="codicon codicon-megaphone" style="font-size: 32px; margin-right: 8px;"></i>
+	<p>
+		There is a new view on kurosearch!<br />Check it out:
+		<a href={resolve('/select')}>kurosearch.com/select</a>
+	</p>
+</div>
+
 <header>
 	<nav>
 		<CodiconLink
@@ -149,5 +157,23 @@
 		font-size: var(--text-size-small);
 		text-align: center;
 		color: var(--text-muted);
+	}
+
+	.news {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		background: var(--background-1);
+		gap: var(--small-gap);
+		padding: var(--grid-gap);
+	}
+
+	.news i {
+		font-size: 32px;
+	}
+
+	.news p {
+		text-align: left;
+		font-size: var(--text-size-medium);
 	}
 </style>

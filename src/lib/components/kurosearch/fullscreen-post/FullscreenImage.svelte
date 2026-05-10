@@ -114,12 +114,12 @@
 	onMount(() => {
 		if ($autoplayFullscreenEnabled) {
 			animationHandle = requestAnimationFrame(updateSlider);
-			browser && document.addEventListener('keydown', keybinds);
+			document.addEventListener('keydown', keybinds);
 		}
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
-		browser && document.removeEventListener('keydown', keybinds);
+		document.removeEventListener('keydown', keybinds);
 	});
 </script>
 
@@ -142,18 +142,16 @@
 	{onclick}
 />
 
-{#if $autoplayFullscreenEnabled}
-	<PostOverlay
-		hidden={overlayHidden}
-		mediaType="img"
-		{paused}
-		{loading}
-		{ontoggleplay}
-		bind:currentTime
-		{duration}
-		{ondetails}
-	/>
-{/if}
+<PostOverlay
+	hidden={overlayHidden}
+	mediaType="img"
+	{paused}
+	{loading}
+	{ontoggleplay}
+	bind:currentTime
+	{duration}
+	{ondetails}
+/>
 
 <style>
 	img {
