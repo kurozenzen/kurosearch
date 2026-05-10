@@ -60,6 +60,9 @@
 
 {#if thisIndex >= 0 && thisIndex < $results.posts.length}
 	{@const post = $results.posts[thisIndex]}
+	<p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
+		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
+	</p>
 	<div style="top:calc({thisIndex} * 100vh);" bind:this={screen}>
 		<FullscreenMedia {post} {onended} {startAt} ondetails={scrollToDetails} />
 		<FullscreenDetails {post} onreturn={scrollToMedia} />
@@ -81,5 +84,16 @@
 		grid-template-columns: 100vw 100vw;
 		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
+	}
+
+	p {
+		position: sticky;
+		top: 0;
+		width: 30vw;
+	}
+
+	.active {
+		font-weight: bold;
+        color: yellow
 	}
 </style>
