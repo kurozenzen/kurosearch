@@ -16,7 +16,6 @@
 
 	let fullscreenIndex: undefined | number = $state(undefined);
 	let fullscreenCurrentTime: undefined | number = $state(undefined);
-	let pushedFullscreenState = false;
 
 	const exitFullscreen = (postIndex: number) => {
 		const post = $results.posts[postIndex];
@@ -34,16 +33,9 @@
 	$effect(() => {
 		if (fullscreenIndex !== undefined) {
 			history.pushState({ ...history.state, fullscreen: true }, '');
-			pushedFullscreenState = true;
 		} else {
 			if (history.state?.fullscreen) {
-if (pushedFullscreenState) {
-					history.back();
-				} else {
-					// state was preserved from before a refresh — clear it without navigating back
-					history.replaceState({ ...history.state, fullscreen: false }, '');
-				}
-				pushedFullscreenState = false;
+				history.back();
 			}
 		}
 	});
