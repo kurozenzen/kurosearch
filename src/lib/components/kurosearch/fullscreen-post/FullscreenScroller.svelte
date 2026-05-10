@@ -19,6 +19,16 @@
 
 	let scrollTop = $state(0);
 
+	let message = $derived(`[DEBUG S]<br />
+	SROLL: ${scrollTop}<br />
+	SH: ${window.screen.height}<br />
+	SAH: ${window.screen.availHeight}<br />
+	IH: ${window.innerHeight}<br />
+	OH: ${window.outerHeight}<br />
+	DCH: ${document.documentElement.clientHeight}<br />
+	DSH: ${document.documentElement.scrollHeight}<br />
+	FRAC: ${scrollTop / window.screen.availHeight}`);
+
 	const scrollToPrevious = () => {
 		container.scrollBy({ top: -window.screen.availHeight, behavior: 'smooth' });
 	};
@@ -34,12 +44,10 @@
 	};
 
 	const onscroll = (event: Event) => {
-		requestAnimationFrame(() => {
-			if (event.target instanceof HTMLDivElement) {
-				scrollTop = event.target.scrollTop;
-				desiredIndex = Math.floor(event.target.scrollTop / window.screen.availHeight);
-			}
-		});
+		if (event.target instanceof HTMLDivElement) {
+			scrollTop = event.target.scrollTop;
+			desiredIndex = Math.floor(event.target.scrollTop / window.screen.availHeight);
+		}
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
@@ -66,13 +74,7 @@
 </script>
 
 <p>
-	[DEBUG S]<br />
-	S: {scrollTop}<br />
-	H: {window.screen.height}<br />
-	H: {window.screen.availHeight}<br />
-	H: {window.innerHeight}<br />
-	H: {window.outerHeight}<br />
-	FRAC: {scrollTop / window.screen.availHeight}
+	{@html message}
 </p>
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
