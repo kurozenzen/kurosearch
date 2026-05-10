@@ -17,25 +17,14 @@
 	// svelte-ignore non_reactive_update
 	let screen: HTMLDivElement;
 
-	let lowerIndex = $derived(Math.floor(index / step) * step + offset);
-	let upperIndex = $derived(Math.ceil(index / step) * step + offset);
-
-	let lowerDistance = $derived(Math.abs(lowerIndex - index));
-	let upperDistance = $derived(Math.abs(upperIndex - index));
-
-	let thisIndex = $derived(lowerDistance < upperDistance ? lowerIndex : upperIndex);
-	$effect(() => {
-		if (thisIndex) {
-			screen.scrollLeft = 0;
-		}
-	});
+	let thisIndex = $derived(Math.round((index - offset) / step) * step + offset);
 
 	const scrollToDetails = () => {
-		screen.scrollBy({ left: 100000, behavior: 'smooth' });
+		screen.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
 	};
 
 	const scrollToMedia = () => {
-		screen.scrollBy({ left: -100000, behavior: 'smooth' });
+		screen.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
@@ -50,9 +39,16 @@
 		}
 	};
 
+	$effect(() => {
+		if (thisIndex) {
+			screen.scrollLeft = 0;
+		}
+	});
+
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
 	});
+
 	onDestroy(() => {
 		document.removeEventListener('keydown', keybinds);
 	});
@@ -60,9 +56,9 @@
 
 {#if thisIndex >= 0 && thisIndex < $results.posts.length}
 	{@const post = $results.posts[thisIndex]}
-	<!-- <p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
+	<p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
-	</p> -->
+	</p>
 	<div style="top:calc({thisIndex} * 100vh);" bind:this={screen}>
 		<FullscreenMedia {post} {onended} {startAt} ondetails={scrollToDetails} />
 		<FullscreenDetails {post} onreturn={scrollToMedia} />
@@ -86,7 +82,7 @@
 		scroll-snap-type: x mandatory;
 	}
 
-	/* p {
+	p {
 		position: sticky;
 		top: 0;
 		width: 30vw;
@@ -94,6 +90,6 @@
 
 	.active {
 		font-weight: bold;
-        color: yellow
-	} */
+		color: yellow;
+	}
 </style>
