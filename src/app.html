@@ -5,6 +5,13 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
+				<script>
+			try {
+				const [accent, theme] = (localStorage.getItem('kurosearch:theme') ?? 'crimson dark').split(' ');
+				document.documentElement.dataset.theme = theme;
+				document.documentElement.dataset.accent = accent;
+			} catch (e) {}
+		</script>
 		%sveltekit.head%
 		<meta name="theme-color" content="#000" />
 		<meta name="background-color" content="#000" />
