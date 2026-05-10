@@ -44,11 +44,10 @@
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		if (isIntersecting) {
-			console.log('target video', post.id);
 			videoStore.target(video);
 			videoStore.play();
 		} else {
-			videoStore.pause();
+			video.pause();
 		}
 	};
 
