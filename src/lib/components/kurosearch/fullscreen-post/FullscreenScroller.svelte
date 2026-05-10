@@ -33,7 +33,7 @@
 
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
-			desiredIndex = Math.floor(event.target.scrollTop / window.innerHeight);
+			desiredIndex = Math.round(event.target.scrollTop / window.innerHeight);
 		}
 	};
 
