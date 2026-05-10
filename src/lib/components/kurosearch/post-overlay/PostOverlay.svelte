@@ -57,7 +57,7 @@
 			class="post-overlay-button-fullscreen"
 		/>
 	{/if}
-	{#if paused !== undefined && loading !== undefined && ontoggleplay !== undefined}
+	{#if paused !== undefined && loading !== undefined && ontoggleplay !== undefined && currentTime !== undefined && duration !== undefined}
 		<PlayButton
 			{paused}
 			{loading}
@@ -65,23 +65,26 @@
 			class="post-overlay-button-play"
 		/>
 	{/if}
-	{#if currentTime !== undefined && duration !== undefined}
-		{@const timeLeft = duration - currentTime}
-		<div class="video-controls">
+
+	<div class="video-controls">
+		{#if currentTime !== undefined && duration !== undefined}
+			{@const timeLeft = duration - currentTime}
 			{#if mediaType === 'video'}
 				<VideoTime {timeLeft} />
 			{:else}
 				<span class="media-type">{mediaType}</span>
 			{/if}
 			<VideoSeekInput bind:currentTime {bufferedTime} {duration} />
-			<VolumeControl />
-			{#if ondetails !== undefined}
-				<IconButton variant="half-background" onclick={ondetails}>
-					<i class="codicon codicon-tag"></i>
-				</IconButton>
+			{#if mediaType === 'video'}
+				<VolumeControl />
 			{/if}
-		</div>
-	{/if}
+		{/if}
+		{#if ondetails !== undefined}
+			<IconButton variant="half-background" onclick={ondetails}>
+				<i class="codicon codicon-tag"></i>
+			</IconButton>
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -99,7 +102,7 @@
 		z-index: var(--z-media-controls);
 
 		transition: opacity var(--default-transition-behaviour);
-		pointer-events:none;
+		pointer-events: none;
 	}
 
 	.overlay :global(*) {
@@ -123,6 +126,7 @@
 		display: flex;
 		align-items: center;
 		align-self: end;
+		justify-content: end;
 		gap: var(--small-gap);
 		padding: var(--small-gap);
 		touch-action: none;
