@@ -92,8 +92,8 @@
 	}
 
 	.screen {
-		width: 100vw;
-		height: 100vh;
+		width: 100lvw;
+		height: 100lvh;
 		overflow: scroll;
 		contain: strict;
 	}
