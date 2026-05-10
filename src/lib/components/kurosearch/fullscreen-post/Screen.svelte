@@ -50,6 +50,9 @@
 
 	onMount(() => {
 		document.addEventListener('keydown', keybinds);
+		setTimeout(() => {
+			$fullscreenHintDone = true;
+		}, 2000);
 	});
 
 	onDestroy(() => {
@@ -62,11 +65,7 @@
 	<!-- <p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
 	</p> -->
-	<div
-		style="transform:translateY(calc({thisIndex} * 100lvh));"
-		bind:this={screen}
-		class:hint={!$fullscreenHintDone}
-	>
+	<div style="--post-index:{thisIndex};" bind:this={screen} class:hint={!$fullscreenHintDone}>
 		<FullscreenMedia {post} {onended} startAt={actualStartAt} ondetails={scrollToDetails} />
 		<FullscreenDetails {post} onreturn={scrollToMedia} />
 	</div>
@@ -74,7 +73,9 @@
 
 <style>
 	div {
-		transform: translateZ(0); /* enable GPU */
+		--post-index: default 0;
+		--post-offset: calc(var(--post-index) * 100lvh);
+		transform: translateY(var(--post-offset));
 		position: absolute;
 		left: 0;
 
@@ -106,19 +107,19 @@
 
 	@keyframes scroll-hint {
 		0% {
-			transform: translateX(0px);
+			transform: translate(0px, var(--post-offset));
 		}
 
 		33% {
-			transform: translateX(-75px);
+			transform: translate(-75px, var(--post-offset));
 		}
 
 		67% {
-			transform: translateX(-75px);
+			transform: translate(-75px, var(--post-offset));
 		}
 
 		100% {
-			transform: translateX(0px);
+			transform: translate(0px, var(--post-offset));
 		}
 	}
 

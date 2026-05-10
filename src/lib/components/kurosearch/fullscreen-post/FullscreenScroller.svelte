@@ -70,7 +70,6 @@
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
-		$fullscreenHintDone = true;
 		document.removeEventListener('keydown', keybinds);
 	});
 </script>
