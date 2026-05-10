@@ -75,7 +75,7 @@
 		width: 100vw;
 		height: 100vh;
 
-		scroll-snap-align: start;
+		/* scroll-snap-align: start; */
 		/* scroll-snap-stop: always; */
 
 		display: grid;

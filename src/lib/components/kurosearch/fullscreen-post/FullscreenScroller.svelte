@@ -105,7 +105,7 @@
 	}
 
 	.snap-container {
-		scroll-snap-type: y mandatory;
+		/* scroll-snap-type: y mandatory; */
 	}
 
 	.screen::-webkit-scrollbar {
