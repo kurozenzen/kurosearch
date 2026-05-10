@@ -34,10 +34,12 @@
 	};
 
 	const onscroll = (event: Event) => {
-		if (event.target instanceof HTMLDivElement) {
-			scrollTop = event.target.scrollTop;
-			desiredIndex = Math.floor(event.target.scrollTop / window.innerHeight);
-		}
+		requestAnimationFrame(() => {
+			if (event.target instanceof HTMLDivElement) {
+				scrollTop = event.target.scrollTop;
+				desiredIndex = Math.floor(event.target.scrollTop / window.innerHeight);
+			}
+		});
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
