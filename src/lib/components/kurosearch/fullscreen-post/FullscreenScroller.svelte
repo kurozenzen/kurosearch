@@ -17,18 +17,20 @@
 	let desiredIndex = $state(index);
 	let container: HTMLDivElement;
 
-	let scrollTop = $state(0);
+	let center = $state(0);
 
-	let message = $derived(`[DEBUG S]<br />
-	SCROLL: ${scrollTop}<br />
-	OFFSET: ${window.pageYOffset}<br />
-	SH: ${window.screen.height}<br />
-	SAH: ${window.screen.availHeight}<br />
-	IH: ${window.innerHeight}<br />
-	OH: ${window.outerHeight}<br />
-	DCH: ${document.documentElement.clientHeight}<br />
-	DSH: ${document.documentElement.scrollHeight}<br />
-	FRAC: ${scrollTop / window.outerHeight}`);
+	// let message = $derived(
+	// 	`[DEBUG S]<br />
+	// 	SCROLL: ${container?.scrollTop ?? 0}<br />
+	// 	OFFSET: ${window.pageYOffset}<br />
+	// 	SH: ${window.screen.height}<br />
+	// 	SAH: ${window.screen.availHeight}<br />
+	// 	IH: ${window.innerHeight}<br />
+	// 	OH: ${window.outerHeight}<br />
+	// 	DCH: ${document.documentElement.clientHeight}<br />
+	// 	DSH: ${document.documentElement.scrollHeight}<br />
+	// 	FRAC: ${(container?.scrollTop ?? 0) / window.outerHeight}`
+	// );
 
 	const scrollToPrevious = () => {
 		container.scrollBy({ top: -window.outerHeight, behavior: 'smooth' });
@@ -46,8 +48,8 @@
 
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
-			scrollTop = event.target.scrollTop;
-			desiredIndex = Math.floor(event.target.scrollTop / outerHeight);
+			center = event.target.scrollTop + window.outerHeight / 2;
+			desiredIndex = Math.floor(center / outerHeight);
 		}
 	};
 
@@ -74,9 +76,9 @@
 	});
 </script>
 
-<p>
+<!-- <p>
 	{@html message}
-</p>
+</p> -->
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
 	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
@@ -138,11 +140,11 @@
 		animation-delay: 0.5s;
 	}
 
-	p {
+	/* p {
 		position: absolute;
 		z-index: 1000;
 		background: rgba(0, 0, 0, 0.5);
 		top: 0;
 		left: 0;
-	}
+	} */
 </style>
