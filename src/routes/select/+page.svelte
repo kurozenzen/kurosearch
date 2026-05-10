@@ -14,10 +14,21 @@
 
 <LynxMain />
 
-
 <KurosearchTitle />
 
 <h2>What are you looking for, today?</h2>
+
+<p>
+	NOTE:<br />
+	- This is a prototype<br />
+	- The goal is to search fast and without a keyboard<br />
+	- Suggest categories (anonymous):
+	<a
+		href="https://app.sli.do/event/ryq8XXpSK6cdwqMB8a4rPh/embed/polls/f3e9b7bd-922b-4178-82aa-28dc4075cfce"
+		target="_blank">Open Poll</a
+	><br />
+	- Feedback welcome on Discord
+</p>
 
 <QuickSearch />
 
@@ -30,5 +41,10 @@
 
 	h2 {
 		text-align: center;
+	}
+
+	p {
+		max-width: 400px;
+		margin: auto;
 	}
 </style>
