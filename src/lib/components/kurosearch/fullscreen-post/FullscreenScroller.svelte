@@ -20,7 +20,8 @@
 	let scrollTop = $state(0);
 
 	let message = $derived(`[DEBUG S]<br />
-	SROLL: ${scrollTop}<br />
+	SCROLL: ${scrollTop}<br />
+	OFFSET: ${window.pageYOffset}<br />
 	SH: ${window.screen.height}<br />
 	SAH: ${window.screen.availHeight}<br />
 	IH: ${window.innerHeight}<br />
