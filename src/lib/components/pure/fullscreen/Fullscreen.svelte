@@ -21,23 +21,30 @@
 	};
 
 	let dialog: HTMLDivElement;
+	let ready = $state(false);
 
-	onMount(() => {
+	onMount(async () => {
 		if (browser) {
 			dialog.focus();
 
-			dialog.requestFullscreen().then(() => {
-				document.addEventListener('fullscreenchange', closeOnFullscreenExit);
-			}).catch(() => {
-				// not supported or no user gesture — overlay still works fine
-			});
+			document.addEventListener('fullscreenchange', closeOnFullscreenExit);
+			try {
+				await dialog.requestFullscreen();
+			} catch {
+				// ignored
+			}
+			ready = true;
 		}
 	});
 
-	onDestroy(() => {
+	onDestroy(async () => {
 		if (browser) {
 			document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
-			document.exitFullscreen().catch(() => {});
+			try {
+				await document.exitFullscreen();
+			} catch {
+				// ignored
+			}
 		}
 	});
 </script>
@@ -51,7 +58,9 @@
 	}}
 	onkeydown={closeOnEscapePressed}
 >
-	{@render children()}
+	{#if ready}
+		{@render children()}
+	{/if}
 </div>
 
 <style>
