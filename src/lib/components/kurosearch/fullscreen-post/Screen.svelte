@@ -40,7 +40,7 @@
 	};
 
 	$effect(() => {
-		if (thisIndex) {
+		if (thisIndex !== undefined && screen !== undefined) {
 			screen.scrollLeft = 0;
 		}
 	});
