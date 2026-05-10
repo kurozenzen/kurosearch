@@ -69,8 +69,8 @@
 	[DEBUG S]<br />
 	S: {scrollTop}<br />
 	H: {window.screen.height}<br />
-	FRAC: {scrollTop / window.screen.height}
-	[xxx]
+	FRAC: {scrollTop / window.screen.height}<br />
+	[xxx]<br />
 	[DEBUG E]
 </p>
 
