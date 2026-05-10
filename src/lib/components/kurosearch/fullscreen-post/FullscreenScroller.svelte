@@ -20,11 +20,11 @@
 	let scrollTop = $state(0);
 
 	const scrollToPrevious = () => {
-		container.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+		container.scrollBy({ top: -window.screen.height, behavior: 'smooth' });
 	};
 
 	const scrollToNext = () => {
-		container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+		container.scrollBy({ top: window.screen.height, behavior: 'smooth' });
 	};
 
 	const autoscroll = () => {
@@ -37,7 +37,7 @@
 		requestAnimationFrame(() => {
 			if (event.target instanceof HTMLDivElement) {
 				scrollTop = event.target.scrollTop;
-				desiredIndex = Math.floor(event.target.scrollTop / window.innerHeight);
+				desiredIndex = Math.floor(event.target.scrollTop / window.screen.height);
 			}
 		});
 	};
@@ -56,7 +56,7 @@
 	};
 
 	onMount(() => {
-		container.scrollTop = desiredIndex * window.innerHeight;
+		container.scrollTop = desiredIndex * window.screen.height;
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
@@ -68,8 +68,8 @@
 <p>
 	[DEBUG S]<br />
 	S: {scrollTop}<br />
-	H: {window.innerHeight}<br />
-	FRAC: {scrollTop / window.innerHeight}
+	H: {window.screen.height}<br />
+	FRAC: {scrollTop / window.screen.height}
 </p>
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
@@ -78,7 +78,7 @@
 	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
-		rootMargin="{window.innerHeight * 3}px"
+		rootMargin="{window.screen.height * 3}px"
 		onintersection={onendreached}
 	/>
 </div>
