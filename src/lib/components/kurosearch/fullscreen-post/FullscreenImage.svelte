@@ -158,8 +158,8 @@
 <style>
 	img {
 		display: block;
-		width: 100dvw;
-		height: 100dvh;
+		width: 100vw;
+		height: 100vh;
 		object-fit: contain;
 	}
 </style>
