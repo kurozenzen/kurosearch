@@ -155,10 +155,9 @@
 
 <style>
 	img {
-		display: flex;
+		display: block;
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
-		contain: strict;
 	}
 </style>
