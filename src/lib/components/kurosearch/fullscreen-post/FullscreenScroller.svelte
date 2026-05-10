@@ -70,6 +70,8 @@
 	S: {scrollTop}<br />
 	H: {window.screen.height}<br />
 	FRAC: {scrollTop / window.screen.height}
+	[xxx]
+	[DEBUG E]
 </p>
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
