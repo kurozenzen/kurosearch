@@ -63,13 +63,14 @@
 	});
 </script>
 
+<p>
+	[DEBUG S]<br />
+	S: {scrollTop}<br />
+	H: {window.innerHeight}<br />
+	FRAC: {scrollTop / window.innerHeight}
+</p>
+
 <div class="root screen snap-container" bind:this={container} {onscroll}>
-	<p>
-		[DEBUG S]<br />
-		S: {scrollTop}<br />
-		H: {window.innerHeight}<br />
-		FRAC: {scrollTop / window.innerHeight}
-	</p>
 	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={1} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
@@ -130,7 +131,7 @@
 	}
 
 	p {
-		position: sticky;
+		position: absolute;
 		top: 0;
 		left: 0;
 	}
