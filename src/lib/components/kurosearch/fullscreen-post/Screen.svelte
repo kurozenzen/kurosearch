@@ -59,7 +59,7 @@
 	<!-- <p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
 	</p> -->
-	<div style="top:calc({thisIndex} * 100vh);" bind:this={screen}>
+	<div style="transform:translateY(calc({thisIndex} * 100lvh));" bind:this={screen}>
 		<FullscreenMedia {post} {onended} {startAt} ondetails={scrollToDetails} />
 		<FullscreenDetails {post} onreturn={scrollToMedia} />
 	</div>
