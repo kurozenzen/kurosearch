@@ -19,6 +19,8 @@
 
 	let thisIndex = $derived(Math.round((index - offset) / step) * step + offset);
 
+	let actualStartAt = $derived(thisIndex == index ? startAt : undefined);
+
 	const scrollToDetails = () => {
 		screen.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
 	};
@@ -60,7 +62,7 @@
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
 	</p> -->
 	<div style="transform:translateY(calc({thisIndex} * 100lvh));" bind:this={screen}>
-		<FullscreenMedia {post} {onended} {startAt} ondetails={scrollToDetails} />
+		<FullscreenMedia {post} {onended} startAt={actualStartAt} ondetails={scrollToDetails} />
 		<FullscreenDetails {post} onreturn={scrollToMedia} />
 	</div>
 {/if}
@@ -81,7 +83,7 @@
 		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
 
-        will-change: transform;
+		will-change: transform;
 	}
 
 	/* p {

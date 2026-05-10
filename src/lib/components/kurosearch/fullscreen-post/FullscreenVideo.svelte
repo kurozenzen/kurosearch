@@ -46,9 +46,7 @@
 		if (isIntersecting) {
 			console.log('target video', post.id);
 			videoStore.target(video);
-			if (video.autoplay && video.paused) {
-				videoStore.play();
-			}
+			videoStore.play();
 		} else {
 			videoStore.pause();
 		}
@@ -58,8 +56,6 @@
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
-		videoStore.target(video);
-		videoStore.play();
 	});
 </script>
 
@@ -71,7 +67,6 @@
 	poster={sources.static}
 	title="[VIDEO] post #{post.id}"
 	preload="metadata"
-	autoplay
 	bind:this={video}
 	bind:currentTime
 	bind:paused
