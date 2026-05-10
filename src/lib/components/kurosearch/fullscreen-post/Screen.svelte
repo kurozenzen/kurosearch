@@ -80,6 +80,8 @@
 		grid-template-columns: 100vw 100vw;
 		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
+
+        will-change: transform;
 	}
 
 	/* p {
