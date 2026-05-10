@@ -17,6 +17,8 @@
 	let desiredIndex = $state(index);
 	let container: HTMLDivElement;
 
+	let scrollTop = $state(0);
+
 	const scrollToPrevious = () => {
 		container.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
 	};
@@ -33,6 +35,7 @@
 
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
+			scrollTop = event.target.scrollTop;
 			desiredIndex = Math.floor((event.target.scrollTop + 10) / window.innerHeight);
 		}
 	};
@@ -61,6 +64,10 @@
 </script>
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
+	<p>
+		[DEBUG S]<br />S: {scrollTop}<br />H: {window.innerHeight}<br />FRAC: {scrollTop /
+			window.innerHeight}
+	</p>
 	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={1} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
@@ -118,5 +125,11 @@
 	:global(.hint > *) {
 		animation: scroll-hint 1s ease-in-out;
 		animation-delay: 0.5s;
+	}
+
+	p {
+		position: sticky;
+		top: 0;
+		left: 0;
 	}
 </style>
