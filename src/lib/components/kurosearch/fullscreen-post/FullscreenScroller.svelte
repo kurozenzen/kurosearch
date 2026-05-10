@@ -36,7 +36,7 @@
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
 			scrollTop = event.target.scrollTop;
-			desiredIndex = Math.floor((event.target.scrollTop + 10) / window.innerHeight);
+			desiredIndex = Math.floor(event.target.scrollTop / window.innerHeight);
 		}
 	};
 
@@ -65,8 +65,10 @@
 
 <div class="root screen snap-container" bind:this={container} {onscroll}>
 	<p>
-		[DEBUG S]<br />S: {scrollTop}<br />H: {window.innerHeight}<br />FRAC: {scrollTop /
-			window.innerHeight}
+		[DEBUG S]<br />
+		S: {scrollTop}<br />
+		H: {window.innerHeight}<br />
+		FRAC: {scrollTop / window.innerHeight}
 	</p>
 	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={1} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
