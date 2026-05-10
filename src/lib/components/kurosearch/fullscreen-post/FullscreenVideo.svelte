@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getVideoSources } from '$lib/logic/media-utils';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
@@ -35,6 +35,7 @@
 
 	const ontoggleplay = () => {
 		if (video.paused) {
+			videoStore.target(video);
 			videoStore.play();
 		} else {
 			videoStore.pause();
@@ -43,11 +44,12 @@
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		if (isIntersecting) {
+			console.log('target video', post.id);
 			videoStore.target(video);
 			if (video.autoplay && video.paused) {
 				videoStore.play();
 			}
-		} else if (!video.paused) {
+		} else {
 			videoStore.pause();
 		}
 	};
@@ -56,12 +58,14 @@
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
+		videoStore.target(video);
+		videoStore.play();
 	});
 </script>
 
 <!-- svelte-ignore a11y_media_has_caption -->
 <video
-	{@attach screenintersection(onIntersectionChange)}
+	{@attach screenintersection(0.5, onIntersectionChange)}
 	{@attach clearsrc}
 	src={sources.animated}
 	poster={sources.static}

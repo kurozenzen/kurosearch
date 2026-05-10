@@ -20,6 +20,7 @@ export const videoStore = {
 	 */
 	target(video: HTMLVideoElement | undefined) {
 		update((current) => {
+			console.log('target video', video?.src);
 			if (current.targetVideo !== video) {
 				current.targetVideo = video;
 			}
@@ -35,6 +36,7 @@ export const videoStore = {
 			current.playingVideo?.pause();
 			current.playingVideo = current.targetVideo;
 			current.playingVideo?.play().catch(() => {});
+			console.log('play video', current.playingVideo?.src);
 			return current;
 		});
 	},
@@ -43,6 +45,7 @@ export const videoStore = {
 	 */
 	pause() {
 		update((current) => {
+			console.log('pausing video', current.playingVideo?.src);
 			current.playingVideo?.pause();
 			current.playingVideo = undefined;
 			return current;
