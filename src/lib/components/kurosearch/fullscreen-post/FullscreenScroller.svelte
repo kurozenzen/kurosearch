@@ -28,14 +28,14 @@
 	OH: ${window.outerHeight}<br />
 	DCH: ${document.documentElement.clientHeight}<br />
 	DSH: ${document.documentElement.scrollHeight}<br />
-	FRAC: ${scrollTop / window.screen.availHeight}`);
+	FRAC: ${scrollTop / window.outerHeight}`);
 
 	const scrollToPrevious = () => {
-		container.scrollBy({ top: -window.screen.availHeight, behavior: 'smooth' });
+		container.scrollBy({ top: -window.outerHeight, behavior: 'smooth' });
 	};
 
 	const scrollToNext = () => {
-		container.scrollBy({ top: window.screen.availHeight, behavior: 'smooth' });
+		container.scrollBy({ top: window.outerHeight, behavior: 'smooth' });
 	};
 
 	const autoscroll = () => {
@@ -47,7 +47,7 @@
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
 			scrollTop = event.target.scrollTop;
-			desiredIndex = Math.floor(event.target.scrollTop / window.screen.availHeight);
+			desiredIndex = Math.floor(event.target.scrollTop / outerHeight);
 		}
 	};
 
@@ -84,7 +84,7 @@
 	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
-		rootMargin="{window.screen.availHeight * 3}px"
+		rootMargin="{window.outerHeight * 3}px"
 		onintersection={onendreached}
 	/>
 </div>
@@ -103,7 +103,7 @@
 	}
 
 	.snap-container {
-		/* scroll-snap-type: y mandatory; */
+		scroll-snap-type: y mandatory;
 	}
 
 	.screen::-webkit-scrollbar {
