@@ -24,8 +24,8 @@ const config = {
 					'self',
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
-					'sha256-OkhWme9R0KBn9/HhayIdrq4L0tupV+XoB9Z6NlRtT8g=',
-					'sha256-QQcRtQ7ld24zg8Aw+N4rSSUV74xluhui+0R1h02Axi4='
+					'sha256-zFJwsT78cLEc6IoppP5St+I79YaQSeWM22vM77yQrfU=',
+					'sha256-SIdcyjx0kKrzhwggwrHAeqEMP12zoiLgWxFVA05e/bM='
 				],
 				'connect-src': [
 					'self',

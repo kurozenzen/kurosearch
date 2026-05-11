@@ -15,8 +15,10 @@
 
 <svelte:head>
 	<script lang="ts">
-		const cookies = localStorage.getItem('kurosearch:cookies-accepted') ?? 'false';
-		document.documentElement.dataset.cookies = cookies;
+		(() => {
+			const cookiesAccepted = localStorage.getItem('kurosearch:cookies-accepted') ?? 'false';
+			document.documentElement.dataset.cookies = cookiesAccepted;
+		})();
 	</script>
 </svelte:head>
 

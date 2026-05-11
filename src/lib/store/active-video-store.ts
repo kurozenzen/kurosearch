@@ -35,7 +35,11 @@ export const videoStore = {
 		update((current) => {
 			current.playingVideo?.pause();
 			current.playingVideo = current.targetVideo;
-			current.playingVideo?.play().catch(() => {});
+			try {
+				current.playingVideo?.play().catch(() => {});
+			} catch (_) {
+				// ignored
+			}
 			console.log('play video', current.playingVideo?.src);
 			return current;
 		});
@@ -63,7 +67,11 @@ export const videoStore = {
 				}
 				if (current.targetVideo.paused) {
 					current.playingVideo = current.targetVideo;
-					current.playingVideo?.play().catch(() => {});
+					try {
+						current.playingVideo?.play().catch(() => {});
+					} catch (_) {
+						// ignored
+					}
 				} else {
 					current.playingVideo?.pause();
 					current.playingVideo = undefined;

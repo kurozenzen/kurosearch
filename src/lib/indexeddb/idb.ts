@@ -7,6 +7,18 @@ let idb: IDBDatabase | undefined;
 
 const currentHour = () => Math.round(new Date().getTime() / 1000 / 60 / 60);
 
+const ignoreInvalidStateError = (action: () => void) => {
+	try {
+		action();
+	} catch (error) {
+		if (error instanceof DOMException && error.name === 'InvalidStateError') {
+			return;
+		}
+
+		throw error;
+	}
+};
+
 export const initIdb = async () => {
 	return ensureIdb()
 		.then((db) => {
@@ -184,45 +196,55 @@ export const addIndexedPosts = (posts: kurosearch.Post[]) => {
 
 export const getIndexedTag = async (name: string): Promise<kurosearch.Tag | undefined> =>
 	new Promise((resolve) => {
-		if (!idb) {
-			resolve(undefined);
-			return;
-		}
-		const transaction = idb.transaction('tags', 'readonly');
-		transaction.addEventListener('error', () => resolve(undefined));
-		transaction.addEventListener('abort', () => resolve(undefined));
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve(undefined);
+				return;
+			}
 
-		const request = transaction.objectStore('tags').get(name);
-		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+			const transaction = idb.transaction('tags', 'readonly');
+			transaction.addEventListener('error', () => resolve(undefined));
+			transaction.addEventListener('abort', () => resolve(undefined));
+
+			const request = transaction.objectStore('tags').get(name);
+			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		});
 	});
 
 export const getIndexedComments = async (
 	postId: number
 ): Promise<kurosearch.Comment[] | undefined> =>
 	new Promise((resolve) => {
-		if (!idb) {
-			resolve(undefined);
-			return;
-		}
-		const transaction = idb.transaction('comments', 'readonly');
-		transaction.addEventListener('error', () => resolve(undefined));
-		transaction.addEventListener('abort', () => resolve(undefined));
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve(undefined);
+				return;
+			}
 
-		const request = transaction.objectStore('comments').get(postId);
+			const transaction = idb.transaction('comments', 'readonly');
+			transaction.addEventListener('error', () => resolve(undefined));
+			transaction.addEventListener('abort', () => resolve(undefined));
 
-		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result?.comments));
+			const request = transaction.objectStore('comments').get(postId);
+
+			request.addEventListener('success', (e) =>
+				resolve((e.target as IDBRequest).result?.comments)
+			);
+		});
 	});
 
 export const getIndexedPost = async (id: number): Promise<kurosearch.Post | undefined> =>
 	new Promise((resolve) => {
-		if (!idb) {
-			resolve(undefined);
-			return;
-		}
-		const transaction = idb.transaction('posts', 'readonly');
-		transaction.addEventListener('error', () => resolve(undefined));
-		transaction.addEventListener('abort', () => resolve(undefined));
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve(undefined);
+				return;
+			}
+			const transaction = idb.transaction('posts', 'readonly');
+			transaction.addEventListener('error', () => resolve(undefined));
+			transaction.addEventListener('abort', () => resolve(undefined));
 
-		const request = transaction.objectStore('posts').get(id);
-		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+			const request = transaction.objectStore('posts').get(id);
+			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		});
 	});
