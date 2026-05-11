@@ -9,19 +9,20 @@ export const screenintersection = (
 	threshold: number,
 	onchange: (isIntersecting: boolean) => void
 ): Attachment => {
-	const observer = observers.getOrInsertComputed(
-		threshold,
-		(threshold) =>
-			new IntersectionObserver(
-				(entries) => {
-					for (const entry of entries) {
-						const onchange = listeners.get(entry.target);
-						onchange?.(entry.isIntersecting);
-					}
-				},
-				{ rootMargin: '0px', threshold }
-			)
-	);
+	let observer = observers.get(threshold);
+
+	if (observer === undefined) {
+		observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					const onchange = listeners.get(entry.target);
+					onchange?.(entry.isIntersecting);
+				}
+			},
+			{ rootMargin: '0px', threshold }
+		);
+		observers.set(threshold, observer);
+	}
 
 	return (node) => {
 		if (browser) {
