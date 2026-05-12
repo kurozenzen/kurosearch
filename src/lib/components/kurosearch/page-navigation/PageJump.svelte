@@ -12,22 +12,22 @@
 
 	let totalPages = $derived(Math.min(10000, Math.ceil($results.postCount / PAGE_SIZE)));
 
-	let jumpPid: number = $state(NaN);
+	let jumpPageNumber: number = $state(NaN);
 </script>
 
 <div>
 	Go to page <NumberInput
 		min={1}
 		max={totalPages}
-		bind:value={jumpPid}
+		bind:value={jumpPageNumber}
 		step={1}
 		aria-label="Page number input"
 	/> of {totalPages}
 	<TextButton
-		onclick={() => onpagechange(jumpPid)}
+		onclick={() => onpagechange(jumpPageNumber - 1)}
 		title=" Page"
 		type="primary"
-		disabled={isNaN(jumpPid)}
+		disabled={isNaN(jumpPageNumber) || jumpPageNumber < 1 || jumpPageNumber > totalPages}
 		reducepadding
 	>
 		Go
