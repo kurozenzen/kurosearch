@@ -57,7 +57,7 @@
 			class="post-overlay-button-fullscreen"
 		/>
 	{/if}
-	{#if paused !== undefined && loading !== undefined && ontoggleplay !== undefined && currentTime !== undefined && duration !== undefined}
+	{#if paused !== undefined && loading !== undefined && ontoggleplay !== undefined}
 		<PlayButton
 			{paused}
 			{loading}
