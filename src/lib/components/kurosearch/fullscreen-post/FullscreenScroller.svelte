@@ -18,25 +18,12 @@
 
 	let center = $state(0);
 
-	// let message = $derived(
-	// 	`[DEBUG S]<br />
-	// 	SCROLL: ${container?.scrollTop ?? 0}<br />
-	// 	OFFSET: ${window.pageYOffset}<br />
-	// 	SH: ${window.screen.height}<br />
-	// 	SAH: ${window.screen.availHeight}<br />
-	// 	IH: ${window.innerHeight}<br />
-	// 	OH: ${window.outerHeight}<br />
-	// 	DCH: ${document.documentElement.clientHeight}<br />
-	// 	DSH: ${document.documentElement.scrollHeight}<br />
-	// 	FRAC: ${(container?.scrollTop ?? 0) / window.outerHeight}`
-	// );
-
 	const scrollToPrevious = () => {
-		container.scrollBy({ top: -window.outerHeight, behavior: 'smooth' });
+		container.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
 	};
 
 	const scrollToNext = () => {
-		container.scrollBy({ top: window.outerHeight, behavior: 'smooth' });
+		container.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
 	};
 
 	const autoscroll = () => {
@@ -47,8 +34,8 @@
 
 	const onscroll = (event: Event) => {
 		if (event.target instanceof HTMLDivElement) {
-			center = event.target.scrollTop + window.outerHeight / 2;
-			desiredIndex = Math.floor(center / outerHeight);
+			center = event.target.scrollTop + window.innerHeight / 2;
+			desiredIndex = Math.floor(center / innerHeight);
 		}
 	};
 
@@ -66,7 +53,7 @@
 	};
 
 	onMount(() => {
-		container.scrollTop = desiredIndex * window.screen.availHeight;
+		container.scrollTop = desiredIndex * window.innerHeight;
 		document.addEventListener('keydown', keybinds);
 	});
 	onDestroy(() => {
@@ -84,7 +71,7 @@
 	<Screen offset={2} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<IntersectionDetector
 		absoluteTop="{$results.posts.length * 100}vh"
-		rootMargin="{window.outerHeight * 3}px"
+		rootMargin="{window.innerHeight * 3}px"
 		onintersection={onendreached}
 	/>
 </div>
