@@ -42,8 +42,8 @@
 	.tags {
 		display: flex;
 		flex-wrap: no-wrap;
+		overflow-x: scroll;
 		gap: var(--grid-gap);
-		overflow-x: auto;
 		padding-bottom: var(--small-gap);
 		padding-inline: var(--grid-gap);
 	}

@@ -25,26 +25,44 @@
 	import overwatchIcon from '$lib/assets/franchises/overwatch.png';
 
 	const categories = Object.freeze([
-		{ name: 'Tentacle', tags: ['tentacle'], icon: tentacleIcon },
-		{ name: 'Paizuri', tags: ['paizuri'], icon: paizuriIcon },
-		{ name: 'Ahegao', tags: ['ahegao'], icon: ahegaoIcon },
-		{ name: 'Creampie', tags: ['creampie'], icon: creampieIcon },
-		{ name: 'Anal', tags: ['anal'], icon: analIcon },
-		{ name: 'Blowjob', tags: ['blowjob'], icon: blowjobIcon }
+		{ name: 'Tentacle', tags: [{ name: 'tentacle', modifier: '+' }], icon: tentacleIcon },
+		{ name: 'Paizuri', tags: [{ name: 'paizuri', modifier: '+' }], icon: paizuriIcon },
+		{ name: 'Ahegao', tags: [{ name: 'ahegao', modifier: '+' }], icon: ahegaoIcon },
+		{ name: 'Creampie', tags: [{ name: 'creampie', modifier: '+' }], icon: creampieIcon },
+		{ name: 'Anal', tags: [{ name: 'anal', modifier: '+' }], icon: analIcon },
+		{ name: 'Blowjob', tags: [{ name: 'blowjob', modifier: '+' }], icon: blowjobIcon }
 	]);
 
 	const franchises = Object.freeze([
-		{ name: 'Pokemon', tags: ['pokemon'], icon: pokemonIcon },
-		{ name: 'Genshin Impact', tags: ['genshin_impact'], icon: genshinImpactIcon },
-		{ name: 'League of Legends', tags: ['league_of_legends'], icon: leagueOfLegendsIcon },
-		{ name: 'Overwatch', tags: ['overwatch'], icon: overwatchIcon }
+		{ name: 'Pokemon', tags: [{ name: 'pokemon', modifier: '+' }], icon: pokemonIcon },
+		{ name: 'Genshin', tags: [{ name: 'genshin_impact', modifier: '+' }], icon: genshinImpactIcon },
+		{
+			name: 'League',
+			tags: [{ name: 'league_of_legends', modifier: '+' }],
+			icon: leagueOfLegendsIcon
+		},
+		{ name: 'Overwatch', tags: [{ name: 'overwatch', modifier: '+' }], icon: overwatchIcon }
 	]);
 
 	const pairings = Object.freeze([
-		{ name: 'Lesbian', tags: ['yuri', 'lesbian'], icon: '' },
-		{ name: 'Gay', tags: ['yaoi', 'gay'], icon: '' },
-		{ name: 'Blacked', tags: ['blacked'], icon: blackedIcon },
-		{ name: 'Futanari', tags: ['futanari'], icon: futanariIcon }
+		{
+			name: 'Lesbian',
+			tags: [
+				{ name: 'yuri', modifier: '~' },
+				{ name: 'lesbian', modifier: '~' }
+			],
+			icon: ''
+		},
+		{
+			name: 'Gay',
+			tags: [
+				{ name: 'yaoi', modifier: '~' },
+				{ name: 'gay', modifier: '~' }
+			],
+			icon: ''
+		},
+		{ name: 'Blacked', tags: [{ name: 'blacked', modifier: '+' }], icon: blackedIcon },
+		{ name: 'Futanari', tags: [{ name: 'futanari', modifier: '+' }], icon: futanariIcon }
 	]);
 
 	const LABELS_AI = Object.freeze({
@@ -91,7 +109,7 @@
 	let mediaType = $state('all');
 	let sort = $state('date');
 
-	const submit = async (tags: string[]) => {
+	const submit = async (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
 
 		for (const { name, modifier } of TAGS_AI[ai]) {
@@ -104,8 +122,8 @@
 
 		sortsStore.set(SORT_VALUES[sort]);
 
-		for (const tag of tags) {
-			activeTags.addByName(tag);
+		for (const {name, modifier} of tags) {
+			activeTags.addByName(name, modifier);
 		}
 
 		results.reset();

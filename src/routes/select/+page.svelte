@@ -27,6 +27,11 @@
 		href="https://app.sli.do/event/ryq8XXpSK6cdwqMB8a4rPh/embed/polls/f3e9b7bd-922b-4178-82aa-28dc4075cfce"
 		target="_blank">Open Poll</a
 	><br />
+	- Suggest category images (anonymous):
+	<a
+		href="https://docs.google.com/forms/d/e/1FAIpQLSd04XopxmKbWq4_tMoPgjIb9AlkYms-NtOlxUTfTznGQ7r9Dg/viewform"
+		target="_blank">Open Form</a
+	><br />
 	- Feedback welcome on Discord
 </p>
 
