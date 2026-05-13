@@ -50,8 +50,8 @@
 <div class="news">
 	<i class="codicon codicon-megaphone" style="font-size: 32px; margin-right: 8px;"></i>
 	<p>
-		There is a new view on kurosearch!<br />Check it out:
-		<a href={resolve('/select')}>kurosearch.com/select</a>
+		<a href={resolve('/select')}>kurosearch.com/select</a> is almost complete!<br />Only images are
+		missing now. Please submit some.
 	</p>
 </div>
 
