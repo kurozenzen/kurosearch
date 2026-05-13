@@ -1,6 +1,6 @@
 <script lang="ts">
 	import NumberInput from './NumberInput.svelte';
-	import RadioGroup from './RadioGroup.svelte';
+	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
 	import sort from '$lib/store/sort-store';
 	import filter from '$lib/store/filter-store';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
