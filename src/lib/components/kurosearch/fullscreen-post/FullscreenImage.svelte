@@ -145,7 +145,7 @@
 <PostOverlay
 	hidden={overlayHidden}
 	mediaType="img"
-	{paused}
+	paused={$autoplayFullscreenEnabled ? paused : undefined}
 	{loading}
 	{ontoggleplay}
 	bind:currentTime
