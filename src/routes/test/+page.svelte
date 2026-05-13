@@ -20,10 +20,39 @@
 	import { resolve } from '$app/paths';
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
+	import { getAllPosts, getAllTags } from '$lib/indexeddb/idb';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
 	);
+
+	const downloadIDBTags = async () => {
+		const tags = await getAllTags();
+
+		const blob = new Blob([JSON.stringify(tags, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'kurosearch_tags.json';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
+
+	const downloadIDBPosts = async () => {
+		const posts = await getAllPosts();
+
+		const blob = new Blob([JSON.stringify(posts, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'kurosearch_posts.json';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
 
 	let count = $state(0);
 	let disabled = $state(false);
@@ -83,6 +112,9 @@
 <img src={lynxChibiSrc} alt="default lynx" />
 <br />
 <img src={lynxChibiHalloweenSrc} alt="halloween lynx" />
+
+<button onclick={downloadIDBTags}> Download IDB Tags </button>
+<button onclick={downloadIDBPosts}> Download IDB Posts </button>
 
 <style>
 	img {

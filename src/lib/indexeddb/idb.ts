@@ -248,3 +248,35 @@ export const getIndexedPost = async (id: number): Promise<kurosearch.Post | unde
 			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 		});
 	});
+
+export const getAllTags = async (): Promise<kurosearch.Tag[]> =>
+	new Promise((resolve) => {
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve([]);
+				return;
+			}
+			const transaction = idb.transaction('tags', 'readonly');
+			transaction.addEventListener('error', () => resolve([]));
+			transaction.addEventListener('abort', () => resolve([]));
+
+			const request = transaction.objectStore('tags').getAll();
+			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		});
+	});
+
+export const getAllPosts = async (): Promise<kurosearch.Post[]> =>
+	new Promise((resolve) => {
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve([]);
+				return;
+			}
+			const transaction = idb.transaction('posts', 'readonly');
+			transaction.addEventListener('error', () => resolve([]));
+			transaction.addEventListener('abort', () => resolve([]));
+
+			const request = transaction.objectStore('posts').getAll();
+			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		});
+	});
