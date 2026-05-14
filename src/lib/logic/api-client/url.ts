@@ -1,4 +1,8 @@
-export const API_URLS = ['https://rule34-api.netlify.app', 'https://rule-34-api-vercel.vercel.app'];
+export const API_URLS = [
+	'https://rule34-api.netlify.app',
+	'https://rule-34-api-vercel.vercel.app',
+	'https://rule-34-api.shirozenzen.workers.dev'
+];
 export const R34_API_URL = `https://api.rule34.xxx/index.php?page=dapi`;
 
 let currentUrlIndex = 0;
