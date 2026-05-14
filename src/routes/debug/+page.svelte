@@ -3,6 +3,8 @@
 	import FeatureSupportInfo from '$lib/components/kurosearch/feature-support-info/FeatureSupportInfo.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { apiUrl, cycleApiUrl } from '$lib/logic/api-client/url';
 	import {
 		supportsAspectRatio,
 		supportsFullscreen,
@@ -11,6 +13,13 @@
 		supportsObjectFit,
 		supportsSessionStorage
 	} from '$lib/logic/feature-support';
+
+	let currentApi = $state(apiUrl());
+
+	const nextApi = () => {
+		cycleApiUrl();
+		currentApi = apiUrl();
+	};
 </script>
 
 <svelte:head>
@@ -52,6 +61,12 @@
 		title="CSS - Object Fit"
 		description="Technical Detail. Useful for debugging layout issues."
 	/>
+	<Heading3>Supported Features</Heading3>
+	<p>
+		Cycle through API servers.<br />
+		Currently using API {currentApi}.
+	</p>
+	<TextButton onclick={nextApi} title="Next API server">Next</TextButton>
 </section>
 
 <style>
