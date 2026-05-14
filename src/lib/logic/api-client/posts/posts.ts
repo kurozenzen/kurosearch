@@ -18,8 +18,13 @@ export const getPage = async (
 	const response = await fetchAbortPrevious(url, getPageAbortController);
 	throwOnUnexpectedStatus(response);
 
-	let data = await response.json();
-	data = data.filter((x: r34.Post) => x.change); // sometimes api returns placeholders that cause lots of null issues
+	let data = [];
+	try {
+		data = await response.json();
+		data = data.filter((x: r34.Post) => x.change); // sometimes api returns placeholders that cause lots of null issues
+	} catch (_) {
+		// ignored
+	}
 
 	const posts = data.map(parsePost) as kurosearch.Post[];
 

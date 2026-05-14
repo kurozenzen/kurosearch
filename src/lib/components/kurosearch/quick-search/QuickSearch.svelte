@@ -25,6 +25,12 @@
 	import overwatchIcon from '$lib/assets/franchises/overwatch.png';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 
+	interface TagData {
+		name: string;
+		tags: kurosearch.SearchableTag[];
+		icon: string;
+	}
+
 	const artists = Object.freeze([
 		{ name: 'Pixiewillow', tags: [{ name: 'pixiewillow', modifier: '+' }], icon: '' },
 		{ name: 'Nyl2', tags: [{ name: 'nyl2', modifier: '+' }], icon: '' },
@@ -80,7 +86,7 @@
 		{ name: 'Setsugetsuka436', tags: [{ name: 'setsugetsuka436', modifier: '+' }], icon: '' },
 		{ name: 'Hamaburicchi', tags: [{ name: 'hamaburicchi', modifier: '+' }], icon: '' },
 		{ name: 'Anda Inmu', tags: [{ name: 'anda_inmu', modifier: '+' }], icon: '' }
-	]);
+	] as TagData[]);
 
 	const categories = Object.freeze([
 		{ name: 'Femboy', tags: [{ name: 'femboy', modifier: '+' }], icon: '' },
@@ -107,7 +113,7 @@
 		{ name: 'Watersports', tags: [{ name: 'watersports', modifier: '+' }], icon: '' },
 		{ name: 'Rape', tags: [{ name: 'rape', modifier: '+' }], icon: '' },
 		{ name: 'Armpit', tags: [{ name: 'armpit', modifier: '+' }], icon: '' }
-	]);
+	] as TagData[]);
 
 	const franchises = Object.freeze([
 		{ name: 'Pokemon', tags: [{ name: 'pokemon', modifier: '+' }], icon: pokemonIcon },
@@ -130,7 +136,7 @@
 		{ name: 'Mario', tags: [{ name: 'mario_(series)', modifier: '+' }], icon: '' },
 		{ name: 'Sonic', tags: [{ name: 'sonic_(series)', modifier: '+' }], icon: '' },
 		{ name: 'Xenoblade', tags: [{ name: 'xenoblade_(series)', modifier: '+' }], icon: '' }
-	]);
+	] as TagData[]);
 
 	const pairings = Object.freeze([
 		{
@@ -153,7 +159,7 @@
 		{ name: 'Blacked', tags: [{ name: 'blacked', modifier: '+' }], icon: blackedIcon },
 		{ name: 'Futanari', tags: [{ name: 'futanari', modifier: '+' }], icon: futanariIcon },
 		{ name: 'Futa x Male', tags: [{ name: 'futa_on_male', modifier: '+' }], icon: '' }
-	]);
+	] as TagData[]);
 
 	const characters = Object.freeze([
 		{ name: 'Nami', tags: [{ name: 'nami_(one_piece)', modifier: '+' }], icon: '' },
@@ -189,7 +195,7 @@
 		{ name: 'Ahri', tags: [{ name: 'ahri', modifier: '+' }], icon: '' },
 		{ name: 'Tails', tags: [{ name: 'tails_the_fox', modifier: '+' }], icon: '' },
 		{ name: 'Izuku Midoriya', tags: [{ name: 'izuku_midoriya', modifier: '+' }], icon: '' }
-	]);
+	] as TagData[]);
 
 	const LABELS_AI = Object.freeze({
 		both: 'both',
@@ -231,9 +237,39 @@
 		random: { property: 'random', direction: 'desc' }
 	} as Record<string, SortStoreData>);
 
+	let multiSelect = $state(false);
+
 	let ai = $state('both');
 	let mediaType = $state('all');
 	let sort = $state('date');
+
+	let checkedTags: Record<string, kurosearch.SearchableTag[]> = $state({});
+
+	const activateMultiSelect =
+		(name: string, tags: kurosearch.SearchableTag[]) => (e: MouseEvent) => {
+			e.preventDefault();
+			multiSelect = true;
+			checkedTags[name] = tags;
+		};
+
+	const onTagClick = (name: string, tags: kurosearch.SearchableTag[]) => {
+		if (multiSelect) {
+			toggle(name, tags);
+		} else {
+			submit(tags);
+		}
+	};
+
+	const toggle = (name: string, tags: kurosearch.SearchableTag[]) => {
+		if (checkedTags[name]) {
+			delete checkedTags[name];
+			if (Object.keys(checkedTags).length === 0) {
+				multiSelect = false;
+			}
+		} else {
+			checkedTags[name] = tags;
+		}
+	};
 
 	const submit = async (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
@@ -247,6 +283,12 @@
 		}
 
 		sortsStore.set(SORT_VALUES[sort]);
+
+		for (const key in checkedTags) {
+			for (const { name, modifier } of checkedTags[key]) {
+				activeTags.addByName(name, modifier);
+			}
+		}
 
 		for (const { name, modifier } of tags) {
 			activeTags.addByName(name, modifier);
@@ -277,34 +319,80 @@
 <section class="lists">
 	<QuickSearchList name="Categories">
 		{#each categories as { name, tags, icon }}
-			<QuickSearchTag {name} {icon} onclick={() => submit(tags)} />
+			<QuickSearchTag
+				checked={name in checkedTags}
+				{name}
+				{icon}
+				onclick={() => onTagClick(name, tags)}
+				oncontextmenu={activateMultiSelect(name, tags)}
+			/>
 		{/each}
 	</QuickSearchList>
 
 	<QuickSearchList name="Fandoms">
 		{#each franchises as { name, tags, icon }}
-			<QuickSearchTag {name} {icon} onclick={() => submit(tags)} />
+			<QuickSearchTag
+				checked={name in checkedTags}
+				{name}
+				{icon}
+				onclick={() => onTagClick(name, tags)}
+				oncontextmenu={activateMultiSelect(name, tags)}
+			/>
 		{/each}
 	</QuickSearchList>
 
 	<QuickSearchList name="Pairings">
 		{#each pairings as { name, tags, icon }}
-			<QuickSearchTag {name} {icon} onclick={() => submit(tags)} />
+			<QuickSearchTag
+				checked={name in checkedTags}
+				{name}
+				{icon}
+				onclick={() => onTagClick(name, tags)}
+				oncontextmenu={activateMultiSelect(name, tags)}
+			/>
 		{/each}
 	</QuickSearchList>
 
 	<QuickSearchList name="Characters">
 		{#each characters as { name, tags, icon }}
-			<QuickSearchTag {name} {icon} onclick={() => submit(tags)} />
+			<QuickSearchTag
+				checked={name in checkedTags}
+				{name}
+				{icon}
+				onclick={() => onTagClick(name, tags)}
+				oncontextmenu={activateMultiSelect(name, tags)}
+			/>
 		{/each}
 	</QuickSearchList>
 
 	<QuickSearchList name="Artists">
 		{#each artists as { name, tags, icon }}
-			<QuickSearchTag {name} {icon} onclick={() => submit(tags)} />
+			<QuickSearchTag
+				checked={name in checkedTags}
+				{name}
+				{icon}
+				onclick={() => onTagClick(name, tags)}
+				oncontextmenu={activateMultiSelect(name, tags)}
+			/>
 		{/each}
 	</QuickSearchList>
 </section>
+
+{#if multiSelect}
+	<div id="multi-select-submit">
+		<TextButton onclick={() => submit([])} title="Search">Search</TextButton>
+		<TextButton
+			onclick={() => {
+				checkedTags = {};
+				multiSelect = false;
+			}}
+			title="Cancel"
+			type="secondary"
+		>
+			Cancel
+		</TextButton>
+	</div>
+{/if}
 
 <style>
 	section {
@@ -319,5 +407,18 @@
 
 	.lists {
 		flex-direction: column;
+	}
+
+	#multi-select-submit {
+		position: sticky;
+		z-index: 10;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: var(--grid-gap);
+		display: flex;
+		justify-content: center;
+		gap: var(--grid-gap);
+		background-color: var(--background-0);
 	}
 </style>
