@@ -213,8 +213,8 @@
 
 	const TAGS_AI = Object.freeze({
 		both: [],
-		'no-ai': [{ name: 'ai', modifier: '-' }],
-		ai: [{ name: 'ai', modifier: '+' }]
+		'no-ai': [{ name: 'ai_generated', modifier: '-' }],
+		ai: [{ name: 'ai_generated', modifier: '+' }]
 	} as Record<string, kurosearch.SearchableTag[]>);
 
 	const TAGS_MEDIA = Object.freeze({
