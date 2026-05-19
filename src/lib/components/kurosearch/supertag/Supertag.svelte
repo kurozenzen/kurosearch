@@ -101,7 +101,6 @@
 
 	button {
 		color: var(--text);
-		background-color: unset;
 		height: var(--line-height-small);
 		width: var(--line-height-small);
 		line-height: var(--line-height-small);

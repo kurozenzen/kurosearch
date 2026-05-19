@@ -4,15 +4,14 @@
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
 	interface Props {
-		loading: boolean;
 		onsortfilterupdate: () => void;
 	}
 
-	let { loading, onsortfilterupdate }: Props = $props();
+	let { onsortfilterupdate }: Props = $props();
 </script>
 
 <div id="result-header">
-	<span class:loading>{formatCount($results.postCount)} posts</span>
+	<span class:loading={$results.loading}>{formatCount($results.postCount)} posts</span>
 	<SortFilterConfig {onsortfilterupdate} />
 </div>
 

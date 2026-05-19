@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
 
 	let previousY = $state(0);
@@ -12,11 +11,11 @@
 	};
 
 	onMount(() => {
-		if (browser) document.addEventListener('scroll', listener, { passive: true });
+		document.addEventListener('scroll', listener, { passive: true });
 	});
 
 	onDestroy(() => {
-		if (browser) document.removeEventListener('scroll', listener);
+		document.removeEventListener('scroll', listener);
 	});
 </script>
 

@@ -1,31 +1,39 @@
 <script lang="ts">
+	// Header
+	// Body
 	import { browser } from '$app/environment';
+	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
-	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
+	import HeaderDesktop from '$lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
+	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
 	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
-	import ResultHeader from '$lib/components/kurosearch/results/ResultHeader.svelte';
-	import Results from '$lib/components/kurosearch/results/Results.svelte';
 	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
+	import {
+		LABELS_RATING,
+		LABELS_SCORE_COMPARATOR,
+		LABELS_SORT_DIRECTION,
+		LABELS_SORT_PROPERTY
+	} from '$lib/components/kurosearch/sort-filter-config/sortfilter';
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
+	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
+	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
+	import Select from '$lib/components/pure/select/Select.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { clamp } from '$lib/logic/math';
+	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
+	import { SKIP_TIME, videoStore } from '$lib/store/active-video-store';
+	import filter from '$lib/store/filter-store';
 	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
+	import sort from '$lib/store/sort-store';
 	import { onDestroy, onMount } from 'svelte';
-	import LynxMain from './LynxMain.svelte';
-	import {
-		SkipDirection,
-		skipVideo,
-		targetVideo,
-		toggleVideo
-	} from '$lib/store/active-video.svelte';
-	import SearchForm from './SearchForm.svelte';
-	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
+	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -35,18 +43,18 @@
 
 	let nextFocus = $state(0);
 
+	let inputOpen = $state(false);
+
 	const keybinds = (event: KeyboardEvent) => {
 		if (
 			document.activeElement?.tagName === 'INPUT' ||
 			document.activeElement?.tagName === 'TEXTAREA'
 		) {
-			return; // don't interfere with typing
+			return;
 		}
 
 		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
 			const posts = document.getElementsByClassName('post-media');
-
-			console.log(nextFocus + 1, 0, posts.length, ' =>', clamp(nextFocus + 1, 0, posts.length - 1));
 
 			nextFocus = clamp(nextFocus + 1, 0, posts.length - 1);
 			posts[nextFocus].scrollIntoView();
@@ -56,7 +64,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					targetVideo(video);
+					videoStore.target(video);
 				}
 			}, 1);
 		}
@@ -71,7 +79,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					targetVideo(video);
+					videoStore.target(video);
 				}
 			}, 1);
 		}
@@ -79,7 +87,7 @@
 		switch ((event as KeyboardEvent).key) {
 			case ' ':
 			case 'k':
-				if (toggleVideo()) {
+				if (videoStore.toggle()) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -87,7 +95,7 @@
 
 			case 'ArrowLeft':
 			case 'j':
-				if (skipVideo(undefined, SkipDirection.Backward)) {
+				if (videoStore.skip(-SKIP_TIME)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -95,17 +103,12 @@
 
 			case 'ArrowRight':
 			case 'l':
-				if (skipVideo(undefined, SkipDirection.Forward)) {
+				if (videoStore.skip(SKIP_TIME)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 				break;
 		}
-	};
-
-	const onpagejump = async (pid: number) => {
-		await getPage(pid);
-		document.getElementById('result-header')?.scrollIntoView();
 	};
 
 	onMount(async () => {
@@ -122,98 +125,107 @@
 			document.removeEventListener('keydown', keybinds);
 		}
 	});
+
+	const toggleOpen = () => {
+		inputOpen = !inputOpen;
+	};
 </script>
 
 <svelte:head>
 	<title>kurosearch - Rule34 Hentai</title>
-	<meta
-		name="description"
-		content="Simple and powerful Rule34/Hentai browsing site with a focus on simplicity and user experience. Supports excluding tags, sorting and filtering."
-	/>
+	<meta name="description" content="Desktop version for a better experience." />
 </svelte:head>
 
-<LayoutMobile>
-	<LynxMain />
+<HeaderDesktop />
 
-	<SearchForm />
+<section class="search-input">
+	<button
+		type="button"
+		class="codicon codicon-chevron-right"
+		class:open={inputOpen}
+		onclick={toggleOpen}
+		aria-label="Close"
+	>
+	</button>
+	<div>
+		<b>Sorting</b>
+		<div class="row">
+			<RotatingIconSelect bind:value={$sort.direction} options={LABELS_SORT_DIRECTION} />
+			<Select bind:value={$sort.property} options={LABELS_SORT_PROPERTY} />
+		</div>
+	</div>
 
+	<div>
+		<b>Filtering by Score</b>
+		<div class="row">
+			<RotatingTextSelect bind:value={$filter.scoreComparator} options={LABELS_SCORE_COMPARATOR} />
+			<NumberInput bind:value={$filter.scoreValue} min={0} max={10000} step={1} />
+		</div>
+	</div>
+
+	<div>
+		<b>Rating</b>
+		<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
+	</div>
+
+	<TextButton
+		title="Reset sort and filter"
+		type="secondary"
+		onclick={() => {
+			sort.reset();
+			filter.reset();
+		}}
+	>
+		Reset
+	</TextButton>
 	{#if $pageNavigationEnabled}
-		<PageJump onpagechange={onpagejump} />
+		<PageJump onpagechange={getPage} />
 	{/if}
+</section>
 
-	<ResultHeader onsortfilterupdate={getFirstPage} />
+<section class="search-output">
+	<ResultWrapper>
+		<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
+			{#each $results.posts as post (post.id)}
+				<PostDesktop {post} onclick={() => {}} />
+			{/each}
+		</ol>
+	</ResultWrapper>
+</section>
 
-	{#if $results.error}
-		<SearchError error={$results.error} />
-	{:else if $results.requested}
-		<section>
-			{#if $results.postCount === 0}
-				<ZeroResults onsortfilterupdate={getFirstPage} />
-			{:else}
-				<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
-				{#if $results.allPagesRequested}
-					<NoMoreResults />
-				{:else if $pageNavigationEnabled}
-					<PageNavigation
-						onpagechange={(pid) => {
-							getPage(pid);
-							document.getElementById('result-header')?.scrollIntoView();
-						}}
-					/>
-				{:else}
-					<IntersectionDetector
-						absoluteTop={undefined}
-						rootMargin="{1000 / Number($resultColumns)}px"
-						onintersection={getNextPage}
-					/>
-					<TextButton title="Load more posts" onclick={getNextPage}>
-						{#if $results.loading}
-							<LoadingAnimation />
-						{:else}
-							Load more
-						{/if}
-					</TextButton>
-				{/if}
-			{/if}
-		</section>
-		<ScrollUpButton />
-	{/if}
-
-	{#if $results.loading}
-		<div></div>
-	{/if}
-</LayoutMobile>
+{#if $results.loading}
+	<div class="loading-panel"></div>
+{/if}
 
 <style>
-	:global(main) {
+	.search-input {
+		grid-area: sidebar;
+		align-self: start;
 		display: flex;
 		flex-direction: column;
 		gap: var(--grid-gap);
+		max-width: 100px;
+		transition: max-width var(--default-transition-behaviour);
 	}
 
-	section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.search-input.open {
+		max-width: 100vw;
+	}
+
+	.search-output {
+		grid-area: main;
+		flex-grow: 1;
+		overflow-y: scroll;
+		height: 100%;
+		/* contain: strict; */
+	}
+
+	ol {
+		display: grid;
 		gap: var(--grid-gap);
-	}
-
-	@keyframes sweep {
-		0% {
-			background: var(--background-1);
-		}
-		50% {
-			background: var(--background-2);
-		}
-		100% {
-			background: var(--background-1);
-		}
-	}
-
-	div {
-		contain: strict;
-		height: 100vh;
-		border-radius: var(--border-radius-large);
-		animation: sweep ease-in-out 3s infinite;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-auto-rows: 10vw;
+		border-radius: var(--border-radius);
+		margin-bottom: var(--grid-gap);
 	}
 </style>

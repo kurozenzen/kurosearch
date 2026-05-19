@@ -93,7 +93,6 @@
 	}
 
 	button {
-		background-color: unset;
 		justify-self: end;
 	}
 

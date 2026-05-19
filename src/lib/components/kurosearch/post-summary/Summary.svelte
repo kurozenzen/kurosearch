@@ -73,7 +73,6 @@
 		display: inline-flex;
 		gap: var(--tiny-gap);
 		align-items: center;
-		background-color: unset;
 		background-color: var(--background-2);
 		padding: var(--small-gap);
 		border-radius: var(--border-radius);

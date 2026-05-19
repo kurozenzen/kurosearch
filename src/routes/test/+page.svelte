@@ -15,7 +15,7 @@
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import DiscordLink from '$lib/components/kurosearch/link-discord/DiscordLink.svelte';
 	import AccountLink from '$lib/components/kurosearch/link-account/AccountLink.svelte';
-	import SettingsLink from '$lib/components/kurosearch/settings-link/SettingsLink.svelte';
+	import SettingsLink from '$lib/components/kurosearch/header/LinkSettings.svelte';
 	import defaultUserSrc from '$lib/assets/default-user.png';
 	import { resolve } from '$app/paths';
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';

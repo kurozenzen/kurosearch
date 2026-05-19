@@ -5,7 +5,7 @@
 	import { isImage } from '$lib/logic/media-utils';
 	import { calculateAspectRatio } from './ratio';
 
-		const maxRatio = 1 / 3;
+	const maxRatio = 1 / 3;
 	const rowsPerSquare = 5;
 
 	interface Props {
@@ -16,7 +16,9 @@
 	let { post, onclick }: Props = $props();
 
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
-	let rows = $derived(Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2));
+	let rows = $derived(
+		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
+	);
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
 </script>
 
@@ -60,7 +62,6 @@
 		justify-content: space-between;
 		background-color: var(--background-1);
 		border-radius: 5px;
-		contain: content;
 	}
 
 	.score {

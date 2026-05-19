@@ -9,6 +9,7 @@
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
 	import { nextModifier } from '$lib/logic/modifier-utils';
+	import { getFirstPage } from '$lib/logic/search';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
@@ -18,14 +19,8 @@
 	import userId from '$lib/store/user-id-store';
 	import { onDestroy, onMount } from 'svelte';
 
-	interface Props {
-		loading: boolean;
-		onsubmit: () => void;
-	}
-
-	let { loading, onsubmit }: Props = $props();
-
-	let createSupertagDialog: HTMLDialogElement = $state(undefined);
+	// svelte-ignore non_reactive_update
+	let createSupertagDialog: HTMLDialogElement;
 
 	const fetchSuggestions = async (term: string) => {
 		const matchingTags = await getTagSuggestions(term);
@@ -53,7 +48,7 @@
 		if (event.ctrlKey && event.key === 'Enter') {
 			event.preventDefault();
 			event.stopPropagation();
-			onsubmit();
+			getFirstPage();
 		}
 
 		if (event.ctrlKey && event.key === 'm') {
@@ -101,8 +96,8 @@
 			}
 		}}
 	/>
-	<TextButton id="btn-search" title="Search with the tags above" onclick={onsubmit}>
-		{#if loading}
+	<TextButton id="btn-search" title="Search with the tags above" onclick={getFirstPage}>
+		{#if $results.loading}
 			<LoadingAnimation />
 		{:else}
 			Search

@@ -17,7 +17,6 @@
 
 <style>
 	button {
-		background-color: unset;
 		color: var(--text);
 		width: var(--line-height);
 		height: var(--line-height);

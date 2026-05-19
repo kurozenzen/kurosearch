@@ -2,13 +2,15 @@ import { PAGE_SIZE } from '$lib/logic/api-client/ApiClient';
 import { semiPersistentWritable } from './semi-persistent-store';
 import { StoreKey } from './store-keys';
 
-type ResultsStore = {
+export type ResultsStore = {
 	posts: kurosearch.Post[];
 	pageCount: number;
 	ids: Set<number>;
 	postCount: number;
 	requested: boolean;
 	allPagesRequested: boolean;
+	loading: boolean;
+	error: Error | undefined;
 };
 
 const getInitialResults = (): ResultsStore => ({
@@ -17,7 +19,9 @@ const getInitialResults = (): ResultsStore => ({
 	ids: new Set(),
 	postCount: 0,
 	requested: false,
-	allPagesRequested: false
+	allPagesRequested: false,
+	loading: false,
+	error: undefined
 });
 
 const serializer = (value: ResultsStore) =>
@@ -38,7 +42,9 @@ const parser = (value: string): ResultsStore => {
 		ids: new Set(parsed.ids),
 		postCount: parsed.postCount,
 		requested: parsed.requested,
-		allPagesRequested: parsed.allPagesRequested ?? false
+		allPagesRequested: parsed.allPagesRequested ?? false,
+		loading: false,
+		error: undefined
 	};
 };
 
@@ -64,7 +70,9 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: count ?? previous.postCount,
 					requested: true,
-					allPagesRequested: newPosts.length < PAGE_SIZE
+					allPagesRequested: newPosts.length < PAGE_SIZE,
+					loading: false,
+					error: undefined
 				};
 			});
 		},
@@ -78,7 +86,9 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: previous.postCount,
 					requested: true,
-					allPagesRequested: page.length < PAGE_SIZE
+					allPagesRequested: page.length < PAGE_SIZE,
+					loading: false,
+					error: undefined
 				};
 			});
 		},
@@ -92,7 +102,9 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: previous.postCount,
 					requested: false,
-					allPagesRequested: false
+					allPagesRequested: false,
+					loading: false,
+					error: undefined
 				};
 			});
 		},

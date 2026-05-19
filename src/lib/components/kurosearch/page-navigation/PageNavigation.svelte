@@ -19,7 +19,7 @@
 	let lastPid = $derived(Math.min(totalPages - 1, 9999));
 </script>
 
-<div>
+<nav aria-label="Result page navigation">
 	{#if prevPid > firstPid}
 		<PageButton pid={0} onclick={() => onpagechange(0)} />
 	{/if}
@@ -41,11 +41,11 @@
 	{#if nextPid < lastPid}
 		<PageButton pid={lastPid} onclick={() => onpagechange(lastPid)} />
 	{/if}
-</div>
+</nav>
 <PageJump {onpagechange} />
 
 <style>
-	div {
+	nav {
 		display: flex;
 		gap: 0.5rem;
 		align-items: center;
