@@ -9,14 +9,28 @@
 	import QuickSearchList from './QuickSearchList.svelte';
 
 	// Categories
-	import tentacleIcon from '$lib/assets/categories/tentacle.png';
-	import futanariIcon from '$lib/assets/categories/futanari.png';
-	import paizuriIcon from '$lib/assets/categories/paizuri.png';
-	import ahegaoIcon from '$lib/assets/categories/ahegao.png';
-	import creampieIcon from '$lib/assets/categories/creampie.png';
-	import analIcon from '$lib/assets/categories/anal.png';
-	import blackedIcon from '$lib/assets/categories/blacked.png';
-	import blowjobIcon from '$lib/assets/categories/blowjob.png';
+	import ahegao from '$lib/assets/categories/ahegao.png';
+	import anal from '$lib/assets/categories/anal.png';
+	import anthro from '$lib/assets/categories/anthro.png';
+	import blacked from '$lib/assets/categories/blacked.png';
+	import blowjob from '$lib/assets/categories/blowjob.png';
+	import cock_worship from '$lib/assets/categories/cock_worship.png';
+	import creampie from '$lib/assets/categories/creampie.png';
+	import feet from '$lib/assets/categories/feet.jpeg';
+	import femboy from '$lib/assets/categories/femboy.png';
+	import femdom from '$lib/assets/categories/femdom.png';
+	import footjob from '$lib/assets/categories/footjob.jpg';
+	import furry from '$lib/assets/categories/furry.jpg';
+	import futanari from '$lib/assets/categories/futanari.png';
+	import incest from '$lib/assets/categories/incest.png';
+	import milf from '$lib/assets/categories/milf.png';
+	import paizuri from '$lib/assets/categories/paizuri.png';
+	import pov from '$lib/assets/categories/pov.png';
+	import rimming from '$lib/assets/categories/rimming.png';
+	import romantic from '$lib/assets/categories/romantic.png';
+	import succubus from '$lib/assets/categories/succubus.png';
+	import tentacle from '$lib/assets/categories/tentacle.png';
+	import wholesome from '$lib/assets/categories/wholesome.png';
 
 	// Franchises
 	import leagueOfLegendsIcon from '$lib/assets/franchises/league_of_legends.png';
@@ -89,30 +103,35 @@
 	] as TagData[]);
 
 	const categories = Object.freeze([
-		{ name: 'Femboy', tags: [{ name: 'femboy', modifier: '+' }], icon: '' },
-		{ name: 'Wholesome', tags: [{ name: 'wholesome', modifier: '+' }], icon: '' },
-		{ name: 'Romantic', tags: [{ name: 'romantic', modifier: '+' }], icon: '' },
-		{ name: 'Femdom', tags: [{ name: 'femdom', modifier: '+' }], icon: '' },
-		{ name: 'Furry', tags: [{ name: 'furry', modifier: '+' }], icon: '' },
-		{ name: 'Anthro', tags: [{ name: 'anthro', modifier: '+' }], icon: '' },
-		{ name: 'Tentacle', tags: [{ name: 'tentacle', modifier: '+' }], icon: tentacleIcon },
-		{ name: 'Pov', tags: [{ name: 'pov', modifier: '+' }], icon: '' },
-		{ name: 'Incest', tags: [{ name: 'incest', modifier: '+' }], icon: '' },
-		{ name: 'Succubus', tags: [{ name: 'succubus', modifier: '+' }], icon: '' },
-		{ name: 'Milf', tags: [{ name: 'milf', modifier: '+' }], icon: '' },
-		{ name: 'Paizuri', tags: [{ name: 'paizuri', modifier: '+' }], icon: paizuriIcon },
-		{ name: 'Ahegao', tags: [{ name: 'ahegao', modifier: '+' }], icon: ahegaoIcon },
-		{ name: 'Creampie', tags: [{ name: 'creampie', modifier: '+' }], icon: creampieIcon },
-		{ name: 'Rimming', tags: [{ name: 'rimming', modifier: '+' }], icon: '' },
-		{ name: 'Cock Worship', tags: [{ name: 'cock_worship', modifier: '+' }], icon: '' },
-		{ name: 'Anal', tags: [{ name: 'anal', modifier: '+' }], icon: analIcon },
-		{ name: 'Blowjob', tags: [{ name: 'blowjob', modifier: '+' }], icon: blowjobIcon },
+		{ name: 'Femboy', tags: [{ name: 'femboy', modifier: '+' }], icon: femboy },
+		{ name: 'Wholesome', tags: [{ name: 'wholesome', modifier: '+' }], icon: wholesome },
+		{ name: 'Romantic', tags: [{ name: 'romantic', modifier: '+' }], icon: romantic },
+		{ name: 'Femdom', tags: [{ name: 'femdom', modifier: '+' }], icon: femdom },
+		{ name: 'Furry', tags: [{ name: 'furry', modifier: '+' }], icon: furry },
+		{ name: 'Anthro', tags: [{ name: 'anthro', modifier: '+' }], icon: anthro },
+		{ name: 'Tentacle', tags: [{ name: 'tentacle', modifier: '+' }], icon: tentacle },
+		{ name: 'Pov', tags: [{ name: 'pov', modifier: '+' }], icon: pov },
+		{ name: 'Incest', tags: [{ name: 'incest', modifier: '+' }], icon: incest },
+		{ name: 'Succubus', tags: [{ name: 'succubus', modifier: '+' }], icon: succubus },
+		{ name: 'Milf', tags: [{ name: 'milf', modifier: '+' }], icon: milf },
+		{ name: 'Paizuri', tags: [{ name: 'paizuri', modifier: '+' }], icon: paizuri },
+		{ name: 'Ahegao', tags: [{ name: 'ahegao', modifier: '+' }], icon: ahegao },
+		{ name: 'Creampie', tags: [{ name: 'creampie', modifier: '+' }], icon: creampie },
+		{ name: 'Rimming', tags: [{ name: 'rimming', modifier: '+' }], icon: rimming },
+		{ name: 'Cock Worship', tags: [{ name: 'cock_worship', modifier: '+' }], icon: cock_worship },
+		{ name: 'Anal', tags: [{ name: 'anal', modifier: '+' }], icon: anal },
+		{ name: 'Blowjob', tags: [{ name: 'blowjob', modifier: '+' }], icon: blowjob },
+		{ name: 'Dark Skin', tags: [{ name: 'dark_skin', modifier: '+' }], icon: '' },
 		{ name: 'Footjob', tags: [{ name: 'footjob', modifier: '+' }], icon: '' },
+		{ name: 'Tattoo', tags: [{ name: 'tattoo', modifier: '+' }], icon: '' },
+		{ name: 'Double Penetration', tags: [{ name: 'double penetration', modifier: '+' }], icon: '' },
 		{ name: 'Feet', tags: [{ name: 'feet', modifier: '+' }], icon: '' },
 		{ name: 'Zoophilia', tags: [{ name: 'zoophilia', modifier: '+' }], icon: '' },
 		{ name: 'Watersports', tags: [{ name: 'watersports', modifier: '+' }], icon: '' },
 		{ name: 'Rape', tags: [{ name: 'rape', modifier: '+' }], icon: '' },
-		{ name: 'Armpit', tags: [{ name: 'armpit', modifier: '+' }], icon: '' }
+		{ name: 'Armpit', tags: [{ name: 'armpit', modifier: '+' }], icon: '' },
+		{ name: 'Gangbang', tags: [{ name: 'gangbang', modifier: '+' }], icon: '' },
+		{ name: 'Prolapse', tags: [{ name: 'prolapse', modifier: '+' }], icon: '' }
 	] as TagData[]);
 
 	const franchises = Object.freeze([
@@ -156,8 +175,8 @@
 			icon: ''
 		},
 		{ name: 'Straight', tags: [{ name: 'straight', modifier: '+' }], icon: '' },
-		{ name: 'Blacked', tags: [{ name: 'blacked', modifier: '+' }], icon: blackedIcon },
-		{ name: 'Futanari', tags: [{ name: 'futanari', modifier: '+' }], icon: futanariIcon },
+		{ name: 'Blacked', tags: [{ name: 'blacked', modifier: '+' }], icon: blacked },
+		{ name: 'Futanari', tags: [{ name: 'futanari', modifier: '+' }], icon: futanari },
 		{ name: 'Futa x Male', tags: [{ name: 'futa_on_male', modifier: '+' }], icon: '' }
 	] as TagData[]);
 
