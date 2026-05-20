@@ -1,9 +1,11 @@
 <script lang="ts">
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import results from '$lib/store/results-store';
 	import { onDestroy, onMount } from 'svelte';
 	import Screen from './Screen.svelte';
+
 
 	interface Props {
 		index: number;
@@ -52,6 +54,19 @@
 		}
 	};
 
+	let preloadUrls = $derived.by(() => {
+		const posts = $results.posts;
+		const hi = $highResolutionEnabled;
+		const urls: string[] = [];
+		for (let i = Math.max(0, desiredIndex - 1); i <= Math.min(posts.length - 1, desiredIndex + 2); i++) {
+			const post = posts[i];
+			if (post.type === 'video') continue;
+			urls.push(hi ? post.file_url : post.sample_url);
+			urls.push(post.preview_url);
+		}
+		return urls.filter(Boolean);
+	});
+
 	onMount(() => {
 		container.scrollTop = desiredIndex * window.innerHeight;
 		document.addEventListener('keydown', keybinds);
@@ -65,6 +80,12 @@
 	{@html message}
 </p> -->
 
+<div class="preload" aria-hidden="true">
+	{#each preloadUrls as url (url)}
+		<img src={url} alt="" />
+	{/each}
+</div>
+
 <div class="root screen snap-container" bind:this={container} {onscroll}>
 	<Screen offset={0} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
 	<Screen offset={1} step={3} index={desiredIndex} onended={autoscroll} {startAt} />
@@ -77,6 +98,17 @@
 </div>
 
 <style>
+	.preload {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: -1;
+	}
+
 	.root {
 		position: relative;
 		overflow-y: scroll;
