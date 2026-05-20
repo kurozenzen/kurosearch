@@ -17,28 +17,28 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sentry/sveltekit": "10.40.0",
-		"firebase": "12.9.0"
+		"@sentry/sveltekit": "10.53.1",
+		"firebase": "12.13.0"
 	},
 	"devDependencies": {
-		"@playwright/test": "1.58.2",
+		"@playwright/test": "1.60.0",
 		"@sveltejs/adapter-static": "3.0.10",
-		"@sveltejs/kit": "2.53.3",
+		"@sveltejs/kit": "2.60.1",
 		"@testing-library/svelte": "5.3.1",
-		"@typescript-eslint/eslint-plugin": "8.56.1",
-		"@typescript-eslint/parser": "8.56.1",
-		"eslint": "10.0.2",
+		"@typescript-eslint/eslint-plugin": "8.59.4",
+		"@typescript-eslint/parser": "8.59.4",
+		"eslint": "10.4.0",
 		"eslint-config-prettier": "10.1.8",
-		"eslint-plugin-svelte": "3.15.0",
-		"globals": "17.3.0",
-		"jsdom": "28.1.0",
-		"prettier": "3.8.1",
-		"prettier-plugin-svelte": "3.5.0",
-		"svelte": "5.53.5",
-		"svelte-check": "4.4.4",
+		"eslint-plugin-svelte": "3.17.1",
+		"globals": "17.6.0",
+		"jsdom": "29.1.1",
+		"prettier": "3.8.3",
+		"prettier-plugin-svelte": "3.5.2",
+		"svelte": "5.55.9",
+		"svelte-check": "4.4.8",
 		"tslib": "2.8.1",
-		"typescript": "5.9.3",
-		"vite": "7.3.1",
-		"vitest": "4.0.18"
+		"typescript": "6.0.3",
+		"vite": "8.0.13",
+		"vitest": "4.1.7"
 	}
 }
