@@ -19,8 +19,7 @@
 
 <IconButton
 	id="volume-button"
-	class={props.class}
-	variant="half-background"
+	class="mixin-shade {props.class}"
 	onclick={() => {
 		isVolumeVisible = !isVolumeVisible;
 	}}

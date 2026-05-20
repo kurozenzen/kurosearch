@@ -39,7 +39,7 @@
 	{#if loading}
 		<LoadingAnimation />
 	{/if}
-	<IconButton variant="half-background" onclick={ondetails} class="details-button">
+	<IconButton onclick={ondetails} class="mixin-shade details-button">
 		<i class="codicon codicon-tag"></i>
 	</IconButton>
 </div>

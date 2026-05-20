@@ -19,4 +19,4 @@
 	};
 </script>
 
-<IconButton {id} onclick={rotate} variant="with-background">{text}</IconButton>
+<IconButton {id} onclick={rotate} class="primary">{text}</IconButton>

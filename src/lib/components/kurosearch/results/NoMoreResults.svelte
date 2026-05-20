@@ -11,8 +11,8 @@
 	<p>You have seen everything there is to see...</p>
 	<div>
 		<TextButton
-			type="secondary"
 			title="Scroll back up."
+			class="mixin-secondary"
 			onclick={() => {
 				window.scrollTo({ top: 0 });
 			}}
@@ -20,8 +20,8 @@
 			Back to Top
 		</TextButton>
 		<TextButton
-			type="secondary"
 			title="Reset tags."
+			class="mixin-secondary"
 			onclick={() => {
 				activeTagsStore.reset();
 				activeSupertagsStore.reset();

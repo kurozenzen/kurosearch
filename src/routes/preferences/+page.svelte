@@ -101,12 +101,12 @@
 	>
 		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>Save</Checkbox>
 		<div class="button-row">
-			<TextButton title="Reset Posts" type="secondary" onclick={() => resultsStore.reset()}>
+			<TextButton title="Reset Posts" class="mixin-secondary" onclick={() => resultsStore.reset()}>
 				Reset Posts
 			</TextButton>
 			<TextButton
 				title="Reset Tags"
-				type="secondary"
+				class="mixin-secondary"
 				onclick={() => {
 					activeTagsStore.reset();
 					activeSupertagsStore.reset();
@@ -205,6 +205,7 @@
 	>
 		<TextButton
 			title="Reset preferences"
+			class="mixin-accent"
 			onclick={() => {
 				resetDialog.showModal();
 				addHistory('dialog');

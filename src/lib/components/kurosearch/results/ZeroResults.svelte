@@ -112,8 +112,8 @@
 	{/if}
 	<div>
 		<TextButton
-			type="secondary"
 			title="In case your filter caused all posts to vanish. Reset it."
+			class="mixin-secondary"
 			onclick={() => {
 				sort.reset();
 				filter.reset();
@@ -123,8 +123,8 @@
 			Reset Filter
 		</TextButton>
 		<TextButton
-			type="secondary"
 			title="Tag combinations that are too specific will not yield results."
+			class="mixin-secondary"
 			onclick={() => {
 				activeTagsStore.reset();
 				activeSupertagsStore.reset();

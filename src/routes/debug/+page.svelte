@@ -69,7 +69,7 @@
 			Cycle through API servers.<br />
 			Currently using API {currentApi}.
 		</p>
-		<TextButton onclick={nextApi} title="Next API server">Next</TextButton>
+		<TextButton onclick={nextApi} class="mixin-accent" title="Next API server">Next</TextButton>
 	</section>
 </PageGeneric>
 

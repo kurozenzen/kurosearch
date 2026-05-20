@@ -33,7 +33,7 @@
 </script>
 
 <div class="details">
-	<IconButton onclick={onreturn} class="fs-button-return">
+	<IconButton onclick={onreturn} class="mixin-invisible fs-button-return">
 		<i class="codicon codicon-chevron-left"></i>
 	</IconButton>
 	<img class="preview" src={post.sample_url} alt="preview" />

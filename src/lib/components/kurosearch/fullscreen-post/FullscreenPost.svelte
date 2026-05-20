@@ -44,7 +44,7 @@
 
 <Fullscreen onclose={() => onclose(index)}>
 	<FullscreenScroller bind:index {onendreached} {startAt} />
-	<IconButton class="button-close" onclick={() => onclose(index)}>
+	<IconButton class="mixin-invisible button-close" onclick={() => onclose(index)}>
 		<i class="codicon codicon-close"></i>
 	</IconButton>
 </Fullscreen>

@@ -76,6 +76,7 @@
 
 <TextButton
 	title="A button"
+	class="mixin-accent"
 	onclick={() => {
 		count++;
 	}}

@@ -28,7 +28,7 @@
 		title=" Page"
 		type="primary"
 		disabled={isNaN(jumpPageNumber) || jumpPageNumber < 1 || jumpPageNumber > totalPages}
-		reducepadding
+		class="mixin-accent jump-button"
 	>
 		Go
 	</TextButton>
@@ -40,5 +40,10 @@
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
+	}
+
+	:global(.jump-button) {
+		height: var(--line-height);
+		padding-inline: 1rem;
 	}
 </style>

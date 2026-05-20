@@ -94,7 +94,9 @@
 	</QuickSearchGroup>
 
 	<QuickSearchGroup name="Skip Tags">
-		<TextButton onclick={() => submit([])} title="No tags, Just Go">Search</TextButton>
+		<TextButton title="No tags, Just Go" class="mixin-accent" onclick={() => submit([])}
+			>Search</TextButton
+		>
 	</QuickSearchGroup>
 </section>
 
@@ -116,14 +118,14 @@
 
 {#if multiSelect}
 	<div id="multi-select-submit">
-		<TextButton onclick={() => submit([])} title="Search">Search</TextButton>
+		<TextButton title="Search" class="mixin-accent" onclick={() => submit([])}>Search</TextButton>
 		<TextButton
+			title="Cancel"
+			class="mixin-secondary"
 			onclick={() => {
 				checkedTags = {};
 				multiSelect = false;
 			}}
-			title="Cancel"
-			type="secondary"
 		>
 			Cancel
 		</TextButton>

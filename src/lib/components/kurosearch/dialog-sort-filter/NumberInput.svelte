@@ -36,14 +36,13 @@
 	bind:value={internalValue}
 	onkeyup={blurOnEnter}
 	aria-label={rest['aria-label']}
+	class="mixin-shape-item"
 />
 
 <style>
 	input[type='number'] {
-		height: var(--line-height);
 		box-sizing: border-box;
 		background-color: transparent;
-		border-radius: var(--border-radius);
 		padding-inline: var(--small-gap);
 		border: 2px solid var(--background-1);
 		width: 90px;

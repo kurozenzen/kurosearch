@@ -80,7 +80,7 @@
 			{/if}
 		{/if}
 		{#if ondetails !== undefined}
-			<IconButton variant="half-background" onclick={ondetails}>
+			<IconButton class="mixin-shade" onclick={ondetails}>
 				<i class="codicon codicon-tag"></i>
 			</IconButton>
 		{/if}

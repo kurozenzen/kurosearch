@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { version } from '$app/environment';
 	import { resolve } from '$app/paths';
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
@@ -40,12 +39,15 @@
 			<img src="/favicon.svg" alt="kuroseach logo" />
 			<h2>kurosearch</h2>
 			<span>
-				Version: {version}{#await getLatestCommit() then commit}
+				Version: {version}
+				{#await getLatestCommit() then commit}
 					, Newest is: {commit?.sha?.substring(0, 7)}
 				{/await}
 			</span>
 		</section>
-		<TextButton title="Force an update of the app" onclick={forceUpdate}>{message}</TextButton>
+		<TextButton title="Force an update of the app" onclick={forceUpdate} class="mixin-accent"
+			>{message}</TextButton
+		>
 	</div>
 
 	<div class="more">

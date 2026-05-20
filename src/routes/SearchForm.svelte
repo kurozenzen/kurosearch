@@ -96,7 +96,12 @@
 			}
 		}}
 	/>
-	<TextButton id="btn-search" title="Search with the tags above" onclick={getFirstPage}>
+	<TextButton
+		id="btn-search"
+		title="Search with the tags above"
+		class="mixin-accent"
+		onclick={getFirstPage}
+	>
 		{#if $results.loading}
 			<LoadingAnimation />
 		{:else}

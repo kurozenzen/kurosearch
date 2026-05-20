@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { FullAutoFill } from 'svelte/elements';
+
 	interface Props {
 		placeholder?: string;
 		value?: string;
-		autocomplete?: string;
+		autocomplete?: FullAutoFill;
 	}
 
 	let { placeholder = '', value = $bindable(), autocomplete = 'off' }: Props = $props();

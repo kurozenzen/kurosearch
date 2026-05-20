@@ -27,6 +27,6 @@
 	p {
 		text-align: left;
 		font-size: var(--text-size-medium);
-		color: var(--text-muted);
+		color: var(--text);
 	}
 </style>

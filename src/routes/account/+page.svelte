@@ -241,21 +241,26 @@
 		description="Load and save preferences and supertags to and from a file."
 	>
 		<div class="button-row">
-			<TextButton type="secondary" title="Save your data to a file." onclick={exportConfig}>
+			<TextButton class="mixin-primary" title="Save your data to a file." onclick={exportConfig}>
 				<span class="codicon codicon-file">Download Config File</span>
 			</TextButton>
 			<TextButton
-				type="secondary"
+				class="mixin-primary"
 				title="Restore your settings from a config file."
 				onclick={importConfig}
 			>
 				<span class="codicon codicon-file">Load Config File</span>
 			</TextButton>
-			<TextButton type="secondary" title="View current settings as JSON." onclick={viewSettings}>
+			<TextButton
+				class="mixin-primary"
+				title="View current settings as JSON."
+				onclick={viewSettings}
+			>
 				<span class="codicon codicon-code">View Settings</span>
 			</TextButton>
 			<TextButton
 				title="Delete all your data."
+				class="mixin-accent"
 				onclick={() => {
 					resetDialog?.showModal();
 					addHistory('dialog');
@@ -281,9 +286,11 @@
 	>
 		<div class="button-row">
 			{#if $firebaseLoggedIn}
-				<TextButton title="Sign out" onclick={disconnectGoogle}>Sign Out</TextButton>
+				<TextButton title="Sign out" class="mixin-primary" onclick={disconnectGoogle}>
+					Sign Out
+				</TextButton>
 				<TextButton
-					type="secondary"
+					class="mixin-primary"
 					title="Load Settings"
 					onclick={() => {
 						resetCloudMessages();
@@ -294,7 +301,7 @@
 					<span class="codicon codicon-cloud-download">Load Settings</span>
 				</TextButton>
 				<TextButton
-					type="secondary"
+					class="mixin-primary"
 					title="Save settings"
 					onclick={() => {
 						resetCloudMessages();
@@ -305,16 +312,16 @@
 					<span class="codicon codicon-cloud-upload">Save Settings</span>
 				</TextButton>
 				<TextButton
-					type="secondary"
+					class="mixin-primary"
 					title="View settings currently stored in Google Drive."
 					onclick={viewStoredSettings}
 				>
 					<span class="codicon codicon-code">View Stored Settings</span>
 				</TextButton>
 			{:else}
-				<TextButton title="Sign in with Google" onclick={connectGoogle}
-					>Login with Google</TextButton
-				>
+				<TextButton title="Sign in with Google" class="mixin-accent" onclick={connectGoogle}>
+					Login with Google
+				</TextButton>
 			{/if}
 		</div>
 
@@ -345,7 +352,7 @@
 	>
 		<div class="button-row">
 			<TextButton
-				type="secondary"
+				class="mixin-primary"
 				title="View settings currently stored in Firebase (legacy, may be empty if you have used Google Drive backup features)."
 				onclick={viewFirebaseBackup}
 				disabled={!$firebaseLoggedIn}

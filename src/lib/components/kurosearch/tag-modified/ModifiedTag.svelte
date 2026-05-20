@@ -13,7 +13,7 @@
 
 <button
 	type="button"
-	class={MODIFIER_NAMES[tag.modifier]}
+	class="mixin-tag-shape mixin-secondary mixin-hover {MODIFIER_NAMES[tag.modifier]}"
 	{onclick}
 	oncontextmenu={(e) => {
 		e.preventDefault();
@@ -28,10 +28,6 @@
 		display: inline-flex;
 		align-items: center;
 		gap: var(--tiny-gap);
-		background-color: var(--background-2);
-		color: var(--text-accent);
-		height: var(--line-height-small);
-		border-radius: var(--line-height-small);
 		font-size: var(--text-size-small);
 		padding-left: 12px;
 		padding-right: 12px;
@@ -44,15 +40,5 @@
 
 	.optional {
 		font-style: italic;
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: background-color var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			background-color: var(--background-3);
-		}
 	}
 </style>

@@ -29,7 +29,7 @@
 	{#if prevPid >= 0}
 		<PageButton pid={prevPid} onclick={() => onpagechange(prevPid)} />
 	{/if}
-	<span>
+	<span class="mixin-shape-box mixin-accent">
 		{pageLabel(currPid)}
 	</span>
 	{#if nextPid <= lastPid}
@@ -58,9 +58,5 @@
 		justify-content: center;
 		padding: 0 0.5rem;
 		min-width: var(--box-height);
-		height: var(--box-height);
-		color: var(--text-accent);
-		background-color: var(--accent);
-		border-radius: var(--border-radius);
 	}
 </style>

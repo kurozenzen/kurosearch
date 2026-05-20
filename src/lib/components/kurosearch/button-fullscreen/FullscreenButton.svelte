@@ -12,40 +12,24 @@
 	title="Enter Fullscreen mode"
 	{onclick}
 	aria-label="Enter Fullscreen mode"
-	class={rest.class}
+	class="mixin-circle mixin-shade mixin-hover {rest.class}"
 >
 	<i class="codicon codicon-screen-full"></i>
 </button>
 
 <style>
 	button {
-		/* Layout */
+		--size: var(--line-height);
+
+		/* Centering */
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-		/* Look */
-		width: var(--line-height);
-		height: var(--line-height);
-		border-radius: var(--border-radius-full);
-		border: none;
-		color: white;
-		background-color: #0008;
 
 		/* Position*/
 		position: absolute;
 		top: var(--small-gap);
 		left: var(--small-gap);
 		z-index: var(--z-media-controls);
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: all var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			background-color: #222;
-		}
 	}
 </style>

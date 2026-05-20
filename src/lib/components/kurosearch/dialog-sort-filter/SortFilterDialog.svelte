@@ -70,8 +70,8 @@
 			<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
 		</div>
 
-		<TextButton title="Return to searching" onclick={oncloseinternal}>Done</TextButton>
-		<TextButton title="Reset sort and filter" type="secondary" onclick={reset}>Reset</TextButton>
+		<TextButton title="Return to searching" class="mixin-accent" onclick={oncloseinternal}>Done</TextButton>
+		<TextButton title="Reset sort and filter" class="mixin-secondary" onclick={reset}>Reset</TextButton>
 	</div>
 </Dialog>
 

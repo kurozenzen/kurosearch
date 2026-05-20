@@ -7,7 +7,7 @@
 	let { options, value = $bindable() }: Props = $props();
 </script>
 
-<select bind:value>
+<select bind:value class="mixin-shape-item mixin-invisible">
 	{#each Object.entries(options) as [value, label]}
 		<option {value}>{label}</option>
 	{/each}
@@ -19,19 +19,12 @@
 		align-items: center;
 		height: var(--line-height);
 		padding-inline: var(--small-gap);
-		color: var(--text);
 		border: 2px solid var(--background-1);
 		border-radius: var(--border-radius);
 	}
 
 	@media (hover: hover) {
-		select {
-			transition: all var(--default-transition-behaviour);
-		}
-
 		select:hover {
-			color: var(--text-highlight);
-			background-color: var(--background-1);
 			border-color: var(--background-2);
 		}
 	}

@@ -33,10 +33,10 @@
 	<div>
 		<Heading3>{title}</Heading3>
 		<span>{warning}</span>
-		<TextButton title="Delete supertag" onclick={confirmAndClose}>
+		<TextButton title="Delete supertag" class="mixin-accent" onclick={confirmAndClose}>
 			{labelConfirm}
 		</TextButton>
-		<TextButton type="secondary" title="Cancel" onclick={() => dialog.close()}>
+		<TextButton title="Cancel" class="mixin-secondary" onclick={() => dialog.close()}>
 			{labelCancel}
 		</TextButton>
 	</div>

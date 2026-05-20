@@ -23,8 +23,7 @@
 
 <IconButton
 	{id}
-	class="{icon} {rest.class}"
+	class="mixin-primary {icon} {rest.class}"
 	onclick={rotate}
 	aria-label={rest['aria-label']}
-	variant="with-background"
 />

@@ -9,7 +9,7 @@
 <div class="group" class:open>
 	<div class="header">
 		<h2>{name}</h2>
-		<IconButton onclick={() => (open = !open)} class="details-button" aria-label="Show/Hide details">
+		<IconButton onclick={() => (open = !open)} class="mixin-invisible details-button" aria-label="Show/Hide details">
 			<i class="codicon codicon-chevron-right"></i>
 		</IconButton>
 	</div>

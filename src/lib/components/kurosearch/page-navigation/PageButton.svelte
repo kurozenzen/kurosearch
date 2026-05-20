@@ -11,7 +11,7 @@
 	let { pid, onclick }: Props = $props();
 </script>
 
-<button {onclick} aria-label="Go to page {pageLabel(pid)}">
+<button {onclick} aria-label="Go to page {pageLabel(pid)}" class="mixin-shape-box mixin-primary mixin-hover">
 	{pageLabel(pid)}
 </button>
 
@@ -22,19 +22,5 @@
 		justify-content: center;
 		padding: 0 0.5rem;
 		min-width: var(--box-height);
-		height: var(--box-height);
-		border-radius: var(--border-radius);
-		color: var(--text);
-		background-color: var(--background-1);
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: background-color var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			background-color: var(--background-2);
-		}
 	}
 </style>

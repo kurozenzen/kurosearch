@@ -60,6 +60,7 @@
 		</ul>
 		<TextButton
 			title="Save changes"
+			class="mixin-accent"
 			onclick={() => {
 				emitEdit();
 				dialog.close();
@@ -67,7 +68,9 @@
 		>
 			Save
 		</TextButton>
-		<TextButton type="secondary" title="Cancel" onclick={() => dialog.close()}>Cancel</TextButton>
+		<TextButton title="Cancel" class="mixin-secondary" onclick={() => dialog.close()}>
+			Cancel
+		</TextButton>
 	</div>
 </Dialog>
 

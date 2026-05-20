@@ -4,6 +4,7 @@
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import { getFilterLabel, getSortLabel } from './sortfilter';
+	import ResultHeaderItem from '../results/ResultHeaderItem.svelte';
 
 	interface Props {
 		onsortfilterupdate: () => void;
@@ -25,8 +26,7 @@
 	let sortLabel = $derived(getSortLabel($sort.property, $sort.direction));
 </script>
 
-<button
-	type="button"
+<ResultHeaderItem
 	onclick={() => {
 		sortFilterBefore = serializeSortFilter($sort, $filter);
 		dialog.showModal();
@@ -38,7 +38,7 @@
 	<span>{filterLabel}</span>
 	<i class="codicon codicon-arrow-swap"></i>
 	<span>{sortLabel}</span>
-</button>
+</ResultHeaderItem>
 
 <SortFilterDialog
 	bind:dialog
@@ -51,14 +51,6 @@
 />
 
 <style>
-	button {
-		display: flex;
-		align-items: center;
-		align-self: stretch;
-		background-color: transparent;
-		color: var(--text);
-	}
-
 	span,
 	i {
 		user-select: none;
@@ -75,17 +67,5 @@
 
 	.codicon-arrow-swap {
 		transform: rotate(90deg);
-	}
-
-	@media (hover: hover) {
-		button {
-			padding-inline: var(--grid-gap);
-			border-radius: var(--border-radius);
-			transition: all var(--default-transition-behaviour);
-		}
-		button:hover {
-			color: var(--text-highlight);
-			background-color: var(--background-1);
-		}
 	}
 </style>

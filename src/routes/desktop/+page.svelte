@@ -173,7 +173,7 @@
 	{@const horizontal = !vertical && !scrollable}
 	<section id="active-post" class:vertical class:scrollable class:horizontal>
 		<IconButton
-			class="button-close"
+			class="button-close mixin-invisible"
 			onclick={() => {
 				activePost = undefined;
 			}}

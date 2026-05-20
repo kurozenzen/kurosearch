@@ -36,6 +36,7 @@
 				bind:value={description}
 				placeholder="Short description"
 				id="supertag-description"
+				class="mixin-shape-item"
 			/>
 		</div>
 
@@ -51,6 +52,7 @@
 			<TextButton
 				title={valid ? 'Click to create supertag' : 'Enter a valid name to continue'}
 				disabled={!valid}
+				class="mixin-accent"
 				onclick={() => {
 					onsubmit({
 						name,
@@ -99,9 +101,7 @@
 		width: 100%;
 		background-color: var(--background-1);
 		border: unset;
-		height: var(--line-height);
 		padding-inline: var(--small-gap);
-		border-radius: var(--border-radius);
 	}
 
 	ol {

@@ -13,7 +13,7 @@
 	let { paused, loading, onclick, ...rest }: Props = $props();
 </script>
 
-<button type="button" {onclick} class={rest.class}>
+<button type="button" {onclick} class="mixin-circle {rest.class}">
 	{#if loading}
 		<img src={loadSrc} alt="Loading GIF" width="16" height="32" />
 	{:else if paused}
@@ -27,9 +27,6 @@
 	button {
 		--size: 48px;
 
-		border-radius: var(--size);
-		width: var(--size);
-		height: var(--size);
 		padding: 6px;
 		padding-top: 8px;
 

@@ -170,7 +170,12 @@
 		<i class="codicon codicon-tag"></i>
 	</button>
 	<SortFilterConfig onsortfilterupdate={getFirstPage} class="sort-filter-desktop" />
-	<button id="btn-search" title="Search with tags" onclick={getFirstPage} class="primary">
+	<button
+		id="btn-search"
+		title="Search with tags"
+		onclick={getFirstPage}
+		class="mixin-circle mixin-accent mixin-hover"
+	>
 		{#if $results.loading}
 			<LoadingAnimation />
 		{:else}
@@ -311,13 +316,10 @@
 	}
 
 	#btn-search {
-		color: white;
-		background-color: var(--accent);
-		text-transform: uppercase;
-		text-align: center;
-		width: var(--line-height-large);
-		height: var(--line-height-large);
-		border-radius: var(--line-height-large);
+		--size: var(--line-height-large);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	#btn-tags,

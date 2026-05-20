@@ -11,19 +11,16 @@
 		children?: Snippet;
 		onclick?: MouseEventHandler<HTMLButtonElement>;
 		'aria-label'?: string;
-		class?: string;
-		variant?: ButtonVariant;
+		class: string;
 	}
 
-	let { id, children, onclick, variant = 'transparent', ...rest }: Props = $props();
+	let { id, children, onclick, ...rest }: Props = $props();
 </script>
 
 <button
 	type="button"
 	{id}
-	class={rest.class}
-	class:background={variant === 'with-background'}
-	class:half-background={variant === 'half-background'}
+	class="mixin-circle mixin-hover {rest.class}"
 	aria-label={rest['aria-label']}
 	onclick={(e) => {
 		e.stopPropagation();
@@ -35,35 +32,12 @@
 
 <style>
 	button {
+		--size: var(--line-height);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--line-height);
-		height: var(--line-height);
-		border-radius: var(--border-radius-full);
 		border: none;
-		color: var(--text);
-		background-color: transparent;
 		font-size: var(--text-size-large);
 		vertical-align: middle;
-	}
-
-	button.background {
-		background-color: var(--background-1);
-	}
-
-	button.half-background {
-		background-color: #0008;
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: all var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			color: var(--text-highlight);
-			background-color: var(--background-2);
-		}
 	}
 </style>

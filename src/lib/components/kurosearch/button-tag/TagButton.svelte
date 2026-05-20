@@ -10,27 +10,14 @@
 	let { title, onclick, children }: Props = $props();
 </script>
 
-<button type="button" {title} {onclick}>
+<button type="button" {title} {onclick} class="mixin-tag-shape mixin-accent mixin-hover">
 	{@render children()}
 </button>
 
 <style>
 	button {
-		width: var(--line-height-small);
-		height: var(--line-height-small);
-		border-radius: var(--border-radius);
+		--size: var(--line-height-small);
+		width: var(--size);
 		padding: var(--tiny-gap);
-		background-color: var(--accent);
-		color: var(--text-accent);
-	}
-
-	@media (hover: hover) {
-		button {
-			transition: background-color var(--default-transition-behaviour);
-		}
-
-		button:hover {
-			background-color: var(--accent-light);
-		}
 	}
 </style>

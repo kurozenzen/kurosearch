@@ -166,7 +166,7 @@
 						rootMargin="{1000 / Number($resultColumns)}px"
 						onintersection={getNextPage}
 					/>
-					<TextButton title="Load more posts" onclick={getNextPage}>
+					<TextButton title="Load more posts" class="mixin-accent" onclick={getNextPage}>
 						{#if $results.loading}
 							<LoadingAnimation />
 						{:else}
