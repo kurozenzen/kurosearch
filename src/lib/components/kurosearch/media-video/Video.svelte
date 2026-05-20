@@ -12,6 +12,7 @@
 		height: number;
 		loop?: boolean;
 		class?: string;
+		restrict?: 'width' | 'height';
 		onfullscreen?: (currentTime?: number) => void;
 	}
 
@@ -66,8 +67,8 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	{@attach screenintersection(0, onIntersectionChange)}
-	class="post-media {rest.class}"
-	style="aspect-ratio:{width}/{height}"
+	class={rest.class}
+	style:aspect-ratio="{width}/{height}"
 	{onclick}
 >
 	{#if displayVideo}
@@ -93,8 +94,10 @@
 			}}
 			ondblclick={skip}
 			preload="metadata"
-			style="aspect-ratio: {width} / {height}"
+			style:aspect-ratio="{width} / {height}"
 			volume={getVolume()}
+			class:restrict-height={rest.restrict === 'height'}
+			class:restrict-width={rest.restrict !== 'height'}
 			{onclick}
 		></video>
 		<PostOverlay
@@ -114,19 +117,24 @@
 <style>
 	div {
 		width: 100%;
+		height: 100%;
 		position: relative;
 		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr auto 1fr;
+		place-items: center;
 		z-index: var(--z-media);
 	}
 
 	video {
-		width: 100%;
-		grid-column: 1;
-		grid-row: 1 / span 3;
 		contain: strict;
 		object-fit: contain;
+	}
+
+	.restrict-width {
+		width: 100%;
+	}
+
+	.restrict-height {
+		height: 100%;
 	}
 
 	@container (min-width: 800px) {

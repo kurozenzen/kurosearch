@@ -1,12 +1,5 @@
 body {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	grid-template-rows: auto 1fr;
-	grid-template-areas:
-		'header header'
-		'sidebar main';
+	display: flex;
+	flex-direction: column;
 	gap: var(--grid-gap);
-
-	height: 100vh;
-	overflow: hidden;
 }

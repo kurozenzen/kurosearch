@@ -17,6 +17,7 @@
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
+	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 
 	let searchTerm = $state('');
 	let previousSearchTerm = $state('');
@@ -137,7 +138,7 @@
 	class:open={focusInside && (hasDropdownContent || showActiveTags)}
 	onblur={close}
 >
-	<ModifierSelect bind:modifier />
+	<ModifierSelect bind:modifier class="modifier-select-desktop" />
 	<input
 		type="text"
 		name="searchbar"
@@ -150,12 +151,6 @@
 		onkeydown={handleKeyDown}
 		onkeyup={search}
 		aria-label="Search for tags."
-	/>
-
-	<CodiconLink
-		title="More information on tags."
-		href="{resolve('/help')}#search"
-		icon="codicon codicon-question"
 	/>
 	<button
 		id="btn-tags"
@@ -174,11 +169,12 @@
 		{/if}
 		<i class="codicon codicon-tag"></i>
 	</button>
+	<SortFilterConfig onsortfilterupdate={getFirstPage} class="sort-filter-desktop" />
 	<button id="btn-search" title="Search with tags" onclick={getFirstPage} class="primary">
 		{#if $results.loading}
 			<LoadingAnimation />
 		{:else}
-			Search
+			<i class="codicon codicon-search"></i>
 		{/if}
 	</button>
 	<ol class:open={focusInside && hasDropdownContent && !showActiveTags}>
@@ -237,15 +233,13 @@
 		align-items: center;
 		height: var(--line-height-large);
 		background-color: var(--background-1);
-		padding-inline: calc((var(--line-height-large) - 32px) / 2);
-		border-radius: calc(var(--line-height-large) / 2);
+		border-radius: var(--line-height-large);
 		width: 100%;
 		max-width: 512px;
 		margin: 0 auto;
 		position: relative;
 		isolation: isolate;
 		z-index: var(--z-searchbar);
-		gap: 8px;
 
 		input {
 			font-size: var(--text-size);
@@ -313,7 +307,7 @@
 		align-items: center;
 		gap: 4px;
 		color: var(--text);
-		background-color: var(--background-2);
+		height: 100%;
 	}
 
 	#btn-search {
@@ -321,13 +315,14 @@
 		background-color: var(--accent);
 		text-transform: uppercase;
 		text-align: center;
+		width: var(--line-height-large);
+		height: var(--line-height-large);
+		border-radius: var(--line-height-large);
 	}
 
 	#btn-tags,
 	#btn-search {
-		height: var(--line-height);
-		padding-inline: var(--grid-gap);
-		border-radius: 22px;
+		padding-inline: 8px;
 		transition: all var(--default-transition-behaviour);
 	}
 
@@ -337,7 +332,24 @@
 		}
 
 		#btn-tags:hover {
-			background-color: var(--background-3);
+			background-color: var(--background-2);
+			color: var(--text-highlight);
 		}
+	}
+
+	:global(button.modifier-select-desktop) {
+		width: var(--line-height-large);
+		height: 100%;
+		border-radius: 0;
+		border-radius: var(--line-height-large);
+	}
+
+	:global(button.sort-filter-desktop) {
+		padding-inline: 8px;
+		border-radius: 0;
+	}
+
+	:global(button.sort-filter-desktop):hover {
+		background-color: var(--background-2);
 	}
 </style>

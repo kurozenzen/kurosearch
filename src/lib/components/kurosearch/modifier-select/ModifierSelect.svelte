@@ -4,9 +4,10 @@
 
 	interface Props {
 		modifier: kurosearch.TagModifier;
+		class?: string;
 	}
 
-	let { modifier = $bindable() }: Props = $props();
+	let { modifier = $bindable(), ...rest }: Props = $props();
 </script>
 
 <RotatingIconSelect
@@ -14,4 +15,5 @@
 	bind:value={modifier}
 	options={MODIFIERS_ICONS}
 	aria-label="TagModifier Selector. Current value {modifier}."
+	class={rest.class}
 />

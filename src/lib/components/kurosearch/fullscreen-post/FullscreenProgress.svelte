@@ -28,7 +28,7 @@
 		step="0.001"
 		min="0"
 		{max}
-		style="{`background-image: linear-gradient(90deg, var(--accent) ${percent}%, var(--background-2) ${percent}%);`}}"
+		style:background-image="linear-gradient(90deg, var(--accent) {percent}%, var(--background-2) {percent}%)"
 		onscroll={(e) => {
 			e.stopPropagation();
 			e.preventDefault();

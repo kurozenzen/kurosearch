@@ -6,6 +6,7 @@
 		options: Record<string, string>;
 		value: string;
 		'aria-label'?: string;
+		class?: string;
 	}
 
 	let { id, options, value = $bindable(), ...rest }: Props = $props();
@@ -22,7 +23,7 @@
 
 <IconButton
 	{id}
-	class={icon}
+	class="{icon} {rest.class}"
 	onclick={rotate}
 	aria-label={rest['aria-label']}
 	variant="with-background"

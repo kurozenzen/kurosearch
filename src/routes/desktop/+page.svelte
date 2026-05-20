@@ -2,38 +2,31 @@
 	// Header
 	// Body
 	import { browser } from '$app/environment';
-	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
-	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
 	import HeaderDesktop from '$lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
-	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
-	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
-	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
-	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
-	import {
-		LABELS_RATING,
-		LABELS_SCORE_COMPARATOR,
-		LABELS_SORT_DIRECTION,
-		LABELS_SORT_PROPERTY
-	} from '$lib/components/kurosearch/sort-filter-config/sortfilter';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
-	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
-	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
-	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { clamp } from '$lib/logic/math';
-	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
+	import { getFirstPage } from '$lib/logic/search';
 	import { SKIP_TIME, videoStore } from '$lib/store/active-video-store';
-	import filter from '$lib/store/filter-store';
-	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
-	import sort from '$lib/store/sort-store';
 	import { onDestroy, onMount } from 'svelte';
 	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
+	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
+	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import alwaysLoop from '$lib/store/always-loop-store';
+	import Screen from '$lib/components/kurosearch/fullscreen-post/Screen.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import FullscreenDetails from '$lib/components/kurosearch/fullscreen-post/FullscreenDetails.svelte';
+	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
+	import Score from '$lib/components/kurosearch/score/Score.svelte';
+	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
+	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
+	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
+	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
+	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
+	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
+	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
+	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -42,8 +35,22 @@
 	);
 
 	let nextFocus = $state(0);
+	let activePost = $state<kurosearch.Post | undefined>(undefined);
 
-	let inputOpen = $state(false);
+	let tagsByType = $derived(
+		(activePost?.tags || []).reduce(
+			(result, tag) => {
+				if (result[tag.type] === undefined) {
+					result[tag.type] = [];
+				}
+
+				result[tag.type].push(tag);
+
+				return result;
+			},
+			{} as Record<string, kurosearch.Tag[]>
+		)
+	);
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (
@@ -108,6 +115,12 @@
 					event.stopPropagation();
 				}
 				break;
+
+			case 'Escape':
+				event.preventDefault();
+				event.stopPropagation();
+				activePost = undefined;
+				break;
 		}
 	};
 
@@ -125,10 +138,6 @@
 			document.removeEventListener('keydown', keybinds);
 		}
 	});
-
-	const toggleOpen = () => {
-		inputOpen = !inputOpen;
-	};
 </script>
 
 <svelte:head>
@@ -138,56 +147,16 @@
 
 <HeaderDesktop />
 
-<section class="search-input">
-	<button
-		type="button"
-		class="codicon codicon-chevron-right"
-		class:open={inputOpen}
-		onclick={toggleOpen}
-		aria-label="Close"
-	>
-	</button>
-	<div>
-		<b>Sorting</b>
-		<div class="row">
-			<RotatingIconSelect bind:value={$sort.direction} options={LABELS_SORT_DIRECTION} />
-			<Select bind:value={$sort.property} options={LABELS_SORT_PROPERTY} />
-		</div>
-	</div>
-
-	<div>
-		<b>Filtering by Score</b>
-		<div class="row">
-			<RotatingTextSelect bind:value={$filter.scoreComparator} options={LABELS_SCORE_COMPARATOR} />
-			<NumberInput bind:value={$filter.scoreValue} min={0} max={10000} step={1} />
-		</div>
-	</div>
-
-	<div>
-		<b>Rating</b>
-		<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
-	</div>
-
-	<TextButton
-		title="Reset sort and filter"
-		type="secondary"
-		onclick={() => {
-			sort.reset();
-			filter.reset();
-		}}
-	>
-		Reset
-	</TextButton>
-	{#if $pageNavigationEnabled}
-		<PageJump onpagechange={getPage} />
-	{/if}
-</section>
-
 <section class="search-output">
 	<ResultWrapper>
 		<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
 			{#each $results.posts as post (post.id)}
-				<PostDesktop {post} onclick={() => {}} />
+				<PostDesktop
+					{post}
+					onclick={() => {
+						activePost = post;
+					}}
+				/>
 			{/each}
 		</ol>
 	</ResultWrapper>
@@ -197,19 +166,142 @@
 	<div class="loading-panel"></div>
 {/if}
 
+{#if activePost !== undefined}
+	{@const aspectRatio = calculateAspectRatio(activePost.width, activePost.height)}
+	{@const vertical = aspectRatio > 1.5}
+	{@const scrollable = aspectRatio < 0.4}
+	{@const horizontal = !vertical && !scrollable}
+	<section id="active-post" class:vertical class:scrollable class:horizontal>
+		<IconButton
+			class="button-close"
+			onclick={() => {
+				activePost = undefined;
+			}}
+		>
+			<i class="codicon codicon-close"></i>
+		</IconButton>
+
+		{#if activePost.type === 'video'}
+			{@const sources = getVideoSources(
+				activePost.file_url,
+				activePost.sample_url,
+				activePost.preview_url
+			)}
+			<!-- svelte-ignore a11y_media_has_caption -->
+			<!-- svelte-ignore element_invalid_self_closing_tag -->
+			<video
+				src={sources.animated}
+				poster={sources.static}
+				width={activePost.width}
+				height={activePost.height}
+				loop={$alwaysLoop || isLoop(activePost.tags)}
+				controls
+			/>
+		{/if}
+		{#if activePost.type === 'gif'}
+			{@const sources = getGifSources(
+				activePost.file_url,
+				activePost.sample_url,
+				activePost.preview_url
+			)}
+
+			<img src={sources.animated} alt="active post" />
+		{/if}
+		{#if activePost.type === 'image'}
+			{#if scrollable}
+				<div id="media">
+					<img src={activePost.file_url} alt="active post" />
+				</div>
+			{:else}
+				<img src={activePost.file_url} alt="active post" />
+			{/if}
+		{/if}
+
+		<div id="details">
+			<h1>Post <b>#{activePost.id}</b></h1>
+			<div class="flex-row">
+				<Rating value={activePost.rating} />
+				<span>•</span>
+				<span>{activePost.type.toUpperCase()}</span>
+				<span>•</span>
+				<Score value={activePost.score} />
+				<span>•</span>
+				<RelativeTime value={activePost.change} />
+			</div>
+			<div class="flex-row">
+				<KurosearchSource id={activePost.id} />
+				<span>•</span>
+				<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={activePost.id}" />
+				<span>•</span>
+				<Rule34Source url={activePost.file_url} />
+				{#if activePost.source}
+					<span>•</span>
+					<ExternalSource source={activePost.source} />
+				{/if}
+			</div>
+			<div class="tags">
+				{#each Object.entries(tagsByType) as [type, tags]}
+					<div>
+						<h3>{type}</h3>
+						<PostDetailsTagList {tags} />
+					</div>
+				{/each}
+			</div>
+
+			<h3>Comments</h3>
+			<Comments post={activePost} />
+		</div>
+	</section>
+{/if}
+
 <style>
-	.search-input {
-		grid-area: sidebar;
-		align-self: start;
+	#active-post {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: 99;
 		display: flex;
-		flex-direction: column;
-		gap: var(--grid-gap);
-		max-width: 100px;
-		transition: max-width var(--default-transition-behaviour);
+		background-color: var(--background-0);
 	}
 
-	.search-input.open {
-		max-width: 100vw;
+	.vertical {
+		flex-direction: column;
+		overflow: scroll;
+	}
+
+	.vertical img,
+	.vertical video {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.horizontal,
+	.scrollable {
+		justify-content: center;
+	}
+
+	.horizontal img,
+	.horizontal video {
+		object-fit: contain;
+	}
+
+	.horizontal #details,
+	.scrollable #details {
+		flex: 0 1 50vw;
+		overflow-y: auto;
+	}
+
+	.scrollable #media {
+		flex: 0 0 70vh;
+		width: 70vh;
+		overflow-y: scroll;
+	}
+	.scrollable img {
+		width: 100%;
+		height: unset;
 	}
 
 	.search-output {
@@ -217,7 +309,6 @@
 		flex-grow: 1;
 		overflow-y: scroll;
 		height: 100%;
-		/* contain: strict; */
 	}
 
 	ol {
@@ -227,5 +318,50 @@
 		grid-auto-rows: 10vw;
 		border-radius: var(--border-radius);
 		margin-bottom: var(--grid-gap);
+	}
+
+	:global(.button-close) {
+		position: fixed;
+		top: var(--small-gap);
+		left: var(--small-gap);
+		z-index: var(--z-dialog);
+	}
+
+	:not(.vertical) #details {
+		overflow-y: auto;
+	}
+
+	#details {
+		display: flex;
+		flex-direction: column;
+		padding: var(--grid-gap);
+		gap: var(--grid-gap);
+
+		h3 {
+			color: var(--text-highlight);
+		}
+
+		.flex-row {
+			display: flex;
+			align-items: center;
+			gap: var(--small-gap);
+			overflow-x: auto;
+		}
+
+		.tags {
+			display: flex;
+			gap: var(--grid-gap);
+			flex-wrap: wrap;
+
+			div {
+				display: flex;
+				flex-direction: column;
+				gap: var(--small-gap);
+
+				h3 {
+					text-transform: capitalize;
+				}
+			}
+		}
 	}
 </style>

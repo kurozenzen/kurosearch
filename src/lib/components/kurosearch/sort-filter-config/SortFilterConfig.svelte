@@ -7,14 +7,16 @@
 
 	interface Props {
 		onsortfilterupdate: () => void;
+		class?: string;
 	}
 
-	let { onsortfilterupdate }: Props = $props();
+	let { onsortfilterupdate, ...rest }: Props = $props();
 
 	const serializeSortFilter = (sort: SortStoreData, filter: FilterStoreData) =>
 		JSON.stringify(Object.assign({}, sort, filter));
 
-	let dialog: HTMLDialogElement = $state(undefined);
+	// svelte-ignore non_reactive_update
+	let dialog: HTMLDialogElement;
 	let sortFilterBefore = '';
 
 	let filterLabel = $derived(
@@ -30,6 +32,7 @@
 		dialog.showModal();
 		addHistory('dialog');
 	}}
+	class={rest.class}
 >
 	<i class="codicon codicon-filter"></i>
 	<span>{filterLabel}</span>

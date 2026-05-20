@@ -17,7 +17,7 @@
 	{#if loading}
 		<img src={loadSrc} alt="Loading GIF" width="16" height="32" />
 	{:else if paused}
-		<img src={playSrc} alt="Start GIF" width="16" height="32" style="margin-left: 4px;" />
+		<img src={playSrc} alt="Start GIF" width="16" height="32" style:margin-left="4px;" />
 	{:else}
 		<img src={pauseSrc} alt="Stop GIF" width="16" height="32" />
 	{/if}
