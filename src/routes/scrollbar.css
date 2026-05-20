@@ -1,14 +1,6 @@
 @media (pointer: fine) {
 	::-webkit-scrollbar {
-		width: var(--scrollbar-size);
-		height: var(--scrollbar-size);
 		transition: background-color var(--default-transition-behaviour);
-	}
-
-	html,
-	body,
-	main {
-		scrollbar-width: thin;
 	}
 
 	::-webkit-scrollbar-track {
