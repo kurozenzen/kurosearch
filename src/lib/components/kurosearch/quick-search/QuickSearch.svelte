@@ -5,50 +5,18 @@
 	import results from '$lib/store/results-store';
 	import { goto } from '$app/navigation';
 	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
-	import sortsStore, { type SortStoreData } from '$lib/store/sort-store';
+	import sortsStore from '$lib/store/sort-store';
 	import QuickSearchList from './QuickSearchList.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { quickSelectData } from './quick-search-data';
-
-	const LABELS_AI = Object.freeze({
-		both: 'both',
-		'no-ai': 'no ai',
-		ai: 'only ai'
-	});
-
-	const LABELS_MEDIA = Object.freeze({
-		all: 'all',
-		video: 'video',
-		image: 'image',
-		gif: 'gif',
-		comic: 'comic'
-	});
-
-	const LABELS_SORT = Object.freeze({
-		date: 'date',
-		score: 'score',
-		random: 'random'
-	});
-
-	const TAGS_AI = Object.freeze({
-		both: [],
-		'no-ai': [{ name: 'ai_generated', modifier: '-' }],
-		ai: [{ name: 'ai_generated', modifier: '+' }]
-	} as Record<string, kurosearch.SearchableTag[]>);
-
-	const TAGS_MEDIA = Object.freeze({
-		all: [] as kurosearch.SearchableTag[],
-		video: [{ name: 'video', modifier: '+' }],
-		image: [{ name: 'animated', modifier: '-' }],
-		gif: [{ name: 'animated_gif', modifier: '+' }],
-		comic: [{ name: 'comic', modifier: '+' }]
-	} as Record<string, kurosearch.SearchableTag[]>);
-
-	const SORT_VALUES = Object.freeze({
-		date: { property: 'id', direction: 'desc' },
-		score: { property: 'score', direction: 'desc' },
-		random: { property: 'random', direction: 'desc' }
-	} as Record<string, SortStoreData>);
+	import {
+		LABELS_AI,
+		LABELS_MEDIA,
+		LABELS_SORT,
+		quickSelectData,
+		SORT_VALUES,
+		TAGS_AI,
+		TAGS_MEDIA
+	} from './quick-search-data';
 
 	let multiSelect = $state(false);
 	let ai = $state('both');
@@ -82,7 +50,7 @@
 		}
 	};
 
-	const submit = async (tags: kurosearch.SearchableTag[]) => {
+	const submit = (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
 
 		for (const { name, modifier } of TAGS_AI[ai]) {

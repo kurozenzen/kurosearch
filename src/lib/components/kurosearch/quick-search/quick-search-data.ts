@@ -27,7 +27,47 @@ import leagueOfLegendsIcon from '$lib/assets/franchises/league_of_legends.png';
 import genshinImpactIcon from '$lib/assets/franchises/genshin_impact.png';
 import pokemonIcon from '$lib/assets/franchises/pokemon.png';
 import overwatchIcon from '$lib/assets/franchises/overwatch.png';
-import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+import type { SortStoreData } from '$lib/store/sort-store';
+
+export const LABELS_AI = Object.freeze({
+	both: 'both',
+	'no-ai': 'no ai',
+	ai: 'only ai'
+});
+
+export const LABELS_MEDIA = Object.freeze({
+	all: 'all',
+	video: 'video',
+	image: 'image',
+	gif: 'gif',
+	comic: 'comic'
+});
+
+export const LABELS_SORT = Object.freeze({
+	date: 'date',
+	score: 'score',
+	random: 'random'
+});
+
+export const TAGS_AI = Object.freeze({
+	both: [],
+	'no-ai': [{ name: 'ai_generated', modifier: '-' }],
+	ai: [{ name: 'ai_generated', modifier: '+' }]
+} as Record<string, kurosearch.SearchableTag[]>);
+
+export const TAGS_MEDIA = Object.freeze({
+	all: [] as kurosearch.SearchableTag[],
+	video: [{ name: 'video', modifier: '+' }],
+	image: [{ name: 'animated', modifier: '-' }],
+	gif: [{ name: 'animated_gif', modifier: '+' }],
+	comic: [{ name: 'comic', modifier: '+' }]
+} as Record<string, kurosearch.SearchableTag[]>);
+
+export const SORT_VALUES = Object.freeze({
+	date: { property: 'id', direction: 'desc' },
+	score: { property: 'score', direction: 'desc' },
+	random: { property: 'random', direction: 'desc' }
+} as Record<string, SortStoreData>);
 
 export interface TagData {
 	name: string;
