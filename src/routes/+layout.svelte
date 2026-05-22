@@ -170,6 +170,7 @@
 		background: var(--background-1);
 		gap: var(--small-gap);
 		padding: var(--grid-gap);
+		flex-grow: 0;
 	}
 
 	.news i {
