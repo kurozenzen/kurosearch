@@ -11,6 +11,7 @@
 
 <style>
 	button {
+		--icon: url('');
 		position: relative;
 		background-image: var(--icon);
 		background-size: cover;
@@ -32,7 +33,7 @@
 
 	@property --gradient-color {
 		syntax: '<color>';
-		initial-value: var(--background-2);
+		initial-value: transparent;
 		inherits: false;
 	}
 
@@ -46,13 +47,11 @@
 		bottom: 0;
 		left: 0;
 		mix-blend-mode: multiply;
-		transition:
-			all var(--default-transition-behaviour),
-			--gradient-color var(--default-transition-behaviour);
+		transition: all var(--default-transition-behaviour);
 	}
 
 	span {
-		font-size: var(text-size-large);
+		font-size: var(--text-size-large);
 		z-index: 1;
 	}
 
