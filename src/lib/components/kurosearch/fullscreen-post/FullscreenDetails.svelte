@@ -43,7 +43,7 @@
 		<span>•</span>
 		<span>{post.type.toUpperCase()}</span>
 		<span>•</span>
-		<Score value={post.score} />
+		<Score {post} />
 		<span>•</span>
 		<RelativeTime value={post.change} />
 	</div>

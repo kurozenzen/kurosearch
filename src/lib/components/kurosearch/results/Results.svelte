@@ -43,13 +43,13 @@
 
 {#if $resultColumns === '1'}
 	<ol class="single-column">
-		{#each $results.posts as post, index}
+		{#each $results.posts as post, index (post.id)}
 			<SingleColumnPost {post} onfullscreen={(currentTime) => onfullscreen(index, currentTime)} />
 		{/each}
 	</ol>
 {:else}
 	<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
-		{#each $results.posts as post, index}
+		{#each $results.posts as post, index (post.id)}
 			<MosaicPost {post} onclick={() => onfullscreen(index)} />
 		{/each}
 	</ol>

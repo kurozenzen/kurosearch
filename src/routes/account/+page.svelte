@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import Supertag from '$lib/components/kurosearch/supertag/Supertag.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
@@ -150,6 +151,9 @@
 	>
 		Delete Data
 	</TextButton>
+
+	<Heading3>Favourites</Heading3>
+	<a href={resolve('/favourites')}> View Favourites</a>
 </section>
 
 <ConfirmDialog

@@ -1,5 +1,7 @@
 import { browser } from '$app/environment';
 
+export type IndexedPost = kurosearch.Post & { indexedAt: Date };
+
 const COMMENT_LIFETIME_HOURS = 48;
 const POST_LIFETIME_HOURS = 48;
 
@@ -75,7 +77,7 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 	}
 
 	return new Promise((resolve, reject) => {
-		const request = indexedDB.open('kurosearch', 3);
+		const request = indexedDB.open('kurosearch', 4);
 		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 		request.addEventListener('error', (e) => reject(e));
 		request.addEventListener('upgradeneeded', (event) => {
@@ -120,6 +122,15 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 				try {
 					const postStore = db.createObjectStore('posts', { keyPath: 'id' });
 					postStore.createIndex('indexedAt', 'indexedAt', { unique: false });
+				} catch (e) {
+					reject(e);
+				}
+			}
+
+			if (!db.objectStoreNames.contains('favourite_posts')) {
+				try {
+					const favouritePostStore = db.createObjectStore('favourite_posts', { keyPath: 'id' });
+					favouritePostStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
 					reject(e);
 				}
@@ -280,3 +291,49 @@ export const getAllPosts = async (): Promise<kurosearch.Post[]> =>
 			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 		});
 	});
+
+export const getAllFavouritePosts = async (): Promise<IndexedPost[]> =>
+	new Promise((resolve) => {
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve([]);
+				return;
+			}
+			const transaction = idb.transaction('favourite_posts', 'readonly');
+			transaction.addEventListener('error', () => resolve([]));
+			transaction.addEventListener('abort', () => resolve([]));
+
+			const request = transaction.objectStore('favourite_posts').getAll();
+			request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
+		});
+	});
+
+export const addFavouritePost = (post: kurosearch.Post) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction('favourite_posts', 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Favourite Post Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Favourite Post Abort:', e));
+
+	const indexedAt = currentHour();
+
+	const postStore = transaction.objectStore('favourite_posts');
+	const request = postStore.put({ ...post, indexedAt });
+	request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
+};
+
+export const removeFavouritePost = (id: number) => {
+	if (!idb) {
+		return;
+	}
+
+	const transaction = idb.transaction('favourite_posts', 'readwrite');
+	transaction.addEventListener('error', (e) => console.error('[T] Favourite Post Error:', e));
+	transaction.addEventListener('abort', (e) => console.error('[T] Favourite Post Abort:', e));
+
+	const postStore = transaction.objectStore('favourite_posts');
+	const request = postStore.delete(id);
+	request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
+};

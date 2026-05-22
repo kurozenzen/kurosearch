@@ -16,7 +16,7 @@
 <div class="summary">
 	<RelativeTime value={post.change} />
 	<span>•</span>
-	<Score value={post.score} />
+	<Score {post} />
 	<span class="divider"></span>
 	<button
 		type="button"
