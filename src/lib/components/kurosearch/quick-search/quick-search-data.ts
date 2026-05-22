@@ -2,16 +2,14 @@
 import ahegao from '$lib/assets/categories/ahegao.png';
 import anal from '$lib/assets/categories/anal.png';
 import anthro from '$lib/assets/categories/anthro.png';
-import blacked from '$lib/assets/categories/blacked.png';
 import blowjob from '$lib/assets/categories/blowjob.png';
 import cock_worship from '$lib/assets/categories/cock_worship.png';
 import creampie from '$lib/assets/categories/creampie.png';
 import feet from '$lib/assets/categories/feet.jpeg';
 import femboy from '$lib/assets/categories/femboy.png';
 import femdom from '$lib/assets/categories/femdom.png';
-import footjob from '$lib/assets/categories/footjob.jpg';
+import footjob from '$lib/assets/categories/footjob.png';
 import furry from '$lib/assets/categories/furry.jpg';
-import futanari from '$lib/assets/categories/futanari.png';
 import incest from '$lib/assets/categories/incest.png';
 import milf from '$lib/assets/categories/milf.png';
 import paizuri from '$lib/assets/categories/paizuri.png';
@@ -21,12 +19,41 @@ import romantic from '$lib/assets/categories/romantic.png';
 import succubus from '$lib/assets/categories/succubus.png';
 import tentacle from '$lib/assets/categories/tentacle.png';
 import wholesome from '$lib/assets/categories/wholesome.png';
+import dark_skin from '$lib/assets/categories/dark_skin.png';
+import double_penetration from '$lib/assets/categories/double_penetration.png';
+import tattoo from '$lib/assets/categories/tattoo.png';
+import zoophilia from '$lib/assets/categories/zoophilia.png';
+import watersports from '$lib/assets/categories/watersports.png';
+import gaping from '$lib/assets/categories/gaping.png';
+import prolapse from '$lib/assets/categories/prolapse.png';
+import gangbang from '$lib/assets/categories/gangbang.png';
+import armpit from '$lib/assets/categories/armpit.png';
+import rape from '$lib/assets/categories/rape.png';
 
 // Franchises
-import leagueOfLegendsIcon from '$lib/assets/franchises/league_of_legends.png';
-import genshinImpactIcon from '$lib/assets/franchises/genshin_impact.png';
-import pokemonIcon from '$lib/assets/franchises/pokemon.png';
-import overwatchIcon from '$lib/assets/franchises/overwatch.png';
+import genshin_impact from '$lib/assets/franchises/genshin_impact.png';
+import league_of_legends from '$lib/assets/franchises/league_of_legends.png';
+import mario from '$lib/assets/franchises/mario.png';
+import marvel_rivals from '$lib/assets/franchises/marvel_rivals.png';
+import marvel from '$lib/assets/franchises/marvel.png';
+import nintendo from '$lib/assets/franchises/nintendo.png';
+import overwatch from '$lib/assets/franchises/overwatch.png';
+import pokemon from '$lib/assets/franchises/pokemon.png';
+import sonic from '$lib/assets/franchises/sonic.png';
+import xenoblade from '$lib/assets/franchises/xenoblade.png';
+import zelda from '$lib/assets/franchises/zelda.png';
+import zenless_zone_zero from '$lib/assets/franchises/zenless_zone_zero.png';
+import teen_titans from '$lib/assets/franchises/teen_titans.png';
+
+// Pairings
+import blacked from '$lib/assets/pairings/blacked.png';
+import futa_on_male from '$lib/assets/pairings/futa_on_male.png';
+import futanari from '$lib/assets/pairings/futanari.png';
+import gay from '$lib/assets/pairings/gay.png';
+import straight from '$lib/assets/pairings/straight.png';
+import yuri from '$lib/assets/pairings/yuri.png';
+
+// Imports
 import type { SortStoreData } from '$lib/store/sort-store';
 
 export const LABELS_AI = Object.freeze({
@@ -103,39 +130,53 @@ export const quickSelectData = Object.freeze({
 		{ name: 'Cock Worship', tags: [{ name: 'cock_worship', modifier: '+' }], icon: cock_worship },
 		{ name: 'Anal', tags: [{ name: 'anal', modifier: '+' }], icon: anal },
 		{ name: 'Blowjob', tags: [{ name: 'blowjob', modifier: '+' }], icon: blowjob },
-		{ name: 'Dark Skin', tags: [{ name: 'dark_skin', modifier: '+' }], icon: '' },
-		{ name: 'Footjob', tags: [{ name: 'footjob', modifier: '+' }], icon: '' },
-		{ name: 'Tattoo', tags: [{ name: 'tattoo', modifier: '+' }], icon: '' },
-		{ name: 'Double Penetration', tags: [{ name: 'double penetration', modifier: '+' }], icon: '' },
-		{ name: 'Feet', tags: [{ name: 'feet', modifier: '+' }], icon: '' },
-		{ name: 'Zoophilia', tags: [{ name: 'zoophilia', modifier: '+' }], icon: '' },
-		{ name: 'Watersports', tags: [{ name: 'watersports', modifier: '+' }], icon: '' },
-		{ name: 'Rape', tags: [{ name: 'rape', modifier: '+' }], icon: '' },
-		{ name: 'Armpit', tags: [{ name: 'armpit', modifier: '+' }], icon: '' },
-		{ name: 'Gangbang', tags: [{ name: 'gangbang', modifier: '+' }], icon: '' },
-		{ name: 'Prolapse', tags: [{ name: 'prolapse', modifier: '+' }], icon: '' }
+		{ name: 'Dark Skin', tags: [{ name: 'dark_skin', modifier: '+' }], icon: dark_skin },
+		{ name: 'Footjob', tags: [{ name: 'footjob', modifier: '+' }], icon: footjob },
+		{ name: 'Tattoo', tags: [{ name: 'tattoo', modifier: '+' }], icon: tattoo },
+		{
+			name: 'Double Penetration',
+			tags: [{ name: 'double penetration', modifier: '+' }],
+			icon: double_penetration
+		},
+		{ name: 'Feet', tags: [{ name: 'feet', modifier: '+' }], icon: feet },
+		{ name: 'Zoophilia', tags: [{ name: 'zoophilia', modifier: '+' }], icon: zoophilia },
+		{ name: 'Watersports', tags: [{ name: 'watersports', modifier: '+' }], icon: watersports },
+		{ name: 'Rape', tags: [{ name: 'rape', modifier: '+' }], icon: rape },
+		{ name: 'Armpit', tags: [{ name: 'armpits', modifier: '+' }], icon: armpit },
+		{ name: 'Gangbang', tags: [{ name: 'gangbang', modifier: '+' }], icon: gangbang },
+		{ name: 'Gaping', tags: [{ name: 'gaping', modifier: '+' }], icon: gaping },
+		{ name: 'Prolapse', tags: [{ name: 'prolapse', modifier: '+' }], icon: prolapse }
 	],
 	Franchises: [
-		{ name: 'Pokemon', tags: [{ name: 'pokemon', modifier: '+' }], icon: pokemonIcon },
+		{ name: 'Pokemon', tags: [{ name: 'pokemon', modifier: '+' }], icon: pokemon },
 		{
 			name: 'Genshin Impact',
 			tags: [{ name: 'genshin_impact', modifier: '+' }],
-			icon: genshinImpactIcon
+			icon: genshin_impact
 		},
 		{
 			name: 'League of Legends',
 			tags: [{ name: 'league_of_legends', modifier: '+' }],
-			icon: leagueOfLegendsIcon
+			icon: league_of_legends
 		},
-		{ name: 'Overwatch', tags: [{ name: 'overwatch', modifier: '+' }], icon: overwatchIcon },
-		{ name: 'Nintendo', tags: [{ name: 'nintendo', modifier: '+' }], icon: '' },
-		{ name: 'Zenless Zone Zero', tags: [{ name: 'zenless_zone_zero', modifier: '+' }], icon: '' },
-		{ name: 'Zelda', tags: [{ name: 'the_legend_of_zelda', modifier: '+' }], icon: '' },
-		{ name: 'Marvel Rivals', tags: [{ name: 'marvel_rivals', modifier: '+' }], icon: '' },
-		{ name: 'Marvel', tags: [{ name: 'marvel', modifier: '+' }], icon: '' },
-		{ name: 'Mario', tags: [{ name: 'mario_(series)', modifier: '+' }], icon: '' },
-		{ name: 'Sonic', tags: [{ name: 'sonic_(series)', modifier: '+' }], icon: '' },
-		{ name: 'Xenoblade', tags: [{ name: 'xenoblade_(series)', modifier: '+' }], icon: '' }
+		{ name: 'Overwatch', tags: [{ name: 'overwatch', modifier: '+' }], icon: overwatch },
+		{ name: 'Nintendo', tags: [{ name: 'nintendo', modifier: '+' }], icon: nintendo },
+		{
+			name: 'Zenless Zone Zero',
+			tags: [{ name: 'zenless_zone_zero', modifier: '+' }],
+			icon: zenless_zone_zero
+		},
+		{ name: 'Zelda', tags: [{ name: 'the_legend_of_zelda', modifier: '+' }], icon: zelda },
+		{
+			name: 'Marvel Rivals',
+			tags: [{ name: 'marvel_rivals', modifier: '+' }],
+			icon: marvel_rivals
+		},
+		{ name: 'Marvel', tags: [{ name: 'marvel', modifier: '+' }], icon: marvel },
+		{ name: 'Mario', tags: [{ name: 'mario_(series)', modifier: '+' }], icon: mario },
+		{ name: 'Sonic', tags: [{ name: 'sonic_(series)', modifier: '+' }], icon: sonic },
+		{ name: 'Xenoblade', tags: [{ name: 'xenoblade_(series)', modifier: '+' }], icon: xenoblade },
+		{ name: 'Teen Titans', tags: [{ name: 'teen_titans', modifier: '+' }], icon: teen_titans }
 	],
 	Pairings: [
 		{
@@ -144,7 +185,7 @@ export const quickSelectData = Object.freeze({
 				{ name: 'yuri', modifier: '~' },
 				{ name: 'lesbian', modifier: '~' }
 			],
-			icon: ''
+			icon: yuri
 		},
 		{
 			name: 'Gay',
@@ -152,12 +193,12 @@ export const quickSelectData = Object.freeze({
 				{ name: 'yaoi', modifier: '~' },
 				{ name: 'gay', modifier: '~' }
 			],
-			icon: ''
+			icon: gay
 		},
-		{ name: 'Straight', tags: [{ name: 'straight', modifier: '+' }], icon: '' },
+		{ name: 'Straight', tags: [{ name: 'straight', modifier: '+' }], icon: straight },
 		{ name: 'Blacked', tags: [{ name: 'blacked', modifier: '+' }], icon: blacked },
 		{ name: 'Futanari', tags: [{ name: 'futanari', modifier: '+' }], icon: futanari },
-		{ name: 'Futa x Male', tags: [{ name: 'futa_on_male', modifier: '+' }], icon: '' }
+		{ name: 'Futa x Male', tags: [{ name: 'futa_on_male', modifier: '+' }], icon: futa_on_male }
 	],
 	Characters: [
 		{ name: 'Nami', tags: [{ name: 'nami_(one_piece)', modifier: '+' }], icon: '' },

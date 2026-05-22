@@ -42,7 +42,7 @@
 	.tags {
 		display: flex;
 		flex-wrap: no-wrap;
-		overflow-x: scroll;
+		overflow-x: auto;
 		gap: var(--grid-gap);
 		padding-bottom: var(--small-gap);
 		padding-inline: var(--grid-gap);
