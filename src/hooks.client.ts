@@ -12,5 +12,6 @@ Sentry.init({
 export const handleError = handleErrorWithSentry();
 
 export const init: ClientInit = async () => {
+	console.log('Initializing client...');
 	await initIdb();
 };
