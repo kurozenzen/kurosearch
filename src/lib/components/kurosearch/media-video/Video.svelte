@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { getVolume } from './VolumeControl.svelte';
-	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
-	import { SKIP_TIME, videoStore } from '$lib/store/active-video.svelte';
+	import {
+		skipVideo,
+		toggleVideo
+	} from '$lib/store/active-video.svelte';
+	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { getVolume } from './VolumeControl.svelte';
 
 	interface Props {
 		src: string;
@@ -37,8 +40,7 @@
 
 	const ontoggleplay = () => {
 		if (video) {
-			videoStore.target(video);
-			videoStore.toggle();
+			toggleVideo(video);
 		}
 	};
 
@@ -46,12 +48,11 @@
 		event.stopPropagation();
 		event.preventDefault();
 		if (video) {
-			let skipTime = SKIP_TIME;
-			if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 2) {
-				skipTime = -SKIP_TIME;
+			if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 3) {
+				skipVideo(video, -1);
+			} else if (event.offsetX > ((event.target as HTMLVideoElement).clientWidth * 2) / 3) {
+				skipVideo(video, 1);
 			}
-			videoStore.target(video);
-			videoStore.skip(skipTime);
 		}
 	};
 

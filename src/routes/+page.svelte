@@ -26,7 +26,12 @@
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import LynxMain from './LynxMain.svelte';
-	import { videoStore } from '$lib/store/active-video.svelte';
+	import {
+		SkipDirection,
+		skipVideo,
+		targetVideo,
+		toggleVideo
+	} from '$lib/store/active-video.svelte';
 	import { clamp } from '$lib/logic/math';
 	import { switchApiUrl } from '$lib/logic/api-client/url';
 
@@ -131,7 +136,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					videoStore.target(video);
+					targetVideo(video);
 				}
 			}, 1);
 		}
@@ -146,7 +151,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					videoStore.target(video);
+					targetVideo(video);
 				}
 			}, 1);
 		}
@@ -154,7 +159,7 @@
 		switch ((event as KeyboardEvent).key) {
 			case ' ':
 			case 'k':
-				if (videoStore.toggle()) {
+				if (toggleVideo()) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -162,7 +167,7 @@
 
 			case 'ArrowLeft':
 			case 'j':
-				if (videoStore.skip(-SKIP_SECONDS)) {
+				if (skipVideo(undefined, SkipDirection.Backward)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -170,7 +175,7 @@
 
 			case 'ArrowRight':
 			case 'l':
-				if (videoStore.skip(SKIP_SECONDS)) {
+				if (skipVideo(undefined, SkipDirection.Forward)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}

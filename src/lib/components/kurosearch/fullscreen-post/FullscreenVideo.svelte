@@ -5,7 +5,7 @@
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
 	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { videoStore } from '$lib/store/active-video.svelte';
+	import { playVideo, toggleVideo } from '$lib/store/active-video.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -34,18 +34,12 @@
 	};
 
 	const ontoggleplay = () => {
-		if (video.paused) {
-			videoStore.target(video);
-			videoStore.play();
-		} else {
-			videoStore.pause();
-		}
+		toggleVideo(video);
 	};
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		if (isIntersecting) {
-			videoStore.target(video);
-			videoStore.play();
+			playVideo(video);
 		} else {
 			video.pause();
 		}

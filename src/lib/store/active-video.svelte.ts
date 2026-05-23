@@ -6,6 +6,11 @@ export interface VideoContext {
 	targetVideo: HTMLVideoElement | undefined;
 }
 
+export enum SkipDirection {
+	Forward = 1,
+	Backward = -1
+}
+
 export const SKIP_TIME = 10;
 
 const attemptPlay = async (video: HTMLVideoElement | undefined) => {
@@ -25,7 +30,11 @@ export const targetVideo = (video: HTMLVideoElement | undefined) => {
 	videoState.targetVideo = video;
 };
 
-export const playVideo = async () => {
+export const playVideo = async (video?: HTMLVideoElement) => {
+	if (video) {
+		videoState.targetVideo = video;
+	}
+
 	if (videoState.playingVideo === videoState.targetVideo) {
 		if (videoState.playingVideo?.paused) {
 			attemptPlay(videoState.playingVideo);
@@ -42,7 +51,11 @@ export const pauseVideo = () => {
 	videoState.playingVideo = undefined;
 };
 
-export const toggleVideo = () => {
+export const toggleVideo = (video?: HTMLVideoElement): boolean => {
+	if (video) {
+		videoState.targetVideo = video;
+	}
+
 	if (videoState.targetVideo === videoState.playingVideo) {
 		if (videoState.playingVideo?.paused) {
 			attemptPlay(videoState.playingVideo);
@@ -55,10 +68,17 @@ export const toggleVideo = () => {
 		videoState.playingVideo = videoState.targetVideo;
 		attemptPlay(videoState.playingVideo);
 	}
+
+	return videoState.targetVideo !== undefined;
 };
 
-export const skipVideo = (seconds: number) => {
+export const skipVideo = (video: HTMLVideoElement | undefined, direction: SkipDirection): boolean => {
+	if (video) {
+		videoState.targetVideo = video;
+	}
+
 	if (videoState.targetVideo) {
+		const seconds = SKIP_TIME * direction;
 		videoState.targetVideo.currentTime = clamp(
 			videoState.targetVideo.currentTime + seconds,
 			0,
@@ -68,93 +88,4 @@ export const skipVideo = (seconds: number) => {
 	}
 
 	return false;
-};
-
-const { subscribe, update } = writable<VideoContext>({
-	playingVideo: undefined,
-	targetVideo: undefined
-});
-
-export const videoStore = {
-	subscribe,
-	/**
-	 * Retargets the store to a specific video element without changing play state.
-	 */
-	target(video: HTMLVideoElement | undefined) {
-		update((current) => {
-			console.log('target video', video?.src);
-			if (current.targetVideo !== video) {
-				current.targetVideo = video;
-			}
-			return current;
-		});
-	},
-
-	/**
-	 * Plays the targeted video element, pausing any currently active video.
-	 */
-	play() {
-		update((current) => {
-			current.playingVideo?.pause();
-			current.playingVideo = current.targetVideo;
-			try {
-				current.playingVideo?.play().catch(() => {});
-			} catch (_) {
-				// ignored
-			}
-			console.log('play video', current.playingVideo?.src);
-			return current;
-		});
-	},
-	/**
-	 * Pauses the currently active video. Video remains active.
-	 */
-	pause() {
-		update((current) => {
-			console.log('pausing video', current.playingVideo?.src);
-			current.playingVideo?.pause();
-			current.playingVideo = undefined;
-			return current;
-		});
-	},
-	/**
-	 * Toggles play/pause on the currently  video.
-	 */
-	toggle() {
-		let toggled = false;
-		update((current) => {
-			if (current.targetVideo) {
-				if (current.playingVideo !== current.targetVideo) {
-					current.playingVideo?.pause();
-				}
-				if (current.targetVideo.paused) {
-					current.playingVideo = current.targetVideo;
-					try {
-						current.playingVideo?.play().catch(() => {});
-					} catch (_) {
-						// ignored
-					}
-				} else {
-					current.playingVideo?.pause();
-					current.playingVideo = undefined;
-				}
-
-				toggled = true;
-			}
-			return current;
-		});
-		return toggled;
-	},
-	skip(seconds: number) {
-		let skipped = false;
-		update((current) => {
-			let video = current.targetVideo;
-			if (video) {
-				video.currentTime = clamp(video.currentTime + seconds, 0, video.duration);
-				skipped = true;
-			}
-			return current;
-		});
-		return skipped;
-	}
 };
