@@ -3,7 +3,7 @@
 	import { getVolume } from './VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
-	import { SKIP_TIME, videoStore } from '$lib/store/active-video-store';
+	import { SKIP_TIME, videoStore } from '$lib/store/active-video.svelte';
 
 	interface Props {
 		src: string;

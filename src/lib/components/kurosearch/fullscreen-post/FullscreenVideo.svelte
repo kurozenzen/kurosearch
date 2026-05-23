@@ -5,7 +5,7 @@
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
 	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { videoStore } from '$lib/store/active-video-store';
+	import { videoStore } from '$lib/store/active-video.svelte';
 
 	interface Props {
 		post: kurosearch.Post;

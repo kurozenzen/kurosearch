@@ -8,6 +8,68 @@ export interface VideoContext {
 
 export const SKIP_TIME = 10;
 
+const attemptPlay = async (video: HTMLVideoElement | undefined) => {
+	try {
+		await video?.play();
+	} catch (_) {
+		// ignored
+	}
+};
+
+export const videoState = $state<VideoContext>({
+	playingVideo: undefined,
+	targetVideo: undefined
+});
+
+export const targetVideo = (video: HTMLVideoElement | undefined) => {
+	videoState.targetVideo = video;
+};
+
+export const playVideo = async () => {
+	if (videoState.playingVideo === videoState.targetVideo) {
+		if (videoState.playingVideo?.paused) {
+			attemptPlay(videoState.playingVideo);
+		}
+	} else {
+		videoState.playingVideo?.pause();
+		videoState.playingVideo = videoState.targetVideo;
+		attemptPlay(videoState.playingVideo);
+	}
+};
+
+export const pauseVideo = () => {
+	videoState.playingVideo?.pause();
+	videoState.playingVideo = undefined;
+};
+
+export const toggleVideo = () => {
+	if (videoState.targetVideo === videoState.playingVideo) {
+		if (videoState.playingVideo?.paused) {
+			attemptPlay(videoState.playingVideo);
+		} else {
+			videoState.playingVideo?.pause();
+			videoState.playingVideo = undefined;
+		}
+	} else {
+		videoState.playingVideo?.pause();
+		videoState.playingVideo = videoState.targetVideo;
+		attemptPlay(videoState.playingVideo);
+	}
+};
+
+export const skipVideo = (seconds: number) => {
+	if (videoState.targetVideo) {
+		videoState.targetVideo.currentTime = clamp(
+			videoState.targetVideo.currentTime + seconds,
+			0,
+			videoState.targetVideo.duration
+		);
+		return true;
+	}
+
+	return false;
+};
+
 const { subscribe, update } = writable<VideoContext>({
 	playingVideo: undefined,
 	targetVideo: undefined

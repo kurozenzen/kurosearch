@@ -82,23 +82,33 @@ const clean = async () =>
 	});
 
 const ensureIdb = async (): Promise<IDBDatabase> => {
-	if (!browser) {
-		return Promise.resolve(null as unknown as IDBDatabase);
-	}
-
 	return new Promise((resolve, reject) => {
 		const version = 4;
 		console.log('Opening IndexedDB with version', version);
 		const request = indexedDB.open('kurosearch', version);
-		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
-		request.addEventListener('error', (e) => reject(e));
-		request.addEventListener('blocked', () => reject(new Error('IDB open blocked')));
+		request.addEventListener('success', (e) => {
+			console.log('IndexedDB opened successfully');
+			const db = (e.target as IDBOpenDBRequest).result;
+			db.addEventListener('versionchange', () => {
+				console.log('IDB version change detected, closing database');
+				db.close();
+			});
+			resolve(db);
+		});
+		request.addEventListener('error', (e) => {
+			console.log('Error opening IndexedDB:', e);
+			reject(e);
+		});
+		request.addEventListener('blocked', () => {
+			console.log('IDB open request is blocked, please close other tabs with kurosearch open');
+			reject(new Error('IDB open request is blocked'));
+		});
 		request.addEventListener('upgradeneeded', (event) => {
+			console.log('Upgrading IndexedDB to version', version);
 			const db = (event.target as IDBOpenDBRequest).result;
 			db.addEventListener('versionchange', () => {
-				db.close();
 				console.log('IDB version change detected, closing database');
-				window.location.reload();
+				db.close();
 			});
 
 			const transaction = (event.target as IDBOpenDBRequest).transaction!;

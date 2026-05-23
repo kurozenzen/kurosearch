@@ -26,7 +26,7 @@
 	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
 	import LynxMain from './LynxMain.svelte';
-	import { videoStore } from '$lib/store/active-video-store';
+	import { videoStore } from '$lib/store/active-video.svelte';
 	import { clamp } from '$lib/logic/math';
 	import { switchApiUrl } from '$lib/logic/api-client/url';
 

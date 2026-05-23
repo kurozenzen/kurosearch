@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getPostId } from '$lib/logic/id-utils';
-	import { videoStore } from '$lib/store/active-video-store';
+	import { videoStore } from '$lib/store/active-video.svelte';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
 	import FullscreenPost from '../fullscreen-post/FullscreenPost.svelte';
