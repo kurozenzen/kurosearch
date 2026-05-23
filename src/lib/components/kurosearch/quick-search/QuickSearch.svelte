@@ -2,6 +2,7 @@
 	import QuickSearchTag from './QuickSearchTag.svelte';
 	import QuickSearchGroup from './QuickSearchGroup.svelte';
 	import activeTags from '$lib/store/active-tags-store';
+	import activeSupertags from '$lib/store/active-supertags-store';
 	import results from '$lib/store/results-store';
 	import { goto } from '$app/navigation';
 	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
@@ -52,6 +53,7 @@
 
 	const submit = (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
+		activeSupertags.reset();
 
 		for (const { name, modifier } of TAGS_AI[ai]) {
 			activeTags.addByName(name, modifier);

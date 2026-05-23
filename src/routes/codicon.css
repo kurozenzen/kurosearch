@@ -186,6 +186,10 @@ i.codicon {
 	content: '\ea78';
 }
 
+.codicon-search-sparkle:before {
+	content: '\ec50';
+}
+
 .codicon-cloud-download:before {
 	content: '\eac2';
 }

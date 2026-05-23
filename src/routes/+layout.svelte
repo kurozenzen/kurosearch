@@ -67,6 +67,7 @@
 		<CodiconLink title="Documentation" href={resolve('/help')} icon="codicon codicon-book" />
 		<div></div>
 		<CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
+		<CodiconLink title="Select" href={resolve('/select')} icon="codicon codicon-search-sparkle" />
 		<SettingsLink />
 		<AccountLink src={userPhoto} />
 	</nav>

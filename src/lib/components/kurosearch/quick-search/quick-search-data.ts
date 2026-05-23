@@ -71,8 +71,8 @@ export const LABELS_MEDIA = Object.freeze({
 });
 
 export const LABELS_SORT = Object.freeze({
-	date: 'date',
-	score: 'score',
+	new: 'new',
+	best: 'best',
 	random: 'random'
 });
 
@@ -91,8 +91,8 @@ export const TAGS_MEDIA = Object.freeze({
 } as Record<string, kurosearch.SearchableTag[]>);
 
 export const SORT_VALUES = Object.freeze({
-	date: { property: 'id', direction: 'desc' },
-	score: { property: 'score', direction: 'desc' },
+	new: { property: 'id', direction: 'desc' },
+	best: { property: 'score', direction: 'desc' },
 	random: { property: 'random', direction: 'desc' }
 } as Record<string, SortStoreData>);
 
