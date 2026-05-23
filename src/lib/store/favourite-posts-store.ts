@@ -1,10 +1,11 @@
 import {
 	addFavouritePost,
 	getAllFavouritePosts,
+	replaceAllFavouritePosts,
 	removeFavouritePost,
 	type IndexedPost
 } from '$lib/indexeddb/idb';
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 
 export interface FavouritePostsStore {
 	posts: IndexedPost[];
@@ -25,6 +26,14 @@ const createFavouritePostsStore = () => {
 		subscribe: subscribe,
 		set,
 		update,
+		getAll: () => get({ subscribe }).posts,
+		restoreAll: async (posts: IndexedPost[]) => {
+			await replaceAllFavouritePosts(posts);
+			set({
+				posts,
+				ids: new Set(posts.map((post) => post.id))
+			});
+		},
 		toggleFavourite: (post: kurosearch.Post) => {
 			update((state) => {
 				if (state.ids.has(post.id)) {

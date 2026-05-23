@@ -5,15 +5,23 @@
 	interface Props {
 		tag: kurosearch.Tag;
 		active?: boolean;
+		activeInSuperTag?: boolean;
 		onclick?: () => void;
 	}
 
-	let { tag, active = false, onclick }: Props = $props();
+	let { tag, active = false, activeInSuperTag = false, onclick }: Props = $props();
 
 	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
 </script>
 
-<button type="button" title="Click to add tag" {onclick} class:active class={icon}>
+<button
+	type="button"
+	title="Click to add tag"
+	{onclick}
+	class:active
+	class:active-in-supertag={activeInSuperTag}
+	class={icon}
+>
 	{formatTagname(tag.name)}
 </button>
 
@@ -37,15 +45,14 @@
 		padding-inline: 12px;
 	}
 
-	button.active {
+	button.active,
+	button.active-in-supertag {
 		color: var(--text-accent);
 		--background-color: var(--accent);
 		--background-color-hover: var(--accent-light);
 	}
 
-	button.supertag {
-		color: var(--text-accent);
-		--background-color: var(--accent);
+	button.active-in-supertag {
 		border: dashed 2px var(--text-accent);
 	}
 
@@ -74,12 +81,12 @@
 			transition: background-color var(--default-transition-behaviour);
 		}
 
-		button:not(.supertag):hover {
+		button:hover {
 			background-color: var(--background-color-hover);
 		}
 	}
 
-	button:not(.supertag):active {
+	button:active	 {
 		background-color: var(--background-1);
 	}
 </style>

@@ -24,6 +24,7 @@ const config = {
 					'self',
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
+					'https://accounts.google.com/gsi/client',
 					'sha256-zFJwsT78cLEc6IoppP5St+I79YaQSeWM22vM77yQrfU=',
 					'sha256-SIdcyjx0kKrzhwggwrHAeqEMP12zoiLgWxFVA05e/bM='
 				],
@@ -37,7 +38,8 @@ const config = {
 					'https://rule34-api.netlify.app',
 					'https://rule-34-api-vercel.vercel.app',
 					'rule-34-api.shirozenzen.workers.dev',
-					'https://*.ingest.us.sentry.io'
+					'https://*.ingest.us.sentry.io',
+					'https://www.google.com/images/cleardot.gif'
 				],
 				'img-src': [
 					'self',
@@ -47,7 +49,11 @@ const config = {
 					'https://www.googletagmanager.com'
 				],
 				'media-src': ['self', 'https://*.rule34.xxx'],
-				'frame-src': ['https://r34-react.firebaseapp.com', 'https://rule34.xxx']
+				'frame-src': [
+					'https://r34-react.firebaseapp.com',
+					'https://rule34.xxx',
+					'https://content.googleapis.com'
+				]
 			}
 		}
 	}

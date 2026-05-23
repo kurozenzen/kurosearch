@@ -1,12 +1,15 @@
 import type { StoreKey } from '$lib/store/store-keys';
 import type { SupertagsStore } from '$lib/store/supertags-store';
+import type { IndexedPost } from '$lib/indexeddb/idb';
 
 export interface SettingsObject {
+	[StoreKey.BackupTimestamp]?: string;
 	[StoreKey.LocalstorageEnabled]: boolean;
 	[StoreKey.Theme]: string;
 	[StoreKey.BlockedContent]: Record<kurosearch.BlockingGroup, boolean>;
 	[StoreKey.ResultColumns]: string;
 	[StoreKey.Supertags]: SupertagsStore;
+	[StoreKey.Favourites]: IndexedPost[];
 }
 
 export const saveFile = async (content: string) => {

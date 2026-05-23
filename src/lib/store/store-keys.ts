@@ -20,5 +20,7 @@ export enum StoreKey {
 	GifPreloadEnabled = 'kurosearch:gif-preload-enabled',
 	ApiKey = 'kurosearch:rule34-api-key',
 	UserId = 'kurosearch:rule34-user-id',
-	PageNavigationEnabled = 'kurosearch:page-navigation-enabled'
+	PageNavigationEnabled = 'kurosearch:page-navigation-enabled',
+	BackupTimestamp = 'backup-timestamp',
+	Favourites = 'kurosearch:favourites'
 }

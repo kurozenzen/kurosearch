@@ -10,6 +10,8 @@ The app is available at [kuroseach.com](https://kurosearch.com).
 
 It completely free to use and does not require an account or login of any kind.
 
+However, you can save your data to google drive if you want.
+
 ## Getting in contact
 
 If you have questions about the app the best place to ask is the [discord server](https://discord.gg/yyJFG5PVBZ).

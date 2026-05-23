@@ -182,6 +182,18 @@ i.codicon {
 	content: '\ebaa';
 }
 
+.codicon-download:before {
+	content: '\ea78';
+}
+
+.codicon-cloud-download:before {
+	content: '\eac2';
+}
+
+.codicon-cloud-upload:before {
+	content: '\eac3';
+}
+
 .codicon-screen-full:before {
 	content: '\eb4c';
 }

@@ -370,3 +370,25 @@ export const removeFavouritePost = (id: number) => {
 	const request = postStore.delete(id);
 	request.addEventListener('error', (e) => console.error('[R] Post Index Error:', e));
 };
+
+export const replaceAllFavouritePosts = async (posts: IndexedPost[]) =>
+	new Promise<void>((resolve) => {
+		ignoreInvalidStateError(() => {
+			if (!idb) {
+				resolve();
+				return;
+			}
+
+			const transaction = idb.transaction('favourite_posts', 'readwrite');
+			transaction.addEventListener('error', () => resolve());
+			transaction.addEventListener('abort', () => resolve());
+			transaction.addEventListener('complete', () => resolve());
+
+			const postStore = transaction.objectStore('favourite_posts');
+			postStore.clear();
+
+			for (const post of posts) {
+				postStore.put(post);
+			}
+		});
+	});
