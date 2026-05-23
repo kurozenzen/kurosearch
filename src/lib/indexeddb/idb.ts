@@ -83,7 +83,7 @@ const clean = async () =>
 
 const ensureIdb = async (): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
-		const version = 4;
+		const version = 5;
 		console.log('Opening IndexedDB with version', version);
 		const request = indexedDB.open('kurosearch', version);
 		request.addEventListener('success', (e) => {
