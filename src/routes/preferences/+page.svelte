@@ -8,7 +8,7 @@
 		'green rule34': 'Classic Rule34',
 		'white dark': 'Monochrome Dark',
 		'black light': 'Monochrome Light',
-		'purple purple': 'Purple',
+		'purple purple': 'Purple'
 	});
 	const RESULT_COLUMNS_OPTIONS = Object.freeze({
 		'1': 'Single Column',
@@ -93,7 +93,10 @@
 		</div>
 	</Preference>
 
-	<Preference title="Save Tags & Posts" description="Save active tags and posts between sessions.">
+	<Preference
+		title="Save Tags & Posts"
+		description="Save active tags and posts between sessions. Note: This does not work well if you use multipe tabs frequently."
+	>
 		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>
 			{$localstorageEnabled ? 'Save' : "Don't save"}
 		</Checkbox>

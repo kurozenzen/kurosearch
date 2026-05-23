@@ -35,8 +35,6 @@
 	import { clamp } from '$lib/logic/math';
 	import { switchApiUrl } from '$lib/logic/api-client/url';
 
-	const SKIP_SECONDS = 5;
-
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
 		'color:crimson;font-size:32px;',

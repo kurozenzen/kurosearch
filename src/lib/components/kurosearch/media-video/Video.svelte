@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { clearsrc } from '$lib/logic/use/clearsrc';
 	import { screenintersection } from '$lib/logic/use/screenintersection';
-	import {
-		skipVideo,
-		toggleVideo
-	} from '$lib/store/active-video.svelte';
+	import { SkipDirection, skipVideo, toggleVideo } from '$lib/store/active-video.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { getVolume } from './VolumeControl.svelte';
 
@@ -45,13 +42,13 @@
 	};
 
 	const skip = (event: MouseEvent) => {
-		event.stopPropagation();
-		event.preventDefault();
 		if (video) {
+			event.stopPropagation();
+			event.preventDefault();
 			if (event.offsetX < (event.target as HTMLVideoElement).clientWidth / 3) {
-				skipVideo(video, -1);
+				skipVideo(video, SkipDirection.Backward);
 			} else if (event.offsetX > ((event.target as HTMLVideoElement).clientWidth * 2) / 3) {
-				skipVideo(video, 1);
+				skipVideo(video, SkipDirection.Forward);
 			}
 		}
 	};
