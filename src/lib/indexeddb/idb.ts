@@ -14,6 +14,7 @@ const ignoreInvalidStateError = (action: () => void) => {
 		action();
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'InvalidStateError') {
+			console.log('Ignoring IDB Error:', error);
 			return;
 		}
 
@@ -22,9 +23,11 @@ const ignoreInvalidStateError = (action: () => void) => {
 };
 
 export const initIdb = async () => {
+	console.log('Initializing IndexedDB...');
 	return ensureIdb()
 		.then((db) => {
 			idb = db;
+			console.log('Success');
 		})
 		.catch((error) => console.error('Failed to initialize IndexedDB:', error))
 		.then(clean)
@@ -33,8 +36,10 @@ export const initIdb = async () => {
 
 const clean = async () =>
 	new Promise<void>((resolve) => {
+		console.log('Cleaning IndexedDB...');
 		if (!idb) {
 			resolve();
+			console.log('No IndexedDB instance, skipping clean.');
 			return;
 		}
 
@@ -68,6 +73,7 @@ const clean = async () =>
 				postStore.delete(cursor.primaryKey);
 				cursor.continue();
 			}
+			console.log('Done');
 		});
 	});
 
@@ -77,7 +83,9 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 	}
 
 	return new Promise((resolve, reject) => {
-		const request = indexedDB.open('kurosearch', 4);
+		const version = 4;
+		console.log('Opening IndexedDB with version', version);
+		const request = indexedDB.open('kurosearch', version);
 		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 		request.addEventListener('error', (e) => reject(e));
 		request.addEventListener('upgradeneeded', (event) => {
@@ -103,6 +111,7 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('tags')) {
 				try {
+					console.log('Creating tags object store');
 					db.createObjectStore('tags', { keyPath: 'name' });
 				} catch (e) {
 					reject(e);
@@ -111,6 +120,7 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('comments')) {
 				try {
+					console.log('Creating comments object store');
 					const commentStore = db.createObjectStore('comments', { keyPath: 'postId' });
 					commentStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
@@ -120,6 +130,7 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('posts')) {
 				try {
+					console.log('Creating posts object store');
 					const postStore = db.createObjectStore('posts', { keyPath: 'id' });
 					postStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
@@ -129,6 +140,7 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('favourite_posts')) {
 				try {
+					console.log('Creating favourite_posts object store');
 					const favouritePostStore = db.createObjectStore('favourite_posts', { keyPath: 'id' });
 					favouritePostStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
