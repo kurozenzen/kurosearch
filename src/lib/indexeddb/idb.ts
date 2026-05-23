@@ -24,14 +24,18 @@ const ignoreInvalidStateError = (action: () => void) => {
 
 export const initIdb = async () => {
 	console.log('Initializing IndexedDB...');
-	return ensureIdb()
-		.then((db) => {
-			idb = db;
-			console.log('Success');
-		})
-		.catch((error) => console.error('Failed to initialize IndexedDB:', error))
-		.then(clean)
-		.catch((error) => console.error('Failed to clean IndexedDB:', error));
+	try {
+		return ensureIdb()
+			.then((db) => {
+				idb = db;
+				console.log('Success');
+			})
+			.catch((error) => console.error('Failed to initialize IndexedDB:', error))
+			.then(clean)
+			.catch((error) => console.error('Failed to clean IndexedDB:', error));
+	} catch (error) {
+		console.error('Unexpected error during IndexedDB initialization:', error);
+	}
 };
 
 const clean = async () =>
@@ -88,8 +92,15 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 		const request = indexedDB.open('kurosearch', version);
 		request.addEventListener('success', (e) => resolve((e.target as IDBRequest).result));
 		request.addEventListener('error', (e) => reject(e));
+		request.addEventListener('blocked', () => reject(new Error('IDB open blocked')));
 		request.addEventListener('upgradeneeded', (event) => {
 			const db = (event.target as IDBOpenDBRequest).result;
+			db.addEventListener('versionchange', () => {
+				db.close();
+				console.log('IDB version change detected, closing database');
+				window.location.reload();
+			});
+
 			const transaction = (event.target as IDBOpenDBRequest).transaction!;
 			transaction.addEventListener('complete', () => resolve(db));
 			transaction.addEventListener('error', (e) => reject(e));
