@@ -47,13 +47,13 @@
 
 <TermsOfUseDialog />
 
-<div class="news">
+<!-- <div class="news">
 	<i class="codicon codicon-megaphone" style="font-size: 32px; margin-right: 8px;"></i>
 	<p>
 		<a href={resolve('/select')}>kurosearch.com/select</a> is almost complete!<br />Only images are
 		missing now. Please submit some.
 	</p>
-</div>
+</div> -->
 
 <header>
 	<nav>
@@ -163,7 +163,7 @@
 		color: var(--text-muted);
 	}
 
-	.news {
+	/* .news {
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -180,5 +180,5 @@
 	.news p {
 		text-align: left;
 		font-size: var(--text-size-medium);
-	}
+	} */
 </style>
