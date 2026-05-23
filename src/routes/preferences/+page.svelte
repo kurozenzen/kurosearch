@@ -147,7 +147,7 @@
 		</div>
 	</Preference>
 
-	<Preference title="Result layout" description="Save active tags and posts between sessions.">
+	<Preference title="Result layout" description="Choose how results are arranged.">
 		<div class="flex">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
