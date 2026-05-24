@@ -47,6 +47,7 @@
 	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
+	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -74,21 +75,22 @@
 	/>
 </svelte:head>
 
-<section>
-	<Heading1>Preferences</Heading1>
-
+<PageList title="Preferences">
 	<Preference title="Theme" description="Change the look of the app.">
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
 	</Preference>
 
-	<Preference title="API Access" description="Use your own API key to rule34.xxx.">
+	<Preference
+		title="API Key"
+		description="Use your own API key to rule34.xxx. This can speed up loading times. Some issues will not affect you, if you have your own key"
+	>
 		<div class="button-row">
 			<TextInput bind:value={$apiKey} placeholder="Enter your API key here" />
 			<TextInput bind:value={$userId} placeholder="Enter your User Id here" />
 			<a
 				href="https://rule34.xxx/index.php?page=account&s=options"
 				target="_blank"
-				rel="noopener noreferrer">Manage your API key</a
+				rel="noopener noreferrer">Get your API key</a
 			>
 		</div>
 	</Preference>
@@ -97,9 +99,7 @@
 		title="Save Tags & Posts"
 		description="Save active tags and posts between sessions. Note: This does not work well if you use multipe tabs frequently."
 	>
-		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>
-			{$localstorageEnabled ? 'Save' : "Don't save"}
-		</Checkbox>
+		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>Save</Checkbox>
 		<div class="button-row">
 			<TextButton title="Reset Posts" type="secondary" onclick={() => resultsStore.reset()}>
 				Reset Posts
@@ -121,51 +121,51 @@
 		title="Blocked Content"
 		description="Completely prevent certain types of posts without cluttering your search."
 	>
-		{#each ALL_BLOCKING_GROUPS as groupName}
-			<Checkbox id={`checkbox-${groupName}`} bind:checked={$blockedContent[groupName]}>
-				{groupName}
-			</Checkbox>
-		{/each}
+		<div>
+			{#each ALL_BLOCKING_GROUPS as groupName}
+				<Checkbox id={`checkbox-${groupName}`} bind:checked={$blockedContent[groupName]}>
+					{groupName}
+				</Checkbox>
+			{/each}
+		</div>
 	</Preference>
 
 	<Preference
 		title="Loop Videos"
 		description="By default only videos with the 'loop' tag are looped. When this setting is enabled, all videos are looped."
 	>
-		<Checkbox id="checkbox-always-loop" bind:checked={$alwaysLoop}>
-			{$alwaysLoop ? 'Always' : "Only with 'loop' tag"}
-		</Checkbox>
+		<Checkbox id="checkbox-always-loop" bind:checked={$alwaysLoop}>Always Loop</Checkbox>
 	</Preference>
 
 	<Preference
 		title="Autoscroll in Fullscreen"
 		description="When enabled, fullscreen view will scroll automatically."
 	>
-		<div class="flex">
+		<div class="button-row">
 			<Checkbox id="checkbox-fullscreen-autplay" bind:checked={$autoplayFullscreenEnabled}>
-				{$autoplayFullscreenEnabled ? 'Enabled' : 'Disabled'}
+				Scroll automatically
 			</Checkbox>
 			<NumberInput bind:value={$autoplayFullscreenDelay} min={1} max={60} step={1} />
-			<span>{$autoplayFullscreenDelay} seconds</span>
+			<span> After {$autoplayFullscreenDelay} seconds</span>
 		</div>
 	</Preference>
 
 	<Preference title="Result layout" description="Choose how results are arranged.">
-		<div class="flex">
+		<div class="button-row">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
-				{$wideLayoutEnabled ? 'Extra wide' : 'Default width'}
+				Extend horizontally
 			</Checkbox>
 		</div>
 	</Preference>
 
 	<Preference
-		title="Enable Page Navigation"
+		title="Page Navigation"
 		description="Navigate using pages instead of infinite scrolling."
 	>
-		<div class="flex">
+		<div class="button-row">
 			<Checkbox id="checkbox-page-navigation" bind:checked={$pageNavigationEnabled}>
-				{$pageNavigationEnabled ? 'Enabled' : 'Disabled'}
+				Use page navigation
 			</Checkbox>
 		</div>
 	</Preference>
@@ -175,7 +175,7 @@
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
 		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
-			{$highResolutionEnabled ? 'Enabled' : 'Disabled'}
+			Enable high resolution
 		</Checkbox>
 	</Preference>
 
@@ -184,7 +184,7 @@
 		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited bandwidth."
 	>
 		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={$gifPreloadEnabled}>
-			{$gifPreloadEnabled ? 'Enabled' : 'Disabled'}
+			Preload GIFs
 		</Checkbox>
 	</Preference>
 
@@ -192,9 +192,9 @@
 		title="[LEGACY] Open tags on click"
 		description="When enabled, clicking a post will immediately display the tags. This confilicts with other features. Use at your own risk."
 	>
-		<div class="flex">
+		<div class="button-row">
 			<Checkbox id="checkbox-tags-shortcut" bind:checked={$openTagsOnPostClick}>
-				{$openTagsOnPostClick ? 'Enabled' : 'Disabled'}
+				Open tags on click
 			</Checkbox>
 		</div>
 	</Preference>
@@ -213,7 +213,7 @@
 			Reset
 		</TextButton>
 	</Preference>
-</section>
+</PageList>
 
 <ConfirmDialog
 	bind:dialog={resetDialog}
@@ -225,22 +225,10 @@
 />
 
 <style>
-	section {
-		padding-inline: var(--grid-gap);
-	}
-
 	.button-row {
 		display: flex;
-		padding-block-start: var(--grid-gap);
 		flex-wrap: wrap;
 		gap: var(--grid-gap);
 		align-items: center;
-	}
-
-	.flex {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--grid-gap);
 	}
 </style>

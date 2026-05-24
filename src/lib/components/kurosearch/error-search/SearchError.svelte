@@ -57,7 +57,7 @@
 		align-items: center;
 		max-width: 400px;
 		margin: auto;
-		margin-block: 4rem;
+		margin-block: var(--huge-gap);
 		gap: 2rem;
 		padding: var(--grid-gap);
 		border-radius: var(--border-radius);

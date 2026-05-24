@@ -64,7 +64,6 @@
 		grid-template-columns: auto 1fr auto auto;
 		gap: var(--small-gap);
 		align-items: center;
-		padding: var(--grid-gap) 0;
 		border-radius: var(--border-radius);
 		transition: color var(--default-transition-behaviour);
 	}
@@ -72,6 +71,11 @@
 	li:not(:first-of-type) {
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
 		border-block-start: 1px solid var(--background-2);
+		padding-block-start: var(--grid-gap);
+	}
+
+	li:not(:last-of-type) {
+		padding-block-end: var(--grid-gap);
 	}
 
 	h3 {

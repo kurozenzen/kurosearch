@@ -3,6 +3,8 @@
 	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
+	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 
 	const tagCounts = $derived.by(() => {
@@ -25,6 +27,16 @@
 			.sort((a, b) => b.inFavourites / b.count - a.inFavourites / a.count)
 			.slice(0, 20);
 	});
+
+	let message = $derived.by(() => {
+		if ($favouritePostsStore.ids.size == 0) {
+			return "You haven't got any favourites yet";
+		} else if ($favouritePostsStore.ids.size === 1) {
+			return 'You have exactly one favourite post';
+		} else {
+			return `You have ${$favouritePostsStore.ids.size} favourite posts`;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -32,35 +44,30 @@
 	<meta name="description" content="Your favourite posts." />
 </svelte:head>
 
-<Heading1>Favourites</Heading1>
+<PageGeneric title="Favourites">
+	<Preference title="Info" description={message}></Preference>
 
-<Heading3>Info</Heading3>
-{#if $favouritePostsStore.ids.size == 0}
-	<span>You haven't got any favourites yet</span>
-{:else if $favouritePostsStore.ids.size === 1}
-	<span>You have exactly one favourite post</span>
-{:else}
-	<span>You have {$favouritePostsStore.ids.size} favourite posts</span>
-{/if}
+	{#if $favouritePostsStore.posts.length > 0}
+		<Preference
+			title="Tags"
+			description="The following tags are more common than usual among your favourites:"
+		>
+			<ol class="tags">
+				{#each tagCounts as tag}
+					<SimpleTag {tag} />
+				{/each}
+			</ol>
+		</Preference>
 
-{#if $favouritePostsStore.posts.length > 10}
-	<Heading3>Tags</Heading3>
-	<span>The following tags are more common than usual among your favourites:</span>
-	<ol class="tags">
-		{#each tagCounts as tag}
-			<SimpleTag {tag} />
-		{/each}
-	</ol>
-{/if}
-
-{#if $favouritePostsStore.posts.length > 0}
-	<Heading3>Posts</Heading3>
-	<ol class="single-column">
-		{#each $favouritePostsStore.posts as post (post.id)}
-			<SingleColumnPost {post} onfullscreen={() => {}} />
-		{/each}
-	</ol>
-{/if}
+		<Preference title="Posts" description="All your favourite posts are listed here.">
+			<ol class="single-column">
+				{#each $favouritePostsStore.posts as post (post.id)}
+					<SingleColumnPost {post} onfullscreen={() => {}} />
+				{/each}
+			</ol>
+		</Preference>
+	{/if}
+</PageGeneric>
 
 <style>
 	.tags {

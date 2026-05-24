@@ -18,7 +18,10 @@
 </div>
 
 <style>
-	p {
-		margin-block-end: var(--grid-gap);
+	div {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		gap: var(--grid-gap);
 	}
 </style>

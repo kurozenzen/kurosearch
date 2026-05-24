@@ -24,6 +24,8 @@
 	import { StoreKey } from '$lib/store/store-keys';
 	import supertags from '$lib/store/supertags-store';
 	import theme from '$lib/store/theme-store';
+	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
+	import Preference from '$lib/components/pure/preference/Preference.svelte';
 
 	const reset = () => {
 		supertags.reset();
@@ -207,10 +209,11 @@
 	<meta name="description" content="All of your account data is available on this page." />
 </svelte:head>
 
-<section>
-	<Heading1>Account</Heading1>
-	<Heading3>Supertags</Heading3>
-	<div class="supertags">
+<PageList title="Account">
+	<Preference
+		title="Supertags"
+		description="Supertags are groups of tags that you can create to organize your searches. Can be created from main search page."
+	>
 		{#if $supertags.items.length === 0}
 			<p>
 				You don't have any supertags yet. You can create them when you have more than one tag
@@ -231,131 +234,142 @@
 				/>
 			{/each}
 		</ul>
-	</div>
+	</Preference>
 
-	<Heading3>Import/Export Current Settings</Heading3>
-	<p>Load and save preferences and supertags to and from a file.</p>
-	<div class="button-row">
-		<TextButton type="secondary" title="Save your data to a file." onclick={exportConfig}>
-			<span class="codicon codicon-file">Download Config File</span>
-		</TextButton>
-		<TextButton
-			type="secondary"
-			title="Restore your settings from a config file."
-			onclick={importConfig}
-		>
-			<span class="codicon codicon-file">Load Config File</span>
-		</TextButton>
-		<TextButton type="secondary" title="View current settings as JSON." onclick={viewSettings}>
-			<span class="codicon codicon-code">View Settings</span>
-		</TextButton>
-		<TextButton
-			title="Delete all your data."
-			onclick={() => {
-				resetDialog?.showModal();
-				addHistory('dialog');
-			}}
-		>
-			Reset Data
-		</TextButton>
-	</div>
-
-	{#if localSettingsPreview}
-		<SettingsJsonView
-			jsonText={localSettingsPreview}
-			fileName="kurosearch.config.json"
-			onclose={() => {
-				localSettingsPreview = undefined;
-			}}
-		/>
-	{/if}
-
-	<Heading3>Google Drive Backup</Heading3>
-	<p>Manually load and save preferences, supertags, and favourites to Google Drive.</p>
-	<div class="button-row">
-		{#if $firebaseLoggedIn}
-			<TextButton title="Sign out" onclick={disconnectGoogle}>Sign Out</TextButton>
+	<Preference
+		title="Import/Export Current Settings"
+		description="Load and save preferences and supertags to and from a file."
+	>
+		<div class="button-row">
+			<TextButton type="secondary" title="Save your data to a file." onclick={exportConfig}>
+				<span class="codicon codicon-file">Download Config File</span>
+			</TextButton>
 			<TextButton
 				type="secondary"
-				title="Load Settings"
+				title="Restore your settings from a config file."
+				onclick={importConfig}
+			>
+				<span class="codicon codicon-file">Load Config File</span>
+			</TextButton>
+			<TextButton type="secondary" title="View current settings as JSON." onclick={viewSettings}>
+				<span class="codicon codicon-code">View Settings</span>
+			</TextButton>
+			<TextButton
+				title="Delete all your data."
 				onclick={() => {
-					resetCloudMessages();
-					cloudPullDialog?.showModal();
+					resetDialog?.showModal();
 					addHistory('dialog');
 				}}
 			>
-				<span class="codicon codicon-cloud-download">Load Settings</span>
+				Reset Data
 			</TextButton>
-			<TextButton
-				type="secondary"
-				title="Save settings"
-				onclick={() => {
-					resetCloudMessages();
-					cloudPushDialog?.showModal();
-					addHistory('dialog');
+		</div>
+		{#if localSettingsPreview}
+			<SettingsJsonView
+				jsonText={localSettingsPreview}
+				fileName="kurosearch.config.json"
+				onclose={() => {
+					localSettingsPreview = undefined;
 				}}
-			>
-				<span class="codicon codicon-cloud-upload">Save Settings</span>
-			</TextButton>
-			<TextButton
-				type="secondary"
-				title="View settings currently stored in Google Drive."
-				onclick={viewStoredSettings}
-			>
-				<span class="codicon codicon-code">View Stored Settings</span>
-			</TextButton>
-		{:else}
-			<TextButton title="Sign in with Google" onclick={connectGoogle}>Login with Google</TextButton>
+			/>
 		{/if}
-	</div>
+	</Preference>
 
-	{#if cloudErrorMessage}
-		<p class="cloud-error">{cloudErrorMessage}</p>
-	{/if}
-	{#if cloudStatusMessage}
-		<p class="cloud-status">{cloudStatusMessage}</p>
-	{/if}
-	{#if cloudSettingsPreview}
-		<SettingsJsonView
-			jsonText={cloudSettingsPreview}
-			fileName="kurosearch-appdata-v1.json"
-			onclose={() => {
-				cloudSettingsPreview = undefined;
-			}}
-		/>
-	{/if}
+	<Preference
+		title="Google Drive Backup"
+		description="Manually load and save preferences, supertags and favourites to Google Drive."
+	>
+		<div class="button-row">
+			{#if $firebaseLoggedIn}
+				<TextButton title="Sign out" onclick={disconnectGoogle}>Sign Out</TextButton>
+				<TextButton
+					type="secondary"
+					title="Load Settings"
+					onclick={() => {
+						resetCloudMessages();
+						cloudPullDialog?.showModal();
+						addHistory('dialog');
+					}}
+				>
+					<span class="codicon codicon-cloud-download">Load Settings</span>
+				</TextButton>
+				<TextButton
+					type="secondary"
+					title="Save settings"
+					onclick={() => {
+						resetCloudMessages();
+						cloudPushDialog?.showModal();
+						addHistory('dialog');
+					}}
+				>
+					<span class="codicon codicon-cloud-upload">Save Settings</span>
+				</TextButton>
+				<TextButton
+					type="secondary"
+					title="View settings currently stored in Google Drive."
+					onclick={viewStoredSettings}
+				>
+					<span class="codicon codicon-code">View Stored Settings</span>
+				</TextButton>
+			{:else}
+				<TextButton title="Sign in with Google" onclick={connectGoogle}
+					>Login with Google</TextButton
+				>
+			{/if}
+		</div>
 
-	<Heading3>Favourites</Heading3>
-	<a href={resolve('/favourites')}> View Favourites</a>
+		{#if cloudErrorMessage}
+			<p class="cloud-error">{cloudErrorMessage}</p>
+		{/if}
+		{#if cloudStatusMessage}
+			<p class="cloud-status">{cloudStatusMessage}</p>
+		{/if}
+		{#if cloudSettingsPreview}
+			<SettingsJsonView
+				jsonText={cloudSettingsPreview}
+				fileName="kurosearch-appdata-v1.json"
+				onclose={() => {
+					cloudSettingsPreview = undefined;
+				}}
+			/>
+		{/if}
+	</Preference>
 
-	<Heading3>[LEGACY] Firebase Backup</Heading3>
-	<p>View your old firebase backup. Useful if you need to migrate some things manually.</p>
-	<div class="button-row">
-		<TextButton
-			type="secondary"
-			title="View settings currently stored in Firebase (legacy, may be empty if you have used Google Drive backup features)."
-			onclick={viewFirebaseBackup}
-			disabled={!$firebaseLoggedIn}
-		>
-			<span class="codicon codicon-code">View Firebase Backup</span>
-		</TextButton>
-	</div>
-	{#if firebaseErrorMessage}
-		<p class="cloud-error">{firebaseErrorMessage}</p>
-	{/if}
-	{#if firebaseStatusMessage}
-		<p class="cloud-status">{firebaseStatusMessage}</p>
-	{/if}
-	{#if firebaseSettingsPreview}
-		<SettingsJsonView
-			jsonText={firebaseSettingsPreview}
-			fileName="kurosearch-firebase-legacy-backup.json"
-			onclose={() => {
-				firebaseSettingsPreview = undefined;
-			}}
-		/>
-	{/if}
-</section>
+	<Preference title="Favourites" description="Your favourite posts.">
+		<a href={resolve('/favourites')}> View Favourites</a>
+	</Preference>
+
+	<Preference
+		title="[LEGACY] Firebase Backup"
+		description="View your old firebase backup. Useful if you need to migrate some things manually."
+	>
+		<div class="button-row">
+			<TextButton
+				type="secondary"
+				title="View settings currently stored in Firebase (legacy, may be empty if you have used Google Drive backup features)."
+				onclick={viewFirebaseBackup}
+				disabled={!$firebaseLoggedIn}
+			>
+				<span class="codicon codicon-code">View Firebase Backup</span>
+			</TextButton>
+		</div>
+		{#if firebaseErrorMessage}
+			<p class="cloud-error">{firebaseErrorMessage}</p>
+		{/if}
+		{#if firebaseStatusMessage}
+			<p class="cloud-status">{firebaseStatusMessage}</p>
+		{/if}
+		{#if firebaseSettingsPreview}
+			<SettingsJsonView
+				jsonText={firebaseSettingsPreview}
+				fileName="kurosearch-firebase-legacy-backup.json"
+				onclose={() => {
+					firebaseSettingsPreview = undefined;
+				}}
+			/>
+		{/if}
+	</Preference>
+</PageList>
 
 <ConfirmDialog
 	bind:dialog={cloudPullDialog}
@@ -385,8 +399,8 @@
 />
 
 <style>
-	section {
-		padding-inline: 8px;
+	ul {
+		width: 100%;
 	}
 
 	p {
@@ -400,7 +414,8 @@
 	}
 
 	.codicon::before {
-		margin-right: var(--tiny-gap);
+		vertical-align: text-bottom;
+		margin-right: var(--small-gap);
 	}
 
 	.cloud-status {

@@ -4,6 +4,7 @@
 	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
+	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 
 	let message = $state('Update');
@@ -32,23 +33,23 @@
 	<meta name="description" content="Further information about the website can be found here." />
 </svelte:head>
 
-<div>
-	<Heading1>About</Heading1>
-	<Heading3>Version</Heading3>
-	<section class="info">
-		<img src="/favicon.svg" alt="kuroseach logo" />
-		<h2>kurosearch</h2>
-		<span>
-			Version: {version}{#await getLatestCommit() then commit}
-				, Newest is: {commit?.sha?.substring(0, 7)}
-			{/await}
-		</span>
-	</section>
-	<section class="update">
+<PageGeneric title="About">
+	<div id="version">
+		<Heading3>Version</Heading3>
+		<section class="info">
+			<img src="/favicon.svg" alt="kuroseach logo" />
+			<h2>kurosearch</h2>
+			<span>
+				Version: {version}{#await getLatestCommit() then commit}
+					, Newest is: {commit?.sha?.substring(0, 7)}
+				{/await}
+			</span>
+		</section>
 		<TextButton title="Force an update of the app" onclick={forceUpdate}>{message}</TextButton>
-	</section>
-	<Heading3>More Info</Heading3>
-	<section class="more">
+	</div>
+
+	<div class="more">
+		<Heading3>More Info</Heading3>
 		<IconLink title="Debug Information" className="codicon codicon-link" href={resolve('/debug')}>
 			<p>Debug Information</p>
 		</IconLink>
@@ -66,12 +67,14 @@
 		>
 			<p>Troubleshooting</p>
 		</IconLink>
-	</section>
-</div>
+	</div>
+</PageGeneric>
 
 <style>
-	div {
-		padding-inline: var(--grid-gap);
+	#version {
+		display: flex;
+		flex-direction: column;
+		gap: var(--grid-gap);
 	}
 
 	.info {
@@ -82,12 +85,6 @@
 		padding: var(--grid-gap);
 		background-color: var(--background-1);
 		border-radius: var(--border-radius);
-	}
-
-	.update {
-		display: flex;
-		justify-content: center;
-		padding-block: var(--grid-gap);
 	}
 
 	.more {
@@ -107,5 +104,6 @@
 
 	p {
 		white-space: nowrap;
+		margin-inline-start: var(--small-gap);
 	}
 </style>
