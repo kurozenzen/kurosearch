@@ -22,7 +22,7 @@
 	let multiSelect = $state(false);
 	let ai = $state('both');
 	let mediaType = $state('all');
-	let sort = $state('date');
+	let sort = $state('new');
 	let checkedTags: Record<string, kurosearch.SearchableTag[]> = $state({});
 
 	const activateMultiSelect =
@@ -54,6 +54,7 @@
 	const submit = (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
 		activeSupertags.reset();
+		results.reset();
 
 		for (const { name, modifier } of TAGS_AI[ai]) {
 			activeTags.addByName(name, modifier);
@@ -75,7 +76,6 @@
 			activeTags.addByName(name, modifier);
 		}
 
-		results.reset();
 		goto('/');
 	};
 </script>

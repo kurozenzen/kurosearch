@@ -53,6 +53,22 @@ import gay from '$lib/assets/pairings/gay.png';
 import straight from '$lib/assets/pairings/straight.png';
 import yuri from '$lib/assets/pairings/yuri.png';
 
+// Characters
+
+import sakura from '$lib/assets/characters/sakura.png'; 
+import princesszelda from '$lib/assets/characters/princesszelda.png'; 
+import gardevoir from '$lib/assets/characters/gardevoir.png'; 
+import loona from '$lib/assets/characters/loona.png'; 
+import nami from '$lib/assets/characters/nami.png'; 
+import peach from '$lib/assets/characters/peach.png'; 
+import rouge from '$lib/assets/characters/rouge.png'; 
+import tifa from '$lib/assets/characters/tifa.jpeg'; 
+import hinata from '$lib/assets/characters/hinata.png'; 
+import yorha2b from '$lib/assets/characters/2b.png'; 
+import chunli from '$lib/assets/characters/chunli.png'; 
+import raven from '$lib/assets/characters/raven.png'; 
+import amy from '$lib/assets/characters/amy.png';
+
 // Imports
 import type { SortStoreData } from '$lib/store/sort-store';
 
@@ -201,19 +217,19 @@ export const quickSelectData = Object.freeze({
 		{ name: 'Futa x Male', tags: [{ name: 'futa_on_male', modifier: '+' }], icon: futa_on_male }
 	],
 	Characters: [
-		{ name: 'Nami', tags: [{ name: 'nami_(one_piece)', modifier: '+' }], icon: '' },
-		{ name: 'Tifa', tags: [{ name: 'tifa_lockhart', modifier: '+' }], icon: '' },
-		{ name: 'Princess Peach', tags: [{ name: 'princess_peach', modifier: '+' }], icon: '' },
-		{ name: 'Rouge', tags: [{ name: 'rouge_the_bat', modifier: '+' }], icon: '' },
-		{ name: 'Hinata', tags: [{ name: 'hyuuga_hinata', modifier: '+' }], icon: '' },
-		{ name: 'Loona', tags: [{ name: 'loona_(helluva_boss)', modifier: '+' }], icon: '' },
-		{ name: 'Gardevoir', tags: [{ name: 'gardevoir', modifier: '+' }], icon: '' },
-		{ name: '2B', tags: [{ name: 'yorha_2b', modifier: '+' }], icon: '' },
-		{ name: 'Amy', tags: [{ name: 'amy_rose', modifier: '+' }], icon: '' },
-		{ name: 'Raven', tags: [{ name: 'raven_(dc)', modifier: '+' }], icon: '' },
-		{ name: 'Chun-Li', tags: [{ name: 'chun-li', modifier: '+' }], icon: '' },
-		{ name: 'Sakura', tags: [{ name: 'sakura_haruno', modifier: '+' }], icon: '' },
-		{ name: 'Princess Zelda', tags: [{ name: 'princess_zelda', modifier: '+' }], icon: '' },
+		{ name: 'Nami', tags: [{ name: 'nami_(one_piece)', modifier: '+' }], icon: nami },
+		{ name: 'Tifa', tags: [{ name: 'tifa_lockhart', modifier: '+' }], icon: tifa },
+		{ name: 'Princess Peach', tags: [{ name: 'princess_peach', modifier: '+' }], icon: peach },
+		{ name: 'Rouge', tags: [{ name: 'rouge_the_bat', modifier: '+' }], icon: rouge },
+		{ name: 'Hinata', tags: [{ name: 'hyuuga_hinata', modifier: '+' }], icon: hinata },
+		{ name: 'Loona', tags: [{ name: 'loona_(helluva_boss)', modifier: '+' }], icon: loona },
+		{ name: 'Gardevoir', tags: [{ name: 'gardevoir', modifier: '+' }], icon: gardevoir },
+		{ name: '2B', tags: [{ name: 'yorha_2b', modifier: '+' }], icon: yorha2b },
+		{ name: 'Amy', tags: [{ name: 'amy_rose', modifier: '+' }], icon: amy },
+		{ name: 'Raven', tags: [{ name: 'raven_(dc)', modifier: '+' }], icon: raven },
+		{ name: 'Chun-Li', tags: [{ name: 'chun-li', modifier: '+' }], icon: chunli },
+		{ name: 'Sakura', tags: [{ name: 'sakura_haruno', modifier: '+' }], icon: sakura },
+		{ name: 'Princess Zelda', tags: [{ name: 'princess_zelda', modifier: '+' }], icon: princesszelda },
 		{ name: 'Hatsune Miku', tags: [{ name: 'hatsune_miku', modifier: '+' }], icon: '' },
 		{ name: 'Lucario', tags: [{ name: 'lucario', modifier: '+' }], icon: '' },
 		{ name: 'Tsunade', tags: [{ name: 'tsunade', modifier: '+' }], icon: '' },
