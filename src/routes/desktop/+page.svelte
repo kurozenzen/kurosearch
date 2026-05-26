@@ -6,7 +6,6 @@
 	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
 	import { clamp } from '$lib/logic/math';
 	import { getFirstPage } from '$lib/logic/search';
-	import { SKIP_TIME, videoStore } from '$lib/store/active-video-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
 	import { onDestroy, onMount } from 'svelte';
@@ -27,6 +26,14 @@
 	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
 	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
+	import {
+		SkipDirection,
+		skipVideo,
+		targetVideo,
+		toggleVideo
+	} from '$lib/store/active-video.svelte';
+
+	console.log($results);
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -71,7 +78,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					videoStore.target(video);
+					targetVideo(video);
 				}
 			}, 1);
 		}
@@ -86,7 +93,7 @@
 				let video = posts[nextFocus].querySelector('video');
 				if (video) {
 					video.focus();
-					videoStore.target(video);
+					targetVideo(video);
 				}
 			}, 1);
 		}
@@ -94,7 +101,7 @@
 		switch ((event as KeyboardEvent).key) {
 			case ' ':
 			case 'k':
-				if (videoStore.toggle()) {
+				if (toggleVideo()) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -102,7 +109,7 @@
 
 			case 'ArrowLeft':
 			case 'j':
-				if (videoStore.skip(-SKIP_TIME)) {
+				if (skipVideo(undefined, SkipDirection.Backward)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -110,7 +117,7 @@
 
 			case 'ArrowRight':
 			case 'l':
-				if (videoStore.skip(SKIP_TIME)) {
+				if (skipVideo(undefined, SkipDirection.Forward)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -149,7 +156,7 @@
 
 <section class="search-output">
 	<ResultWrapper>
-		<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
+		<ol class="multi-column">
 			{#each $results.posts as post (post.id)}
 				<PostDesktop
 					{post}
@@ -171,6 +178,7 @@
 	{@const vertical = aspectRatio > 1.5}
 	{@const scrollable = aspectRatio < 0.4}
 	{@const horizontal = !vertical && !scrollable}
+	{@debug activePost}
 	<section id="active-post" class:vertical class:scrollable class:horizontal>
 		<IconButton
 			class="button-close mixin-invisible"
@@ -224,7 +232,7 @@
 				<span>•</span>
 				<span>{activePost.type.toUpperCase()}</span>
 				<span>•</span>
-				<Score value={activePost.score} />
+				<Score post={activePost} />
 				<span>•</span>
 				<RelativeTime value={activePost.change} />
 			</div>

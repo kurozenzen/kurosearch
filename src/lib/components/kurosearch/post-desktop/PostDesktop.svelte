@@ -41,7 +41,6 @@
 <li
 	id={getPostId(post.id)}
 	class="post"
-	class:open
 	style="grid-row: span {rows};"
 	{onclick}
 	onkeydown={(event) => {
@@ -62,7 +61,7 @@
 	<div class="summary">
 		<span class="label">{postTypeLabel(post)}</span>
 		<p class="spacer"></p>
-		<Score value={post.score} />
+		<Score {post} />
 		<span>•</span>
 		<RelativeTime value={post.change} />
 	</div>
@@ -101,7 +100,7 @@
 		border-radius: var(--size);
 		width: var(--size);
 		height: var(--size);
-		
+
 		display: flex;
 		align-items: center;
 		justify-content: center;

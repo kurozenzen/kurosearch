@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
 	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import type { MouseEventHandler } from 'svelte/elements';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -10,14 +11,16 @@
 
 	let isFavourite = $derived($favouritePostsStore.ids.has(post.id));
 	let score = $derived(isFavourite ? post.score + 1 : post.score);
+
+	const onclick: MouseEventHandler<HTMLButtonElement> = (event) => {
+		event.stopPropagation();
+		favouritePostsStore.toggleFavourite(post);
+	};
 </script>
 
-<button
-	data-testid="score"
-	class="codicon codicon-heart"
-	class:favourite={isFavourite}
-	onclick={() => favouritePostsStore.toggleFavourite(post)}>{formatCount(score)}</button
->
+<button data-testid="score" class="codicon codicon-heart" class:favourite={isFavourite} {onclick}>
+	{formatCount(score)}
+</button>
 
 <style>
 	button {

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
+	import { on } from 'svelte/events';
+	import { onMount } from 'svelte';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
 	import Suggestion from '$lib/components/kurosearch/searchbar/Suggestion.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
-	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getTagDetails, getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { nextModifier } from '$lib/logic/modifier-utils';
@@ -12,7 +12,7 @@
 	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
-	import { videoStore } from '$lib/store/active-video-store';
+	import { targetVideo } from '$lib/store/active-video.svelte';
 	import apiKey from '$lib/store/api-key-store';
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
@@ -84,7 +84,7 @@
 	};
 
 	const focus = (e: any) => {
-		videoStore.target(undefined);
+		targetVideo(undefined);
 		focusInside = true;
 		showActiveTags = false;
 		e.target.scrollIntoView({ block: 'center', behavior: 'smooth' });
@@ -113,9 +113,32 @@
 		} else if (event.code === 'Escape') {
 			event.target.blur();
 		} else if (event.code === 'ArrowUp' && suggestionItems.length > 0) {
+			event.preventDefault();
+			event.stopPropagation();
 			selectedIndex = (selectedIndex + suggestionItems.length - 1) % suggestionItems.length;
 		} else if (event.code === 'ArrowDown' && suggestionItems.length > 0) {
+			event.preventDefault();
+			event.stopPropagation();
 			selectedIndex = (selectedIndex + 1) % suggestionItems.length;
+		} else if (
+			(event.key === '/' || event.key === 's') &&
+			(!document.activeElement || document.activeElement === document.body)
+		) {
+			event.preventDefault();
+			event.stopPropagation();
+			document.getElementById('searchbar')?.focus();
+		}
+
+		if (event.ctrlKey && event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			getFirstPage();
+		}
+
+		if (event.ctrlKey && event.key === 'm') {
+			event.preventDefault();
+			event.stopPropagation();
+			document.getElementById('select-modifier')?.click();
 		}
 	};
 
@@ -131,6 +154,8 @@
 
 		return [...matchingSupertags, ...matchingTags];
 	};
+
+	onMount(() => on(window, 'keydown', handleKeyDown));
 </script>
 
 <div
@@ -143,7 +168,7 @@
 		type="text"
 		name="searchbar"
 		id="searchbar"
-		placeholder="Search for tags"
+		placeholder={$activeTags.length === 0 ? '/ to focus' : 'Ctrl + Enter to search'}
 		autocomplete="off"
 		bind:value={searchTerm}
 		onfocus={focus}
