@@ -134,7 +134,7 @@
 <HeaderDesktop />
 
 <main>
-	{#if !$results.requested && !$results.loading}
+	{#if !$results.hasPage && !$results.loading}
 		<QuickSearch onSubmit={getFirstPage} />
 	{:else if $results.postCount === 0 && $results.loading}
 		<div class="loading-panel">

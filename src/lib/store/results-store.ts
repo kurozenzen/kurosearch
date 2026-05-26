@@ -7,8 +7,8 @@ export type ResultsStore = {
 	pageCount: number;
 	ids: Set<number>;
 	postCount: number;
-	requested: boolean;
-	allPagesRequested: boolean;
+	hasPage: boolean;
+	hasLastPage: boolean;
 	loading: boolean;
 	error: Error | undefined;
 };
@@ -18,8 +18,8 @@ const getInitialResults = (): ResultsStore => ({
 	pageCount: 0,
 	ids: new Set(),
 	postCount: 0,
-	requested: false,
-	allPagesRequested: false,
+	hasPage: false,
+	hasLastPage: false,
 	loading: false,
 	error: undefined
 });
@@ -30,8 +30,8 @@ const serializer = (value: ResultsStore) =>
 		pageCount: value.pageCount,
 		ids: [...value.ids.values()],
 		postCount: value.postCount,
-		requested: value.requested,
-		allPagesRequested: value.allPagesRequested
+		requested: value.hasPage,
+		allPagesRequested: value.hasLastPage
 	});
 
 const parser = (value: string): ResultsStore => {
@@ -41,8 +41,8 @@ const parser = (value: string): ResultsStore => {
 		pageCount: parsed.pageCount,
 		ids: new Set(parsed.ids),
 		postCount: parsed.postCount,
-		requested: parsed.requested,
-		allPagesRequested: parsed.allPagesRequested ?? false,
+		hasPage: parsed.requested,
+		hasLastPage: parsed.allPagesRequested ?? false,
 		loading: false,
 		error: undefined
 	};
@@ -69,8 +69,8 @@ const createResultsStore = () => {
 					pageCount: previous.pageCount + 1,
 					ids: previous.ids,
 					postCount: count ?? previous.postCount,
-					requested: true,
-					allPagesRequested: newPosts.length < PAGE_SIZE,
+					hasPage: true,
+					hasLastPage: newPosts.length < PAGE_SIZE,
 					loading: false,
 					error: undefined
 				};
@@ -85,8 +85,8 @@ const createResultsStore = () => {
 					pageCount: pid + 1,
 					ids: previous.ids,
 					postCount: previous.postCount,
-					requested: true,
-					allPagesRequested: page.length < PAGE_SIZE,
+					hasPage: true,
+					hasLastPage: page.length < PAGE_SIZE,
 					loading: false,
 					error: undefined
 				};
@@ -101,8 +101,8 @@ const createResultsStore = () => {
 					pageCount: previous.pageCount,
 					ids: previous.ids,
 					postCount: previous.postCount,
-					requested: false,
-					allPagesRequested: false,
+					hasPage: false,
+					hasLastPage: false,
 					loading: false,
 					error: undefined
 				};

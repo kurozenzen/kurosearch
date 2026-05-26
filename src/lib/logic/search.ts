@@ -48,13 +48,13 @@ const executeSearch = async (operation: () => Promise<void>) => {
 		try {
 			const pid = $results.pageCount;
 			await operation();
+			$results.hasPage = true;
 			logSearch(pid).catch(() => {});
 		} catch (error) {
 			$results.error = error instanceof Error ? error : new Error(String(error));
 		}
 	} finally {
 		$results.loading = false;
-		$results.requested = true;
 	}
 };
 

@@ -24,7 +24,7 @@
 	};
 
 	onMount(() => {
-		if (!$results.requested) {
+		if (!$results.hasPage) {
 			getFirstPage();
 		}
 	});
@@ -32,7 +32,7 @@
 
 {#if $results.error}
 	<SearchError error={$results.error} />
-{:else if $results.requested}
+{:else if $results.hasPage}
 	{#if $results.postCount === 0 && !$results.loading}
 		<ZeroResults onsortfilterupdate={getFirstPage} />
 	{:else}

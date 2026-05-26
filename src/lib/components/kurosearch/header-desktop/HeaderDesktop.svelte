@@ -19,7 +19,7 @@
 		</h1>
 		<SearchbarDesktop />
 		<div id="right">
-			{#if $results.requested}
+			{#if $results.hasPage}
 				<ResultCount />
 				<IconButton
 					aria-label="Reset search"

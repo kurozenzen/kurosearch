@@ -138,13 +138,13 @@
 
 	{#if $results.error}
 		<SearchError error={$results.error} />
-	{:else if $results.requested}
+	{:else if $results.hasPage}
 		<section>
 			{#if $results.postCount === 0}
 				<ZeroResults onsortfilterupdate={getFirstPage} />
 			{:else}
 				<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
-				{#if $results.allPagesRequested}
+				{#if $results.hasLastPage}
 					<NoMoreResults />
 				{:else if $pageNavigationEnabled}
 					<PageNavigation
