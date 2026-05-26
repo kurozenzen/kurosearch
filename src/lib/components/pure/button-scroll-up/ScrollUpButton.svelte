@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
-	import IconButton from '../button-icon/IconButton.svelte';
+	import { onMount } from 'svelte';
+	import { on } from 'svelte/events';
 
 	let previousY = $state(0);
 	let visible = $state(false);
@@ -11,13 +11,7 @@
 		previousY = currentY;
 	};
 
-	onMount(() => {
-		document.addEventListener('scroll', listener, { passive: true });
-	});
-
-	onDestroy(() => {
-		document.removeEventListener('scroll', listener);
-	});
+	onMount(() => on(window, 'scroll', listener, { passive: true }));
 </script>
 
 <button
