@@ -34,6 +34,7 @@
 	} from '$lib/store/active-video.svelte';
 	import { on } from 'svelte/events';
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
+	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
 
 	console.log($results);
 
@@ -248,6 +249,8 @@
 		</section>
 	{/if}
 </main>
+
+<FooterMobile />
 
 <style>
 	main {
