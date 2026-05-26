@@ -223,7 +223,7 @@
 			<ZeroResults onsortfilterupdate={getFirstPage} />
 		{:else}
 			<Results onsortfilterupdate={getFirstPage} onendreached={getNextPage} />
-			{#if $results.posts.length === $results.postCount}
+			{#if $results.allPagesRequested}
 				<NoMoreResults />
 			{:else if $pageNavigationEnabled}
 				<PageNavigation
