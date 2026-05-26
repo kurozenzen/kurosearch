@@ -6,6 +6,7 @@
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
 	import playSrc from '$lib/assets/play.svg?url';
+	import type { KeyboardEventHandler, MouseEventHandler } from 'svelte/elements';
 
 	const maxRatio = 1 / 2;
 	const rowsPerSquare = 3;
@@ -35,19 +36,23 @@
 		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
 	);
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
+
+	const onkeydown: KeyboardEventHandler<HTMLElement> = (event) => {
+		if (isEnter(event)) {
+			(event.target as HTMLElement).click();
+		}
+	};
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 <li
 	id={getPostId(post.id)}
 	class="post"
 	style="grid-row: span {rows};"
 	{onclick}
-	onkeydown={(event) => {
-		if (isEnter(event) || event.key === 'f') {
-			(event.target as HTMLDivElement)?.click();
-		}
-	}}
+	{onkeydown}
+	role="button"
+	tabindex="0"
 >
 	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
 	{#if post.type === 'video'}
