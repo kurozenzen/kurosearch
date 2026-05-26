@@ -115,6 +115,9 @@
 					event.stopPropagation();
 				}
 				break;
+			case 'Escape':
+				activePost = undefined;
+				break;
 		}
 	};
 
@@ -305,9 +308,9 @@
 
 	.search-output {
 		grid-area: main;
+		width: 100%;
 		flex-grow: 1;
-		overflow-y: scroll;
-		height: 100%;
+		contain: content;
 	}
 
 	ol {
