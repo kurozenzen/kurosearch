@@ -1,73 +1,73 @@
 // Categories
-import ahegao from '$lib/assets/categories/ahegao.png';
-import anal from '$lib/assets/categories/anal.png';
-import anthro from '$lib/assets/categories/anthro.png';
-import blowjob from '$lib/assets/categories/blowjob.png';
-import cock_worship from '$lib/assets/categories/cock_worship.png';
-import creampie from '$lib/assets/categories/creampie.png';
-import feet from '$lib/assets/categories/feet.jpeg';
-import femboy from '$lib/assets/categories/femboy.png';
-import femdom from '$lib/assets/categories/femdom.png';
-import footjob from '$lib/assets/categories/footjob.png';
-import furry from '$lib/assets/categories/furry.jpg';
-import incest from '$lib/assets/categories/incest.png';
-import milf from '$lib/assets/categories/milf.png';
-import paizuri from '$lib/assets/categories/paizuri.png';
-import pov from '$lib/assets/categories/pov.png';
-import rimming from '$lib/assets/categories/rimming.png';
-import romantic from '$lib/assets/categories/romantic.png';
-import succubus from '$lib/assets/categories/succubus.png';
-import tentacle from '$lib/assets/categories/tentacle.png';
-import wholesome from '$lib/assets/categories/wholesome.png';
-import dark_skin from '$lib/assets/categories/dark_skin.png';
-import double_penetration from '$lib/assets/categories/double_penetration.png';
-import tattoo from '$lib/assets/categories/tattoo.png';
-import zoophilia from '$lib/assets/categories/zoophilia.png';
-import watersports from '$lib/assets/categories/watersports.png';
-import gaping from '$lib/assets/categories/gaping.png';
-import prolapse from '$lib/assets/categories/prolapse.png';
-import gangbang from '$lib/assets/categories/gangbang.png';
-import armpit from '$lib/assets/categories/armpit.png';
-import rape from '$lib/assets/categories/rape.png';
+import ahegao from '$lib/assets/build/categories/ahegao.webp';
+import anal from '$lib/assets/build/categories/anal.webp';
+import anthro from '$lib/assets/build/categories/anthro.webp';
+import blowjob from '$lib/assets/build/categories/blowjob.webp';
+import cock_worship from '$lib/assets/build/categories/cock_worship.webp';
+import creampie from '$lib/assets/build/categories/creampie.webp';
+import feet from '$lib/assets/build/categories/feet.webp';
+import femboy from '$lib/assets/build/categories/femboy.webp';
+import femdom from '$lib/assets/build/categories/femdom.webp';
+import footjob from '$lib/assets/build/categories/footjob.webp';
+import furry from '$lib/assets/build/categories/furry.webp';
+import incest from '$lib/assets/build/categories/incest.webp';
+import milf from '$lib/assets/build/categories/milf.webp';
+import paizuri from '$lib/assets/build/categories/paizuri.webp';
+import pov from '$lib/assets/build/categories/pov.webp';
+import rimming from '$lib/assets/build/categories/rimming.webp';
+import romantic from '$lib/assets/build/categories/romantic.webp';
+import succubus from '$lib/assets/build/categories/succubus.webp';
+import tentacle from '$lib/assets/build/categories/tentacle.webp';
+import wholesome from '$lib/assets/build/categories/wholesome.webp';
+import dark_skin from '$lib/assets/build/categories/dark_skin.webp';
+import double_penetration from '$lib/assets/build/categories/double_penetration.webp';
+import tattoo from '$lib/assets/build/categories/tattoo.webp';
+import zoophilia from '$lib/assets/build/categories/zoophilia.webp';
+import watersports from '$lib/assets/build/categories/watersports.webp';
+import gaping from '$lib/assets/build/categories/gaping.webp';
+import prolapse from '$lib/assets/build/categories/prolapse.webp';
+import gangbang from '$lib/assets/build/categories/gangbang.webp';
+import armpit from '$lib/assets/build/categories/armpit.webp';
+import rape from '$lib/assets/build/categories/rape.webp';
 
 // Franchises
-import genshin_impact from '$lib/assets/franchises/genshin_impact.png';
-import league_of_legends from '$lib/assets/franchises/league_of_legends.png';
-import mario from '$lib/assets/franchises/mario.png';
-import marvel_rivals from '$lib/assets/franchises/marvel_rivals.png';
-import marvel from '$lib/assets/franchises/marvel.png';
-import nintendo from '$lib/assets/franchises/nintendo.png';
-import overwatch from '$lib/assets/franchises/overwatch.png';
-import pokemon from '$lib/assets/franchises/pokemon.png';
-import sonic from '$lib/assets/franchises/sonic.png';
-import xenoblade from '$lib/assets/franchises/xenoblade.png';
-import zelda from '$lib/assets/franchises/zelda.png';
-import zenless_zone_zero from '$lib/assets/franchises/zenless_zone_zero.png';
-import teen_titans from '$lib/assets/franchises/teen_titans.png';
+import genshin_impact from '$lib/assets/build/franchises/genshin_impact.webp';
+import league_of_legends from '$lib/assets/build/franchises/league_of_legends.webp';
+import mario from '$lib/assets/build/franchises/mario.webp';
+import marvel_rivals from '$lib/assets/build/franchises/marvel_rivals.webp';
+import marvel from '$lib/assets/build/franchises/marvel.webp';
+import nintendo from '$lib/assets/build/franchises/nintendo.webp';
+import overwatch from '$lib/assets/build/franchises/overwatch.webp';
+import pokemon from '$lib/assets/build/franchises/pokemon.webp';
+import sonic from '$lib/assets/build/franchises/sonic.webp';
+import xenoblade from '$lib/assets/build/franchises/xenoblade.webp';
+import zelda from '$lib/assets/build/franchises/zelda.webp';
+import zenless_zone_zero from '$lib/assets/build/franchises/zenless_zone_zero.webp';
+import teen_titans from '$lib/assets/build/franchises/teen_titans.webp';
 
 // Pairings
-import blacked from '$lib/assets/pairings/blacked.png';
-import futa_on_male from '$lib/assets/pairings/futa_on_male.png';
-import futanari from '$lib/assets/pairings/futanari.png';
-import gay from '$lib/assets/pairings/gay.png';
-import straight from '$lib/assets/pairings/straight.png';
-import yuri from '$lib/assets/pairings/yuri.png';
+import blacked from '$lib/assets/build/pairings/blacked.webp';
+import futa_on_male from '$lib/assets/build/pairings/futa_on_male.webp';
+import futanari from '$lib/assets/build/pairings/futanari.webp';
+import gay from '$lib/assets/build/pairings/gay.webp';
+import straight from '$lib/assets/build/pairings/straight.webp';
+import yuri from '$lib/assets/build/pairings/yuri.webp';
 
 // Characters
 
-import sakura from '$lib/assets/characters/sakura.png'; 
-import princesszelda from '$lib/assets/characters/princesszelda.png'; 
-import gardevoir from '$lib/assets/characters/gardevoir.png'; 
-import loona from '$lib/assets/characters/loona.png'; 
-import nami from '$lib/assets/characters/nami.png'; 
-import peach from '$lib/assets/characters/peach.png'; 
-import rouge from '$lib/assets/characters/rouge.png'; 
-import tifa from '$lib/assets/characters/tifa.jpeg'; 
-import hinata from '$lib/assets/characters/hinata.png'; 
-import yorha2b from '$lib/assets/characters/2b.png'; 
-import chunli from '$lib/assets/characters/chunli.png'; 
-import raven from '$lib/assets/characters/raven.png'; 
-import amy from '$lib/assets/characters/amy.png';
+import sakura from '$lib/assets/build/characters/sakura.webp';
+import princesszelda from '$lib/assets/build/characters/princesszelda.webp';
+import gardevoir from '$lib/assets/build/characters/gardevoir.webp';
+import loona from '$lib/assets/build/characters/loona.webp';
+import nami from '$lib/assets/build/characters/nami.webp';
+import peach from '$lib/assets/build/characters/peach.webp';
+import rouge from '$lib/assets/build/characters/rouge.webp';
+import tifa from '$lib/assets/build/characters/tifa.webp';
+import hinata from '$lib/assets/build/characters/hinata.webp';
+import yorha2b from '$lib/assets/build/characters/2b.webp';
+import chunli from '$lib/assets/build/characters/chunli.webp';
+import raven from '$lib/assets/build/characters/raven.webp';
+import amy from '$lib/assets/build/characters/amy.webp';
 
 // Imports
 import type { SortStoreData } from '$lib/store/sort-store';
@@ -229,7 +229,11 @@ export const quickSelectData = Object.freeze({
 		{ name: 'Raven', tags: [{ name: 'raven_(dc)', modifier: '+' }], icon: raven },
 		{ name: 'Chun-Li', tags: [{ name: 'chun-li', modifier: '+' }], icon: chunli },
 		{ name: 'Sakura', tags: [{ name: 'sakura_haruno', modifier: '+' }], icon: sakura },
-		{ name: 'Princess Zelda', tags: [{ name: 'princess_zelda', modifier: '+' }], icon: princesszelda },
+		{
+			name: 'Princess Zelda',
+			tags: [{ name: 'princess_zelda', modifier: '+' }],
+			icon: princesszelda
+		},
 		{ name: 'Hatsune Miku', tags: [{ name: 'hatsune_miku', modifier: '+' }], icon: '' },
 		{ name: 'Lucario', tags: [{ name: 'lucario', modifier: '+' }], icon: '' },
 		{ name: 'Tsunade', tags: [{ name: 'tsunade', modifier: '+' }], icon: '' },
