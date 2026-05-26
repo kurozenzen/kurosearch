@@ -191,18 +191,6 @@
 		gap: var(--grid-gap);
 	}
 
-	@keyframes sweep {
-		0% {
-			background: var(--background-1);
-		}
-		50% {
-			background: var(--background-2);
-		}
-		100% {
-			background: var(--background-1);
-		}
-	}
-
 	div {
 		contain: strict;
 		height: 100vh;

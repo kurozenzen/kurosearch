@@ -35,6 +35,8 @@
 	import { on } from 'svelte/events';
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
+	import LynxMain from '../LynxMain.svelte';
+	import { requested } from '$app/server';
 
 	console.log($results);
 
@@ -132,8 +134,14 @@
 <HeaderDesktop />
 
 <main>
-	{#if !$results.requested}
+	{#if !$results.requested && !$results.loading}
 		<QuickSearch onSubmit={getFirstPage} />
+	{:else if $results.postCount === 0 && $results.loading}
+		<div class="loading-panel">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
 	{:else}
 		<section class="search-output">
 			<ResultWrapper>
@@ -149,10 +157,6 @@
 				</ol>
 			</ResultWrapper>
 		</section>
-	{/if}
-
-	{#if $results.loading}
-		<div class="loading-panel"></div>
 	{/if}
 
 	{#if activePost !== undefined}
@@ -255,6 +259,8 @@
 		flex-direction: column;
 		gap: var(--grid-gap);
 		max-width: 100vw;
+		width: 100%;
+		flex-grow: 1;
 	}
 
 	#active-post {
@@ -364,6 +370,19 @@
 					text-transform: capitalize;
 				}
 			}
+		}
+	}
+
+	.loading-panel {
+		flex-grow: 1;
+		display: flex;
+		gap: var(--grid-gap);
+		align-items: stretch;
+
+		div {
+			border-radius: var(--border-radius-large);
+			animation: sweep ease-in-out 3s infinite;
+			flex-grow: 1;
 		}
 	}
 </style>

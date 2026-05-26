@@ -33,7 +33,7 @@
 {#if $results.error}
 	<SearchError error={$results.error} />
 {:else if $results.requested}
-	{#if $results.postCount === 0}
+	{#if $results.postCount === 0 && !$results.loading}
 		<ZeroResults onsortfilterupdate={getFirstPage} />
 	{:else}
 		{@render children()}

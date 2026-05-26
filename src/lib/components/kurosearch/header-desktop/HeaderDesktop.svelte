@@ -9,11 +9,14 @@
 	import results from '$lib/store/results-store';
 	import ResultCount from '../results/ResultCount.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import LynxMain from '../../../../routes/LynxMain.svelte';
 </script>
 
 <header>
 	<nav aria-label="Main navigation">
-		<h1><a href={resolve('/desktop')}>ks</a></h1>
+		<h1>
+			<a href={resolve('/desktop')}>ks</a>
+		</h1>
 		<SearchbarDesktop />
 		<div id="right">
 			{#if $results.requested}

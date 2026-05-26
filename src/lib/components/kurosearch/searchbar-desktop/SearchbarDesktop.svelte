@@ -257,7 +257,7 @@
 		background-color: var(--background-1);
 		border-radius: var(--line-height-large);
 		width: 100%;
-		max-width: 512px;
+		width: 512px;
 		padding-inline: 6px;
 		margin: 0 auto;
 		position: relative;
