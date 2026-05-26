@@ -3,7 +3,9 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" as="image" href={icon} />
+	{#if icon}
+		<link rel="preload" as="image" href={icon} />
+	{/if}
 </svelte:head>
 
 <button {onclick} {oncontextmenu} style="--icon: url({icon})" class:checked>
