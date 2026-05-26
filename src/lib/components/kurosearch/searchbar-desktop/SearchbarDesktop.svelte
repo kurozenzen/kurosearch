@@ -18,6 +18,8 @@
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
+	import ResultCount from '../results/ResultCount.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
 	let searchTerm = $state('');
 	let previousSearchTerm = $state('');
@@ -79,6 +81,7 @@
 
 	const closeIfFocusOutside = (event: any) => {
 		if (!event.relatedTarget || !event.target.parentNode.contains(event.relatedTarget)) {
+			showActiveTags = false;
 			focusInside = false;
 		}
 	};
@@ -111,7 +114,7 @@
 					.forEach(pick);
 			}
 		} else if (event.code === 'Escape') {
-			event.target.blur();
+			focusInside = false;
 		} else if (event.code === 'ArrowUp' && suggestionItems.length > 0) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -144,7 +147,7 @@
 	class:open={focusInside && (hasDropdownContent || showActiveTags)}
 	onblur={close}
 >
-	<ModifierSelect bind:modifier class="modifier-select-desktop" />
+	<ModifierSelect bind:modifier />
 	<input
 		type="text"
 		name="searchbar"
@@ -161,10 +164,12 @@
 	<button
 		id="btn-tags"
 		title="Show/Hide active tags"
+		class="mixin-shape-item mixin-primary mixin-hover"
 		onclick={() => {
 			showActiveTags = !showActiveTags;
 			focusInside = true;
 		}}
+		onblur={closeIfFocusOutside}
 	>
 		{#if $activeTags.length + $activeSupertags.length === 0}
 			No
@@ -175,7 +180,7 @@
 		{/if}
 		<i class="codicon codicon-tag"></i>
 	</button>
-	<SortFilterConfig onsortfilterupdate={getFirstPage} class="sort-filter-desktop" />
+	<SortFilterConfig onsortfilterupdate={getFirstPage} class="sort-filter-desktop mixin-primary" />
 	<button
 		id="btn-search"
 		title="Search with tags"
@@ -212,23 +217,29 @@
 		{/await}
 	</ol>
 	<div class="tags" class:open={focusInside && showActiveTags}>
-		<ActiveTagList
-			tags={[...$activeTags, ...$activeSupertags]}
-			onclick={(tag) =>
-				'description' in tag
-					? activeSupertags.removeByName(tag.name)
-					: activeTags.removeByName(tag.name)}
-			oncontextmenu={(tag) => {
-				if (!('description' in tag)) {
-					tag.modifier = nextModifier(tag.modifier);
-					activeTags.addOrReplace(tag);
-				}
-			}}
-			oncreateSupertag={() => {
-				createSupertagDialog?.showModal();
-				addHistory('dialog');
-			}}
-		/>
+		{#if $activeTags.length + $activeSupertags.length === 0}
+			<div class="suggestion-footer">
+				<span>No tags yet. Add some.</span>
+			</div>
+		{:else}
+			<ActiveTagList
+				tags={[...$activeTags, ...$activeSupertags]}
+				onclick={(tag) =>
+					'description' in tag
+						? activeSupertags.removeByName(tag.name)
+						: activeTags.removeByName(tag.name)}
+				oncontextmenu={(tag) => {
+					if (!('description' in tag)) {
+						tag.modifier = nextModifier(tag.modifier);
+						activeTags.addOrReplace(tag);
+					}
+				}}
+				oncreateSupertag={() => {
+					createSupertagDialog?.showModal();
+					addHistory('dialog');
+				}}
+			/>
+		{/if}
 	</div>
 </div>
 
@@ -247,10 +258,13 @@
 		border-radius: var(--line-height-large);
 		width: 100%;
 		max-width: 512px;
+		padding-inline: 6px;
 		margin: 0 auto;
 		position: relative;
 		isolation: isolate;
 		z-index: var(--z-searchbar);
+		gap: 6px;
+		justify-self: center;
 
 		input {
 			font-size: var(--text-size);
@@ -318,11 +332,10 @@
 		align-items: center;
 		gap: 4px;
 		color: var(--text);
-		height: 100%;
 	}
 
 	#btn-search {
-		--size: var(--line-height-large);
+		--size: var(--line-height);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -331,33 +344,9 @@
 	#btn-tags,
 	#btn-search {
 		padding-inline: 8px;
-		transition: all var(--default-transition-behaviour);
-	}
-
-	@media (hover: hover) {
-		#btn-search:hover {
-			background-color: var(--accent-light);
-		}
-
-		#btn-tags:hover {
-			background-color: var(--background-2);
-			color: var(--text-highlight);
-		}
-	}
-
-	:global(button.modifier-select-desktop) {
-		width: var(--line-height-large);
-		height: 100%;
-		border-radius: 0;
-		border-radius: var(--line-height-large);
 	}
 
 	:global(button.sort-filter-desktop) {
 		padding-inline: 8px;
-		border-radius: 0;
-	}
-
-	:global(button.sort-filter-desktop):hover {
-		background-color: var(--background-2);
 	}
 </style>

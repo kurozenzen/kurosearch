@@ -63,6 +63,12 @@
 	);
 
 	const keybinds = (event: KeyboardEvent) => {
+		if (event.ctrlKey && event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			getFirstPage();
+		}
+
 		if (
 			document.activeElement?.tagName === 'INPUT' ||
 			document.activeElement?.tagName === 'TEXTAREA'
@@ -77,12 +83,6 @@
 			event.preventDefault();
 			event.stopPropagation();
 			document.getElementById('searchbar')?.focus();
-		}
-
-		if (event.ctrlKey && event.key === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			getFirstPage();
 		}
 
 		if (event.ctrlKey && event.key === 'm') {
@@ -114,12 +114,6 @@
 					event.preventDefault();
 					event.stopPropagation();
 				}
-				break;
-
-			case 'Escape':
-				event.preventDefault();
-				event.stopPropagation();
-				activePost = undefined;
 				break;
 		}
 	};

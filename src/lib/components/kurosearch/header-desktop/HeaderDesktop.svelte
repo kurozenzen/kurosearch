@@ -6,31 +6,51 @@
 	import AccountLink from '../link-account/AccountLink.svelte';
 	import DiscordLink from '../link-discord/DiscordLink.svelte';
 	import SearchbarDesktop from '../searchbar-desktop/SearchbarDesktop.svelte';
+	import results from '$lib/store/results-store';
+	import ResultCount from '../results/ResultCount.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 </script>
 
 <header>
 	<nav aria-label="Main navigation">
 		<h1><a href={resolve('/desktop')}>ks</a></h1>
-		<div class="spacer"></div>
 		<SearchbarDesktop />
-		<div class="spacer"></div>
-		<LinkKofi />
-		<DiscordLink />
-		<LinkHelp />
-		<LinkSettings />
-		<AccountLink />
+		<div id="right">
+			{#if $results.requested}
+				<ResultCount />
+				<IconButton
+					aria-label="Reset search"
+					class="mixin-hover mixin-invisible"
+					onclick={() => results.reset()}
+				>
+					<i class="codicon codicon-close"></i>
+				</IconButton>
+			{/if}
+			<div class="spacer"></div>
+			<LinkKofi />
+			<DiscordLink />
+			<LinkHelp />
+			<LinkSettings />
+			<AccountLink />
+		</div>
 	</nav>
 </header>
 
 <style>
 	header {
 		grid-area: header;
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
 		width: 100%;
 		padding-inline: var(--small-gap);
 		padding-top: var(--small-gap);
 		align-items: center;
 		gap: 8px;
+	}
+
+	#right {
+		display: flex;
+		align-items: center;
 	}
 
 	h1 {

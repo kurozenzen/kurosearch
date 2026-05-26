@@ -4,6 +4,7 @@
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		offset: number;
@@ -49,14 +50,10 @@
 	});
 
 	onMount(() => {
-		document.addEventListener('keydown', keybinds);
 		setTimeout(() => {
 			$fullscreenHintDone = true;
 		}, 2000);
-	});
-
-	onDestroy(() => {
-		document.removeEventListener('keydown', keybinds);
+		return on(window, 'keydown', keybinds);
 	});
 </script>
 

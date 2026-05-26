@@ -4,6 +4,7 @@
 	import results from '$lib/store/results-store';
 	import { onDestroy, onMount } from 'svelte';
 	import Screen from './Screen.svelte';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		index: number;
@@ -54,10 +55,7 @@
 
 	onMount(() => {
 		container.scrollTop = desiredIndex * window.innerHeight;
-		document.addEventListener('keydown', keybinds);
-	});
-	onDestroy(() => {
-		document.removeEventListener('keydown', keybinds);
+		return on(window, 'keydown', keybinds);
 	});
 </script>
 

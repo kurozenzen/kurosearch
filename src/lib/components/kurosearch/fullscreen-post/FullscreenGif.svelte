@@ -22,6 +22,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -111,12 +112,11 @@
 	onMount(() => {
 		if ($autoplayFullscreenEnabled) {
 			animationHandle = requestAnimationFrame(updateSlider);
-			browser && document.addEventListener('keydown', keybinds);
 		}
+		return on(window, 'keydown', keybinds);
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
-		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

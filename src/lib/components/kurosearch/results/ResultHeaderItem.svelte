@@ -20,5 +20,6 @@
 		align-items: center;
 		padding-inline: var(--grid-gap);
 		border-radius: var(--border-radius);
+		text-wrap: nowrap;
 	}
 </style>

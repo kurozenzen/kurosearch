@@ -25,6 +25,8 @@ i.codicon {
 
 .custom-icon-wave::before {
 	content: '(⁓)';
+	line-height: 16px;
+	margin-top: -2px;
 }
 
 .codicon-plus:before {

@@ -18,6 +18,7 @@
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
 	import { onDestroy, onMount } from 'svelte';
+	import { on } from 'svelte/events';
 
 	// svelte-ignore non_reactive_update
 	let createSupertagDialog: HTMLDialogElement;
@@ -58,17 +59,7 @@
 		}
 	};
 
-	onMount(() => {
-		if (browser) {
-			document.addEventListener('keydown', keybinds);
-		}
-	});
-
-	onDestroy(() => {
-		if (browser) {
-			document.removeEventListener('keydown', keybinds);
-		}
-	});
+	onMount(() => on(window, 'keydown', keybinds));
 </script>
 
 <section id="search">

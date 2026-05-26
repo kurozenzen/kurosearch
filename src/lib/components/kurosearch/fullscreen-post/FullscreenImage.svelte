@@ -23,6 +23,7 @@
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { onDestroy, onMount } from 'svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -114,12 +115,11 @@
 	onMount(() => {
 		if ($autoplayFullscreenEnabled) {
 			animationHandle = requestAnimationFrame(updateSlider);
-			document.addEventListener('keydown', keybinds);
 		}
+		return on(window, 'keydown', keybinds);
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
-		document.removeEventListener('keydown', keybinds);
 	});
 </script>
 

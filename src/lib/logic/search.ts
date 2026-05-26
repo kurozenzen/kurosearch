@@ -38,6 +38,7 @@ const createDefaultSearch = () => {
 const executeSearch = async (operation: () => Promise<void>) => {
 	const $results = get(resultsStore);
 	try {
+		$results.requested = true;
 		$results.loading = true;
 		$results.error = undefined;
 		const pid = $results.pageCount;

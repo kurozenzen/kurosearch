@@ -26,6 +26,7 @@
 	} from '$lib/store/active-video.svelte';
 	import SearchForm from './SearchForm.svelte';
 	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
+	import { on } from 'svelte/events';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
@@ -108,19 +109,11 @@
 		document.getElementById('result-header')?.scrollIntoView();
 	};
 
-	onMount(async () => {
-		if (browser) {
-			document.addEventListener('keydown', keybinds);
-			if ($results.postCount === 0) {
-				getFirstPage();
-			}
+	onMount(() => {
+		if ($results.postCount === 0) {
+			getFirstPage();
 		}
-	});
-
-	onDestroy(() => {
-		if (browser) {
-			document.removeEventListener('keydown', keybinds);
-		}
+		return on(window, 'keydown', keybinds);
 	});
 </script>
 

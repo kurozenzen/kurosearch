@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { onpopstate } from '$lib/logic/use/onpopstate';
 	import { onDestroy, onMount, type Snippet } from 'svelte';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		dialog: HTMLDialogElement;
@@ -27,14 +28,7 @@
 		}
 	};
 
-	onMount(() => {
-		// Close on backdrop click
-		if (browser) dialog.addEventListener('click', listener);
-	});
-
-	onDestroy(() => {
-		if (browser) dialog.removeEventListener('click', listener);
-	});
+	onMount(() => on(dialog, 'click', listener));
 </script>
 
 <dialog bind:this={dialog} {onclose} use:onpopstate={onPopState}>

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
-	import { onDestroy, onMount } from 'svelte';
+	import { broadcast } from '$lib/logic/svelte/handlers.svelte';
+	import { onMount } from 'svelte';
+	import { on } from 'svelte/events';
 	import FullscreenScroller from './FullscreenScroller.svelte';
-	import { browser } from '$app/environment';
 
 	interface Props {
 		index: number;
@@ -28,18 +29,9 @@
 		}
 	};
 
-	onMount(() => {
-		if (browser) {
-			window.addEventListener('popstate', exitOnStateChange);
-			document.addEventListener('keydown', keybinds);
-		}
-	});
-	onDestroy(() => {
-		if (browser) {
-			window.removeEventListener('popstate', exitOnStateChange);
-			document.removeEventListener('keydown', keybinds);
-		}
-	});
+	onMount(() =>
+		broadcast(on(window, 'popstate', exitOnStateChange), on(document, 'keydown', keybinds))
+	);
 </script>
 
 <Fullscreen onclose={() => onclose(index)}>
