@@ -23,12 +23,10 @@ const ignoreInvalidStateError = (action: () => void) => {
 };
 
 export const initIdb = async () => {
-	console.log('Initializing IndexedDB...');
 	try {
 		return ensureIdb()
 			.then((db) => {
 				idb = db;
-				console.log('Success');
 			})
 			.catch((error) => console.error('Failed to initialize IndexedDB:', error))
 			.then(clean)
@@ -40,10 +38,8 @@ export const initIdb = async () => {
 
 const clean = async () =>
 	new Promise<void>((resolve) => {
-		console.log('Cleaning IndexedDB...');
 		if (!idb) {
 			resolve();
-			console.log('No IndexedDB instance, skipping clean.');
 			return;
 		}
 
@@ -77,20 +73,16 @@ const clean = async () =>
 				postStore.delete(cursor.primaryKey);
 				cursor.continue();
 			}
-			console.log('Done');
 		});
 	});
 
 const ensureIdb = async (): Promise<IDBDatabase> => {
 	return new Promise((resolve, reject) => {
 		const version = 5;
-		console.log('Opening IndexedDB with version', version);
 		const request = indexedDB.open('kurosearch', version);
 		request.addEventListener('success', (e) => {
-			console.log('IndexedDB opened successfully');
 			const db = (e.target as IDBOpenDBRequest).result;
 			db.addEventListener('versionchange', () => {
-				console.log('IDB version change detected, closing database');
 				db.close();
 			});
 			resolve(db);
@@ -104,10 +96,8 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 			reject(new Error('IDB open request is blocked'));
 		});
 		request.addEventListener('upgradeneeded', (event) => {
-			console.log('Upgrading IndexedDB to version', version);
 			const db = (event.target as IDBOpenDBRequest).result;
 			db.addEventListener('versionchange', () => {
-				console.log('IDB version change detected, closing database');
 				db.close();
 			});
 
@@ -132,7 +122,6 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('tags')) {
 				try {
-					console.log('Creating tags object store');
 					db.createObjectStore('tags', { keyPath: 'name' });
 				} catch (e) {
 					reject(e);
@@ -141,7 +130,6 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('comments')) {
 				try {
-					console.log('Creating comments object store');
 					const commentStore = db.createObjectStore('comments', { keyPath: 'postId' });
 					commentStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
@@ -151,7 +139,6 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('posts')) {
 				try {
-					console.log('Creating posts object store');
 					const postStore = db.createObjectStore('posts', { keyPath: 'id' });
 					postStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {
@@ -161,7 +148,6 @@ const ensureIdb = async (): Promise<IDBDatabase> => {
 
 			if (!db.objectStoreNames.contains('favourite_posts')) {
 				try {
-					console.log('Creating favourite_posts object store');
 					const favouritePostStore = db.createObjectStore('favourite_posts', { keyPath: 'id' });
 					favouritePostStore.createIndex('indexedAt', 'indexedAt', { unique: false });
 				} catch (e) {

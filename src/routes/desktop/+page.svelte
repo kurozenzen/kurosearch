@@ -1,44 +1,28 @@
 <script lang="ts">
 	// Header
 	// Body
-	import { browser } from '$app/environment';
-	import HeaderDesktop from '$lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
-	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
-	import { clamp } from '$lib/logic/math';
-	import { getFirstPage } from '$lib/logic/search';
-	import resultColumns from '$lib/store/result-columns-store';
-	import results from '$lib/store/results-store';
-	import { onDestroy, onMount } from 'svelte';
-	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
-	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
-	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
-	import alwaysLoop from '$lib/store/always-loop-store';
-	import Screen from '$lib/components/kurosearch/fullscreen-post/Screen.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import FullscreenDetails from '$lib/components/kurosearch/fullscreen-post/FullscreenDetails.svelte';
-	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
-	import Score from '$lib/components/kurosearch/score/Score.svelte';
-	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
-	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
-	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
-	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
-	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
-	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
-	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
-	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
-	import {
-		SkipDirection,
-		skipVideo,
-		targetVideo,
-		toggleVideo
-	} from '$lib/store/active-video.svelte';
-	import { on } from 'svelte/events';
-	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
-	import LynxMain from '../LynxMain.svelte';
-	import { requested } from '$app/server';
-
-	console.log($results);
+	import HeaderDesktop from '$lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
+	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
+	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
+	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
+	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
+	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
+	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
+	import Score from '$lib/components/kurosearch/score/Score.svelte';
+	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
+	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
+	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
+	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import { getFirstPage } from '$lib/logic/search';
+	import { SkipDirection, skipVideo, toggleVideo } from '$lib/store/active-video.svelte';
+	import alwaysLoop from '$lib/store/always-loop-store';
+	import results from '$lib/store/results-store';
+	import { onMount } from 'svelte';
+	import { on } from 'svelte/events';
+	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
 
 	console.log(
 		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',

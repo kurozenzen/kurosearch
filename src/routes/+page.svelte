@@ -47,8 +47,6 @@
 		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
 			const posts = document.getElementsByClassName('post-media');
 
-			console.log(nextFocus + 1, 0, posts.length, ' =>', clamp(nextFocus + 1, 0, posts.length - 1));
-
 			nextFocus = clamp(nextFocus + 1, 0, posts.length - 1);
 			posts[nextFocus].scrollIntoView();
 			// @ts-expect-error - they will be focusable

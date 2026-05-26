@@ -116,7 +116,6 @@ export const setupGoogleDriveAtPageLoad = async () => {
 			});
 
 			await gapi.client.init({ discoveryDocs: [DRIVE_DISCOVERY_DOC] });
-			console.log('Google Drive client initialized');
 		})();
 
 		setupPromise.catch((error) => {
