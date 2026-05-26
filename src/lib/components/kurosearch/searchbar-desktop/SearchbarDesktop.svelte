@@ -120,25 +120,6 @@
 			event.preventDefault();
 			event.stopPropagation();
 			selectedIndex = (selectedIndex + 1) % suggestionItems.length;
-		} else if (
-			(event.key === '/' || event.key === 's') &&
-			(!document.activeElement || document.activeElement === document.body)
-		) {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('searchbar')?.focus();
-		}
-
-		if (event.ctrlKey && event.key === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			getFirstPage();
-		}
-
-		if (event.ctrlKey && event.key === 'm') {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('select-modifier')?.click();
 		}
 	};
 

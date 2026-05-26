@@ -32,6 +32,8 @@
 		targetVideo,
 		toggleVideo
 	} from '$lib/store/active-video.svelte';
+	import { on } from 'svelte/events';
+	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 
 	console.log($results);
 
@@ -67,35 +69,25 @@
 			return;
 		}
 
-		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
-			const posts = document.getElementsByClassName('post-media');
-
-			nextFocus = clamp(nextFocus + 1, 0, posts.length - 1);
-			posts[nextFocus].scrollIntoView();
-			// @ts-expect-error - they will be focusable
-			posts[nextFocus]?.focus?.();
-			setTimeout(() => {
-				let video = posts[nextFocus].querySelector('video');
-				if (video) {
-					video.focus();
-					targetVideo(video);
-				}
-			}, 1);
+		if (
+			(event.key === '/' || event.key === 's') &&
+			(!document.activeElement || document.activeElement === document.body)
+		) {
+			event.preventDefault();
+			event.stopPropagation();
+			document.getElementById('searchbar')?.focus();
 		}
 
-		if ((event.ctrlKey && event.key === 'ArrowUp') || event.key === 'u') {
-			const posts = document.getElementsByClassName('post-media');
-			nextFocus = clamp(nextFocus - 1, 0, posts.length - 1);
-			posts[nextFocus].scrollIntoView();
-			// @ts-expect-error - they will be focusable
-			posts[nextFocus]?.focus?.();
-			setTimeout(() => {
-				let video = posts[nextFocus].querySelector('video');
-				if (video) {
-					video.focus();
-					targetVideo(video);
-				}
-			}, 1);
+		if (event.ctrlKey && event.key === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			getFirstPage();
+		}
+
+		if (event.ctrlKey && event.key === 'm') {
+			event.preventDefault();
+			event.stopPropagation();
+			document.getElementById('select-modifier')?.click();
 		}
 
 		switch ((event as KeyboardEvent).key) {
@@ -131,20 +123,7 @@
 		}
 	};
 
-	onMount(async () => {
-		if (browser) {
-			document.addEventListener('keydown', keybinds);
-			if ($results.postCount === 0) {
-				getFirstPage();
-			}
-		}
-	});
-
-	onDestroy(() => {
-		if (browser) {
-			document.removeEventListener('keydown', keybinds);
-		}
-	});
+	onMount(() => on(window, 'keydown', keybinds));
 </script>
 
 <svelte:head>
@@ -154,115 +133,130 @@
 
 <HeaderDesktop />
 
-<section class="search-output">
-	<ResultWrapper>
-		<ol class="multi-column">
-			{#each $results.posts as post (post.id)}
-				<PostDesktop
-					{post}
-					onclick={() => {
-						activePost = post;
-					}}
+<main>
+	{#if !$results.requested}
+		<QuickSearch onSubmit={getFirstPage} />
+	{:else}
+		<section class="search-output">
+			<ResultWrapper>
+				<ol class="multi-column">
+					{#each $results.posts as post (post.id)}
+						<PostDesktop
+							{post}
+							onclick={() => {
+								activePost = post;
+							}}
+						/>
+					{/each}
+				</ol>
+			</ResultWrapper>
+		</section>
+	{/if}
+
+	{#if $results.loading}
+		<div class="loading-panel"></div>
+	{/if}
+
+	{#if activePost !== undefined}
+		{@const aspectRatio = calculateAspectRatio(activePost.width, activePost.height)}
+		{@const vertical = aspectRatio > 1.5}
+		{@const scrollable = aspectRatio < 0.4}
+		{@const horizontal = !vertical && !scrollable}
+		{@debug activePost}
+		<section id="active-post" class:vertical class:scrollable class:horizontal>
+			<IconButton
+				class="button-close mixin-invisible"
+				onclick={() => {
+					activePost = undefined;
+				}}
+			>
+				<i class="codicon codicon-close"></i>
+			</IconButton>
+
+			{#if activePost.type === 'video'}
+				{@const sources = getVideoSources(
+					activePost.file_url,
+					activePost.sample_url,
+					activePost.preview_url
+				)}
+				<!-- svelte-ignore a11y_media_has_caption -->
+				<!-- svelte-ignore element_invalid_self_closing_tag -->
+				<video
+					src={sources.animated}
+					poster={sources.static}
+					width={activePost.width}
+					height={activePost.height}
+					loop={$alwaysLoop || isLoop(activePost.tags)}
+					controls
 				/>
-			{/each}
-		</ol>
-	</ResultWrapper>
-</section>
-
-{#if $results.loading}
-	<div class="loading-panel"></div>
-{/if}
-
-{#if activePost !== undefined}
-	{@const aspectRatio = calculateAspectRatio(activePost.width, activePost.height)}
-	{@const vertical = aspectRatio > 1.5}
-	{@const scrollable = aspectRatio < 0.4}
-	{@const horizontal = !vertical && !scrollable}
-	{@debug activePost}
-	<section id="active-post" class:vertical class:scrollable class:horizontal>
-		<IconButton
-			class="button-close mixin-invisible"
-			onclick={() => {
-				activePost = undefined;
-			}}
-		>
-			<i class="codicon codicon-close"></i>
-		</IconButton>
-
-		{#if activePost.type === 'video'}
-			{@const sources = getVideoSources(
-				activePost.file_url,
-				activePost.sample_url,
-				activePost.preview_url
-			)}
-			<!-- svelte-ignore a11y_media_has_caption -->
-			<!-- svelte-ignore element_invalid_self_closing_tag -->
-			<video
-				src={sources.animated}
-				poster={sources.static}
-				width={activePost.width}
-				height={activePost.height}
-				loop={$alwaysLoop || isLoop(activePost.tags)}
-				controls
-			/>
-		{/if}
-		{#if activePost.type === 'gif'}
-			{@const sources = getGifSources(
-				activePost.file_url,
-				activePost.sample_url,
-				activePost.preview_url
-			)}
-
-			<img src={sources.animated} alt="active post" />
-		{/if}
-		{#if activePost.type === 'image'}
-			{#if scrollable}
-				<div id="media">
-					<img src={activePost.file_url} alt="active post" />
-				</div>
-			{:else}
-				<img src={activePost.file_url} alt="active post" />
 			{/if}
-		{/if}
+			{#if activePost.type === 'gif'}
+				{@const sources = getGifSources(
+					activePost.file_url,
+					activePost.sample_url,
+					activePost.preview_url
+				)}
 
-		<div id="details">
-			<h1>Post <b>#{activePost.id}</b></h1>
-			<div class="flex-row">
-				<Rating value={activePost.rating} />
-				<span>•</span>
-				<span>{activePost.type.toUpperCase()}</span>
-				<span>•</span>
-				<Score post={activePost} />
-				<span>•</span>
-				<RelativeTime value={activePost.change} />
-			</div>
-			<div class="flex-row">
-				<KurosearchSource id={activePost.id} />
-				<span>•</span>
-				<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={activePost.id}" />
-				<span>•</span>
-				<Rule34Source url={activePost.file_url} />
-				{#if activePost.source}
-					<span>•</span>
-					<ExternalSource source={activePost.source} />
-				{/if}
-			</div>
-			<div class="tags">
-				{#each Object.entries(tagsByType) as [type, tags]}
-					<div>
-						<h3>{type}</h3>
-						<PostDetailsTagList {tags} />
+				<img src={sources.animated} alt="active post" />
+			{/if}
+			{#if activePost.type === 'image'}
+				{#if scrollable}
+					<div id="media">
+						<img src={activePost.file_url} alt="active post" />
 					</div>
-				{/each}
-			</div>
+				{:else}
+					<img src={activePost.file_url} alt="active post" />
+				{/if}
+			{/if}
 
-			<h3>Comments</h3>
-			<Comments post={activePost} />
-		</div>
-	</section>
-{/if}
+			<div id="details">
+				<h1>Post <b>#{activePost.id}</b></h1>
+				<div class="flex-row">
+					<Rating value={activePost.rating} />
+					<span>•</span>
+					<span>{activePost.type.toUpperCase()}</span>
+					<span>•</span>
+					<Score post={activePost} />
+					<span>•</span>
+					<RelativeTime value={activePost.change} />
+				</div>
+				<div class="flex-row">
+					<KurosearchSource id={activePost.id} />
+					<span>•</span>
+					<ExternalSource
+						source="https://rule34.xxx/index.php?page=post&s=view&id={activePost.id}"
+					/>
+					<span>•</span>
+					<Rule34Source url={activePost.file_url} />
+					{#if activePost.source}
+						<span>•</span>
+						<ExternalSource source={activePost.source} />
+					{/if}
+				</div>
+				<div class="tags">
+					{#each Object.entries(tagsByType) as [type, tags]}
+						<div>
+							<h3>{type}</h3>
+							<PostDetailsTagList {tags} />
+						</div>
+					{/each}
+				</div>
+
+				<h3>Comments</h3>
+				<Comments post={activePost} />
+			</div>
+		</section>
+	{/if}
+</main>
 
 <style>
+	main {
+		display: flex;
+		flex-direction: column;
+		gap: var(--grid-gap);
+		max-width: 100vw;
+	}
+
 	#active-post {
 		position: fixed;
 		top: 0;

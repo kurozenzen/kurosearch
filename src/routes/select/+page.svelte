@@ -2,6 +2,7 @@
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import LynxMain from '../LynxMain.svelte';
+	import { goto } from '$app/navigation';
 </script>
 
 <svelte:head>
@@ -16,7 +17,7 @@
 
 <KurosearchTitle />
 
-<QuickSearch />
+<QuickSearch onSubmit={() => goto('/')} />
 
 <style>
 	:global(main) {

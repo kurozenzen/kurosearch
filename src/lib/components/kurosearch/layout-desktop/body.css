@@ -2,4 +2,5 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: var(--grid-gap);
+	overflow-x: hidden;
 }
