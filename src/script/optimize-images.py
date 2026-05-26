@@ -12,7 +12,8 @@ from typing import Iterable
 from PIL import Image, ImageOps
 
 
-TARGET_HEIGHT = 256
+TARGET_WIDTH = 112
+TARGET_HEIGHT = 168
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tif", ".tiff"}
 FOLDERS = ("categories", "characters", "franchises", "pairings")
 
@@ -35,22 +36,23 @@ def iter_image_files(folder: Path) -> Iterable[Path]:
 			yield path
 
 
-def resize_to_height(image: Image.Image, height: int) -> Image.Image:
-	if image.height <= 0:
-		raise ValueError("Image height must be greater than zero")
+def resize_and_crop_center(image: Image.Image, width: int, height: int) -> Image.Image:
+	if image.width <= 0 or image.height <= 0:
+		raise ValueError("Image dimensions must be greater than zero")
 
-	if image.height <= height:
-		return image.copy()
-
-	width = round(image.width * (height / image.height))
 	resampling = getattr(Image, "Resampling", Image).LANCZOS
-	return image.resize((width, height), resampling)
+	return ImageOps.fit(
+		image,
+		(width, height),
+		method=resampling,
+		centering=(0.5, 0.5),
+	)
 
 
 def optimize_image(source_path: Path, target_path: Path) -> None:
 	with Image.open(source_path) as image:
 		image = ImageOps.exif_transpose(image)
-		image = resize_to_height(image, TARGET_HEIGHT)
+		image = resize_and_crop_center(image, TARGET_WIDTH, TARGET_HEIGHT)
 
 		if image.mode not in {"RGB", "RGBA"}:
 			if "A" in image.getbands():

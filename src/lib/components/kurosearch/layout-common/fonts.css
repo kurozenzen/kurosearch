@@ -1,6 +1,7 @@
 @font-face {
 	font-family: 'Zen Kaku Gothic New';
 	font-weight: 900;
+	font-display: swap;
 	src:
 		url('/font/ZenKakuGothicNew-Black-subset.woff2') format('woff2'),
 		url('/font/ZenKakuGothicNew-Black-subset.woff') format('woff');
@@ -9,6 +10,7 @@
 @font-face {
 	font-family: 'Roboto';
 	font-weight: 400;
+	font-display: swap;
 	src:
 		url('/font/Roboto-Regular.woff2') format('woff2'),
 		url('/font/Roboto-Regular.woff') format('woff'),
@@ -18,6 +20,7 @@
 
 @font-face {
 	font-family: 'codicon';
+	font-display: swap;
 	src:
 		url('/font/codicon.woff2') format('woff2'),
 		url('/font/codicon.woff') format('woff');

@@ -2,6 +2,10 @@
 	let { name, icon, onclick, oncontextmenu, checked } = $props();
 </script>
 
+<svelte:head>
+	<link rel="preload" as="image" href={icon} />
+</svelte:head>
+
 <button {onclick} {oncontextmenu} style="--icon: url({icon})" class:checked>
 	{#if checked}
 		<i class="codicon codicon-pass"></i>
