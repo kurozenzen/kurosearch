@@ -37,7 +37,7 @@
 		<ZeroResults onsortfilterupdate={getFirstPage} />
 	{:else}
 		{@render children()}
-		{#if $results.posts.length === $results.postCount}
+		{#if $results.hasLastPage}
 			<NoMoreResults />
 		{:else if $pageNavigationEnabled}
 			<PageNavigation onpagechange={onpagejump} />

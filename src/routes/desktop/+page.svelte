@@ -152,7 +152,6 @@
 		{@const vertical = aspectRatio > 1.5}
 		{@const scrollable = aspectRatio < 0.4}
 		{@const horizontal = !vertical && !scrollable}
-		{@debug activePost}
 		<section id="active-post" class:vertical class:scrollable class:horizontal>
 			<IconButton
 				class="button-close mixin-invisible"
