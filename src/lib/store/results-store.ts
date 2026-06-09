@@ -70,7 +70,7 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: count ?? previous.postCount,
 					hasPage: true,
-					hasLastPage: newPosts.length < PAGE_SIZE,
+					hasLastPage: newPosts.length === 0,
 					loading: false,
 					error: undefined
 				};
@@ -86,7 +86,7 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: previous.postCount,
 					hasPage: true,
-					hasLastPage: page.length < PAGE_SIZE,
+					hasLastPage: page.length === 0,
 					loading: false,
 					error: undefined
 				};
