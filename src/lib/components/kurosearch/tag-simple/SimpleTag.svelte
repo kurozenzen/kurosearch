@@ -7,9 +7,16 @@
 		active?: boolean;
 		activeInSuperTag?: boolean;
 		onclick?: () => void;
+		topLevel?: boolean;
 	}
 
-	let { tag, active = false, activeInSuperTag = false, onclick }: Props = $props();
+	let {
+		tag,
+		active = false,
+		activeInSuperTag = false,
+		onclick,
+		topLevel = false
+	}: Props = $props();
 
 	let icon = $derived(TAG_TYPES_WITH_ICONS[tag.type] ?? 'no-icon');
 </script>
@@ -20,6 +27,7 @@
 	{onclick}
 	class:active
 	class:active-in-supertag={activeInSuperTag}
+	class:top-level={topLevel}
 	class={icon}
 >
 	{formatTagname(tag.name)}
@@ -39,6 +47,11 @@
 		font-size: var(--text-size-small);
 		user-select: none;
 		padding-inline: 6px 12px;
+	}
+
+	.top-level {
+		--background-color: var(--background-1);
+		--background-color-hover: var(--background-2);
 	}
 
 	.no-icon {
@@ -86,7 +99,7 @@
 		}
 	}
 
-	button:active	 {
+	button:active {
 		background-color: var(--background-1);
 	}
 </style>

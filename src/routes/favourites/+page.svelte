@@ -70,6 +70,7 @@
 								? activeTagsStore.removeByName(tag.name)
 								: activeTagsStore.addOrReplace({ ...tag, modifier: '+' });
 						}}
+						topLevel
 					/>
 				{/each}
 			</ol>
