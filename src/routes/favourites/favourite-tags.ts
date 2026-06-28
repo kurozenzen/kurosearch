@@ -4,29 +4,24 @@ export const TAG_FILTER_OPTIONS = Object.freeze({
 	character: 'Characters',
 	copyright: 'Copyrights',
 	metadata: 'Metadata Tags',
-	tag: 'General Tags',
+	tag: 'General Tags'
 });
-
-export type TagTypeFilter = keyof typeof TAG_FILTER_OPTIONS;
-
 export const TAG_SORT_OPTIONS = Object.freeze({
 	'relative-popularity': 'Relative Popularity',
 	count: 'Count'
 });
-
-export type FavouriteTagSort = keyof typeof TAG_SORT_OPTIONS;
-
 export const TAG_LIMIT_OPTIONS = Object.freeze({
 	'10': 'Top 10',
 	'20': 'Top 20',
 	all: 'Show All'
 });
 
+export type TagTypeFilter = keyof typeof TAG_FILTER_OPTIONS;
+export type FavouriteTagSort = keyof typeof TAG_SORT_OPTIONS;
 export type FavouriteTagLimit = keyof typeof TAG_LIMIT_OPTIONS;
-
 export type FavouriteTag = kurosearch.Tag & { inFavourites: number };
 
-const TAG_TYPE_ORDINALS: Record<kurosearch.TagType, number> = {
+const TAG_TYPE_ORDINALS: Record<kurosearch.TagType, number> = Object.freeze({
 	supertag: 0,
 	artist: 1,
 	character: 2,
@@ -37,7 +32,7 @@ const TAG_TYPE_ORDINALS: Record<kurosearch.TagType, number> = {
 	tag: 7,
 	general: 8,
 	ambiguous: 9
-};
+});
 
 export const tagTypeOrdinal = (tagType: kurosearch.TagType): number => {
 	if (!(tagType in TAG_TYPE_ORDINALS)) {
