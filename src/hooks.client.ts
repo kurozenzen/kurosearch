@@ -13,5 +13,11 @@ Sentry.init({
 export const handleError = handleErrorWithSentry();
 
 export const init: ClientInit = async () => {
+	console.log(
+		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
+		'color:crimson;font-size:32px;',
+		'color:unset;font-size:auto;'
+	);
+
 	await initIdb();
 };

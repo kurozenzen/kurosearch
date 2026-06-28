@@ -28,12 +28,6 @@
 	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
 	import { on } from 'svelte/events';
 
-	console.log(
-		'%ckurosearch\n%cHi, if you are reading this because you are debugging or reverse-engineering, feel free to send me a DM on Discord :)',
-		'color:crimson;font-size:32px;',
-		'color:unset;font-size:auto;'
-	);
-
 	let nextFocus = $state(0);
 
 	const keybinds = (event: KeyboardEvent) => {
