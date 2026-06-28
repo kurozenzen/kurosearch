@@ -1,4 +1,4 @@
-export const calculateAspectRatio = (width: number, height: number) => {
+export const calculateAspectRatio = (width: number | undefined, height: number | undefined) => {
 	if (width && height) {
 		return width / height;
 	}

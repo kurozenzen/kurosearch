@@ -11,6 +11,7 @@
 	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import { calculateAspectRatio } from '../post/ratio';
+	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -18,10 +19,12 @@
 	}
 
 	let { post, onclose }: Props = $props();
-	let aspectRatio = $derived(calculateAspectRatio(post.width, post.height));
+
+	let clientAspectRatio = $derived(calculateAspectRatio(innerWidth.current, innerHeight.current));
+	let postAspectRatio = $derived(calculateAspectRatio(post.width, post.height));
 	let format = $derived.by(() => {
-		if (aspectRatio > 1.5) return 'vertical';
-		if (aspectRatio < 0.4) return 'scrollable';
+		if (postAspectRatio / clientAspectRatio > 0.7) return 'vertical';
+		if (postAspectRatio < 0.4) return 'scrollable';
 		return 'horizontal';
 	});
 	let tagsByType = $derived(
@@ -137,8 +140,8 @@
 
 	.horizontal img,
 	.horizontal video {
-        height: 100%;
-        width: auto;
+		height: 100%;
+		width: auto;
 		object-fit: contain;
 	}
 
