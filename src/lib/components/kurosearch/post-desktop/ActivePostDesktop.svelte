@@ -177,9 +177,9 @@
 
 		.flex-row {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
 			gap: var(--small-gap);
-			overflow-x: auto;
 		}
 
 		.tags {
