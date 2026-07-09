@@ -17,14 +17,27 @@
 	);
 
 	let loading = $state(true);
+	let imgElement: HTMLImageElement | undefined = $state();
 
 	let open: boolean = $state(false);
+
+	$effect(() => {
+		sources;
+		if (imgElement && imgElement.complete) {
+			loading = false;
+		} else {
+			loading = true;
+		}
+	});
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="scrollable" class:open onclick={() => (open = !open)}>
 	<img
+		bind:this={imgElement}
+		class="main-image"
+		class:loaded={!loading}
 		src={sources[1]}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
@@ -32,6 +45,7 @@
 	/>
 	<img
 		class="preview"
+		class:loaded={!loading}
 		src={sources[0]}
 		alt="[{post.type}] post #{post.id}"
 		title="[{post.type}] post #{post.id}"
@@ -49,6 +63,8 @@
 		width: 100vw;
 		height: 100vh;
 		overflow-y: hidden;
+		overflow-x: hidden;
+		position: relative;
 	}
 
 	.scrollable.open {
@@ -60,8 +76,28 @@
 		height: auto;
 	}
 
+	.main-image {
+		opacity: 0;
+		transition: opacity 0.3s ease-out;
+	}
+
+	.main-image.loaded {
+		opacity: 1;
+	}
+
 	.preview {
 		position: absolute;
+		top: 0;
+		left: 0;
+		filter: blur(15px);
+		transform: scale(1.05);
+		transition: opacity 0.3s ease-out;
+		z-index: 1;
+	}
+
+	.preview.loaded {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	.scrollable:not(.open)::before {
