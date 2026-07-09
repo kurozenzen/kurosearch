@@ -19,6 +19,8 @@
 	let visible = $state(false);
 	let open = $state(false);
 	let overlayHidden = $state(true);
+	let actualLoaded = $state(false);
+	let imgElement: HTMLImageElement | undefined = $state();
 
 	let previewSrc = $derived(post.preview_url);
 	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
@@ -26,7 +28,15 @@
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let canOpen = $derived(ratio < 0.4);
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
-	let estimatedBandwith = $derived(post.width * post.height * 3 / 10); // based on 3 channel PNG estimation
+
+	$effect(() => {
+		actualSrc;
+		if (imgElement && imgElement.complete) {
+			actualLoaded = true;
+		} else {
+			actualLoaded = false;
+		}
+	});
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		visible = isIntersecting;
@@ -48,27 +58,29 @@
 	style="aspect-ratio: {cssRation};"
 >
 	{#if visible}
-		{#if estimatedBandwith > 1000000}
-			<img
-				{@attach clearsrc}
-				class="post-media"
-				loading="lazy"
-				src={previewSrc}
-				{alt}
-				width={post.width}
-				height={post.height}
-			/>
-		{/if}
-		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 		<img
 			{@attach clearsrc}
-			class="post-media"
+			class="post-media preview"
+			class:loaded={actualLoaded}
+			loading="lazy"
+			src={previewSrc}
+			{alt}
+			width={post.width}
+			height={post.height}
+		/>
+		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+		<img
+			bind:this={imgElement}
+			{@attach clearsrc}
+			class="post-media main-image"
+			class:loaded={actualLoaded}
 			loading="lazy"
 			tabindex="0"
 			src={actualSrc}
 			{alt}
 			width={post.width}
 			height={post.height}
+			onload={() => (actualLoaded = true)}
 		/>
 	{/if}
 
@@ -78,6 +90,7 @@
 <style>
 	div {
 		position: relative;
+		overflow: hidden;
 	}
 
 	.can-open:not(.open) {
@@ -103,10 +116,31 @@
 		position: absolute;
 		display: block;
 		width: 100%;
-		height: auto;
+		height: 100%;
 		object-fit: contain;
 		contain: strict;
+	}
+
+	.main-image {
+		opacity: 0;
+		transition: opacity 0.3s ease-out;
 		z-index: var(--z-media);
+	}
+
+	.main-image.loaded {
+		opacity: 1;
+	}
+
+	.preview {
+		filter: blur(10px);
+		transform: scale(1.05);
+		transition: opacity 0.3s ease-out;
+		z-index: calc(var(--z-media) - 1);
+	}
+
+	.preview.loaded {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	@container (min-width: 800px) {

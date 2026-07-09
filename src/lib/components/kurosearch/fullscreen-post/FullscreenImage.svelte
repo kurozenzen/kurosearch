@@ -41,6 +41,7 @@
 	let currentTime = $state(0);
 	let paused = $state(!$autoplayFullscreenEnabled);
 	let loading = $state(true);
+	let imgElement: HTMLImageElement | undefined = $state();
 
 	let overlayHidden = $state(true);
 	const onclick = (e: Event) => {
@@ -73,6 +74,15 @@
 	const ontoggleplay = () => {
 		paused = !paused;
 	};
+
+	$effect(() => {
+		sources;
+		if (imgElement && imgElement.complete) {
+			loading = false;
+		} else {
+			loading = true;
+		}
+	});
 
 	$effect(() => {
 		if (postId !== post.id) {
@@ -125,22 +135,29 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources[1]}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	use:pauseoffscreen
-	onload={() => (loading = false)}
-	{onclick}
-/>
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources[0]}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	{onclick}
-/>
+<div class="media-container">
+	<img
+		bind:this={imgElement}
+		class="main-image"
+		class:loaded={!loading}
+		src={sources[1]}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		use:pauseoffscreen
+		onload={() => (loading = false)}
+		{onclick}
+	/>
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<img
+		class="preview"
+		class:loaded={!loading}
+		src={sources[0]}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		{onclick}
+	/>
+</div>
 
 <PostOverlay
 	hidden={overlayHidden}
@@ -154,10 +171,42 @@
 />
 
 <style>
+	.media-container {
+		position: relative;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+	}
+
 	img {
+		position: absolute;
+		top: 0;
+		left: 0;
 		display: block;
 		width: 100vw;
 		height: 100vh;
 		object-fit: contain;
+	}
+
+	.main-image {
+		opacity: 0;
+		transition: opacity 0.3s ease-out;
+		z-index: 2;
+	}
+
+	.main-image.loaded {
+		opacity: 1;
+	}
+
+	.preview {
+		filter: blur(15px);
+		transform: scale(1.05);
+		transition: opacity 0.3s ease-out;
+		z-index: 1;
+	}
+
+	.preview.loaded {
+		opacity: 0;
+		pointer-events: none;
 	}
 </style>
