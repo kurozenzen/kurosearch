@@ -5,18 +5,16 @@
 	 */
 	let { rootMargin, absoluteTop, onintersection } = $props();
 
-
-	const intersectionObserver = new IntersectionObserver(
-		(entries) => {
-			if (entries[0].isIntersecting) {
-				onintersection();
-			}
-		},
-		{ rootMargin }
-	);
-
 	let ref: HTMLDivElement;
 	$effect(() => {
+		const intersectionObserver = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					onintersection();
+				}
+			},
+			{ rootMargin }
+		);
 		if (ref) {
 			intersectionObserver.observe(ref);
 		}
