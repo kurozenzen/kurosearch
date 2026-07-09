@@ -7,7 +7,6 @@ describe('TextInput', () => {
 	const VALUE = 'Value';
 	it('renders props correctly', () => {
 		render(TextInput, { placeholder: PLACEHOLDER, value: VALUE });
-
 		const textbox: HTMLInputElement = screen.getByRole('textbox');
 		expect(textbox).toBeDefined();
 		expect(textbox.placeholder).toBe(PLACEHOLDER);

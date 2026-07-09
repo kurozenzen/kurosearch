@@ -30,17 +30,17 @@ describe('DetailedTag', () => {
 		const tag: HTMLButtonElement = screen.getByRole('button');
 		expect(tag).toBeDefined();
 		expect(tag.textContent).toBe('my tag (10)');
-		expect(tag.className).toMatch(/active/);
+		expect(tag.className).toMatch(/mixin-accent/);
 	});
 
 	it('is clickable', async () => {
 		const click = vi.fn();
 		const contextMenu = vi.fn();
-		const { component } = render(DetailedTag, {
-			tag: { name: 'my_tag', count: 10, modifier: '+', type: 'ambiguous' }
+		render(DetailedTag, {
+			tag: { name: 'my_tag', count: 10, modifier: '+', type: 'ambiguous' },
+			onclick: click,
+			oncontextmenu: contextMenu
 		});
-		component.$on(`click`, click);
-		component.$on(`contextmenu`, contextMenu);
 
 		const tag: HTMLButtonElement = screen.getByRole('button');
 		await fireEvent.click(tag);
