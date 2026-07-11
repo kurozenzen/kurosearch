@@ -13,20 +13,24 @@
 		startAt?: number;
 	}
 
-	let { index, onendreached, onclose, startAt }: Props = $props();
+	let { index, onendreached, onclose: handleOnClose, startAt }: Props = $props();
 
 	const keybinds = (event: KeyboardEvent) => {
 		if (event.key === 'f') {
 			event.preventDefault();
 			event.stopPropagation();
-			onclose(index);
+			handleOnClose(index);
 		}
 	};
 
 	const exitOnStateChange = () => {
 		if (history.state?.fullscreen === undefined || history.state?.fullscreen === false) {
-			onclose(index);
+			handleOnClose(index);
 		}
+	};
+
+	const onclose = () => {
+		handleOnClose(index);
 	};
 
 	onMount(() =>
@@ -34,9 +38,9 @@
 	);
 </script>
 
-<Fullscreen onclose={() => onclose(index)}>
+<Fullscreen {onclose}>
 	<FullscreenScroller bind:index {onendreached} {startAt} />
-	<IconButton class="mixin-invisible button-close" onclick={() => onclose(index)}>
+	<IconButton class="mixin-invisible button-close" onclick={onclose}>
 		<i class="codicon codicon-close"></i>
 	</IconButton>
 </Fullscreen>

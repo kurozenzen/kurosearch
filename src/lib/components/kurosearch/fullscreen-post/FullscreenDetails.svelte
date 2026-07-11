@@ -74,6 +74,9 @@
 		padding-inline: var(--grid-gap);
 		width: 100vw;
 		height: 100vh;
+		flex-shrink: 0;
+		flex-grow: 0;
+		contain: strict;
 		overflow-y: scroll;
 		scroll-snap-align: start;
 		scroll-snap-stop: always;
