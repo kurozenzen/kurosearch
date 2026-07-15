@@ -23,7 +23,7 @@
 		padding-block: var(--huge-gap);
 	}
 
-	@media (width <= calc(800px + var(--grid-gap) * 2)) {
+	@media (width <= calc(800px + 2rem)) {
 		section {
 			padding-inline: var(--grid-gap);
 		}

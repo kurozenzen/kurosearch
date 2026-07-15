@@ -1,13 +1,13 @@
 <script lang="ts">
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
+	import { keybindDetails, keybindFsNext, keybindFsPrev } from '$lib/logic/keybinds/keyboard-utils';
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import results from '$lib/store/results-store';
-	import { onDestroy, onMount } from 'svelte';
-	import Screen from './Screen.svelte';
-	import FullscreenDetails from './FullscreenDetails.svelte';
-	import FullscreenMedia from './FullscreenMedia.svelte';
 	import fullscreenHintDone from '$lib/store/fullscreen-hint-done-store';
+	import results from '$lib/store/results-store';
+	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
+	import FullscreenDetails from './FullscreenDetails.svelte';
+	import Screen from './Screen.svelte';
 
 	interface Props {
 		index: number;
@@ -53,34 +53,25 @@
 	};
 
 	const keybinds = (event: KeyboardEvent) => {
-		if (event.key === 'ArrowUp' && outer.scrollLeft < window.innerWidth / 2) {
+		if (keybindFsPrev(event) && outer.scrollLeft === 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			scrollToPrevious();
 		}
-		if (event.key === 'ArrowDown' && outer.scrollLeft < window.innerWidth / 2) {
+		if (keybindFsNext(event) && outer.scrollLeft === 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			scrollToNext();
 		}
-		if (event.key === 'ArrowRight') {
+		if (keybindDetails(event) && outer.scrollLeft === 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			ondetails();
 		}
-		if (event.key === 'ArrowLeft') {
+		if (keybindDetails(event) && outer.scrollLeft > 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			scrollToMedia();
-		}
-		if (event.key === 'd') {
-			event.preventDefault();
-			event.stopPropagation();
-			if (outer.scrollLeft === 0) {
-				ondetails();
-			} else {
-				scrollToMedia();
-			}
 		}
 	};
 

@@ -1,9 +1,8 @@
 <script>
-	import DocsSection from '$lib/components/kurosearch/docs-section/DocsSection.svelte';
+	import DocsSection from '$lib/components/kurosearch/section-docs/DocsSection.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import SummaryCard from '$lib/components/pure/summary-card/SummaryCard.svelte';
@@ -318,7 +317,6 @@
 <ScrollUpButton />
 
 <style>
-
 	em {
 		color: var(--text-highlight);
 	}

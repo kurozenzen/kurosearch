@@ -1,18 +1,10 @@
 <script lang="ts">
 	import tagData from '$lib/assets/tags.json';
 	import postData from '$lib/assets/posts.json';
+	import { partitionTagsByType } from '$lib/logic/tag-utils';
 
 	const computeTags = () => {
-		const tagsByType = tagData.reduce(
-			(acc, tag) => {
-				if (!acc[tag.type]) {
-					acc[tag.type] = [];
-				}
-				acc[tag.type].push({ name: tag.name, count: tag.count });
-				return acc;
-			},
-			{} as Record<string, { name: string; count: number }[]>
-		);
+		const tagsByType = partitionTagsByType(tagData as kurosearch.Tag[]);
 
 		for (const type in tagsByType) {
 			tagsByType[type].sort((a, b) => b.count - a.count);

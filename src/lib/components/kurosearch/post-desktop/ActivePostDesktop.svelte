@@ -1,18 +1,13 @@
 <script lang="ts">
-	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
-	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
-	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
-	import Score from '$lib/components/kurosearch/score/Score.svelte';
-	import ExternalSource from '$lib/components/kurosearch/source-external/ExternalSource.svelte';
-	import KurosearchSource from '$lib/components/kurosearch/source-kurosearch/KurosearchSource.svelte';
-	import Rule34Source from '$lib/components/kurosearch/source-rule34/Rule34Source.svelte';
-	import PostDetailsTagList from '$lib/components/kurosearch/tag-list/PostDetailsTagList.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { keybindFsLeave } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
+	import { onMount } from 'svelte';
+	import { on } from 'svelte/events';
+	import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
-	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -28,6 +23,14 @@
 		if (postAspectRatio < 0.4) return 'scrollable';
 		return 'horizontal';
 	});
+
+	onMount(() =>
+		on(window, 'keydown', (event) => {
+			if (keybindFsLeave(event)) {
+				onclose();
+			}
+		})
+	);
 </script>
 
 <section id="active-post" class={format}>

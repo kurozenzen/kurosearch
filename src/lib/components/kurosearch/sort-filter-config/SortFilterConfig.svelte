@@ -1,10 +1,10 @@
 <script lang="ts">
-	import sort, { type SortStoreData } from '$lib/store/sort-store';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import filter, { type FilterStoreData } from '$lib/store/filter-store';
+	import sort, { type SortStoreData } from '$lib/store/sort-store';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
-	import { addHistory } from '$lib/logic/use/onpopstate';
-	import { getFilterLabel, getSortLabel } from './sortfilter';
 	import ResultHeaderItem from '../results/ResultHeaderItem.svelte';
+	import { getFilterLabel, getSortLabel } from './sortfilter';
 
 	interface Props {
 		onsortfilterupdate: () => void;

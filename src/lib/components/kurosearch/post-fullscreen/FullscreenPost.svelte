@@ -1,9 +1,6 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
-	import { broadcast } from '$lib/logic/svelte/handlers.svelte';
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import FullscreenScroller from './FullscreenScroller.svelte';
 
 	interface Props {
@@ -15,27 +12,7 @@
 
 	let { index, onendreached, onclose: handleOnClose, startAt }: Props = $props();
 
-	const keybinds = (event: KeyboardEvent) => {
-		if (event.key === 'f') {
-			event.preventDefault();
-			event.stopPropagation();
-			handleOnClose(index);
-		}
-	};
-
-	const exitOnStateChange = () => {
-		if (history.state?.fullscreen === undefined || history.state?.fullscreen === false) {
-			handleOnClose(index);
-		}
-	};
-
-	const onclose = () => {
-		handleOnClose(index);
-	};
-
-	onMount(() =>
-		broadcast(on(window, 'popstate', exitOnStateChange), on(document, 'keydown', keybinds))
-	);
+	const onclose = () => handleOnClose(index);
 </script>
 
 <Fullscreen {onclose}>

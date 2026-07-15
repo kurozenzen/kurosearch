@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { screenintersection } from '$lib/logic/use/screenintersection';
+	import { clearsrc } from '$lib/logic/attachments/clearsrc';
+	import { screenintersection } from '$lib/logic/attachments/screenintersection';
 	import { SkipDirection, skipVideo, toggleVideo } from '$lib/store/active-video.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { getVolume } from './VolumeControl.svelte';

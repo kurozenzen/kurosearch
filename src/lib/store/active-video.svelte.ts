@@ -1,5 +1,4 @@
 import { clamp } from '$lib/logic/math';
-import { writable } from 'svelte/store';
 
 export interface VideoContext {
 	playingVideo: HTMLVideoElement | undefined;
@@ -72,7 +71,10 @@ export const toggleVideo = (video?: HTMLVideoElement): boolean => {
 	return videoState.targetVideo !== undefined;
 };
 
-export const skipVideo = (video: HTMLVideoElement | undefined, direction: SkipDirection): boolean => {
+export const skipVideo = (
+	video: HTMLVideoElement | undefined,
+	direction: SkipDirection
+): boolean => {
 	if (video) {
 		videoState.targetVideo = video;
 	}
@@ -88,4 +90,10 @@ export const skipVideo = (video: HTMLVideoElement | undefined, direction: SkipDi
 	}
 
 	return false;
+};
+
+export const toggleMute = () => {
+	if (videoState.playingVideo) {
+		videoState.playingVideo.muted = !videoState.playingVideo.muted;
+	}
 };

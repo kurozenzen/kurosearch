@@ -1,15 +1,24 @@
 <script lang="ts">
-	import { on } from 'svelte/events';
-	import { onMount } from 'svelte';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
 	import Suggestion from '$lib/components/kurosearch/searchbar/Suggestion.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getTagDetails, getTagSuggestions } from '$lib/logic/api-client/ApiClient';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
+	import {
+		KEY_SUGGESTION_NEXT,
+		KEY_SUGGESTION_PREV,
+		keybindBlur,
+		keybindFocusSearchbar,
+		keybindModifier,
+		keybindNextSuggestion,
+		keybindPrevSuggestion,
+		keybindSearch,
+		keybindSearchbarSubmit
+	} from '$lib/logic/keybinds/keyboard-utils';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import { getFirstPage } from '$lib/logic/search';
-	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
 	import { targetVideo } from '$lib/store/active-video.svelte';
@@ -17,9 +26,9 @@
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
+	import { onMount } from 'svelte';
+	import { on } from 'svelte/events';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
-	import ResultCount from '../results/ResultCount.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 
 	let searchTerm = $state('');
 	let previousSearchTerm = $state('');
@@ -94,7 +103,7 @@
 	};
 
 	const handleKeyDown = async (event: any) => {
-		if (!event.ctrlKey && event.key === 'Enter' && searchTerm !== '') {
+		if (keybindSearchbarSubmit(event) && searchTerm !== '') {
 			if (suggestionItems.length > selectedIndex) {
 				pick(suggestionItems[selectedIndex]);
 			} else {
@@ -113,13 +122,13 @@
 					})
 					.forEach(pick);
 			}
-		} else if (event.code === 'Escape') {
+		} else if (keybindBlur(event)) {
 			focusInside = false;
-		} else if (event.code === 'ArrowUp' && suggestionItems.length > 0) {
+		} else if (keybindPrevSuggestion(event) && suggestionItems.length > 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			selectedIndex = (selectedIndex + suggestionItems.length - 1) % suggestionItems.length;
-		} else if (event.code === 'ArrowDown' && suggestionItems.length > 0) {
+		} else if (keybindNextSuggestion(event) && suggestionItems.length > 0) {
 			event.preventDefault();
 			event.stopPropagation();
 			selectedIndex = (selectedIndex + 1) % suggestionItems.length;
@@ -139,7 +148,19 @@
 		return [...matchingSupertags, ...matchingTags];
 	};
 
-	onMount(() => on(window, 'keydown', handleKeyDown));
+	onMount(() =>
+		on(window, 'keydown', (event) => {
+			if (keybindModifier(event)) {
+				modifier = nextModifier(modifier);
+			}
+			if (keybindFocusSearchbar(event)) {
+				document.getElementById('searchbar')?.focus();
+			}
+			if (keybindSearch(event)) {
+				getFirstPage();
+			}
+		})
+	);
 </script>
 
 <div

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
@@ -8,16 +7,17 @@
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
+	import { keybindSearch } from '$lib/logic/keybinds/keyboard-utils';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import { getFirstPage } from '$lib/logic/search';
-	import { addHistory } from '$lib/logic/use/onpopstate';
 	import activeSupertags from '$lib/store/active-supertags-store';
 	import activeTags from '$lib/store/active-tags-store';
 	import apiKey from '$lib/store/api-key-store';
 	import results from '$lib/store/results-store';
 	import supertags from '$lib/store/supertags-store';
 	import userId from '$lib/store/user-id-store';
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
 
 	// svelte-ignore non_reactive_update
@@ -36,30 +36,13 @@
 		return [...matchingSupertags, ...matchingTags];
 	};
 
-	const keybinds = (event: KeyboardEvent) => {
-		if (
-			(event.key === '/' || event.key === 's') &&
-			(!document.activeElement || document.activeElement === document.body)
-		) {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('searchbar')?.focus();
-		}
-
-		if (event.ctrlKey && event.key === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			getFirstPage();
-		}
-
-		if (event.ctrlKey && event.key === 'm') {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('select-modifier')?.click();
-		}
-	};
-
-	onMount(() => on(window, 'keydown', keybinds));
+	onMount(() =>
+		on(window, 'keydown', (event) => {
+			if (keybindSearch(event)) {
+				getFirstPage();
+			}
+		})
+	);
 </script>
 
 <section id="search">

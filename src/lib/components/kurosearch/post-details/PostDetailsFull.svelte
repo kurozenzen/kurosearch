@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { partitionTagsByType } from '$lib/logic/tag-utils';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -15,18 +16,7 @@
 
 	let { post, ...rest }: Props = $props();
 
-	let tagsByType = $derived(
-		post.tags.reduce(
-			(result, tag) => {
-				if (result[tag.type] === undefined) {
-					result[tag.type] = [];
-				}
-				result[tag.type].push(tag);
-				return result;
-			},
-			{} as Record<string, kurosearch.Tag[]>
-		)
-	);
+	let tagsByType = $derived(partitionTagsByType(post.tags));
 </script>
 
 <div class="details {rest.class}">

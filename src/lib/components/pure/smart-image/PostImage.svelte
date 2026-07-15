@@ -4,8 +4,8 @@
 		calculateAspectRatio,
 		calculateAspectRatioCss
 	} from '$lib/components/kurosearch/post/ratio';
-	import { clearsrc } from '$lib/logic/use/clearsrc';
-	import { screenintersection } from '$lib/logic/use/screenintersection';
+	import { clearsrc } from '$lib/logic/attachments/clearsrc';
+	import { screenintersection } from '$lib/logic/attachments/screenintersection';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
 	interface Props {
@@ -26,7 +26,7 @@
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let canOpen = $derived(ratio < 0.4);
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
-	let estimatedBandwith = $derived(post.width * post.height * 3 / 10); // based on 3 channel PNG estimation
+	let estimatedBandwith = $derived((post.width * post.height * 3) / 10); // based on 3 channel PNG estimation
 
 	const onIntersectionChange = (isIntersecting: boolean) => {
 		visible = isIntersecting;

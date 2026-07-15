@@ -1,8 +1,17 @@
 <script lang="ts">
 	import PostImage from '$lib/components/pure/smart-image/PostImage.svelte';
 	import { getPostId } from '$lib/logic/id-utils';
+	import {
+		isInputFocused,
+		keybindFsEnter,
+		keybindPostComments,
+		keybindPostFavourite,
+		keybindPostLinks,
+		keybindPostTags
+	} from '$lib/logic/keybinds/keyboard-utils';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 	import Gif from '../media-gif/Gif.svelte';
 	import Video from '../media-video/Video.svelte';
 	import PostDetailsTab from '../post-details/PostDetailsTab.svelte';
@@ -22,47 +31,28 @@
 	id={getPostId(post.id)}
 	class="post"
 	onkeydown={(event) => {
-		if (event.key === 'f') {
+		if (isInputFocused()) {
+			return;
+		}
+		if (!(event.target instanceof HTMLElement)) {
+			return;
+		}
+		if (keybindFsEnter(event)) {
+			event.preventDefault();
+			event.stopPropagation();
 			onfullscreen();
 		}
-		if (event.key === 'r' && event.target instanceof HTMLElement) {
-			const button = event.target.querySelector<HTMLElement>('button[data-tab="links"]');
-			if (button) {
-				button.click();
-				requestAnimationFrame(() => {
-					if (event.target instanceof HTMLElement) {
-						event.target
-							.querySelector<HTMLElement>('.details')
-							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					}
-				});
-			}
+		if (keybindPostLinks(event)) {
+			event.target.querySelector<HTMLElement>('button[data-tab="links"]')?.click();
 		}
-		if (event.key === 'c' && event.target instanceof HTMLElement) {
-			const button = event.target.querySelector<HTMLElement>('button[data-tab="comments"]');
-			if (button) {
-				button.click();
-				requestAnimationFrame(() => {
-					if (event.target instanceof HTMLElement) {
-						event.target
-							.querySelector<HTMLElement>('.details')
-							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					}
-				});
-			}
+		if (keybindPostComments(event)) {
+			event.target.querySelector<HTMLElement>('button[data-tab="comments"]')?.click();
 		}
-		if (event.key === 't' && event.target instanceof HTMLElement) {
-			const button = event.target.querySelector<HTMLElement>('button[data-tab="tags"]');
-			if (button) {
-				button.click();
-				requestAnimationFrame(() => {
-					if (event.target instanceof HTMLElement) {
-						event.target
-							.querySelector<HTMLElement>('.details')
-							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					}
-				});
-			}
+		if (keybindPostTags(event)) {
+			event.target.querySelector<HTMLElement>('button[data-tab="tags"]')?.click();
+		}
+		if (keybindPostFavourite(event)) {
+			favouritePostsStore.toggleFavourite(post);
 		}
 	}}
 >

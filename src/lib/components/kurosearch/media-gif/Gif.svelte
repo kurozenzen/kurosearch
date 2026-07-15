@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { observeGif } from '$lib/logic/gif-observer';
-	import { isSpace } from '$lib/logic/keyboard-utils';
+	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
@@ -37,6 +37,14 @@
 			media.src = paused ? staticSource : animatedSource;
 		}
 	});
+
+	const onkeydown = (event: KeyboardEvent) => {
+		if (keybindPlay(event)) {
+			event.preventDefault();
+			event.stopPropagation();
+			ontoggleplay();
+		}
+	};
 </script>
 
 <div style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}">
@@ -51,12 +59,7 @@
 		width={post.width}
 		height={post.height}
 		tabindex="0"
-		onkeydown={(event) => {
-			if (isSpace(event) || event.key === 'k') {
-				event.preventDefault();
-				ontoggleplay();
-			}
-		}}
+		{onkeydown}
 		onload={() => (loading = false)}
 		use:observeGif
 		{onclick}

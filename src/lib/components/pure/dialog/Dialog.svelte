@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onpopstate } from '$lib/logic/use/onpopstate';
-	import { onDestroy, onMount, type Snippet } from 'svelte';
+	import { onpopstate } from '$lib/logic/attachments/onpopstate';
+	import { onMount, type Snippet } from 'svelte';
 	import { on } from 'svelte/events';
 
 	interface Props {

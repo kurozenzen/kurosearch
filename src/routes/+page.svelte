@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
 	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
 	import PageJump from '$lib/components/kurosearch/page-navigation/PageJump.svelte';
@@ -12,89 +11,15 @@
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { clamp } from '$lib/logic/math';
+	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
+	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
 	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
 	import resultColumns from '$lib/store/result-columns-store';
 	import results from '$lib/store/results-store';
-	import { onDestroy, onMount } from 'svelte';
-	import LynxMain from './LynxMain.svelte';
-	import {
-		SkipDirection,
-		skipVideo,
-		targetVideo,
-		toggleVideo
-	} from '$lib/store/active-video.svelte';
-	import SearchForm from './SearchForm.svelte';
-	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
+	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
-
-	let nextFocus = $state(0);
-
-	const keybinds = (event: KeyboardEvent) => {
-		if (
-			document.activeElement?.tagName === 'INPUT' ||
-			document.activeElement?.tagName === 'TEXTAREA'
-		) {
-			return; // don't interfere with typing
-		}
-
-		if ((event.ctrlKey && event.key === 'ArrowDown') || event.key === 'o') {
-			const posts = document.getElementsByClassName('post-media');
-
-			nextFocus = clamp(nextFocus + 1, 0, posts.length - 1);
-			posts[nextFocus].scrollIntoView();
-			// @ts-expect-error - they will be focusable
-			posts[nextFocus]?.focus?.();
-			setTimeout(() => {
-				let video = posts[nextFocus].querySelector('video');
-				if (video) {
-					video.focus();
-					targetVideo(video);
-				}
-			}, 1);
-		}
-
-		if ((event.ctrlKey && event.key === 'ArrowUp') || event.key === 'u') {
-			const posts = document.getElementsByClassName('post-media');
-			nextFocus = clamp(nextFocus - 1, 0, posts.length - 1);
-			posts[nextFocus].scrollIntoView();
-			// @ts-expect-error - they will be focusable
-			posts[nextFocus]?.focus?.();
-			setTimeout(() => {
-				let video = posts[nextFocus].querySelector('video');
-				if (video) {
-					video.focus();
-					targetVideo(video);
-				}
-			}, 1);
-		}
-
-		switch ((event as KeyboardEvent).key) {
-			case ' ':
-			case 'k':
-				if (toggleVideo()) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-
-			case 'ArrowLeft':
-			case 'j':
-				if (skipVideo(undefined, SkipDirection.Backward)) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-
-			case 'ArrowRight':
-			case 'l':
-				if (skipVideo(undefined, SkipDirection.Forward)) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-		}
-	};
+	import LynxMain from './LynxMain.svelte';
+	import SearchForm from './SearchForm.svelte';
 
 	const onpagejump = async (pid: number) => {
 		await getPage(pid);
@@ -105,7 +30,7 @@
 		if ($results.postCount === 0) {
 			getFirstPage();
 		}
-		return on(window, 'keydown', keybinds);
+		return on(window, 'keydown', keybindsVideo);
 	});
 </script>
 

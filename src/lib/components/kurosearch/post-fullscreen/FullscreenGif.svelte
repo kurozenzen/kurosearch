@@ -17,13 +17,13 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
+	import { getGifSources } from '$lib/logic/media-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { on } from 'svelte/events';
+	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -34,13 +34,11 @@
 
 	let { post, postId = -1, onended, ondetails }: Props = $props();
 
-	let sources = $derived(
-		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
-	);
+	let sources = $derived(getGifSources(post.file_url, post.sample_url, post.preview_url));
 
 	let currentTime = $state(0);
 	let paused = $state(!$autoplayFullscreenEnabled);
-	let loading = $state(true);
+	let loading = $state($autoplayFullscreenEnabled);
 
 	let overlayHidden = $state(true);
 	const onclick = (e: Event) => {
@@ -82,7 +80,7 @@
 	});
 
 	const keybinds = (event: KeyboardEvent) => {
-		if (event.code === 'Space' || event.key === 'k') {
+		if (keybindPlay(event)) {
 			event.preventDefault();
 			event.stopPropagation();
 			paused = !paused;
@@ -123,20 +121,23 @@
 	});
 </script>
 
+{#if !paused}
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<img
+		src={sources.animated}
+		alt="[{post.type}] post #{post.id}"
+		title="[{post.type}] post #{post.id}"
+		onload={() => (loading = false)}
+		{onclick}
+		use:pauseoffscreen
+	/>
+{/if}
+
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <img
-	src={sources[1]}
-	alt="[{post.type}] post #{post.id}"
-	title="[{post.type}] post #{post.id}"
-	use:pauseoffscreen
-	onload={() => (loading = false)}
-	{onclick}
-/>
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<img
-	src={sources[0]}
+	src={sources.static}
 	alt="[{post.type}] post #{post.id}"
 	title="[{post.type}] post #{post.id}"
 	{onclick}
@@ -144,8 +145,8 @@
 
 <PostOverlay
 	hidden={overlayHidden}
-	mediaType="img"
-	paused={$autoplayFullscreenEnabled ? paused : undefined}
+	mediaType="gif"
+	{paused}
 	{loading}
 	{ontoggleplay}
 	bind:currentTime

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { blurOnEnter, blurOnEsc } from '$lib/logic/keybinds/blur';
 
 	interface Props {
 		value: number;
@@ -12,9 +12,6 @@
 	let { value = $bindable(), min, max, step, ...rest }: Props = $props();
 
 	let internalValue: string = $state(`${value}`);
-
-	const blurOnEnter = (event: KeyboardEvent) =>
-		isEnter(event) && (event.target as HTMLElement)?.blur();
 
 	$effect(() => {
 		let n = Number(internalValue);
@@ -35,6 +32,7 @@
 	{step}
 	bind:value={internalValue}
 	onkeyup={blurOnEnter}
+	onkeydown={blurOnEsc}
 	aria-label={rest['aria-label']}
 	class="mixin-shape-item"
 />

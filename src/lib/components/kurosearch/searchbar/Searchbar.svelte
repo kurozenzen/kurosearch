@@ -3,11 +3,22 @@
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
+	import {
+		keybindBlur,
+		keybindFocusSearchbar,
+		keybindModifier,
+		keybindNextSuggestion,
+		keybindPrevSuggestion,
+		keybindSearchbarSubmit
+	} from '$lib/logic/keybinds/keyboard-utils';
 	import { targetVideo } from '$lib/store/active-video.svelte';
 	import apiKey from '$lib/store/api-key-store';
 	import userId from '$lib/store/user-id-store';
+	import { onMount } from 'svelte';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import Suggestion from './Suggestion.svelte';
+	import { on } from 'svelte/events';
+	import { nextModifier } from '$lib/logic/modifier-utils';
 
 	interface Props {
 		placeholder: string;
@@ -62,7 +73,7 @@
 	};
 
 	const handleKeyDown = async (event: any) => {
-		if (!event.ctrlKey && event.key === 'Enter' && searchTerm !== '') {
+		if (keybindSearchbarSubmit(event) && searchTerm !== '') {
 			if (suggestionItems.length > selectedIndex) {
 				pick(suggestionItems[selectedIndex]);
 			} else {
@@ -81,14 +92,25 @@
 					})
 					.forEach(pick);
 			}
-		} else if (event.code === 'Escape') {
+		} else if (keybindBlur(event) && event.target instanceof HTMLInputElement) {
 			event.target.blur();
-		} else if (event.code === 'ArrowUp' && suggestionItems.length > 0) {
+		} else if (keybindPrevSuggestion(event) && suggestionItems.length > 0) {
 			selectedIndex = (selectedIndex + suggestionItems.length - 1) % suggestionItems.length;
-		} else if (event.code === 'ArrowDown' && suggestionItems.length > 0) {
+		} else if (keybindNextSuggestion(event) && suggestionItems.length > 0) {
 			selectedIndex = (selectedIndex + 1) % suggestionItems.length;
 		}
 	};
+
+	onMount(() =>
+		on(window, 'keydown', (event) => {
+			if (keybindModifier(event)) {
+				modifier = nextModifier(modifier);
+			}
+			if (keybindFocusSearchbar(event)) {
+				document.getElementById('searchbar')?.focus();
+			}
+		})
+	);
 </script>
 
 <div class="searchbar" class:open={focusInside && hasDropdownContent} onblur={close}>

@@ -4,8 +4,8 @@
 	import ActivePostDesktop from '$lib/components/kurosearch/post-desktop/ActivePostDesktop.svelte';
 	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
+	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
 	import { getFirstPage } from '$lib/logic/search';
-	import { SkipDirection, skipVideo, toggleVideo } from '$lib/store/active-video.svelte';
 	import results from '$lib/store/results-store';
 	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
@@ -13,66 +13,7 @@
 
 	let activePost = $state<kurosearch.Post | undefined>(undefined);
 
-	const keybinds = (event: KeyboardEvent) => {
-		if (event.ctrlKey && event.key === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			getFirstPage();
-		}
-
-		if (
-			document.activeElement?.tagName === 'INPUT' ||
-			document.activeElement?.tagName === 'TEXTAREA'
-		) {
-			return;
-		}
-
-		if (
-			(event.key === '/' || event.key === 's') &&
-			(!document.activeElement || document.activeElement === document.body)
-		) {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('searchbar')?.focus();
-		}
-
-		if (event.ctrlKey && event.key === 'm') {
-			event.preventDefault();
-			event.stopPropagation();
-			document.getElementById('select-modifier')?.click();
-		}
-
-		switch ((event as KeyboardEvent).key) {
-			case ' ':
-			case 'k':
-				if (toggleVideo()) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-
-			case 'ArrowLeft':
-			case 'j':
-				if (skipVideo(undefined, SkipDirection.Backward)) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-
-			case 'ArrowRight':
-			case 'l':
-				if (skipVideo(undefined, SkipDirection.Forward)) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
-				break;
-			case 'Escape':
-				activePost = undefined;
-				break;
-		}
-	};
-
-	onMount(() => on(window, 'keydown', keybinds));
+	onMount(() => on(window, 'keydown', keybindsVideo));
 </script>
 
 <svelte:head>

@@ -5,17 +5,17 @@
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import SettingsJsonView from '$lib/components/kurosearch/settings-json-view/SettingsJsonView.svelte';
 	import Supertag from '$lib/components/kurosearch/supertag/Supertag.svelte';
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
+	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
 	import { type IndexedPost } from '$lib/indexeddb/idb';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import { loadFile, saveFile, type SettingsObject } from '$lib/logic/file-utils';
-	import { getSettingsAndSupertags } from '$lib/logic/firebase/storage';
-	import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
-	import { buildSettingsObject, queueDriveBackupSync } from '$lib/logic/firebase/drive-sync';
-	import { getSettingsFromDriveBackup, loadDriveBackup } from '$lib/logic/firebase/drive-storage';
 	import { signIn, signOut } from '$lib/logic/firebase/authentication';
-	import { addHistory } from '$lib/logic/use/onpopstate';
+	import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
+	import { getSettingsFromDriveBackup, loadDriveBackup } from '$lib/logic/firebase/drive-storage';
+	import { buildSettingsObject, queueDriveBackupSync } from '$lib/logic/firebase/drive-sync';
+	import { getSettingsAndSupertags } from '$lib/logic/firebase/storage';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 	import firebaseLoggedIn from '$lib/store/firebase-login-store';
@@ -24,8 +24,6 @@
 	import { StoreKey } from '$lib/store/store-keys';
 	import supertags from '$lib/store/supertags-store';
 	import theme from '$lib/store/theme-store';
-	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import Preference from '$lib/components/pure/preference/Preference.svelte';
 
 	const reset = () => {
 		supertags.reset();

@@ -19,35 +19,34 @@
 </script>
 
 <script lang="ts">
+	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
+	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
+	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
+	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-	import alwaysLoop from '$lib/store/always-loop-store';
-	import theme from '$lib/store/theme-store';
-	import apiKey from '$lib/store/api-key-store';
-	import userId from '$lib/store/user-id-store';
-	import resultColumns from '$lib/store/result-columns-store';
-	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
-	import cookiesAccepted from '$lib/store/cookies-accepted-store';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import resultsStore from '$lib/store/results-store';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
 	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
+	import activeTagsStore from '$lib/store/active-tags-store';
+	import alwaysLoop from '$lib/store/always-loop-store';
+	import apiKey from '$lib/store/api-key-store';
+	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
+	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import blockedContent from '$lib/store/blocked-content-store';
+	import cookiesAccepted from '$lib/store/cookies-accepted-store';
 	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
-	import { addHistory } from '$lib/logic/use/onpopstate';
-	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
-	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
-	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
+	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
 	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
-	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
+	import resultColumns from '$lib/store/result-columns-store';
+	import resultsStore from '$lib/store/results-store';
+	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
+	import theme from '$lib/store/theme-store';
+	import userId from '$lib/store/user-id-store';
+	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -75,7 +74,7 @@
 	/>
 </svelte:head>
 
-<PageList title="Preferences">
+<PageGeneric title="Preferences">
 	<Preference title="Theme" description="Change the look of the app.">
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
 	</Preference>
@@ -214,7 +213,7 @@
 			Reset
 		</TextButton>
 	</Preference>
-</PageList>
+</PageGeneric>
 
 <ConfirmDialog
 	bind:dialog={resetDialog}

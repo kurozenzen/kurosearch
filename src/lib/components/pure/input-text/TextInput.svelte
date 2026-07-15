@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { blurOnEnter, blurOnEsc } from '$lib/logic/keybinds/blur';
+	import { keybindBlur } from '$lib/logic/keybinds/keyboard-utils';
 	import type { FullAutoFill } from 'svelte/elements';
 
 	interface Props {
@@ -10,7 +12,14 @@
 	let { placeholder = '', value = $bindable(), autocomplete = 'off' }: Props = $props();
 </script>
 
-<input type="text" bind:value {placeholder} {autocomplete} />
+<input
+	type="text"
+	bind:value
+	{placeholder}
+	{autocomplete}
+	onkeydown={blurOnEsc}
+	onkeyup={blurOnEnter}
+/>
 
 <style>
 	input {

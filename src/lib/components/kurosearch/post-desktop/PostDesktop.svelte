@@ -1,12 +1,12 @@
 <script lang="ts">
+	import playSrc from '$lib/assets/play.svg?url';
 	import { getPostId } from '$lib/logic/id-utils';
-	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { keybindFsEnter } from '$lib/logic/keybinds/keyboard-utils';
 	import { isImage } from '$lib/logic/media-utils';
+	import type { KeyboardEventHandler } from 'svelte/elements';
 	import { calculateAspectRatio } from '../post/ratio';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
-	import playSrc from '$lib/assets/play.svg?url';
-	import type { KeyboardEventHandler, MouseEventHandler } from 'svelte/elements';
 
 	const maxRatio = 1 / 2;
 	const rowsPerSquare = 3;
@@ -38,7 +38,9 @@
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
 
 	const onkeydown: KeyboardEventHandler<HTMLElement> = (event) => {
-		if (isEnter(event)) {
+		if (keybindFsEnter(event)) {
+			event.preventDefault();
+			event.stopPropagation();
 			(event.target as HTMLElement).click();
 		}
 	};

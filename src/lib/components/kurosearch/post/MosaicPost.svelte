@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
 	import { getPostId } from '$lib/logic/id-utils';
-	import { isEnter } from '$lib/logic/keyboard-utils';
+	import { keybindFsEnter } from '$lib/logic/keybinds/keyboard-utils';
 	import { isImage } from '$lib/logic/media-utils';
 	import { calculateAspectRatio } from './ratio';
 
@@ -10,7 +10,7 @@
 
 	interface Props {
 		post: kurosearch.Post;
-		onclick?: (event: MouseEvent) => void;
+		onclick?: () => void;
 	}
 
 	let { post, onclick }: Props = $props();
@@ -20,6 +20,14 @@
 		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
 	);
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
+
+	const onkeydown = (event: KeyboardEvent) => {
+		if (keybindFsEnter(event)) {
+			event.preventDefault();
+			event.stopPropagation();
+			onclick?.();
+		}
+	};
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -28,11 +36,7 @@
 	class="post"
 	style="grid-row: span {rows};"
 	{onclick}
-	onkeydown={(event) => {
-		if (isEnter(event) || event.key === 'f') {
-			(event.target as HTMLDivElement)?.click();
-		}
-	}}
+	{onkeydown}
 	class:open
 >
 	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />

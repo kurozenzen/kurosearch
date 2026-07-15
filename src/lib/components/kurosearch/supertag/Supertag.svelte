@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { addHistory } from '$lib/logic/use/onpopstate';
+	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import ConfirmDialog from '../dialog-confirm/ConfirmDialog.svelte';
 	import EditSupertagDialog from '../dialog-edit-supertag/EditSupertagDialog.svelte';
 	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
@@ -12,8 +12,10 @@
 
 	let { supertag, onremove, onedit }: Props = $props();
 
-	let deleteDialog: HTMLDialogElement = $state(undefined);
-	let editDialog: HTMLDialogElement = $state(undefined);
+	// svelte-ignore non_reactive_update
+	let deleteDialog: HTMLDialogElement;
+	// svelte-ignore non_reactive_update
+	let editDialog: HTMLDialogElement;
 </script>
 
 <li>

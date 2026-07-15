@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onDestroy, onMount, type Snippet } from 'svelte';
+	import { fullscreenelement } from '$lib/logic/attachments/fullscreenelement';
+	import { keybindFsLeave } from '$lib/logic/keybinds/keyboard-utils';
+	import { onMount, type Snippet } from 'svelte';
+	import { on } from 'svelte/events';
 
 	interface Props {
 		children: Snippet;
@@ -9,58 +11,31 @@
 
 	let { children, onclose }: Props = $props();
 
-	const closeOnEscapePressed = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			onclose?.();
-		}
-	};
-	const closeOnFullscreenExit = () => {
-		if (!document.fullscreenElement) {
-			onclose?.();
-		}
-	};
-
-	let dialog: HTMLDivElement;
-	let ready = $state(false);
-
-	onMount(async () => {
-		if (browser) {
-			dialog.focus();
-
-			document.addEventListener('fullscreenchange', closeOnFullscreenExit);
-			try {
-				await dialog.requestFullscreen();
-			} catch {
-				// ignored
+	onMount(() =>
+		on(window, 'popstate', () => {
+			if (history.state?.fullscreen === undefined || history.state?.fullscreen === false) {
+				onclose?.();
 			}
-			ready = true;
-		}
-	});
-
-	onDestroy(async () => {
-		if (browser) {
-			document.removeEventListener('fullscreenchange', closeOnFullscreenExit);
-			try {
-				await document.exitFullscreen();
-			} catch {
-				// ignored
-			}
-		}
-	});
+		})
+	);
 </script>
 
 <div
-	bind:this={dialog}
+	{@attach fullscreenelement}
 	role="none"
 	tabindex="-1"
 	onclick={(e) => {
 		e.stopPropagation();
 	}}
-	onkeydown={closeOnEscapePressed}
+	onkeydown={(e) => {
+		if (keybindFsLeave(e)) {
+			e.stopPropagation();
+			e.preventDefault();
+			onclose?.();
+		}
+	}}
 >
-	{#if ready}
-		{@render children()}
-	{/if}
+	{@render children()}
 </div>
 
 <style>

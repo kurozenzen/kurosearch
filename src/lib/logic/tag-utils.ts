@@ -37,3 +37,15 @@ export const createSearchableTag = (
 	modifier,
 	name
 });
+
+export const partitionTagsByType = (tags: kurosearch.Tag[]) =>
+	tags.reduce(
+		(result, tag) => {
+			if (result[tag.type] === undefined) {
+				result[tag.type] = [];
+			}
+			result[tag.type].push(tag);
+			return result;
+		},
+		{} as Record<string, kurosearch.Tag[]>
+	);
