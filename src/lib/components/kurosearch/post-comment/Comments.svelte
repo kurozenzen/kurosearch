@@ -6,13 +6,13 @@
 	import userId from '$lib/store/user-id-store';
 
 	interface Props {
-		post: kurosearch.Post;
+		id: number;
 	}
 
-	let { post }: Props = $props();
+	let { id }: Props = $props();
 </script>
 
-{#await getComments(post.id, $apiKey, $userId)}
+{#await getComments(id, $apiKey, $userId)}
 	<LoadingAnimation />
 {:then comments}
 	{#if comments.length > 0}

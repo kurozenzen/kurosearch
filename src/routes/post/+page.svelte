@@ -4,6 +4,7 @@
 	import Gif from '$lib/components/kurosearch/media-gif/Gif.svelte';
 	import Video from '$lib/components/kurosearch/media-video/Video.svelte';
 	import Comments from '$lib/components/kurosearch/post-comment/Comments.svelte';
+	import PostDetailsFull from '$lib/components/kurosearch/post-details/PostDetailsFull.svelte';
 	import Rating from '$lib/components/kurosearch/rating/Rating.svelte';
 	import RelativeTime from '$lib/components/kurosearch/relative-time/RelativeTime.svelte';
 	import Score from '$lib/components/kurosearch/score/Score.svelte';
@@ -51,58 +52,16 @@
 				{:else}
 					<Gif {post} />
 				{/if}
-				<section>
-					<div class="flex-row">
-						<Rating value={post.rating} />
-						<span>•</span>
-						<span>{post.type.toUpperCase()}</span>
-						<span>•</span>
-						<Score {post} />
-						<span>•</span>
-						<RelativeTime value={post.change} />
-					</div>
 
-					<h3>Tags</h3>
-					<PostDetailsTagList tags={post.tags} />
-
-					<h3>Links</h3>
-					<div class="flex-row">
-						<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
-						<span>•</span>
-						<Rule34Source url={post.file_url} />
-						{#if post.source}
-							<span>•</span>
-							<ExternalSource source={post.source} />
-						{/if}
-					</div>
-
-					<h3>Comments</h3>
-					<Comments {post} />
-				</section>
+				<PostDetailsFull {post} />
 			{/if}
 		{/await}
 	{/if}
 </div>
 
 <style>
-	h3 {
-		color: var(--text-highlight);
-	}
 	div {
 		background-color: var(--background-1);
 		border-radius: var(--border-radius);
-	}
-	section {
-		display: flex;
-		flex-direction: column;
-		padding: var(--grid-gap);
-		gap: var(--grid-gap);
-	}
-
-	.flex-row {
-		display: flex;
-		align-items: center;
-		gap: var(--small-gap);
-		overflow-x: auto;
 	}
 </style>

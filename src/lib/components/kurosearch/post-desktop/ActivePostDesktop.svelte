@@ -10,6 +10,7 @@
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
+	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
 	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 
@@ -27,18 +28,6 @@
 		if (postAspectRatio < 0.4) return 'scrollable';
 		return 'horizontal';
 	});
-	let tagsByType = $derived(
-		post.tags.reduce(
-			(result, tag) => {
-				if (result[tag.type] === undefined) {
-					result[tag.type] = [];
-				}
-				result[tag.type].push(tag);
-				return result;
-			},
-			{} as Record<string, kurosearch.Tag[]>
-		)
-	);
 </script>
 
 <section id="active-post" class={format}>
@@ -73,40 +62,7 @@
 		{/if}
 	{/if}
 
-	<div id="details">
-		<h1>Post <b>#{post.id}</b></h1>
-		<div class="flex-row">
-			<Rating value={post.rating} />
-			<span>•</span>
-			<span>{post.type.toUpperCase()}</span>
-			<span>•</span>
-			<Score {post} />
-			<span>•</span>
-			<RelativeTime value={post.change} />
-		</div>
-		<div class="flex-row">
-			<KurosearchSource id={post.id} />
-			<span>•</span>
-			<ExternalSource source="https://rule34.xxx/index.php?page=post&s=view&id={post.id}" />
-			<span>•</span>
-			<Rule34Source url={post.file_url} />
-			{#if post.source}
-				<span>•</span>
-				<ExternalSource source={post.source} />
-			{/if}
-		</div>
-		<div class="tags">
-			{#each Object.entries(tagsByType) as [type, tags]}
-				<div>
-					<h3>{type}</h3>
-					<PostDetailsTagList {tags} />
-				</div>
-			{/each}
-		</div>
-
-		<h3>Comments</h3>
-		<Comments {post} />
-	</div>
+	<PostDetailsFull {post} />
 </section>
 
 <style>
@@ -163,39 +119,5 @@
 
 	:not(.vertical) #details {
 		overflow-y: auto;
-	}
-
-	#details {
-		display: flex;
-		flex-direction: column;
-		padding: var(--grid-gap);
-		gap: var(--grid-gap);
-
-		h3 {
-			color: var(--text-highlight);
-		}
-
-		.flex-row {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: var(--small-gap);
-		}
-
-		.tags {
-			display: flex;
-			gap: var(--grid-gap);
-			flex-wrap: wrap;
-
-			div {
-				display: flex;
-				flex-direction: column;
-				gap: var(--small-gap);
-
-				h3 {
-					text-transform: capitalize;
-				}
-			}
-		}
 	}
 </style>

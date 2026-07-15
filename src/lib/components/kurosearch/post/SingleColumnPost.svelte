@@ -5,7 +5,7 @@
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import Gif from '../media-gif/Gif.svelte';
 	import Video from '../media-video/Video.svelte';
-	import PostDetails from '../post-details/PostDetails.svelte';
+	import PostDetailsTab from '../post-details/PostDetailsTab.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -16,12 +16,53 @@
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <li
+	tabindex="0"
 	id={getPostId(post.id)}
 	class="post"
 	onkeydown={(event) => {
 		if (event.key === 'f') {
 			onfullscreen();
+		}
+		if (event.key === 'r' && event.target instanceof HTMLElement) {
+			const button = event.target.querySelector<HTMLElement>('button[data-tab="links"]');
+			if (button) {
+				button.click();
+				requestAnimationFrame(() => {
+					if (event.target instanceof HTMLElement) {
+						event.target
+							.querySelector<HTMLElement>('.details')
+							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				});
+			}
+		}
+		if (event.key === 'c' && event.target instanceof HTMLElement) {
+			const button = event.target.querySelector<HTMLElement>('button[data-tab="comments"]');
+			if (button) {
+				button.click();
+				requestAnimationFrame(() => {
+					if (event.target instanceof HTMLElement) {
+						event.target
+							.querySelector<HTMLElement>('.details')
+							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				});
+			}
+		}
+		if (event.key === 't' && event.target instanceof HTMLElement) {
+			const button = event.target.querySelector<HTMLElement>('button[data-tab="tags"]');
+			if (button) {
+				button.click();
+				requestAnimationFrame(() => {
+					if (event.target instanceof HTMLElement) {
+						event.target
+							.querySelector<HTMLElement>('.details')
+							?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				});
+			}
 		}
 	}}
 >
@@ -43,7 +84,7 @@
 		{/if}
 	</div>
 
-	<PostDetails {post} />
+	<PostDetailsTab {post} />
 </li>
 
 <style>

@@ -17,10 +17,8 @@
 	select {
 		display: inline-flex;
 		align-items: center;
-		height: var(--line-height);
 		padding-inline: var(--small-gap);
 		border: 2px solid var(--background-1);
-		border-radius: var(--border-radius);
 	}
 
 	@media (hover: hover) {

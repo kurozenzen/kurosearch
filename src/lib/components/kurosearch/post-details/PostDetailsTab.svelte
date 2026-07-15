@@ -35,7 +35,7 @@
 	{#if openTab === 'tags'}
 		<PostDetailsTagList tags={post.tags} />
 	{:else if openTab === 'comments'}
-		<Comments {post} />
+		<Comments id={post.id} />
 	{:else if openTab === 'links'}
 		<Sources {post} />
 	{/if}

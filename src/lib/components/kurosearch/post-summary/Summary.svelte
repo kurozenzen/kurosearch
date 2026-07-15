@@ -20,6 +20,7 @@
 	<span class="divider"></span>
 	<button
 		type="button"
+		data-tab="links"
 		class="codicon codicon-link"
 		class:active={active === 'links'}
 		onclick={(e) => {
@@ -32,6 +33,7 @@
 	{#if post.comment_count}
 		<button
 			type="button"
+			data-tab="comments"
 			class="codicon codicon-comment"
 			class:active={active === 'comments'}
 			onclick={(e) => {
@@ -44,6 +46,7 @@
 	{/if}
 	<button
 		type="button"
+		data-tab="tags"
 		class="codicon codicon-tag"
 		class:active={active === 'tags'}
 		onclick={(e) => {
