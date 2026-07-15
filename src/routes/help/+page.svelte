@@ -123,19 +123,26 @@
 			<li><span><kbd>Ctrl</kbd> + <kbd>M</kbd></span><span>Rotate searchbar modifier</span></li>
 			<li><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><span>Search with active tags</span></li>
 			<li><span><kbd>Ctrl</kbd> + <kbd>▼</kbd></span><span>Scroll to next post</span></li>
-			<li><span><kbd>Ctrl</kbd> + <kbd>▲</kbd></span><span>Scroll to previous post</span></li>
-			<li><span><kbd>◄</kbd></span><span>Skip video backward</span></li>
-			<li><span><kbd>►</kbd></span><span>Skip video forward</span></li>
-			<li><span><kbd>F</kbd></span><span>Enter fullscreen mode</span></li>
-			<li><span><kbd>Space</kbd></span><span>Play/Pause Video, Acts as click</span></li>
-			<li><span><kbd>Enter</kbd></span><span>Play/Pause Video, Acts as click</span></li>
-			<li><span><kbd>U</kbd></span><span>Scroll to previous post</span></li>
 			<li><span><kbd>O</kbd></span><span>Scroll to next post</span></li>
-			<li><span><kbd>J</kbd></span><span>Skip video backward</span></li>
+			<li><span><kbd>Ctrl</kbd> + <kbd>▲</kbd></span><span>Scroll to previous post</span></li>
+			<li><span><kbd>U</kbd></span><span>Scroll to previous post</span></li>
+			<li><span>Video</span><span></span></li>
+			<li><span><kbd>Space</kbd></span><span>Play/Pause Video, Acts as click</span></li>
 			<li><span><kbd>K</kbd></span><span>Play/Pause Video</span></li>
+			<li><span><kbd>◄</kbd></span><span>Skip video backward</span></li>
+			<li><span><kbd>J</kbd></span><span>Skip video backward</span></li>
+			<li><span><kbd>►</kbd></span><span>Skip video forward</span></li>
 			<li><span><kbd>L</kbd></span><span>Skip video forward</span></li>
+			<li><span><kbd>F</kbd></span><span>Enter fullscreen mode</span></li>
+			<li><span>Video</span><span></span></li>
+			<li><span><kbd>R</kbd></span><span>Open post links</span></li>
+			<li><span><kbd>C</kbd></span><span>Open post comments</span></li>
+			<li><span><kbd>T</kbd></span><span>Open post tags</span></li>
+			<li><span><kbd>H</kbd></span><span>Like post</span></li>
+
 			<li><span>Fullscreen Mode</span><span></span></li>
 			<li><span><kbd>F</kbd></span><span>Exit fullscreen mode</span></li>
+			<li><span><kbd>Esc</kbd></span><span>Exit fullscreen mode</span></li>
 			<li><span><kbd>D</kbd></span><span>Switch between post and details</span></li>
 			<li><span><kbd>▼</kbd></span><span>Scroll to next post</span></li>
 			<li><span><kbd>▲</kbd></span><span>Scroll to previous post</span></li>

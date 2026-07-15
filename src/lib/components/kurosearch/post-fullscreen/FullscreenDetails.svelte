@@ -1,6 +1,10 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { onMount } from 'svelte';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
+	import { on } from 'svelte/events';
+	import { keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
+	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -8,6 +12,14 @@
 	}
 
 	let { post, onreturn }: Props = $props();
+
+	onMount(() =>
+		on(window, 'keydown', (e) => {
+			if (keybindPostFavourite(e)) {
+				favouritePostsStore.toggleFavourite(post);
+			}
+		})
+	);
 </script>
 
 <IconButton onclick={onreturn} class="mixin-invisible fs-button-return">
