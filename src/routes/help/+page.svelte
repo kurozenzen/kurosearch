@@ -120,6 +120,7 @@
 			<li><span>General</span><span></span></li>
 			<li><span><kbd>/</kbd></span><span>Focus searchbar</span></li>
 			<li><span><kbd>S</kbd></span><span>Focus searchbar</span></li>
+			<li><span><kbd>Enter</kbd></span><span>Force add tag</span></li>
 			<li><span><kbd>Ctrl</kbd> + <kbd>M</kbd></span><span>Rotate searchbar modifier</span></li>
 			<li><span><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><span>Search with active tags</span></li>
 			<li><span><kbd>Ctrl</kbd> + <kbd>▼</kbd></span><span>Scroll to next post</span></li>
