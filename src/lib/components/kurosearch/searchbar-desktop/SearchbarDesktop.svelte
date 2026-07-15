@@ -7,8 +7,6 @@
 	import { getTagDetails, getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import {
-		KEY_SUGGESTION_NEXT,
-		KEY_SUGGESTION_PREV,
 		keybindBlur,
 		keybindFocusSearchbar,
 		keybindModifier,
