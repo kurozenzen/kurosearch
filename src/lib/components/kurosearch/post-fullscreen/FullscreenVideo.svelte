@@ -33,8 +33,8 @@
 		overlayHidden = !overlayHidden;
 	};
 
-	const ontoggleplay = () => {
-		toggleVideo(video);
+	const ontoggleplay = async () => {
+		await toggleVideo(video);
 	};
 
 	const onIntersectionChange = (isIntersecting: boolean) => {

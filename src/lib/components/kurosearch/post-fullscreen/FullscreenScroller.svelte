@@ -75,12 +75,18 @@
 		}
 	};
 
-	onMount(() => {
+	$effect(() => {
 		inner.scrollTop = index * window.innerHeight;
+	});
+	$effect(() => {
 		outer.scrollLeft = 0;
-		setTimeout(() => {
-			$fullscreenHintDone = true;
-		}, 2000);
+	});
+	onMount(() => {
+		if (!$fullscreenHintDone) {
+			setTimeout(() => {
+				$fullscreenHintDone = true;
+			}, 2000);
+		}
 		return on(window, 'keydown', keybinds);
 	});
 </script>

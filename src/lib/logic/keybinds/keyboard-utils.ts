@@ -42,13 +42,13 @@ export const keybindResultsNext = (event: KeyboardEvent) =>
 export const isInputFocused = () =>
 	document.activeElement?.tagName === 'INPUT' || document.activeElement?.tagName === 'TEXTAREA';
 
-export const keybindsVideo = (event: KeyboardEvent) => {
+export const keybindsVideo = async (event: KeyboardEvent) => {
 	if (isInputFocused()) {
 		return;
 	}
 
 	if (keybindPlay(event)) {
-		if (toggleVideo()) {
+		if (await toggleVideo()) {
 			event.preventDefault();
 			event.stopPropagation();
 		}

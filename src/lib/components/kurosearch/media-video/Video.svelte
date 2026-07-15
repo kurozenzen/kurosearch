@@ -36,9 +36,9 @@
 		overlayHidden = !overlayHidden;
 	};
 
-	const ontoggleplay = () => {
+	const ontoggleplay = async () => {
 		if (video) {
-			toggleVideo(video);
+			await toggleVideo(video);
 		}
 	};
 

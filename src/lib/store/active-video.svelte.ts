@@ -14,9 +14,17 @@ export const SKIP_TIME = 10;
 
 const attemptPlay = async (video: HTMLVideoElement | undefined) => {
 	try {
-		await video?.play();
+		if (video?.paused) {
+			await video?.play();
+		}
 	} catch (_) {
 		// ignored
+	}
+};
+
+const attemptPause = (video: HTMLVideoElement | undefined) => {
+	if (!video?.paused) {
+		video?.pause();
 	}
 };
 
@@ -35,37 +43,35 @@ export const playVideo = async (video?: HTMLVideoElement) => {
 	}
 
 	if (videoState.playingVideo === videoState.targetVideo) {
-		if (videoState.playingVideo?.paused) {
-			attemptPlay(videoState.playingVideo);
-		}
+		await attemptPlay(videoState.playingVideo);
 	} else {
-		videoState.playingVideo?.pause();
+		attemptPause(videoState.playingVideo);
 		videoState.playingVideo = videoState.targetVideo;
-		attemptPlay(videoState.playingVideo);
+		await attemptPlay(videoState.playingVideo);
 	}
 };
 
 export const pauseVideo = () => {
-	videoState.playingVideo?.pause();
+	attemptPause(videoState.playingVideo);
 	videoState.playingVideo = undefined;
 };
 
-export const toggleVideo = (video?: HTMLVideoElement): boolean => {
+export const toggleVideo = async (video?: HTMLVideoElement): Promise<boolean> => {
 	if (video) {
 		videoState.targetVideo = video;
 	}
 
 	if (videoState.targetVideo === videoState.playingVideo) {
 		if (videoState.playingVideo?.paused) {
-			attemptPlay(videoState.playingVideo);
+			await attemptPlay(videoState.playingVideo);
 		} else {
-			videoState.playingVideo?.pause();
+			attemptPause(videoState.playingVideo);
 			videoState.playingVideo = undefined;
 		}
 	} else {
-		videoState.playingVideo?.pause();
+		attemptPause(videoState.playingVideo);
 		videoState.playingVideo = videoState.targetVideo;
-		attemptPlay(videoState.playingVideo);
+		await attemptPlay(videoState.playingVideo);
 	}
 
 	return videoState.targetVideo !== undefined;
