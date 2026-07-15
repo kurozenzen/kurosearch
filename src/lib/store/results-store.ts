@@ -111,6 +111,18 @@ const createResultsStore = () => {
 
 		reset() {
 			set(getInitialResults());
+		},
+
+		setLoading(loading: boolean) {
+			update((previous) => ({ ...previous, loading }));
+		},
+
+		setError(error: Error | undefined) {
+			update((previous) => ({ ...previous, error }));
+		},
+
+		setHasPage(hasPage: boolean) {
+			update((previous) => ({ ...previous, hasPage }));
 		}
 	};
 };

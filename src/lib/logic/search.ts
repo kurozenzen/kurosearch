@@ -11,6 +11,8 @@ import activeSupertagsStore from '$lib/store/active-supertags-store';
 import { switchApiUrl } from './api-client/url';
 import { logSearch } from './firebase/analytics';
 
+let activeSearchId = 0;
+
 const createDefaultSearch = () => {
 	const $apiKey = get(apiKeyStore);
 	const $userId = get(userIdStore);
@@ -35,48 +37,67 @@ const createDefaultSearch = () => {
 		.withSupertags($activeSupertags);
 };
 
-const executeSearch = async (operation: () => Promise<void>) => {
+const executeSearch = async (
+	operation: () => Promise<() => void>,
+	force: boolean = false
+) => {
+	const searchId = ++activeSearchId;
 	const $results = get(resultsStore);
+
+	if (!force && $results.loading) return;
+
+	resultsStore.setLoading(true);
+	resultsStore.setError(undefined);
+
+	const pid = $results.pageCount;
+
+	const applyIfCurrent = (commit: () => void) => {
+		if (searchId === activeSearchId) {
+			commit();
+		}
+	};
+
 	try {
-		$results.loading = true;
-		$results.error = undefined;
-		const pid = $results.pageCount;
-		await operation();
+		const commit = await operation();
+		applyIfCurrent(commit);
 		logSearch(pid).catch(() => {});
 	} catch (_) {
 		switchApiUrl();
 		try {
-			const pid = $results.pageCount;
-			await operation();
-			$results.hasPage = true;
+			const commit = await operation();
+			applyIfCurrent(commit);
 			logSearch(pid).catch(() => {});
 		} catch (error) {
-			$results.error = error instanceof Error ? error : new Error(String(error));
+			applyIfCurrent(() =>
+				resultsStore.setError(error instanceof Error ? error : new Error(String(error)))
+			);
 		}
 	} finally {
-		$results.loading = false;
+		if (searchId === activeSearchId) {
+			resultsStore.setLoading(false);
+		}
 	}
 };
 
 export const getFirstPage = async () => {
 	resultsStore.reset();
 	executeSearch(async () => {
-		const [page, count] = await createDefaultSearch().getPageAndCount();
-		resultsStore.addPage(page, count);
-	});
+		const [page, count] = await createDefaultSearch().withPid(0).getPageAndCount();
+		return () => resultsStore.addPage(page, count);
+	}, true);
 };
 
 export const getPage = async (pid: number) => {
 	resultsStore.resetPosts();
 	executeSearch(async () => {
 		const page = await createDefaultSearch().withPid(pid).getPage();
-		resultsStore.setPage(page, pid);
-	});
+		return () => resultsStore.setPage(page, pid);
+	}, true);
 };
 
 export const getNextPage = async () => {
 	executeSearch(async () => {
 		const page = await createDefaultSearch().getPage();
-		resultsStore.addPage(page);
-	});
+		return () => resultsStore.addPage(page);
+	}, false);
 };
