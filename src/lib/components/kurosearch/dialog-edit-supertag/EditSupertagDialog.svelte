@@ -18,7 +18,11 @@
 
 	const emitEdit = () => onedit(supertag.name, newSupertag);
 
-	let newSupertag = $state({ ...supertag, tags: [...supertag.tags] });
+	let newSupertag: kurosearch.Supertag = $state(undefined!);
+	$effect(() => {
+		newSupertag = { ...supertag, tags: [...supertag.tags] };
+	});
+
 </script>
 
 <Dialog bind:dialog {onclose}>
