@@ -71,7 +71,7 @@
 	{#if post.type === 'gif'}
 		<div class="indicator">GIF</div>
 	{/if}
-	<div class="summary">
+	<div class="summary" class:fade={ratio < 0.4}>
 		<span class="label">{postTypeLabel(post)}</span>
 		<p class="spacer"></p>
 		<Score {post} />
@@ -146,5 +146,22 @@
 
 	.spacer {
 		flex-grow: 1;
+	}
+
+	.fade {
+		position: relative;
+	}
+
+	.fade::before {
+		position: absolute;
+		text-align: center;
+		width: 100%;
+		content: '';
+		height: 3rem;
+		background: linear-gradient(0deg, black 0%, transparent 100%);
+		user-select: none;
+		pointer-events: none;
+		top: -3rem;
+		left: 0;
 	}
 </style>
