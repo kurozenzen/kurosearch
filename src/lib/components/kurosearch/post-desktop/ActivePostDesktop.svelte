@@ -1,6 +1,6 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import { keybindFsLeave } from '$lib/logic/keybinds/keyboard-utils';
+	import { keybindFsLeave, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import { onMount } from 'svelte';
@@ -8,6 +8,7 @@
 	import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
+	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -28,6 +29,11 @@
 		on(window, 'keydown', (event) => {
 			if (keybindFsLeave(event)) {
 				onclose();
+			}
+			if (keybindPostFavourite(event)) {
+				event.preventDefault();
+				event.stopPropagation();
+				favouritePostsStore.toggleFavourite(post);
 			}
 		})
 	);
@@ -104,12 +110,6 @@
 		object-fit: contain;
 	}
 
-	.horizontal #details,
-	.scrollable #details {
-		flex: 0 1 50vw;
-		overflow-y: auto;
-	}
-
 	.scrollable #media {
 		flex: 0 0 70vh;
 		width: 70vh;
@@ -118,9 +118,5 @@
 	.scrollable img {
 		width: 100%;
 		height: unset;
-	}
-
-	:not(.vertical) #details {
-		overflow-y: auto;
 	}
 </style>

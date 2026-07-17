@@ -18,7 +18,13 @@
 	};
 </script>
 
-<button data-testid="score" class="codicon codicon-heart" class:favourite={isFavourite} {onclick}>
+<button
+	data-testid="score"
+	class="codicon codicon-heart"
+	class:favourite={isFavourite}
+	{onclick}
+	tabindex="-1"
+>
 	{formatCount(score)}
 </button>
 

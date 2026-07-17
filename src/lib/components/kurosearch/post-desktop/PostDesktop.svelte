@@ -1,12 +1,13 @@
 <script lang="ts">
 	import playSrc from '$lib/assets/play.svg?url';
 	import { getPostId } from '$lib/logic/id-utils';
-	import { keybindFsEnter } from '$lib/logic/keybinds/keyboard-utils';
+	import { keybindFsEnter, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
 	import { isImage } from '$lib/logic/media-utils';
 	import type { KeyboardEventHandler } from 'svelte/elements';
 	import { calculateAspectRatio } from '../post/ratio';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
+	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
 
 	const maxRatio = 1 / 2;
 	const rowsPerSquare = 3;
@@ -42,6 +43,11 @@
 			event.preventDefault();
 			event.stopPropagation();
 			(event.target as HTMLElement).click();
+		}
+		if (keybindPostFavourite(event)) {
+			event.preventDefault();
+			event.stopPropagation();
+			favouritePostsStore.toggleFavourite(post);
 		}
 	};
 </script>
