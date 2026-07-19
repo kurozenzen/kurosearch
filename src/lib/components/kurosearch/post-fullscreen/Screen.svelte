@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { observer } from '$lib/logic/attachments/observer';
+
 	import results from '$lib/store/results-store';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 
@@ -9,13 +11,23 @@
 		onended: () => void;
 		startAt?: number;
 		ondetails: () => void;
+		onVisible: (index: number) => void;
 	}
 
-	let { offset, step, index, startAt, onended, ondetails }: Props = $props();
+	let { offset, step, index, startAt, onended, ondetails, onVisible }: Props = $props();
 
 	let thisIndex = $derived(Math.round((index - offset) / step) * step + offset);
-
 	let actualStartAt = $derived(thisIndex == index ? startAt : undefined);
+
+	const intersectionObserver = new IntersectionObserver(
+		(entries) =>
+			entries.filter((entry) => entry.isIntersecting).forEach((entry) => onVisible(thisIndex)),
+		{
+			root: null,
+			rootMargin: '0px',
+			threshold: 1
+		}
+	);
 </script>
 
 {#if thisIndex >= 0 && thisIndex < $results.posts.length}
@@ -23,7 +35,7 @@
 	<!-- <p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
 	</p> -->
-	<div style="--post-index:{thisIndex};">
+	<div {@attach observer(intersectionObserver)} style="--post-index:{thisIndex};">
 		<FullscreenMedia {post} {onended} startAt={actualStartAt} {ondetails} />
 	</div>
 {/if}

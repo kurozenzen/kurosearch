@@ -37,11 +37,8 @@
 		}
 	};
 
-	const onscroll = (event: Event) => {
-		if (event.target instanceof HTMLDivElement) {
-			center = event.target.scrollTop + window.innerHeight / 2;
-			index = Math.floor(center / innerHeight);
-		}
+	const onVisible = (newIndex: number) => {
+		index = newIndex;
 	};
 
 	const ondetails = () => {
@@ -92,10 +89,10 @@
 </script>
 
 <div bind:this={outer} class="root size-screen" class:hint={!$fullscreenHintDone}>
-	<div bind:this={inner} class="inner size-screen snap-container-y" {onscroll}>
-		<Screen offset={0} step={3} {index} onended={autoscroll} {startAt} {ondetails} />
-		<Screen offset={1} step={3} {index} onended={autoscroll} {startAt} {ondetails} />
-		<Screen offset={2} step={3} {index} onended={autoscroll} {startAt} {ondetails} />
+	<div bind:this={inner} class="inner size-screen snap-container-y">
+		<Screen offset={0} step={3} {index} onended={autoscroll} {startAt} {ondetails} {onVisible} />
+		<Screen offset={1} step={3} {index} onended={autoscroll} {startAt} {ondetails} {onVisible} />
+		<Screen offset={2} step={3} {index} onended={autoscroll} {startAt} {ondetails} {onVisible} />
 		<IntersectionDetector
 			absoluteTop="{$results.posts.length * 100}vh"
 			rootMargin="{window.innerHeight * 3}px"
