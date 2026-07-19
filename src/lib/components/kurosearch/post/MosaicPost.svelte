@@ -31,6 +31,7 @@
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	id={getPostId(post.id)}
 	class="post"
@@ -38,6 +39,7 @@
 	{onclick}
 	{onkeydown}
 	class:open
+	tabindex="0"
 >
 	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
 	{#if post.type !== 'image'}

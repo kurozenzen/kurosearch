@@ -69,11 +69,10 @@
 		return focusIndex == undefined ? 0 : clamp(focusIndex - 1, 0, $results.posts.length - 1);
 	};
 
-	const focusPost = async (index: number, behavior: ScrollBehavior = 'smooth') => {
+	const focusPost = async (index: number) => {
 		const postList = document.getElementsByClassName('post');
 		const postElement = postList[index] as HTMLElement;
-		await postElement.scrollIntoView({ block: 'start', behavior });
-		postElement.focus({ preventScroll: true, focusVisible: true });
+		postElement.focus({ focusVisible: true });
 
 		setTimeout(() => {
 			let video = postElement.querySelector('video');

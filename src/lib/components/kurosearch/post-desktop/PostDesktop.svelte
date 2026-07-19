@@ -62,7 +62,14 @@
 	role="button"
 	tabindex="0"
 >
-	<img src={previewSrc} alt="post" class="post-media" tabindex="-1" loading="lazy" />
+	<img
+		src={previewSrc}
+		alt="post"
+		class="post-media"
+		tabindex="-1"
+		loading="lazy"
+		class:fade={ratio < 0.4}
+	/>
 	{#if post.type === 'video'}
 		<div class="indicator">
 			<img src={playSrc} alt="Play video" width="16" height="32" style:margin-left="4px" />
@@ -71,7 +78,7 @@
 	{#if post.type === 'gif'}
 		<div class="indicator">GIF</div>
 	{/if}
-	<div class="summary" class:fade={ratio < 0.4}>
+	<div class="summary">
 		<span class="label">{postTypeLabel(post)}</span>
 		<p class="spacer"></p>
 		<Score {post} />
@@ -149,19 +156,9 @@
 	}
 
 	.fade {
-		position: relative;
-	}
-
-	.fade::before {
-		position: absolute;
-		text-align: center;
-		width: 100%;
-		content: '';
-		height: 3rem;
-		background: linear-gradient(0deg, black 0%, transparent 100%);
-		user-select: none;
-		pointer-events: none;
-		top: -3rem;
-		left: 0;
+		mask:
+			linear-gradient(#fff, #fff),
+			bottom url('triangle.svg') repeat-x;
+		mask-composite: exclude;
 	}
 </style>
