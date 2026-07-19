@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { observer } from '$lib/logic/attachments/observer';
+
 	/**
 	 * rootMargin should not change at runtime.
 	 * Dynamically adjusting it is not implemented
 	 */
 	let { rootMargin, absoluteTop, onintersection } = $props();
-
 
 	const intersectionObserver = new IntersectionObserver(
 		(entries) => {
@@ -12,21 +13,12 @@
 				onintersection();
 			}
 		},
+		// svelte-ignore state_referenced_locally
 		{ rootMargin }
 	);
-
-	let ref: HTMLDivElement;
-	$effect(() => {
-		if (ref) {
-			intersectionObserver.observe(ref);
-		}
-		return () => {
-			intersectionObserver.disconnect();
-		};
-	});
 </script>
 
 <div
-	bind:this={ref}
+	{@attach observer(intersectionObserver)}
 	style={absoluteTop ? `position:absolute;top:${absoluteTop};` : undefined}
 ></div>

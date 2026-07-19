@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { fullscreenelement } from '$lib/logic/attachments/fullscreenelement';
 	import { keybindFsLeave } from '$lib/logic/keybinds/keyboard-utils';
-	import { onMount, type Snippet } from 'svelte';
-	import { on } from 'svelte/events';
+	import { type Snippet } from 'svelte';
 
 	interface Props {
 		children: Snippet;
@@ -10,18 +9,10 @@
 	}
 
 	let { children, onclose }: Props = $props();
-
-	onMount(() =>
-		on(window, 'popstate', () => {
-			if (history.state?.fullscreen === undefined || history.state?.fullscreen === false) {
-				onclose?.();
-			}
-		})
-	);
 </script>
 
 <div
-	{@attach fullscreenelement}
+	{@attach fullscreenelement(onclose)}
 	role="none"
 	tabindex="-1"
 	onclick={(e) => {
