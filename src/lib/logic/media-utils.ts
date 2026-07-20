@@ -17,3 +17,5 @@ export const getExtension = (url: string) => {
 
 export const isImage = (src: string) =>
 	src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
+
+export const isComic = (ratio: number) => ratio < 0.4;

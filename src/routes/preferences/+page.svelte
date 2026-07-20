@@ -21,6 +21,7 @@
 <script lang="ts">
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
 	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
@@ -37,6 +38,7 @@
 	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
 	import blockedContent from '$lib/store/blocked-content-store';
 	import cookiesAccepted from '$lib/store/cookies-accepted-store';
+	import dataSaverStore from '$lib/store/data-saver-store';
 	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
@@ -64,6 +66,15 @@
 		userId.reset();
 		pageNavigationEnabled.reset();
 	};
+
+	let searchTerm = $state('');
+
+	const checkDisplay = (preferenceName: string): boolean => {
+		if (searchTerm.trim() === '') {
+			return true;
+		}
+		return preferenceName.toLowerCase().includes(searchTerm.toLowerCase());
+	};
 </script>
 
 <svelte:head>
@@ -75,12 +86,33 @@
 </svelte:head>
 
 <PageGeneric title="Preferences">
-	<Preference title="Theme" description="Change the look of the app.">
+	<Preference title="Search" description="Search for preferences by name.">
+		<div class="button-row">
+			<TextInput bind:value={searchTerm} placeholder="Enter preference name" />
+			{#if searchTerm.trim() !== ''}
+				<IconButton
+					class="mixin-invisible"
+					onclick={() => {
+						searchTerm = '';
+					}}
+				>
+					<i class="codicon codicon-close"></i>
+				</IconButton>
+			{/if}
+		</div>
+	</Preference>
+
+	<Preference
+		title="Theme"
+		display={checkDisplay('Theme')}
+		description="Change the look of the app."
+	>
 		<Select bind:value={$theme} options={THEME_OPTIONS} />
 	</Preference>
 
 	<Preference
 		title="API Key"
+		display={checkDisplay('API Key')}
 		description="Use your own API key to rule34.xxx. This can speed up loading times. Some issues will not affect you, if you have your own key"
 	>
 		<div class="button-row">
@@ -96,6 +128,7 @@
 
 	<Preference
 		title="Save Tags & Posts"
+		display={checkDisplay('Save Tags & Posts')}
 		description="Save active tags and posts between sessions. Note: This does not work well if you use multipe tabs frequently."
 	>
 		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>Save</Checkbox>
@@ -118,6 +151,7 @@
 
 	<Preference
 		title="Blocked Content"
+		display={checkDisplay('Blocked Content')}
 		description="Completely prevent certain types of posts without cluttering your search."
 	>
 		<div>
@@ -131,6 +165,7 @@
 
 	<Preference
 		title="Loop Videos"
+		display={checkDisplay('Loop Videos')}
 		description="By default only videos with the 'loop' tag are looped. When this setting is enabled, all videos are looped."
 	>
 		<Checkbox id="checkbox-always-loop" bind:checked={$alwaysLoop}>Always Loop</Checkbox>
@@ -138,6 +173,7 @@
 
 	<Preference
 		title="Autoscroll in Fullscreen"
+		display={checkDisplay('Autoscroll in Fullscreen')}
 		description="When enabled, fullscreen view will scroll automatically."
 	>
 		<div class="button-row">
@@ -149,7 +185,11 @@
 		</div>
 	</Preference>
 
-	<Preference title="Result layout" description="Choose how results are arranged.">
+	<Preference
+		title="Result layout"
+		display={checkDisplay('Result layout')}
+		description="Choose how results are arranged."
+	>
 		<div class="button-row">
 			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
 			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
@@ -160,6 +200,7 @@
 
 	<Preference
 		title="Page Navigation"
+		display={checkDisplay('Page Navigation')}
 		description="Navigate using pages instead of infinite scrolling."
 	>
 		<div class="button-row">
@@ -171,6 +212,7 @@
 
 	<Preference
 		title="Higher Resolution"
+		display={checkDisplay('Higher Resolution')}
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
 		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
@@ -179,7 +221,18 @@
 	</Preference>
 
 	<Preference
+		title="Data Saver"
+		display={checkDisplay('Data Saver')}
+		description="When enabled, the app will only load comics on demand."
+	>
+		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$dataSaverStore}>
+			Enable data saver
+		</Checkbox>
+	</Preference>
+
+	<Preference
 		title="Gif Preload"
+		display={checkDisplay('Gif Preload')}
 		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited bandwidth."
 	>
 		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={$gifPreloadEnabled}>
@@ -189,6 +242,7 @@
 
 	<Preference
 		title="[LEGACY] Open tags on click"
+		display={checkDisplay('[LEGACY] Open tags on click')}
 		description="When enabled, clicking a post will immediately display the tags. This confilicts with other features. Use at your own risk."
 	>
 		<div class="button-row">
@@ -200,6 +254,7 @@
 
 	<Preference
 		title="Reset preferences"
+		display={checkDisplay('Reset preferences')}
 		description="Undo all customizations and return to default settings."
 	>
 		<TextButton

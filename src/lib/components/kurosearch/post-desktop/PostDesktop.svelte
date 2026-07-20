@@ -2,12 +2,13 @@
 	import playSrc from '$lib/assets/play.svg?url';
 	import { getPostId } from '$lib/logic/id-utils';
 	import { keybindFsEnter, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { isImage } from '$lib/logic/media-utils';
+	import { isComic, isImage } from '$lib/logic/media-utils';
 	import type { KeyboardEventHandler } from 'svelte/elements';
 	import { calculateAspectRatio } from '../post/ratio';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
 	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import DataSavingImage from '../img-data-saver/DataSavingImage.svelte';
 
 	const maxRatio = 1 / 2;
 	const rowsPerSquare = 3;
@@ -33,6 +34,7 @@
 	let { post, onclick }: Props = $props();
 
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
+	let cutoff = $derived(isComic(ratio));
 	let rows = $derived(
 		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
 	);
@@ -62,13 +64,14 @@
 	role="button"
 	tabindex="0"
 >
-	<img
+	<DataSavingImage
 		src={previewSrc}
 		alt="post"
-		class="post-media"
-		tabindex="-1"
+		class="post-media {cutoff ? 'fade' : ''}"
+		tabindex={-1}
 		loading="lazy"
-		class:fade={ratio < 0.4}
+		width={post.width}
+		height={post.height}
 	/>
 	{#if post.type === 'video'}
 		<div class="indicator">
@@ -78,7 +81,7 @@
 	{#if post.type === 'gif'}
 		<div class="indicator">GIF</div>
 	{/if}
-	<div class="summary">
+	<div class="summary" class:more={cutoff}>
 		<span class="label">{postTypeLabel(post)}</span>
 		<p class="spacer"></p>
 		<Score {post} />
@@ -101,7 +104,7 @@
 		border-radius: var(--border-radius);
 	}
 
-	.post-media {
+	:global(.post-media) {
 		grid-column: 1 / 4;
 		grid-row: 1 / 4;
 		width: 100%;
@@ -145,6 +148,18 @@
 		align-items: center;
 		gap: var(--small-gap);
 		padding: var(--grid-gap);
+
+		&.more {
+			position: relative;
+		}
+
+		&.more::before {
+			content: 'Show more';
+			position: absolute;
+			text-align: center;
+			width: 100%;
+			top: calc(-1 * var(--grid-gap));
+		}
 	}
 
 	.label {
@@ -155,7 +170,7 @@
 		flex-grow: 1;
 	}
 
-	.fade {
+	:global(.fade) {
 		mask:
 			linear-gradient(#fff, #fff),
 			bottom url('triangle.svg') repeat-x;

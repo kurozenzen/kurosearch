@@ -22,5 +22,6 @@ export enum StoreKey {
 	UserId = 'kurosearch:rule34-user-id',
 	PageNavigationEnabled = 'kurosearch:page-navigation-enabled',
 	BackupTimestamp = 'backup-timestamp',
-	Favourites = 'kurosearch:favourites'
+	Favourites = 'kurosearch:favourites',
+	DataSaver = 'kurosearch:data-saver'
 }

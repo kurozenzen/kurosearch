@@ -6,12 +6,13 @@
 		title: string;
 		description: string;
 		children?: Snippet;
+		display?: boolean;
 	}
 
-	let { title, description, children }: Props = $props();
+	let { title, description, children, display = true }: Props = $props();
 </script>
 
-<div>
+<div class:display>
 	<Heading3>{title}</Heading3>
 	<p>{description}</p>
 	{@render children?.()}
@@ -19,9 +20,13 @@
 
 <style>
 	div {
-		display: flex;
+		display: none;
 		flex-direction: column;
 		align-items: start;
 		gap: var(--grid-gap);
+	}
+
+	.display {
+		display: flex;
 	}
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { keybindFsLeave, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { getGifSources, getVideoSources, isLoop } from '$lib/logic/media-utils';
+	import { getGifSources, getVideoSources, isComic, isLoop } from '$lib/logic/media-utils';
 	import alwaysLoop from '$lib/store/always-loop-store';
 	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
@@ -21,7 +21,7 @@
 	let postAspectRatio = $derived(calculateAspectRatio(post.width, post.height));
 	let format = $derived.by(() => {
 		if (postAspectRatio / clientAspectRatio > 0.7) return 'vertical';
-		if (postAspectRatio < 0.4) return 'scrollable';
+		if (isComic(postAspectRatio)) return 'scrollable';
 		return 'horizontal';
 	});
 

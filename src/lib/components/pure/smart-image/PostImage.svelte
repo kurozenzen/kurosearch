@@ -6,6 +6,7 @@
 	} from '$lib/components/kurosearch/post/ratio';
 	import { clearsrc } from '$lib/logic/attachments/clearsrc';
 	import { screenintersection } from '$lib/logic/attachments/screenintersection';
+	import { isComic } from '$lib/logic/media-utils';
 	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 
 	interface Props {
@@ -24,7 +25,7 @@
 	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
 	let alt = $derived(post.id.toString());
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
-	let canOpen = $derived(ratio < 0.4);
+	let canOpen = $derived(isComic(ratio));
 	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
 	let estimatedBandwith = $derived((post.width * post.height * 3) / 10); // based on 3 channel PNG estimation
 

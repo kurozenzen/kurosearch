@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isComic } from '$lib/logic/media-utils';
 	import FullscreenComic from './FullscreenComic.svelte';
 	import FullscreenGif from './FullscreenGif.svelte';
 	import FullscreenImage from './FullscreenImage.svelte';
@@ -19,7 +20,7 @@
 		<FullscreenVideo {post} {onended} {ondetails} {startAt} />
 	{:else if post.type === 'gif'}
 		<FullscreenGif {post} {onended} {ondetails} />
-	{:else if post.width / post.height < 0.4}
+	{:else if isComic(post.width / post.height)}
 		<FullscreenComic {post} {onended} {ondetails} />
 	{:else}
 		<FullscreenImage {post} {onended} {ondetails} />
