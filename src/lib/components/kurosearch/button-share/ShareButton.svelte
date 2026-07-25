@@ -22,13 +22,13 @@
 </script>
 
 <TagButton title="Share current search." onclick={share}>
-	<img src={shareSrc} alt="No more results to load" width="24" height="24" />
+	<img src={shareSrc} alt="Share current search" width="24" height="24" />
 </TagButton>
 
 <style>
 	img {
-		width: 16px;
-		height: 16px;
+		width: var(--icon-size);
+		height: var(--icon-size);
 		padding-block: 1px;
 	}
 </style>

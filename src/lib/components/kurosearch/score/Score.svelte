@@ -44,7 +44,7 @@
 	}
 
 	button::before {
-		font-size: 16px;
+		font-size: var(--text-size-large);
 	}
 
 	@media (hover: hover) {

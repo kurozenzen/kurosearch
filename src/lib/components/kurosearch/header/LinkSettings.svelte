@@ -3,21 +3,17 @@
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 </script>
 
-<IconLink title="Settings" href={resolve('/preferences')} className="gear">
+<IconLink title="Settings" href={resolve('/preferences')}>
 	<i class="codicon codicon-settings-gear"></i>
 </IconLink>
 
 <style>
-	i {
-		height: 16px;
-	}
-
 	@media not (prefers-reduced-motion) {
 		i {
 			transition: transform 0.5s ease-out;
 		}
 
-		:global(.gear:hover i) {
+		i:hover {
 			transform: rotate(180deg);
 		}
 	}

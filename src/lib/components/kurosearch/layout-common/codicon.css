@@ -12,20 +12,20 @@
 }
 
 i.codicon {
-	font: normal normal normal 16px/1 codicon;
+	font: normal normal normal var(--icon-size)/1 codicon;
 }
 
 .codicon:before {
 	font-family: codicon, serif;
 	font-style: unset;
-	line-height: 16px;
-	width: 16px;
-	height: 16px;
+	line-height: var(--icon-size);
+	width: var(--icon-size);
+	height: var(--icon-size);
 }
 
 .custom-icon-wave::before {
 	content: '(⁓)';
-	line-height: 16px;
+	line-height: var(--icon-size);
 	margin-top: -2px;
 }
 

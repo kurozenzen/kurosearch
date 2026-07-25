@@ -65,15 +65,15 @@
 
 	input[type='range']::-webkit-slider-thumb,
 	input[type='range']::-ms-thumb {
-		height: 16px;
-		width: 16px;
+		height: var(--icon-size);
+		width: var(--icon-size);
 		border-radius: 8px;
 		background-color: var(--accent);
 	}
 
 	input[type='range']::-moz-range-thumb {
-		height: 16px;
-		width: 16px;
+		height: var(--icon-size);
+		width: var(--icon-size);
 		border-radius: 8px;
 		background-color: var(--accent);
 		border: none;

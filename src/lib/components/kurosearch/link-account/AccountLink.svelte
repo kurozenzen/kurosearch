@@ -40,8 +40,8 @@
 <style>
 	img,
 	i {
-		width: 16px;
-		height: 16px;
+		width: var(--icon-size);
+		height: var(--icon-size);
 		border-radius: 8px;
 	}
 </style>

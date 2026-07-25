@@ -14,9 +14,3 @@
 <IconLink {title} {href} {newtab}>
 	<i class={icon}></i>
 </IconLink>
-
-<style>
-	i {
-		height: 16px;
-	}
-</style>
