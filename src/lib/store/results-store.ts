@@ -1,4 +1,3 @@
-import { PAGE_SIZE } from '$lib/logic/api-client/ApiClient';
 import { semiPersistentWritable } from './semi-persistent-store';
 import { StoreKey } from './store-keys';
 
@@ -70,7 +69,7 @@ const createResultsStore = () => {
 					ids: previous.ids,
 					postCount: count ?? previous.postCount,
 					hasPage: true,
-					hasLastPage: newPosts.length === 0,
+					hasLastPage: page.length === 0,
 					loading: false,
 					error: undefined
 				};

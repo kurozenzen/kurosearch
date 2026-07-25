@@ -43,7 +43,8 @@ const executeSearch = async (operation: () => Promise<void>) => {
 		const pid = $results.pageCount;
 		await operation();
 		logSearch(pid).catch(() => {});
-	} catch (_) {
+	} catch (error) {
+		console.log('Error during search operation:', error);
 		switchApiUrl();
 		try {
 			const pid = $results.pageCount;
