@@ -21,8 +21,6 @@
 	let outer: HTMLDivElement;
 	let inner: HTMLDivElement;
 
-	let center = $state(0);
-
 	const scrollToPrevious = () => {
 		inner.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
 	};
