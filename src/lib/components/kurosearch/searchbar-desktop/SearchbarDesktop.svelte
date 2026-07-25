@@ -86,21 +86,24 @@
 		focusInside = false;
 	};
 
-	const closeIfFocusOutside = (event: any) => {
-		if (!event.relatedTarget || !event.target.parentNode.contains(event.relatedTarget)) {
+	const closeIfFocusOutside = (event: FocusEvent) => {
+		if (
+			!event.relatedTarget ||
+			!(event.target as HTMLElement | null)?.parentNode?.contains(event.relatedTarget as Node)
+		) {
 			showActiveTags = false;
 			focusInside = false;
 		}
 	};
 
-	const focus = (e: any) => {
+	const focus = (e: FocusEvent) => {
 		targetVideo(undefined);
 		focusInside = true;
 		showActiveTags = false;
-		e.target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+		(e.target as HTMLElement | null)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
 	};
 
-	const handleKeyDown = async (event: any) => {
+	const handleKeyDown = async (event: KeyboardEvent) => {
 		if (keybindSearchbarSubmit(event) && searchTerm !== '') {
 			if (suggestionItems.length > selectedIndex) {
 				pick(suggestionItems[selectedIndex]);

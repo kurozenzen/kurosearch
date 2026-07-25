@@ -1,15 +1,14 @@
 <script>
 	import { resolve } from '$app/paths';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import results from '$lib/store/results-store';
 	import LinkHelp from '../header/LinkHelp.svelte';
 	import LinkKofi from '../header/LinkKofi.svelte';
 	import LinkSettings from '../header/LinkSettings.svelte';
 	import AccountLink from '../link-account/AccountLink.svelte';
 	import DiscordLink from '../link-discord/DiscordLink.svelte';
-	import SearchbarDesktop from '../searchbar-desktop/SearchbarDesktop.svelte';
-	import results from '$lib/store/results-store';
 	import ResultCount from '../results/ResultCount.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import LynxMain from '../../../../routes/LynxMain.svelte';
+	import SearchbarDesktop from '../searchbar-desktop/SearchbarDesktop.svelte';
 </script>
 
 <header>

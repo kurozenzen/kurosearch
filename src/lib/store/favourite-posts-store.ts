@@ -1,11 +1,11 @@
 import {
 	addFavouritePost,
 	getAllFavouritePosts,
-	replaceAllFavouritePosts,
 	removeFavouritePost,
+	replaceAllFavouritePosts,
 	type IndexedPost
 } from '$lib/indexeddb/idb';
-import { get, writable, type Writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 export interface FavouritePostsStore {
 	posts: IndexedPost[];

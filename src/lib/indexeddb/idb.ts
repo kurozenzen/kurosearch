@@ -1,5 +1,3 @@
-import { browser } from '$app/environment';
-
 export type IndexedPost = kurosearch.Post & { indexedAt: Date };
 
 const COMMENT_LIFETIME_HOURS = 48;

@@ -66,9 +66,11 @@
 						{tag}
 						{active}
 						onclick={() => {
-							active
-								? activeTagsStore.removeByName(tag.name)
-								: activeTagsStore.addOrReplace({ ...tag, modifier: '+' });
+							if (active) {
+								activeTagsStore.removeByName(tag.name);
+							} else {
+								activeTagsStore.addOrReplace({ ...tag, modifier: '+' });
+							}
 						}}
 						topLevel
 					/>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { blurOnEnter, blurOnEsc } from '$lib/logic/keybinds/blur';
-	import { keybindBlur } from '$lib/logic/keybinds/keyboard-utils';
 	import type { FullAutoFill } from 'svelte/elements';
 
 	interface Props {

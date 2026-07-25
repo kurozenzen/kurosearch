@@ -1,12 +1,11 @@
 <script lang="ts">
-	import TermsOfUseDialog from '$lib/components/kurosearch/dialog-terms-of-use/CookieMessage.svelte';
-	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
-	import News from '$lib/components/kurosearch/news/News.svelte';
-	import MobileHeader from '$lib/components/kurosearch/header/MobileHeader.svelte';
-	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
 	import { page } from '$app/state';
-	import LayoutCommon from '../layout-common/LayoutCommon.svelte';
+	import TermsOfUseDialog from '$lib/components/kurosearch/dialog-terms-of-use/CookieMessage.svelte';
+	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
+	import MobileHeader from '$lib/components/kurosearch/header/MobileHeader.svelte';
+	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import type { Snippet } from 'svelte';
+	import LayoutCommon from '../layout-common/LayoutCommon.svelte';
 
 	interface Props {
 		children: Snippet;

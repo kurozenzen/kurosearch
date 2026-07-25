@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
 	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import { apiUrl } from '$lib/logic/api-client/url';

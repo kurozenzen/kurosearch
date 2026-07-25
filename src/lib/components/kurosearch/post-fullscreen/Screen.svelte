@@ -20,8 +20,12 @@
 	let actualStartAt = $derived(thisIndex == index ? startAt : undefined);
 
 	const intersectionObserver = new IntersectionObserver(
-		(entries) =>
-			entries.filter((entry) => entry.isIntersecting).forEach((entry) => onVisible(thisIndex)),
+		(entries) => {
+			if (entries.length > 1) {
+				console.warn('Multiple entries in intersection observer', entries);
+			}
+			entries.filter((entry) => entry.isIntersecting).forEach(() => onVisible(thisIndex));
+		},
 		{
 			root: null,
 			rootMargin: '0px',

@@ -54,12 +54,10 @@ export const getPost = async (id: number, apiKey: string = '', userId: string = 
 		return indexedPost;
 	}
 
-	let url = '';
-	if (userId && apiKey) {
-		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`;
-	} else {
-		url = `${apiUrl()}/post?id=${id}`;
-	}
+	let url =
+		userId && apiKey
+			? `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`
+			: `${apiUrl()}/post?id=${id}`;
 
 	const response = await fetch(url);
 	throwOnUnexpectedStatus(response);
@@ -148,22 +146,20 @@ export const getPostsUrl = (
 	apiKey: string,
 	userId: string
 ) => {
-	let url = '';
-	if (userId && apiKey) {
-		url = `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&api_key=${apiKey}&user_id=${userId}&limit=${PAGE_SIZE}&pid=${pageNumber}`;
-	} else {
-		url = `${apiUrl()}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
-	}
+	let url =
+		userId && apiKey
+			? `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&api_key=${apiKey}&user_id=${userId}&limit=${PAGE_SIZE}&pid=${pageNumber}`
+			: `${apiUrl()}/posts?limit=${PAGE_SIZE}&pid=${pageNumber}`;
+
 	return serializedTags === '' ? url : `${url}&tags=${serializedTags}`;
 };
 
 export const getCountUrl = (serializedTags: string, apiKey: string, userId: string) => {
-	let url = '';
-	if (userId && apiKey) {
-		url = `${R34_API_URL}&s=post&q=index&limit=0&api_key=${apiKey}&user_id=${userId}`;
-	} else {
-		url = `${apiUrl()}/count`;
-	}
+	let url =
+		userId && apiKey
+			? `${R34_API_URL}&s=post&q=index&limit=0&api_key=${apiKey}&user_id=${userId}`
+			: `${apiUrl()}/count`;
+
 	return serializedTags === '' ? url : `${url}?tags=${serializedTags}`;
 };
 
