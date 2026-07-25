@@ -26,8 +26,9 @@ export const getSettingsFromDriveBackup = (backup: unknown): SettingsObject | un
 
 		return {
 			...legacy.preferences,
-			[StoreKey.Supertags]:
-				legacy.preferences[StoreKey.Supertags] ?? { items: legacy.supertags ?? [] },
+			[StoreKey.Supertags]: legacy.preferences[StoreKey.Supertags] ?? {
+				items: legacy.supertags ?? []
+			},
 			[StoreKey.Favourites]: legacy.favourites ?? legacy.preferences[StoreKey.Favourites] ?? []
 		};
 	}
@@ -62,7 +63,11 @@ const toTextBody = (body: unknown) => {
 	return JSON.stringify(body ?? {});
 };
 
-const buildMultipartRequestBody = (metadata: Record<string, unknown>, body: string, boundary: string) => {
+const buildMultipartRequestBody = (
+	metadata: Record<string, unknown>,
+	body: string,
+	boundary: string
+) => {
 	const delimiter = `\r\n--${boundary}\r\n`;
 	const closeDelimiter = `\r\n--${boundary}--`;
 
@@ -81,7 +86,9 @@ const ensureDriveClientWithToken = async () => {
 	await setupGoogleDriveAtPageLoad();
 	const accessToken = await ensureGoogleAccessToken({ allowInteractivePrompt: false });
 	if (!accessToken) {
-		throw new Error('Google Drive authorization is required. Please connect your Google account again.');
+		throw new Error(
+			'Google Drive authorization is required. Please connect your Google account again.'
+		);
 	}
 	const gapi = await getGapi();
 	gapi.client.setToken({ access_token: accessToken });

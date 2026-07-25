@@ -1,4 +1,4 @@
-import { browser } from "$app/environment";
+import { browser } from '$app/environment';
 
 export const API_URLS = [
 	'https://rule34-api.netlify.app',

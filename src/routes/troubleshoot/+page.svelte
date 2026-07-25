@@ -76,5 +76,5 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--grid-gap);
-	}	
+	}
 </style>

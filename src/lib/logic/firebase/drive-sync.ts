@@ -14,7 +14,10 @@ import { getAuth } from 'firebase/auth';
 
 let queuedSync = Promise.resolve();
 
-export const buildSettingsObject = (supertags: SupertagsStore, favourites: IndexedPost[]): SettingsObject => ({
+export const buildSettingsObject = (
+	supertags: SupertagsStore,
+	favourites: IndexedPost[]
+): SettingsObject => ({
 	[StoreKey.BackupTimestamp]: new Date().toISOString(),
 	[StoreKey.LocalstorageEnabled]: get(localstorageEnabled),
 	[StoreKey.Theme]: get(theme),

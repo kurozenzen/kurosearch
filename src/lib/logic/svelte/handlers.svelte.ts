@@ -1,5 +1,4 @@
-export const broadcast = (...functions: Array<() => void>) => () =>{
-	for (const f of functions) {
-		f();
-	}
-};
+export const broadcast =
+	(...functions: Array<() => void>) =>
+	() =>
+		functions.forEach((f) => f());

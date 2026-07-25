@@ -2,7 +2,11 @@ import { browser } from '$app/environment';
 import { getAllFavouritePosts } from '$lib/indexeddb/idb';
 import type { SettingsObject } from '$lib/logic/file-utils';
 import { getSettingsAndSupertags } from '$lib/logic/firebase/storage';
-import { getSettingsFromDriveBackup, loadDriveBackup, saveDriveBackup } from '$lib/logic/firebase/drive-storage';
+import {
+	getSettingsFromDriveBackup,
+	loadDriveBackup,
+	saveDriveBackup
+} from '$lib/logic/firebase/drive-storage';
 import { StoreKey } from '$lib/store/store-keys';
 import { getAuth } from 'firebase/auth';
 

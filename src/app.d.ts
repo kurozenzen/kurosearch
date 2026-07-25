@@ -9,7 +9,6 @@ interface ImportMeta {
 }
 
 declare global {
-
 	namespace App {
 		// interface Error {}
 		// interface Locals {}
@@ -19,13 +18,7 @@ declare global {
 
 	namespace kurosearch {
 		type BlockingGroup =
-			| 'Animal-Related'
-			| 'Non-Consentual'
-			| 'Gore'
-			| 'Scat'
-			| 'AI-Generated'
-			| 'Vore'
-			| 'Incest';
+			'Animal-Related' | 'Non-Consentual' | 'Gore' | 'Scat' | 'AI-Generated' | 'Vore' | 'Incest';
 		type TagModifier = '+' | '-' | '~';
 		type TagType =
 			| 'general'

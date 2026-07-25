@@ -21,7 +21,7 @@
 
 	onMount(() => {
 		src = computeSrc();
-	})
+	});
 </script>
 
 <div>

@@ -11,7 +11,11 @@
 	let { pid, onclick }: Props = $props();
 </script>
 
-<button {onclick} aria-label="Go to page {pageLabel(pid)}" class="mixin-shape-box mixin-primary mixin-hover">
+<button
+	{onclick}
+	aria-label="Go to page {pageLabel(pid)}"
+	class="mixin-shape-box mixin-primary mixin-hover"
+>
 	{pageLabel(pid)}
 </button>
 

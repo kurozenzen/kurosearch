@@ -61,7 +61,9 @@ const loadGoogleIdentityScript = async () => {
 			script.async = true;
 			script.defer = true;
 			script.addEventListener('load', () => resolve());
-			script.addEventListener('error', () => reject(new Error('Failed to load Google Identity Services script')));
+			script.addEventListener('error', () =>
+				reject(new Error('Failed to load Google Identity Services script'))
+			);
 			document.head.appendChild(script);
 		});
 	}
