@@ -64,19 +64,20 @@ describe('Serialization', () => {
 
 	describe('search', () => {
 		it('minimally includes sort', () => {
-			expect(serializeSearch([], 'id', 'desc', 0, 'all', '>=', [], [])).toBe('sort:id:desc');
+			expect(serializeSearch([], 'id', 'desc', 0, 'all', '>=', [], [])).toBe('');
+			expect(serializeSearch([], 'id', 'asc', 0, 'all', '>=', [], [])).toBe('sort:id:asc');
 		});
 		it('includes score if neccessary', () => {
 			expect(serializeSearch([], 'id', 'desc', 1, 'safe', '>=', [], [])).toBe(
-				'sort:id:desc+score:>=1+rating:safe'
+				'score:>=1+rating:safe'
 			);
 			expect(serializeSearch([], 'id', 'desc', 0, 'safe', '<=', [], [])).toBe(
-				'sort:id:desc+score:<=0+rating:safe'
+				'score:<=0+rating:safe'
 			);
 		});
 		it('includes rating if neccessary', () => {
 			expect(serializeSearch([], 'id', 'desc', 0, 'safe', '>=', [], [])).toBe(
-				'sort:id:desc+rating:safe'
+				'rating:safe'
 			);
 		});
 		it('includes tags if neccessary', () => {
@@ -96,7 +97,7 @@ describe('Serialization', () => {
 					[],
 					[]
 				)
-			).toBe('sort:id:desc+tag_1+-tag_2+( tag_3 ~ tag_4 )');
+			).toBe('tag_1+-tag_2+( tag_3 ~ tag_4 )');
 		});
 		it('includes supertags if neccessary', () => {
 			expect(
@@ -130,7 +131,7 @@ describe('Serialization', () => {
 						}
 					]
 				)
-			).toBe('sort:id:desc+-tag_1+( tag_2 ~ tag_3 )+-tag_4+-tag_5+( tag_6 ~ tag_7 )');
+			).toBe('-tag_1+( tag_2 ~ tag_3 )+-tag_4+-tag_5+( tag_6 ~ tag_7 )');
 		});
 	});
 });

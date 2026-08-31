@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import activeTagsStore from '$lib/store/active-tags-store';
 	import sortStore from '$lib/store/sort-store';
 	import filterStore from '$lib/store/filter-store';
 	import { parseUrlSettings } from '$lib/logic/url-parsing';
-	import { SearchBuilder } from '$lib/logic/search-builder';
-	import activeSupertags from '$lib/store/active-supertags-store';
-	import activeTags from '$lib/store/active-tags-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import filter from '$lib/store/filter-store';
 	import results from '$lib/store/results-store';
-	import sort from '$lib/store/sort-store';
-	import apiKey from '$lib/store/api-key-store';
-	import userId from '$lib/store/user-id-store';
 
-	const applyUrlSearchParamsToStore = async () => {
+	const applyUrlSearchParamsToStore = () => {
 		if (!browser) {
-			return;
+			return false;
 		}
 
 		activeTagsStore.reset();
@@ -26,11 +19,14 @@
 		let result = false;
 		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
 		if (tags && tags.length > 0) {
-			await Promise.all(
-				tags.map(
-					async (tag) => await activeTagsStore.addByName(tag.name, tag.modifier, $apiKey, $userId)
-				)
-			);
+			tags.forEach((tag) => {
+				activeTagsStore.addOrReplace({
+					name: tag.name,
+					modifier: tag.modifier,
+					count: 0,
+					type: 'tag'
+				});
+			});
 			result = true;
 		}
 
@@ -47,37 +43,15 @@
 		return result;
 	};
 
-	const getFirstPage = async () => {
-		if (browser) {
-			try {
-				results.reset();
-				const [page, count] = await new SearchBuilder()
-					.withApiKey($apiKey)
-					.withUserId($userId)
-					.withPid(0)
-					.withTags($activeTags)
-					.withBlockedContent($blockedContent)
-					.withSortProperty($sort.property)
-					.withSortDirection($sort.direction)
-					.withScoreValue($filter.scoreValue)
-					.withScoreComparator($filter.scoreComparator)
-					.withRating($filter.rating)
-					.withSupertags($activeSupertags)
-					.getPageAndCount();
-				results.addPage(page, count);
-			} catch (e) {
-				console.warn(e);
-			}
-		}
-	};
-
 	const goToSearch = () => {
 		if (browser) {
-			location.href = '/';
+			goto('/');
 		}
 	};
 
-	applyUrlSearchParamsToStore()
-		.then(() => getFirstPage())
-		.then(() => goToSearch());
+	if (browser) {
+		applyUrlSearchParamsToStore();
+		results.reset();
+		goToSearch();
+	}
 </script>

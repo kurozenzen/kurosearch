@@ -28,7 +28,11 @@ export const serializeSearch = (
 	blockedContent: kurosearch.BlockingGroup[],
 	supertags: kurosearch.Supertag[]
 ) => {
-	const parts = [`sort:${sortProperty}:${sortDirection}`];
+	const parts = [];
+
+	if (sortProperty !== 'id' || sortDirection !== 'desc') {
+		parts.push(`sort:${sortProperty}:${sortDirection}`);
+	}
 
 	if (scoreValue !== 0 || scoreComparator !== '>=') {
 		parts.push(`score:${scoreComparator}${scoreValue}`);
