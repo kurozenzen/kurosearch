@@ -12,7 +12,7 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 	}
 
 	const url = new URL('https://api.rule34.xxx/autocomplete.php');
-	url.searchParams.append('q', term.replaceAll(' ', '_'));
+	url.searchParams.append('q', term.replaceAll(' ', '_').replaceAll("'", '&#039;'));
 
 	const res = await fetchAbortPrevious(url.toString(), getTagSuggestionsAbortController);
 	if (res.ok) {
