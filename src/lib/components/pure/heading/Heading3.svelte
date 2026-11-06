@@ -3,12 +3,13 @@
 
 	interface Props {
 		children: Snippet;
+		id?: string;
 	}
 
-	let { children }: Props = $props();
+	let { children, id }: Props = $props();
 </script>
 
-<h3>{@render children()}</h3>
+<h3 {id}>{@render children()}</h3>
 
 <style>
 	h3 {

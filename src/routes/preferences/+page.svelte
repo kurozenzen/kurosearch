@@ -49,6 +49,7 @@
 	import theme from '$lib/store/theme-store';
 	import userId from '$lib/store/user-id-store';
 	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
+	import ApiCredentialInput from './ApiCredentialInput.svelte';
 
 	let resetDialog: HTMLDialogElement;
 
@@ -113,17 +114,13 @@
 	<Preference
 		title="API Key"
 		display={checkDisplay('API Key')}
-		description="Use your own API key to rule34.xxx. This can speed up loading times. Some issues will not affect you, if you have your own key"
+		description="Use your own API key to rule34.xxx. This can speed up loading times. Having your own key makes you unaffected by some issues."
 	>
-		<div class="button-row">
-			<TextInput bind:value={$apiKey} placeholder="Enter your API key here" />
-			<TextInput bind:value={$userId} placeholder="Enter your User Id here" />
-			<a
-				href="https://rule34.xxx/index.php?page=account&s=options"
-				target="_blank"
-				rel="noopener noreferrer">Get your API key</a
-			>
-		</div>
+		<ApiCredentialInput />
+		<span>
+			How to get an API key? Check here:
+			<a href="/help#using-your-own-api-key">Documentation &gt; Using your own API key</a>
+		</span>
 	</Preference>
 
 	<Preference

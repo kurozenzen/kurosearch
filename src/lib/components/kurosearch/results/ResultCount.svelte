@@ -4,7 +4,10 @@
 	import ResultHeaderItem from './ResultHeaderItem.svelte';
 
 	let displayExactCount = $state(false);
-</script>
+	let displayedCount = $derived(
+		displayExactCount ? formatExactCount($results.postCount) : formatCount($results.postCount)
+	);
+</script>					
 
 <ResultHeaderItem
 	class={$results.loading ? 'loading-sweep' : undefined}
@@ -12,5 +15,5 @@
 		displayExactCount = !displayExactCount;
 	}}
 >
-	{displayExactCount ? formatExactCount($results.postCount) : formatCount($results.postCount)} posts
+	{displayedCount} posts
 </ResultHeaderItem>

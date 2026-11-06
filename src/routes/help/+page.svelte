@@ -312,6 +312,42 @@
 			google account. This allows you to save your settings, supertags and favourite posts to Google
 			Drive so you can access them from any device.
 		</p>
+
+		<Heading3 id="using-your-own-api-key">Using your own API key</Heading3>
+
+		<p>
+			For this you need to have an account on <a href="https://rule34.xxx">rule34.xxx</a>. If you
+			don't have one, you can sign up
+			<a href="https://rule34.xxx/index.php?page=account&s=reg">here</a>.
+		</p>
+
+		<ol>
+			<li>
+				Head to
+				<a href="https://rule34.xxx/index.php?page=account&s=options">My Account &gt; Options</a>
+			</li>
+			<li>Look for "API Access Credentials"</li>
+			<li>
+				If the text is short (eg <code>&api_key=&user_id=2</code>), you DON'T have an API key yet.
+				You need to generate one. Otherwise, skip this step.
+				<ol>
+					<li>Check the "Generate new key?" box underneath</li>
+					<li>Press "Save" at the bottom</li>
+				</ol>
+			</li>
+			<li>
+				Copy the entire text in the field (eg
+				<code>
+					&api_key=0123456789abcdef123456789abcdef0123456789abcdef123456789abcdef&user_id=1234567
+				</code>)
+			</li>
+			<li>
+				Paste it as is into the "API Key" field in the preferences. The app will do the rest.
+			</li>
+			<li>
+				You're done. Happy Kurosearching!
+			</li>
+		</ol>
 	</DocsSection>
 
 	<DocsSection id="development" title="Development">
@@ -385,5 +421,14 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--grid-gap);
+	}
+
+	ol {
+		padding-inline-start: 2rem;
+		list-style: decimal;
+	}
+	code {
+		border-radius: var(--border-radius);
+		background-color: var(--background-1);
 	}
 </style>
