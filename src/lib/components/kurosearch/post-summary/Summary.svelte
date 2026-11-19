@@ -13,79 +13,53 @@
 	let { post, active, links, ontabselected }: Props = $props();
 </script>
 
+{#snippet button(tab: string, icon: string, count: number)}
+	<button
+		type="button"
+		data-tab={tab}
+		class="mixin-shape-item mixin-secondary mixin-hover {icon}"
+		class:active={active === tab}
+		onclick={(e) => {
+			e.stopPropagation();
+			ontabselected(tab);
+		}}
+	>
+		{formatCount(count)}
+	</button>
+{/snippet}
+
 <div class="summary">
 	<RelativeTime value={post.change} />
 	<span>•</span>
 	<Score {post} />
 	<span class="divider"></span>
-	<button
-		type="button"
-		data-tab="links"
-		class="codicon codicon-link"
-		class:active={active === 'links'}
-		onclick={(e) => {
-			e.stopPropagation();
-			ontabselected('links');
-		}}
-	>
-		{formatCount(links)}
-	</button>
+	{@render button('links', 'codicon codicon-link', links)}
 	{#if post.comment_count}
-		<button
-			type="button"
-			data-tab="comments"
-			class="codicon codicon-comment"
-			class:active={active === 'comments'}
-			onclick={(e) => {
-				e.stopPropagation();
-				ontabselected('comments');
-			}}
-		>
-			{formatCount(post.comment_count)}
-		</button>
+		{@render button('comments', 'codicon codicon-comment', post.comment_count)}
 	{/if}
-	<button
-		type="button"
-		data-tab="tags"
-		class="codicon codicon-tag"
-		class:active={active === 'tags'}
-		onclick={(e) => {
-			e.stopPropagation();
-			ontabselected('tags');
-		}}
-	>
-		{formatCount(post.tags.length)}
-	</button>
+	{@render button('tags', 'codicon codicon-tag', post.tags.length)}
 </div>
 
 <style>
 	.summary {
 		display: flex;
 		align-items: center;
-		overflow-x: auto;
 		gap: var(--small-gap);
-		background-color: var(--background-1);
 	}
 
-	span.divider {
+	.divider {
 		flex-grow: 1;
 	}
 
 	button {
 		white-space: nowrap;
 		display: inline-flex;
-		gap: var(--tiny-gap);
 		align-items: center;
-		background-color: var(--background-2);
-		padding: var(--small-gap);
-		border-radius: var(--border-radius);
-	}
+		gap: var(--tiny-gap);
 
-	button.active {
-		background-color: var(--background-3);
-	}
-
-	button::before {
-		font-size: var(--text-size-large);
+		&.active {
+			background-color: var(--background-3);
+			color: var(--text-highlight);
+		}
 	}
 </style>

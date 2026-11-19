@@ -26,7 +26,6 @@ export const LABELS_SCORE_COMPARATOR = Object.freeze({ '>=': '≥', '<=': '≤' 
 
 export const LABELS_RATING = Object.freeze({
 	all: 'All',
-	safe: 'Safe',
 	questionable: 'Questionable',
 	explicit: 'Explicit'
 });

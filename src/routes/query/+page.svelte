@@ -2,32 +2,9 @@
 	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
 	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
 	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
-	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
-	import results from '$lib/store/results-store';
-	import activeTags from '$lib/store/active-tags-store';
-	import { getTagDetails } from '$lib/logic/api-client/tags/tags';
-	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/filter-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import { nextModifier } from '$lib/logic/modifier-utils';
-	import supertags from '$lib/store/supertags-store';
-	import activeSupertags from '$lib/store/active-supertags-store';
-	import { SearchBuilder } from '$lib/logic/search-builder';
-	import apiKey from '$lib/store/api-key-store';
-	import userId from '$lib/store/user-id-store';
-
-	const fetchSuggestions = async (term: string) => {
-		const matchingTags = await getTagSuggestions(term);
-		const matchingSupertags = $supertags.items
-			.filter(({ name }) => name.toLowerCase().includes(term.toLowerCase()))
-			.map((supertag) => ({
-				label: supertag.name,
-				count: supertag.tags.length,
-				type: 'supertag' as kurosearch.TagType
-			}));
-
-		return [...matchingSupertags, ...matchingTags];
-	};
+	import H3 from '$lib/components/pure/heading/H3.svelte';
+	import { createDefaultSearch } from '$lib/logic/search.svelte';
+	import { activateSuggestion, fetchCombinedSuggestions } from '$lib/logic/suggestions.svelte';
 
 	const getQueryUrl = (url: string) => {
 		try {
@@ -37,23 +14,7 @@
 		}
 	};
 
-	let query = $derived(
-		getQueryUrl(
-			new SearchBuilder()
-				.withApiKey($apiKey)
-				.withUserId($userId)
-				.withPid($results.pageCount)
-				.withTags($activeTags)
-				.withBlockedContent($blockedContent)
-				.withSortProperty($sort.property)
-				.withSortDirection($sort.direction)
-				.withScoreValue($filter.scoreValue)
-				.withScoreComparator($filter.scoreComparator)
-				.withRating($filter.rating)
-				.withSupertags($activeSupertags)
-				.getQuery()
-		)
-	);
+	let query = $derived(getQueryUrl(createDefaultSearch().getQuery()));
 
 	let server = $derived(query && `${query.protocol}//${query.hostname}`);
 	let fixedParams = $derived(
@@ -80,45 +41,15 @@
 
 <section>
 	<KurosearchTitle />
-	<Searchbar
-		placeholder="Search for tags"
-		{fetchSuggestions}
-		onpick={async (suggestion) => {
-			if (suggestion.type === 'supertag') {
-				const supertag = $supertags.items.find((x) => x.name === suggestion.label);
-				if (!supertag) {
-					console.warn('Supertag not present.');
-					return;
-				}
-				activeSupertags.addOrReplace(supertag);
-			} else {
-				const tag = await getTagDetails(suggestion.label, $apiKey, $userId);
-				activeTags.addOrReplace({
-					name: suggestion.label,
-					modifier: suggestion.modifier,
-					count: suggestion.count,
-					type: tag?.type ?? 'tag'
-				});
-			}
-		}}
-	/>
-	<ActiveTagList
-		tags={[...$activeTags, ...$activeSupertags]}
-		onclick={(tag) =>
-			'description' in tag
-				? activeSupertags.removeByName(tag.name)
-				: activeTags.removeByName(tag.name)}
-		oncontextmenu={(tag) => {
-			if (!('description' in tag)) {
-				tag.modifier = nextModifier(tag.modifier);
-				activeTags.addOrReplace(tag);
-			}
-		}}
-	/>
+	<Searchbar fetchSuggestions={fetchCombinedSuggestions} onpick={activateSuggestion} />
+	<ActiveTagList />
+
+	<H3 title="Query URL" />
 	<code>
-		{@html query}
+		{query}
 	</code>
 
+	<H3 title="Query - Parts" />
 	<code>
 		<p class="base">{server}</p>
 		{#each fixedParams as p}
@@ -135,6 +66,11 @@
 		gap: var(--grid-gap);
 	}
 
+	:global(#query-url),
+	:global(#query-parts) {
+		align-self: start;
+	}
+
 	section {
 		margin-block: 20vh;
 		display: flex;
@@ -146,7 +82,7 @@
 	code {
 		background-color: var(--background-1);
 		padding: var(--grid-gap);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		width: 100%;
 		word-wrap: break-word;
 	}

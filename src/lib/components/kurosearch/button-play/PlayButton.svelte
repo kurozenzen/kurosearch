@@ -2,18 +2,19 @@
 	import loadSrc from '$lib/assets/load.svg?url';
 	import pauseSrc from '$lib/assets/pause.svg?url';
 	import playSrc from '$lib/assets/play.svg?url';
+	import type { ClassValue } from 'svelte/elements';
 
 	interface Props {
 		paused: boolean;
 		loading: boolean;
 		onclick?: (e: MouseEvent) => void;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { paused, loading, onclick, ...rest }: Props = $props();
 </script>
 
-<button type="button" {onclick} class="mixin-circle {rest.class}">
+<button type="button" {onclick} class={['mixin-circle', rest.class]}>
 	{#if loading}
 		<img src={loadSrc} alt="Loading GIF" width="16" height="32" />
 	{:else if paused}

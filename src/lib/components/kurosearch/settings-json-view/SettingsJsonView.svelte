@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { StoreKey } from '$lib/store/store-keys';
+	import { StorageKey } from '$lib/store/storage-keys';
 
 	interface Props {
 		jsonText: string;
@@ -23,7 +23,7 @@
 			return 0;
 		}
 
-		const supertags = data[StoreKey.Supertags] ?? data.supertags;
+		const supertags = data[StorageKey.Supertags] ?? data.supertags;
 		if (Array.isArray(supertags)) {
 			return supertags.length;
 		}
@@ -45,7 +45,7 @@
 			return 0;
 		}
 
-		const favourites = data[StoreKey.Favourites] ?? data.favourites;
+		const favourites = data[StorageKey.Favourites] ?? data.favourites;
 		return Array.isArray(favourites) ? favourites.length : 0;
 	});
 
@@ -143,7 +143,7 @@
 		height: var(--line-height);
 		width: var(--line-height);
 		padding: 0;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		background: var(--background-2);
 		color: var(--text);
 		display: grid;

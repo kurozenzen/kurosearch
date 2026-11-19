@@ -1,31 +1,27 @@
-<script module lang="ts">
-	export type ButtonVariant = 'transparent' | 'with-background' | 'half-background';
-</script>
-
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { MouseEventHandler } from 'svelte/elements';
+	import type { ClassValue, MouseEventHandler } from 'svelte/elements';
+	import type { InputProps } from '../types';
 
-	interface Props {
-		id?: string;
+	interface Props extends InputProps {
 		children?: Snippet;
 		onclick?: MouseEventHandler<HTMLButtonElement>;
-		'aria-label'?: string;
-		class: string;
+		class: ClassValue;
 	}
 
-	let { id, children, onclick, ...rest }: Props = $props();
+	let { id, children, onclick, disabled, ...rest }: Props = $props();
 </script>
 
 <button
 	type="button"
 	{id}
-	class="mixin-circle mixin-hover {rest.class}"
+	class={['mixin-circle mixin-hover', rest.class]}
 	aria-label={rest['aria-label']}
 	onclick={(e) => {
 		e.stopPropagation();
 		onclick?.(e);
 	}}
+	{disabled}
 >
 	{@render children?.()}
 </button>

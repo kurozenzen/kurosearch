@@ -1,13 +1,15 @@
 <script lang="ts">
-	interface Props {
+	import type { InputProps } from '../types';
+
+	interface Props extends InputProps {
 		options: Record<string, string>;
 		value: string;
 	}
 
-	let { options, value = $bindable() }: Props = $props();
+	let { id, options, value = $bindable(), disabled }: Props = $props();
 </script>
 
-<select bind:value class="mixin-shape-item mixin-invisible">
+<select {id} bind:value class="mixin-shape-item mixin-hover mixin-outline" {disabled}>
 	{#each Object.entries(options) as [value, label]}
 		<option {value}>{label}</option>
 	{/each}
@@ -17,14 +19,6 @@
 	select {
 		display: inline-flex;
 		align-items: center;
-		padding-inline: var(--small-gap);
-		border: 2px solid var(--background-1);
-	}
-
-	@media (hover: hover) {
-		select:hover {
-			border-color: var(--background-2);
-		}
 	}
 
 	option {

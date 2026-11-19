@@ -2,6 +2,7 @@
 	import { clearsrc } from '$lib/logic/attachments/clearsrc';
 	import { screenintersection } from '$lib/logic/attachments/screenintersection';
 	import { SkipDirection, skipVideo, toggleVideo } from '$lib/store/active-video.svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { getVolume } from './VolumeControl.svelte';
 
@@ -11,7 +12,7 @@
 		width: number;
 		height: number;
 		loop?: boolean;
-		class?: string;
+		class?: ClassValue;
 		restrict?: 'width' | 'height';
 		onfullscreen?: (currentTime?: number) => void;
 	}

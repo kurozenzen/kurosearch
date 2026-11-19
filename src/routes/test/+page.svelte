@@ -1,12 +1,10 @@
 <script lang="ts">
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
-	import Heading1 from '$lib/components/pure/heading/Heading1.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import ToggleIcon from '$lib/components/pure/toggle-icon/ToggleIcon.svelte';
 	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
@@ -21,6 +19,12 @@
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
 	import { getAllPosts, getAllTags } from '$lib/indexeddb/idb';
+	import Preference from '$lib/components/pure/preference/Preference.svelte';
+	import FlexRow from '$lib/components/pure/flex-row/FlexRow.svelte';
+	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
+	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import NumberInput from '$lib/components/pure/input-number/NumberInput.svelte';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])
@@ -60,6 +64,10 @@
 	let selectedValue = $state('one');
 	let selectedType: kurosearch.TagType = $state('artist');
 	let modifier: kurosearch.TagModifier = $state('+');
+
+	const onclick = () => {
+		count++;
+	};
 </script>
 
 <svelte:head>
@@ -67,51 +75,97 @@
 	<meta name="description" content="Frontend test layouts." />
 </svelte:head>
 
-<Heading1>Testing</Heading1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<ScrollUpButton />
 
-<Heading3>Components</Heading3>
+<PageGeneric title="UI Test">
+	<Preference title="Buttons" description="Different buttons">
+		<FlexRow>
+			<IconButton aria-label="Reset search" class="mixin-accent" {onclick} {disabled}>
+				<i class="codicon codicon-close"></i>
+			</IconButton>
+			<IconButton aria-label="Reset search" class="mixin-secondary" {onclick} {disabled}>
+				<i class="codicon codicon-close"></i>
+			</IconButton>
+			<IconButton aria-label="Reset search" class="mixin-invisible" {onclick} {disabled}>
+				<i class="codicon codicon-close"></i>
+			</IconButton>
+			<IconButton aria-label="Reset search" class="mixin-shade" {onclick} {disabled}>
+				<i class="codicon codicon-close"></i>
+			</IconButton>
+		</FlexRow>
+		<FlexRow>
+			<TextButton title="A button" class="mixin-accent" {onclick} {disabled}>
+				Clicked {count} times
+			</TextButton>
+			<TextButton title="A button" class="mixin-secondary" {onclick} {disabled}>
+				Clicked {count} times
+			</TextButton>
+			<TextButton title="A button" class="mixin-invisible" {onclick} {disabled}>
+				Clicked {count} times
+			</TextButton>
+			<TextButton title="A button" class="mixin-shade" {onclick} {disabled}>
+				Clicked {count} times
+			</TextButton>
+		</FlexRow>
+	</Preference>
 
-<Checkbox bind:checked={disabled} id="cb-disabled">Disabled</Checkbox>
+	<Preference title="Input" description="Different input modes">
+		<FlexRow>
+			<Checkbox bind:checked={disabled} id="cb-disabled">Disable Input Controls</Checkbox>
+			<Checkbox bind:checked={disabled} id="cb-disabled-2" {disabled}
+				>Disable Input Controls</Checkbox
+			>
+		</FlexRow>
+		<FlexRow>
+			<Select
+				options={{ one: 'One', two: 'Two', three: 'Three' }}
+				bind:value={selectedValue}
+				{disabled}
+			/>
 
-<TextButton
-	title="A button"
-	class="mixin-accent"
-	onclick={() => {
-		count++;
-	}}
-	{disabled}
->
-	Clicked {count} times
-</TextButton>
+			<TextInput placeholder="Name" bind:value={name} {disabled} class="mixin-outline" />
+			<NumberInput bind:value={count} min={0} max={1000} step={1} {disabled} />
+			<span>{selectedValue} - {name} - {count}</span>
+		</FlexRow>
+		<FlexRow>
+			<ToggleIcon bind:active={disabled} title="asdf" icon="codicon codicon-info" />
+			<RotatingIconSelect options={TAG_TYPES_WITH_ICONS} bind:value={selectedType} />
+			<RotatingTextSelect options={tagTypeLetters} bind:value={selectedType} />
+			<ModifierSelect bind:modifier />
+		</FlexRow>
+	</Preference>
 
-<TextInput placeholder="Name" bind:value={name} />
-<p>Hi {name}</p>
+	<Preference title="Animation" description="Animations">
+		<FlexRow>
+			<LoadingAnimation />
+		</FlexRow>
+	</Preference>
 
-<LoadingAnimation />
-<Select options={{ one: 'One', two: 'Two', three: 'Three' }} bind:value={selectedValue} />
-<p>Selected {selectedValue}</p>
-<ToggleIcon bind:active={disabled} title="asdf" icon="codicon codicon-info" />
-<RotatingIconSelect options={TAG_TYPES_WITH_ICONS} bind:value={selectedType} />
-<RotatingTextSelect options={tagTypeLetters} bind:value={selectedType} />
+	<Preference title="Links" description="Different Link representations">
+		<FlexRow>
+			<CodiconLink
+				title="Sponsor"
+				href="https://ko-fi.com/kurozenzen"
+				icon="codicon codicon-heart"
+				newtab
+			/>
+			<DiscordLink />
+			<CodiconLink title="Documentation" href={resolve('/help')} icon="codicon codicon-book" />
+			<CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
+			<SettingsLink />
+			<AccountLink src={disabled ? defaultUserSrc : undefined} />
+		</FlexRow>
+	</Preference>
 
-<ModifierSelect bind:modifier />
-<ActiveTag tag={{ modifier, name: 'my_tag', type: selectedType, count: 212333 }} active />
-<ActiveTag tag={{ modifier, name: 'my_tag', type: 'ambiguous', count: 212333 }} />
-<CodiconLink
-	title="Sponsor"
-	href="https://ko-fi.com/kurozenzen"
-	icon="codicon codicon-heart"
-	newtab
-/>
-<DiscordLink />
-<CodiconLink title="Documentation" href={resolve('/help')} icon="codicon codicon-book" />
-<CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
-<SettingsLink />
-<AccountLink src={disabled ? defaultUserSrc : undefined} />
-<br />
+	<Preference title="Tags" description="Different Tag representations">
+		<FlexRow>
+			<ActiveTag tag={{ modifier, name: 'my_tag', type: selectedType, count: 212333 }} active />
+			<ActiveTag tag={{ modifier, name: 'my_tag', type: 'ambiguous', count: 212333 }} />
+		</FlexRow>
+	</Preference>
+</PageGeneric>
+
 <img src={lynxChibiSrc} alt="default lynx" />
-<br />
 <img src={lynxChibiHalloweenSrc} alt="halloween lynx" />
 
 <button onclick={downloadIDBTags}> Download IDB Tags </button>

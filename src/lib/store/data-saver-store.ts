@@ -1,8 +1,4 @@
 import { isComic } from '$lib/logic/media-utils';
-import { createBoolStore } from './generic/bool-store';
-import { StoreKey } from './store-keys';
-
-export default createBoolStore(StoreKey.DataSaver, false);
 
 export const DATA_SAVER_THRESHOLD = 1_000_000;
 

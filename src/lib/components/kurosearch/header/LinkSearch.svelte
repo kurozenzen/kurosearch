@@ -1,6 +1,20 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
+	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 </script>
 
-<CodiconLink title="Search" href={resolve('/')} icon="codicon codicon-search" />
+<IconLink title="Search" href={resolve('/')}>
+	<i class="codicon codicon-search"></i>
+</IconLink>
+
+<style>
+	@media not (prefers-reduced-motion) {
+		i {
+			transition: transform 0.5s ease-out;
+		}
+
+		:global(:hover) > i {
+			transform: rotateY(180deg);
+		}
+	}
+</style>

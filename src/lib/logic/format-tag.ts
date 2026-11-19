@@ -1,6 +1,7 @@
 import { formatCount } from './format-count';
+import { replaceHtmlEntities } from './replace-html-entities';
 
-export const formatTagname = (tagname: string) => tagname.replace(/_/g, ' ');
+export const formatTagname = (tagname: string) => replaceHtmlEntities(tagname.trim().replaceAll('_', ' '));
 
 export const formatActiveTag = (tag: { name: string; count?: number }) => {
 	if (typeof tag.name !== 'string') {

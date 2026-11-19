@@ -1,49 +1,60 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
+	import { activeTags } from '$lib/store';
+	import { createNewSupertagFromActiveTags } from '$lib/logic/supertags.svelte';
+	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 
 	interface Props {
-		dialog: HTMLDialogElement;
-		name?: string;
-		description?: string;
-		tags: kurosearch.ModifiedTag[];
-		onsubmit: (supertag: kurosearch.Supertag) => void;
+		open: boolean;
 	}
 
-	let { dialog = $bindable(), name = '', description = '', tags, onsubmit }: Props = $props();
+	let { open = $bindable() }: Props = $props();
 
-	const close = () => dialog.close();
+	let name = $state('');
+	let description = $state('');
 
-	let valid = $derived(typeof name === 'string' && name !== '' && tags.length > 1);
+	let valid = $derived(name !== '' && activeTags.value.length > 1);
 </script>
 
-<Dialog onclose={close} bind:dialog>
+<Dialog bind:open>
 	<section>
 		<h3>Create Supertag</h3>
 
-		<button type="button" class="codicon codicon-close" onclick={close} aria-label="Close"></button>
+		<button
+			type="button"
+			class="codicon codicon-close"
+			onclick={() => {
+				open = false;
+			}}
+			aria-label="Close"
+		></button>
 
 		<div>
 			<label for="supertag-name"> Name </label>
-			<input type="text" bind:value={name} placeholder="Descriptive name" id="supertag-name" />
+			<TextInput
+				bind:value={name}
+				placeholder="Descriptive name"
+				id="supertag-name"
+				class="mixin-outline"
+			/>
 		</div>
 
 		<div>
 			<label for="supertag-description"> Description </label>
-			<input
-				type="text"
+			<TextInput
 				bind:value={description}
 				placeholder="Short description"
 				id="supertag-description"
-				class="mixin-shape-item"
+				class="mixin-outline"
 			/>
 		</div>
 
 		<div>
 			<span> Tags</span>
 			<ol>
-				{#each tags as tag}
+				{#each activeTags.value as tag}
 					<DetailedTag {tag} />
 				{/each}
 			</ol>
@@ -54,12 +65,12 @@
 				disabled={!valid}
 				class="mixin-accent"
 				onclick={() => {
-					onsubmit({
+					createNewSupertagFromActiveTags({
 						name,
 						description,
-						tags: tags.map(({ modifier, name }) => ({ modifier, name }))
+						tags: activeTags.value.map(({ modifier, name }) => ({ modifier, name }))
 					});
-					close();
+					open = false;
 				}}
 			>
 				Create supertag
@@ -73,7 +84,7 @@
 		display: grid;
 		grid-template-columns: 1fr auto;
 		gap: var(--small-gap);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 	}
 
 	button {
@@ -97,11 +108,8 @@
 		font-size: var(--text-size-small);
 	}
 
-	input {
+	div :global(input) {
 		width: 100%;
-		background-color: var(--background-1);
-		border: unset;
-		padding-inline: var(--small-gap);
 	}
 
 	ol {

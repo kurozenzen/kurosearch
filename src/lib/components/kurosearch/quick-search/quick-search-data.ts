@@ -70,7 +70,7 @@ import raven from '$lib/assets/build/characters/raven.webp';
 import amy from '$lib/assets/build/characters/amy.webp';
 
 // Imports
-import type { SortStoreData } from '$lib/store/sort-store';
+import type { SortData } from '$lib/store';
 
 export const LABELS_AI = Object.freeze({
 	both: 'both',
@@ -110,7 +110,7 @@ export const SORT_VALUES = Object.freeze({
 	new: { property: 'id', direction: 'desc' },
 	best: { property: 'score', direction: 'desc' },
 	random: { property: 'random', direction: 'desc' }
-} as Record<string, SortStoreData>);
+} as Record<string, SortData>);
 
 export interface TagData {
 	name: string;

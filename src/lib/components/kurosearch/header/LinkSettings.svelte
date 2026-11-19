@@ -13,7 +13,7 @@
 			transition: transform 0.5s ease-out;
 		}
 
-		i:hover {
+		:global(:hover) > i {
 			transform: rotate(180deg);
 		}
 	}

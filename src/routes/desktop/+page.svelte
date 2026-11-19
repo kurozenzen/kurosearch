@@ -5,11 +5,11 @@
 	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
-	import { getFirstPage } from '$lib/logic/search';
-	import results from '$lib/store/results-store';
+	import { getFirstPage } from '$lib/logic/search.svelte';
 	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
 	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
+	import { results } from '$lib/store';
 
 	let activePost = $state<kurosearch.Post | undefined>(undefined);
 
@@ -28,9 +28,9 @@
 <HeaderDesktop />
 
 <main>
-	{#if !$results.hasPage && !$results.loading}
+	{#if !results.value.hasPage && !results.value.loading}
 		<QuickSearch onSubmit={getFirstPage} />
-	{:else if $results.postCount === 0 && $results.loading}
+	{:else if results.value.postCount === 0 && results.value.loading}
 		<div class="loading-panel">
 			<div></div>
 			<div></div>
@@ -40,7 +40,7 @@
 		<section class="search-output">
 			<ResultWrapper>
 				<ol class="multi-column">
-					{#each $results.posts as post (post.id)}
+					{#each results.value.posts as post (post.id)}
 						<PostDesktop
 							{post}
 							onclick={() => {
@@ -82,7 +82,7 @@
 		gap: var(--grid-gap);
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		grid-auto-rows: 10vw;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		margin-bottom: var(--grid-gap);
 	}
 

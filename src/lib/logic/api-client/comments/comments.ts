@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { addIndexedComments, getIndexedComments } from '$lib/indexeddb/idb';
-import { apiUrl, R34_API_URL, switchApiUrl } from '../url';
+import { apiUrl, R34_API_URL } from '../url';
 
 export type Comment = {
 	author: string;
@@ -32,7 +32,6 @@ export const getComments = async (postId: number, apiKey: string = '', userId: s
 
 	let response = await fetch(url);
 	if (!response.ok) {
-		switchApiUrl();
 		throw new Error('Failed to get tag suggestions');
 	}
 

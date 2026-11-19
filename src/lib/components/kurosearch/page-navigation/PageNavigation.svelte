@@ -1,8 +1,8 @@
 <script lang="ts">
 	import PageJump from './PageJump.svelte';
-	import results from '$lib/store/results-store';
 	import { PAGE_SIZE } from '$lib/logic/api-client/ApiClient';
 	import PageButton, { pageLabel } from './PageButton.svelte';
+	import { results } from '$lib/store';
 
 	interface Props {
 		onpagechange: (newPage: number) => void;
@@ -10,15 +10,16 @@
 
 	let { onpagechange }: Props = $props();
 
-	let totalPages = $derived(Math.ceil($results.postCount / PAGE_SIZE));
+	let totalPages = $derived(Math.ceil(results.value.postCount / PAGE_SIZE));
 
 	const firstPid = 0;
-	let prevPid = $derived($results.pageCount - 2);
-	let currPid = $derived($results.pageCount - 1);
-	let nextPid = $derived($results.pageCount);
+	let prevPid = $derived(results.value.pageCount - 2);
+	let currPid = $derived(results.value.pageCount - 1);
+	let nextPid = $derived(results.value.pageCount);
 	let lastPid = $derived(Math.min(totalPages - 1, 9999));
 </script>
 
+<PageJump />
 <nav aria-label="Result page navigation">
 	{#if prevPid > firstPid}
 		<PageButton pid={0} onclick={() => onpagechange(0)} />
@@ -42,7 +43,6 @@
 		<PageButton pid={lastPid} onclick={() => onpagechange(lastPid)} />
 	{/if}
 </nav>
-<PageJump {onpagechange} />
 
 <style>
 	nav {

@@ -1,47 +1,65 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { getTagSuggestions } from '$lib/logic/api-client/ApiClient';
 	import { nextModifier } from '$lib/logic/modifier-utils';
 	import Searchbar from '../searchbar/Searchbar.svelte';
 	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
 
 	interface Props {
-		dialog: HTMLDialogElement;
-		supertag: kurosearch.Supertag;
-		onedit: (oldName: string, newSupertag: kurosearch.Supertag) => void;
+		open: boolean;
+		readonly supertag: kurosearch.Supertag | undefined;
+		onedit: (newSupertag: kurosearch.Supertag) => void;
 		onclose?: () => void;
 	}
 
-	let { dialog = $bindable(), supertag, onedit, onclose }: Props = $props();
+	let { open = $bindable(), supertag, onedit, onclose }: Props = $props();
 
-	const emitEdit = () => onedit(supertag.name, newSupertag);
+	let newSupertag = $state<kurosearch.Supertag>({
+		name: '',
+		description: '',
+		tags: []
+	});
 
-	let newSupertag = $state({ ...supertag, tags: [...supertag.tags] });
+	$effect(() => {
+		newSupertag = $state.snapshot(supertag) ?? {
+			name: '',
+			description: '',
+			tags: []
+		};
+	});
+
+	const emitEdit = () => {
+		if (supertag !== undefined) {
+			onedit(newSupertag);
+		}
+	};
 </script>
 
-<Dialog bind:dialog {onclose}>
+<Dialog bind:open {onclose}>
 	<div>
 		<h3>Edit Supertag</h3>
 		<span>Name</span>
-		<TextInput bind:value={newSupertag.name} placeholder="Name" autocomplete="false" />
+		<TextInput
+			id="supertag-name"
+			bind:value={newSupertag.name}
+			placeholder="Name"
+			class="mixin-outline"
+		/>
 		<span>Description</span>
 		<TextInput
+			id="supertag-description"
 			bind:value={newSupertag.description}
 			placeholder="Description"
-			autocomplete="false"
+			class="mixin-outline"
 		/>
 
 		<span>Add or remove tags</span>
 		<Searchbar
-			placeholder="Search for tags"
 			fetchSuggestions={getTagSuggestions}
-			onpick={(suggestion) => {
-				newSupertag.tags = [
-					...newSupertag.tags,
-					{ modifier: suggestion.modifier, name: suggestion.label }
-				];
+			onpick={(suggestion, modifier) => {
+				newSupertag.tags = [...newSupertag.tags, { modifier, name: suggestion.label }];
 			}}
 		/>
 		<ul>
@@ -63,12 +81,18 @@
 			class="mixin-accent"
 			onclick={() => {
 				emitEdit();
-				dialog.close();
+				open = false;
 			}}
 		>
 			Save
 		</TextButton>
-		<TextButton title="Cancel" class="mixin-secondary" onclick={() => dialog.close()}>
+		<TextButton
+			title="Cancel"
+			class="mixin-secondary"
+			onclick={() => {
+				open = false;
+			}}
+		>
 			Cancel
 		</TextButton>
 	</div>

@@ -7,7 +7,7 @@
 	import { clearsrc } from '$lib/logic/attachments/clearsrc';
 	import { screenintersection } from '$lib/logic/attachments/screenintersection';
 	import { isComic } from '$lib/logic/media-utils';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { highResolutionEnabled } from '$lib/store';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -22,7 +22,7 @@
 	let overlayHidden = $state(true);
 
 	let previewSrc = $derived(post.preview_url);
-	let actualSrc = $derived(highResolutionEnabled ? post.file_url : post.sample_url);
+	let actualSrc = $derived(highResolutionEnabled.value ? post.file_url : post.sample_url);
 	let alt = $derived(post.id.toString());
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let canOpen = $derived(isComic(ratio));

@@ -2,13 +2,13 @@
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import { keybindFsLeave, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources, getVideoSources, isComic, isLoop } from '$lib/logic/media-utils';
-	import alwaysLoop from '$lib/store/always-loop-store';
+	import { alwaysLoop } from '$lib/store';
 	import { onMount } from 'svelte';
 	import { on } from 'svelte/events';
 	import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -40,7 +40,7 @@
 </script>
 
 <section id="active-post" class={format}>
-	<IconButton class="button-close mixin-invisible" onclick={onclose}>
+	<IconButton class="mixin-invisible" onclick={onclose}>
 		<i class="codicon codicon-close"></i>
 	</IconButton>
 

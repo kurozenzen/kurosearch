@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
+	import { highResolutionEnabled } from '$lib/store';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -13,7 +13,9 @@
 	let { post, ondetails }: Props = $props();
 
 	let sources = $derived(
-		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
+		highResolutionEnabled.value
+			? [post.sample_url, post.file_url]
+			: [post.preview_url, post.sample_url]
 	);
 
 	let loading = $state(true);

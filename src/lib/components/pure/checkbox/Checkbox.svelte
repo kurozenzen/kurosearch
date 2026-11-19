@@ -1,17 +1,18 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { InputProps } from '../types';
 
-	interface Props {
+	interface Props extends InputProps {
 		checked: boolean;
 		id: string;
 		children: Snippet;
 	}
 
-	let { checked = $bindable(), id, children }: Props = $props();
+	let { checked = $bindable(), id, disabled, children }: Props = $props();
 </script>
 
 <label for={id}>
-	<input type="checkbox" {id} bind:checked />
+	<input type="checkbox" {id} bind:checked {disabled} />
 	{@render children()}
 </label>
 

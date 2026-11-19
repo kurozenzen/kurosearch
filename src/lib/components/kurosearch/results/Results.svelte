@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { getPostId } from '$lib/logic/id-utils';
 	import { pauseVideo, targetVideo } from '$lib/store/active-video.svelte';
-	import resultColumns from '$lib/store/result-columns-store';
-	import results from '$lib/store/results-store';
 	import { onMount } from 'svelte';
 	import FullscreenPost from '../post-fullscreen/FullscreenPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
@@ -10,9 +8,11 @@
 	import { on } from 'svelte/events';
 	import { keybindResultsNext, keybindResultsPrev } from '$lib/logic/keybinds/keyboard-utils';
 	import { clamp } from '$lib/logic/math';
+	import { resultColumns, results } from '$lib/store';
+	import { pushState } from '$app/navigation';
 
 	interface Props {
-		onsortfilterupdate: () => void;
+		onsortfilterupdate?: () => void;
 		onendreached: () => void;
 	}
 
@@ -23,9 +23,10 @@
 	let fullscreenCurrentTime = $state<undefined | number>(undefined);
 
 	const exitFullscreen = async (index: number) => {
+		console.log(index);
 		fullscreenIndex = undefined;
 		fullscreenCurrentTime = undefined;
-		await focusPost(index, 'instant');
+		await focusPost(index);
 	};
 
 	const onfullscreen = (index: number, currentTime?: number) => {
@@ -36,7 +37,7 @@
 
 	$effect(() => {
 		if (fullscreenIndex !== undefined) {
-			history.pushState({ ...history.state, fullscreen: true }, '');
+			pushState('', { ...history.state, fullscreen: true });
 		} else {
 			if (history.state?.fullscreen) {
 				history.back();
@@ -51,7 +52,7 @@
 		}
 		if (element) {
 			const id = element.id;
-			return $results.posts.findIndex((post) => getPostId(post.id) === id);
+			return results.value.posts.findIndex((post) => getPostId(post.id) === id);
 		}
 		return undefined;
 	};
@@ -60,18 +61,19 @@
 		if (focusIndex === undefined) {
 			focusIndex = findCurrentPostIndex();
 		}
-		return focusIndex == undefined ? 0 : clamp(focusIndex + 1, 0, $results.posts.length - 1);
+		return focusIndex == undefined ? 0 : clamp(focusIndex + 1, 0, results.value.posts.length - 1);
 	};
 	const prevFocus = () => {
 		if (focusIndex === undefined) {
 			focusIndex = findCurrentPostIndex();
 		}
-		return focusIndex == undefined ? 0 : clamp(focusIndex - 1, 0, $results.posts.length - 1);
+		return focusIndex == undefined ? 0 : clamp(focusIndex - 1, 0, results.value.posts.length - 1);
 	};
 
 	const focusPost = async (index: number) => {
 		const postList = document.getElementsByClassName('post');
 		const postElement = postList[index] as HTMLElement;
+		postElement.scrollIntoView();
 		postElement.focus({ focusVisible: true });
 
 		setTimeout(() => {
@@ -96,15 +98,15 @@
 	);
 </script>
 
-{#if $resultColumns === '1'}
+{#if resultColumns.value === 1}
 	<ol class="single-column">
-		{#each $results.posts as post, index (post.id)}
+		{#each results.value.posts as post, index (post.id)}
 			<SingleColumnPost {post} onfullscreen={(currentTime) => onfullscreen(index, currentTime)} />
 		{/each}
 	</ol>
 {:else}
-	<ol class="multi-column" style="--nr-columns: {$resultColumns}; ">
-		{#each $results.posts as post, index (post.id)}
+	<ol class="multi-column" style="--nr-columns: {resultColumns.value}; ">
+		{#each results.value.posts as post, index (post.id)}
 			<MosaicPost {post} onclick={() => onfullscreen(index)} />
 		{/each}
 	</ol>

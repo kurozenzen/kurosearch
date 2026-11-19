@@ -1,43 +1,24 @@
 <script lang="ts">
-	import { addHistory } from '$lib/logic/attachments/onpopstate';
-	import ConfirmDialog from '../dialog-confirm/ConfirmDialog.svelte';
-	import EditSupertagDialog from '../dialog-edit-supertag/EditSupertagDialog.svelte';
 	import ModifiedTag from '../tag-modified/ModifiedTag.svelte';
 
 	interface Props {
 		supertag: kurosearch.Supertag;
-		onremove: (supertag: kurosearch.Supertag) => void;
-		onedit: (oldName: string, supertag: kurosearch.Supertag) => void;
+		onremove: () => void;
+		onedit: () => void;
 	}
 
 	let { supertag, onremove, onedit }: Props = $props();
-
-	// svelte-ignore non_reactive_update
-	let deleteDialog: HTMLDialogElement;
-	// svelte-ignore non_reactive_update
-	let editDialog: HTMLDialogElement;
 </script>
 
 <li>
 	<h3>{supertag.name}</h3>
 	<small>{Object.keys(supertag.tags).length} tags</small>
-	<button
-		type="button"
-		class="codicon codicon-edit"
-		onclick={() => {
-			editDialog.showModal();
-			addHistory('dialog');
-		}}
-		aria-label="Edit Supertag"
-	>
+	<button type="button" class="codicon codicon-edit" onclick={onedit} aria-label="Edit Supertag">
 	</button>
 	<button
 		type="button"
 		class="codicon codicon-close"
-		onclick={() => {
-			deleteDialog.showModal();
-			addHistory('dialog');
-		}}
+		onclick={onremove}
 		aria-label="Delete Supertag"
 	>
 	</button>
@@ -49,29 +30,18 @@
 	</ol>
 </li>
 
-<ConfirmDialog
-	bind:dialog={deleteDialog}
-	title="Delete Supertag"
-	warning="Are you sure? You will not be able to undo it."
-	labelCancel="No, keep it!"
-	labelConfirm="Yes, delete it."
-	onconfirm={() => onremove(supertag)}
-/>
-
-<EditSupertagDialog bind:dialog={editDialog} {supertag} {onedit} />
-
 <style>
 	li {
 		display: grid;
 		grid-template-columns: auto 1fr auto auto;
 		gap: var(--small-gap);
 		align-items: center;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		transition: color var(--default-transition-behaviour);
 	}
 
 	li:not(:first-of-type) {
-		border-radius: 0 0 var(--border-radius) var(--border-radius);
+		border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
 		border-block-start: 1px solid var(--background-2);
 		padding-block-start: var(--grid-gap);
 	}

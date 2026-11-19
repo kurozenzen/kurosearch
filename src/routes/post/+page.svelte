@@ -8,7 +8,7 @@
 	import PostImage from '$lib/components/pure/smart-image/PostImage.svelte';
 	import { getPost } from '$lib/logic/api-client/posts/posts';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
-	import alwaysLoop from '$lib/store/always-loop-store';
+	import { alwaysLoop } from '$lib/store';
 
 	let idString = $derived(browser ? page.url.searchParams.get('id') : null);
 	let id = $derived(idString ? parseInt(idString) : null);
@@ -40,7 +40,7 @@
 						poster={staticSource}
 						width={post.width}
 						height={post.height}
-						loop={$alwaysLoop || isLoop(post.tags)}
+						loop={alwaysLoop.value || isLoop(post.tags)}
 					/>
 				{:else}
 					<Gif {post} />
@@ -55,6 +55,6 @@
 <style>
 	div {
 		background-color: var(--background-1);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 	}
 </style>

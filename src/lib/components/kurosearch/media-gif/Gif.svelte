@@ -2,7 +2,7 @@
 	import { observeGif } from '$lib/logic/gif-observer';
 	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
-	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
+	import { gifPreloadEnabled } from '$lib/store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { calculateAspectRatioCss } from '../post/ratio';
 
@@ -64,7 +64,7 @@
 		use:observeGif
 		{onclick}
 	/>
-	{#if $gifPreloadEnabled}
+	{#if gifPreloadEnabled.value}
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<img

@@ -1,46 +1,47 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import sortStore from '$lib/store/sort-store';
-	import filterStore from '$lib/store/filter-store';
 	import { parseUrlSettings } from '$lib/logic/url-parsing';
-	import { SearchBuilder } from '$lib/logic/search-builder';
-	import activeSupertags from '$lib/store/active-supertags-store';
-	import activeTags from '$lib/store/active-tags-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import filter from '$lib/store/filter-store';
-	import results from '$lib/store/results-store';
-	import sort from '$lib/store/sort-store';
-	import apiKey from '$lib/store/api-key-store';
-	import userId from '$lib/store/user-id-store';
+	import {
+		activeSupertags as activeSupertagsState,
+		activeTags,
+		activeTags as activeTagsState,
+		addPage,
+		createTagFromName,
+		filter as filterState,
+		results,
+		sort as sortState,
+	} from '$lib/store';
+	import { addOrReplace } from '$lib/logic/array-ops';
+	import { createDefaultSearch } from '$lib/logic/search.svelte';
 
 	const applyUrlSearchParamsToStore = async () => {
 		if (!browser) {
 			return;
 		}
 
-		activeTagsStore.reset();
-		sortStore.reset();
-		filterStore.reset();
+		activeTagsState.reset();
+		activeSupertagsState.reset();
+		filterState.reset();
+		sortState.reset();
 
 		let result = false;
 		const { tags, sort, filter } = parseUrlSettings(new URL(location.href).searchParams);
 		if (tags && tags.length > 0) {
 			await Promise.all(
-				tags.map(
-					async (tag) => await activeTagsStore.addByName(tag.name, tag.modifier, $apiKey, $userId)
+				tags.map(async (tag) =>
+					addOrReplace(activeTags.value, await createTagFromName(tag.name, tag.modifier))
 				)
 			);
 			result = true;
 		}
 
 		if (sort) {
-			sortStore.update(sort);
+			Object.assign(sortState, sort);
 			result = true;
 		}
 
 		if (filter) {
-			filterStore.update(filter);
+			Object.assign(filterState, filter);
 			result = true;
 		}
 
@@ -51,20 +52,8 @@
 		if (browser) {
 			try {
 				results.reset();
-				const [page, count] = await new SearchBuilder()
-					.withApiKey($apiKey)
-					.withUserId($userId)
-					.withPid(0)
-					.withTags($activeTags)
-					.withBlockedContent($blockedContent)
-					.withSortProperty($sort.property)
-					.withSortDirection($sort.direction)
-					.withScoreValue($filter.scoreValue)
-					.withScoreComparator($filter.scoreComparator)
-					.withRating($filter.rating)
-					.withSupertags($activeSupertags)
-					.getPageAndCount();
-				results.addPage(page, count);
+				const [page, count] = await createDefaultSearch().getPageAndCount();
+				addPage(results.value, page, count);
 			} catch (e) {
 				console.warn(e);
 			}

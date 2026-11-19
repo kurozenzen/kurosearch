@@ -1,9 +1,8 @@
 <script>
 	import { browser } from '$app/environment';
 	import FeatureSupportInfo from '$lib/components/kurosearch/feature-support-info/FeatureSupportInfo.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { apiUrl, cycleApiUrl } from '$lib/logic/api-client/url';
 	import {
 		supportsAspectRatio,
@@ -13,6 +12,7 @@
 		supportsObjectFit,
 		supportsSessionStorage
 	} from '$lib/logic/feature-support';
+	import H3 from '$lib/components/pure/heading/H3.svelte';
 
 	let currentApi = $state(apiUrl());
 
@@ -23,13 +23,13 @@
 </script>
 
 <svelte:head>
-	<title>kurosearch - Debugger</title>
+	<title>kurosearch - Debug</title>
 	<meta name="description" content="Debugging tools for kurosearch." />
 </svelte:head>
 
 <PageGeneric title="Debug">
 	<section>
-		<Heading3>Supported Features</Heading3>
+		<H3 title="Supported Features" />
 		<FeatureSupportInfo
 			supported={browser && 'pushState' in window.history}
 			title="URL Sharing"
@@ -45,7 +45,7 @@
 			title="Fullscreen"
 			description="Supports borderless fullscreen display for images and videos."
 		/>
-		<Heading3>Supported Design Features</Heading3>
+		<H3 title="Supported Design Features" />
 		<FeatureSupportInfo
 			supported={supportsGap}
 			title="CSS - Gap"
@@ -63,7 +63,7 @@
 		/>
 	</section>
 	<section>
-		<Heading3>API Server</Heading3>
+		<H3 title="API Server" />
 		<p>
 			Cycle through API servers.<br />
 			Currently using API {currentApi}.

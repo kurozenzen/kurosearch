@@ -1,12 +1,18 @@
+import { browser } from '$app/env';
 import { addIndexedPosts, addIndexedPost, getIndexedPost } from '$lib/indexeddb/idb';
-import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
+import { formatTagname } from '$lib/logic/format-tag';
 import { getTagTypePriority } from '$lib/logic/tag-type-data';
-import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { apiUrl, R34_API_URL, switchApiUrl } from '../url';
+import { ApiError } from '../tags/ApiError';
+import { apiUrl, R34_API_URL } from '../url';
 
 export const PAGE_SIZE = 20;
 
-let getPageAbortController: AbortController | null = null;
+let abortControllers: AbortController[] = [];
+
+export const abortPostRequests = () => {
+	abortControllers.forEach((x) => x.abort());
+	abortControllers = [];
+};
 
 export const getPage = async (
 	pageNumber: number,
@@ -14,16 +20,64 @@ export const getPage = async (
 	apiKey: string = '',
 	userId: string = ''
 ) => {
-	const url = getPostsUrl(pageNumber, tags, apiKey, userId);
-	const response = await fetchAbortPrevious(url, getPageAbortController);
-	throwOnUnexpectedStatus(response);
+	if (!browser) {
+		return [];
+	}
 
-	const data = await response.json();
-	data
+	let abortController = new AbortController();
+	abortControllers.push(abortController);
+
+	const url = getPostsUrl(pageNumber, tags, apiKey, userId);
+
+	let res: Response;
+	try {
+		res = await fetch(url.toString(), { signal: abortController.signal });
+	} catch (err) {
+		if (err instanceof DOMException && err.name === 'AbortError') {
+			throw new ApiError('aborted', 'Interrupted by new request', { cause: err });
+		}
+		throw new ApiError('fetch-error', 'Failed to fetch posts', {
+			cause: err
+		});
+	} finally {
+		abortControllers.filter((x) => x !== abortController);
+	}
+
+	if (!res.ok) {
+		throw new ApiError('fetch-error', `Failed to fetch posts (HTTP ${res.status})`);
+	}
+
+	let text: string;
+	try {
+		text = await res.text();
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse TEXT response', { cause: err });
+	}
+
+	if (text.trim().length === 0) {
+		throw new ApiError('not-found', 'No posts found');
+	}
+
+	let json: unknown;
+	try {
+		json = JSON.parse(text);
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse JSON response', { cause: err });
+	}
+
+	if (!Array.isArray(json)) {
+		throw new ApiError('parse-error', 'Failed to parse posts. Not an array.');
+	}
+
+	if (json.length === 0) {
+		throw new ApiError('not-found', 'No posts found');
+	}
+
+	json
 		.filter((x: r34.Post) => !x.change)
 		.forEach((p: unknown) => console.warn('Suspicious post:', p));
 
-	const posts = data.map(parsePost) as kurosearch.Post[];
+	const posts = json.map(parsePost) as kurosearch.Post[];
 
 	addIndexedPosts(posts);
 
@@ -31,90 +85,166 @@ export const getPage = async (
 };
 
 export const getCount = async (tags: string, apiKey: string = '', userId: string = '') => {
-	const response = await fetchAbortPrevious(
-		getCountUrl(tags, apiKey, userId),
-		getPageAbortController
-	);
+	if (!browser) {
+		return 0;
+	}
 
-	throwOnUnexpectedStatus(response);
+	let abortController = new AbortController();
+	abortControllers.push(abortController);
 
-	const text = await response.text();
+	let url = getCountUrl(tags, apiKey, userId);
+	let res: Response;
+	try {
+		res = await fetch(url.toString(), { signal: abortController.signal });
+	} catch (err) {
+		if (err instanceof DOMException && err.name === 'AbortError') {
+			throw new ApiError('aborted', 'Interrupted by new request', { cause: err });
+		}
+		throw new ApiError('fetch-error', 'Failed to fetch posts-count', {
+			cause: err
+		});
+	} finally {
+		abortControllers.filter((x) => x !== abortController);
+	}
+
+	if (!res.ok) {
+		throw new ApiError('fetch-error', `Failed to fetch posts-count (HTTP ${res.status})`);
+	}
+
+	let text: string;
+	try {
+		text = await res.text();
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse TEXT response', { cause: err });
+	}
+
 	const parser = new DOMParser();
 	const xml = parser.parseFromString(text, 'text/xml');
-	const count = Number(xml.getElementsByTagName('posts')[0].getAttribute('count'));
+	const parseError = xml.querySelector('parsererror');
+	if (parseError) {
+		throw new ApiError('parse-error', `Invalid XML`, { cause: parseError });
+	}
 
-	throwOnInvalidCount(count);
-
-	return count;
+	try {
+		return Number(xml.getElementsByTagName('posts')[0].getAttribute('count'));
+	} catch (err) {
+		throw new ApiError('parse-error', `Failed to parse count from XML`, { cause: err });
+	}
 };
 
+let singlePostAbortController: AbortController | undefined;
+
 export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
+	if (!browser) {
+		return [];
+	}
+
 	const indexedPost = await getIndexedPost(id);
 	if (indexedPost !== undefined) {
 		return indexedPost;
 	}
+
+	singlePostAbortController?.abort();
+	singlePostAbortController = new AbortController();
 
 	let url =
 		userId && apiKey
 			? `${R34_API_URL}&s=post&q=index&fields=tag_info&json=1&id=${id}&api_key=${apiKey}&user_id=${userId}`
 			: `${apiUrl()}/post?id=${id}`;
 
-	const response = await fetch(url);
-	throwOnUnexpectedStatus(response);
+	let res: Response;
+	try {
+		res = await fetch(url.toString(), { signal: singlePostAbortController.signal });
+	} catch (err) {
+		if (err instanceof DOMException && err.name === 'AbortError') {
+			throw new ApiError('aborted', 'Interrupted by new request', { cause: err });
+		}
+		throw new ApiError('fetch-error', 'Failed to fetch posts', {
+			cause: err
+		});
+	}
 
-	const data = await response.json();
-	const post = parsePost(data[0]);
+	if (!res.ok) {
+		throw new ApiError('fetch-error', `Failed to fetch posts (HTTP ${res.status})`);
+	}
+
+	let text: string;
+	try {
+		text = await res.text();
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse TEXT response', { cause: err });
+	}
+
+	if (text.trim().length === 0) {
+		throw new ApiError('not-found', 'No posts found');
+	}
+
+	let json: unknown;
+	try {
+		json = JSON.parse(text);
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse JSON response', { cause: err });
+	}
+
+	if (!Array.isArray(json)) {
+		throw new ApiError('parse-error', 'Failed to parse posts. Not an array.');
+	}
+
+	if (json.length === 0) {
+		throw new ApiError('not-found', 'No posts found');
+	}
+
+	const post = parsePost(json[0]);
 
 	addIndexedPost(post);
 
 	return post;
 };
 
-const throwOnUnexpectedStatus = (response: Response) => {
-	if (!response.ok) {
-		switchApiUrl();
-		throw new Error(`getPage failed with http status ${response.status}`);
+const parsePost = (data: unknown): kurosearch.Post => {
+	try {
+		const post = data as r34.Post;
+
+		const height = post.height;
+		const score = post.score;
+		const preview_url = post.preview_url;
+		const file_url = post.file_url;
+		const parent_id = post.parent_id;
+		const sample_url = post.sample_url;
+		const sample_width = post.sample_width;
+		const sample_height = post.sample_height;
+		const rating = post.rating;
+		const tagInfo = post.tag_info;
+		const tags = post.tags;
+		const id = post.id;
+		const width = post.width;
+		const change = post.change;
+		const comment_count = post.comment_count;
+		const status = post.status;
+		const source = post.source;
+
+		return {
+			preview_url,
+			sample_url,
+			file_url,
+			comment_count: Number(comment_count),
+			height: Number(height),
+			id: Number(id),
+			change: Number(change) * 1000,
+			parent_id: parent_id ? Number(parent_id) : undefined,
+			rating: rating as kurosearch.Rating,
+			sample_height: Number(sample_height),
+			sample_width: Number(sample_width),
+			score: Number(score),
+			source,
+			status,
+			tags: tagInfo ? parseTagInfo(tagInfo) : parseSimpleTags(tags),
+			width: Number(width),
+			type: parsePostType(file_url)
+		};
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse post.', { cause: err });
 	}
-};
-
-const parsePost = (post: r34.Post): kurosearch.Post => {
-	const height = post.height;
-	const score = post.score;
-	const preview_url = post.preview_url;
-	const file_url = post.file_url;
-	const parent_id = post.parent_id;
-	const sample_url = post.sample_url;
-	const sample_width = post.sample_width;
-	const sample_height = post.sample_height;
-	const rating = post.rating;
-	const tagInfo = post.tag_info;
-	const tags = post.tags;
-	const id = post.id;
-	const width = post.width;
-	const change = post.change;
-	const comment_count = post.comment_count;
-	const status = post.status;
-	const source = post.source;
-
-	return {
-		preview_url,
-		sample_url,
-		file_url,
-		comment_count: Number(comment_count),
-		height: Number(height),
-		id: Number(id),
-		change: Number(change) * 1000,
-		parent_id: parent_id ? Number(parent_id) : undefined,
-		rating: rating as kurosearch.Rating,
-		sample_height: Number(sample_height),
-		sample_width: Number(sample_width),
-		score: Number(score),
-		source,
-		status,
-		tags: tagInfo ? parseTagInfo(tagInfo) : parseSimpleTags(tags),
-		width: Number(width),
-		type: parsePostType(file_url)
-	};
 };
 
 const parseTagInfo = (tagInfo: r34.Tag[]): kurosearch.Tag[] => {
@@ -126,13 +256,13 @@ const parseSimpleTags = (tags: string): kurosearch.Tag[] => {
 };
 
 const parseTag = ({ tag, count, type }: r34.Tag): kurosearch.Tag => ({
-	name: replaceHtmlEntities(tag),
+	name: formatTagname(tag),
 	count,
 	type
 });
 
 const parseSimpleTag = (name: string): kurosearch.Tag => ({
-	name: replaceHtmlEntities(name),
+	name: formatTagname(name),
 	count: 0,
 	type: 'ambiguous'
 });
@@ -161,12 +291,6 @@ export const getCountUrl = (serializedTags: string, apiKey: string, userId: stri
 			: `${apiUrl()}/count`;
 
 	return serializedTags === '' ? url : `${url}?tags=${serializedTags}`;
-};
-
-const throwOnInvalidCount = (count: unknown) => {
-	if (typeof count !== 'number') {
-		throw new Error('Unexpected response received in getPage');
-	}
 };
 
 const parsePostType = (file_url: string): kurosearch.PostType => {

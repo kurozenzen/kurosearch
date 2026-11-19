@@ -11,7 +11,12 @@
 	-ms-user-select: none;
 }
 
-i.codicon {
+i.custom-icon {
+	font-style: normal;
+}
+
+i.codicon,
+.codicon::before {
 	font: normal normal normal var(--icon-size)/1 codicon;
 }
 
@@ -214,4 +219,8 @@ i.codicon {
 
 .codicon-ellipsis:before {
 	content: '\ea7c';
+}
+
+.codicon-share:before {
+	content: '\ec25';
 }

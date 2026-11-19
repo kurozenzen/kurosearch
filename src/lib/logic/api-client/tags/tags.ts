@@ -1,36 +1,71 @@
 import { browser } from '$app/environment';
 import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
+import { formatTagname } from '$lib/logic/format-tag';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
-import { fetchAbortPrevious } from '../fetchAbortPrevious';
-import { apiUrl, R34_API_URL, switchApiUrl } from '../url';
+import { serializeTagName } from '$lib/logic/tag-serialization';
+import { apiUrl, R34_API_URL } from '../url';
+import { ApiError } from './ApiError';
 
-let getTagSuggestionsAbortController: AbortController | null = null;
+let abortController: AbortController | undefined;
 
 export const getTagSuggestions = async (term: string): Promise<kurosearch.Suggestion[]> => {
 	if (!browser) {
 		return [];
 	}
 
-	const url = new URL('https://api.rule34.xxx/autocomplete.php');
-	url.searchParams.append('q', term.replaceAll(' ', '_').replaceAll("'", '&#039;'));
+	abortController?.abort();
+	abortController = new AbortController();
 
-	const res = await fetchAbortPrevious(url.toString(), getTagSuggestionsAbortController);
-	if (res.ok) {
-		const json = await res.json();
-		if (Array.isArray(json)) {
-			if (json.length === 0) {
-				throw new Error('No tags found');
-			} else {
-				return json.map(parseSuggestion);
-			}
-		} else if (json.message) {
-			throw new Error(json.message);
-		} else {
-			throw new Error('Invalid tag suggestions received');
+	const url = new URL('https://api.rule34.xxx/autocomplete.php');
+	url.searchParams.append('q', serializeTagName(term));
+
+	let res: Response;
+	try {
+		res = await fetch(url.toString(), { signal: abortController.signal });
+	} catch (err) {
+		if (err instanceof DOMException && err.name === 'AbortError') {
+			throw new ApiError('aborted', 'Interrupted by new request', { cause: err });
 		}
-	} else {
-		throw new Error('Failed to get tag suggestions');
+		throw new ApiError('fetch-error', 'Failed to fetch suggestions', {
+			cause: err
+		});
 	}
+
+	if (!res.ok) {
+		throw new ApiError('fetch-error', `Failed to fetch suggestions (HTTP ${res.status})`);
+	}
+	
+	let text: string;
+	try {
+		text = await res.text();
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse TEXT response', { cause: err });
+	}
+
+	if (text.trim().length === 0) {
+		throw new ApiError('not-found', 'No tags found');
+	}
+
+	let json: unknown;
+	try {
+		json = JSON.parse(text);
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse JSON response', { cause: err });
+	}
+
+	if (typeof json === 'object' && json !== null && 'message' in json) {
+		throw new ApiError('fetch-error', String(json.message));
+	}
+
+	if (!Array.isArray(json)) {
+		throw new ApiError('parse-error', 'Failed to parse suggestions. Not an array.');
+	}
+
+	if (json.length === 0) {
+		throw new ApiError('not-found', 'No tags found');
+	}
+
+	return json.map(parseSuggestion);
 };
 
 export const getTagDetails = async (
@@ -57,7 +92,6 @@ export const getTagDetails = async (
 
 	const response = await fetch(url.toString());
 	if (!response.ok) {
-		switchApiUrl();
 		throw new Error('Failed to get tag details');
 	}
 
@@ -73,11 +107,18 @@ export const getTagDetails = async (
 	return tag;
 };
 
-const parseSuggestion = (suggestion: r34.Suggestion): kurosearch.Suggestion => ({
-	label: replaceHtmlEntities(suggestion.value),
-	count: extractCount(suggestion.label),
-	type: 'tag'
-});
+const parseSuggestion = (data: unknown): kurosearch.Suggestion => {
+	try {
+		const suggestion = data as r34.Suggestion;
+		return {
+			label: formatTagname(suggestion.value),
+			count: extractCount(suggestion.label),
+			type: 'tag'
+		};
+	} catch (err) {
+		throw new ApiError('parse-error', 'Failed to parse Suggestion.', { cause: err });
+	}
+};
 
 const extractCount = (label: string) => {
 	return Number(label.substring(label.lastIndexOf('(') + 1, label.length - 1));

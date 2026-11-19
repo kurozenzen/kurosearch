@@ -1,8 +1,7 @@
 <script>
 	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import activeTagsStore from '$lib/store/active-tags-store';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import { activeTags } from '$lib/store';
 </script>
 
 <section>
@@ -19,14 +18,7 @@
 		>
 			Back to Top
 		</TextButton>
-		<TextButton
-			title="Reset tags."
-			class="mixin-secondary"
-			onclick={() => {
-				activeTagsStore.reset();
-				activeSupertagsStore.reset();
-			}}
-		>
+		<TextButton title="Reset tags." class="mixin-secondary" onclick={activeTags.reset}>
 			Reset Tags
 		</TextButton>
 	</div>
@@ -41,6 +33,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: var(--grid-gap);
+		margin: auto;
 	}
 
 	@media (min-width: 400px) {

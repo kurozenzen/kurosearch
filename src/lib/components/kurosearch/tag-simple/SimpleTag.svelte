@@ -43,7 +43,7 @@
 		background-color: var(--background-color);
 		color: var(--text);
 		height: 24px;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		font-size: var(--text-size-small);
 		user-select: none;
 		padding-inline: 6px 12px;

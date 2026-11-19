@@ -1,14 +1,14 @@
 <script>
 	import { resolve } from '$app/paths';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import results from '$lib/store/results-store';
+	import { results } from '$lib/store';
 	import LinkHelp from '../header/LinkHelp.svelte';
 	import LinkKofi from '../header/LinkKofi.svelte';
 	import LinkSettings from '../header/LinkSettings.svelte';
 	import AccountLink from '../link-account/AccountLink.svelte';
 	import DiscordLink from '../link-discord/DiscordLink.svelte';
 	import ResultCount from '../results/ResultCount.svelte';
-	import SearchbarDesktop from '../searchbar-desktop/SearchbarDesktop.svelte';
+	import SearchbarDesktop from '../searchbar/SearchbarDesktop.svelte';
 </script>
 
 <header>
@@ -18,11 +18,11 @@
 		</h1>
 		<SearchbarDesktop />
 		<div id="right">
-			{#if $results.hasPage}
+			{#if results.value.hasPage}
 				<ResultCount />
 				<IconButton
 					aria-label="Reset search"
-					class="mixin-hover mixin-invisible"
+					class="mixin-invisible"
 					onclick={() => results.reset()}
 				>
 					<i class="codicon codicon-close"></i>

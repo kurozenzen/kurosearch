@@ -1,20 +1,9 @@
 <script module lang="ts">
-	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
-	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import { autoplayFullscreenDelay, autoplayFullscreenEnabled } from '$lib/store';
 
-	let enabled = false;
-	let delay = 15;
-
-	let duration: number | undefined = $state(undefined);
-
-	autoplayFullscreenEnabled.subscribe((value) => {
-		enabled = value;
-		duration = enabled ? delay : undefined;
-	});
-	autoplayFullscreenDelay.subscribe((value) => {
-		delay = value;
-		duration = enabled ? delay : undefined;
-	});
+	let duration = $derived(
+		autoplayFullscreenEnabled.value ? autoplayFullscreenDelay.value : undefined
+	);
 </script>
 
 <script lang="ts">
@@ -37,8 +26,8 @@
 	let sources = $derived(getGifSources(post.file_url, post.sample_url, post.preview_url));
 
 	let currentTime = $state(0);
-	let paused = $state(!$autoplayFullscreenEnabled);
-	let loading = $state($autoplayFullscreenEnabled);
+	let paused = $state(!autoplayFullscreenEnabled.value);
+	let loading = $state(autoplayFullscreenEnabled.value);
 
 	let overlayHidden = $state(true);
 	const onclick = (e: Event) => {
@@ -60,7 +49,7 @@
 			currentTime += difference / 1000;
 		}
 
-		if (currentTime >= $autoplayFullscreenDelay) {
+		if (currentTime >= autoplayFullscreenDelay.value) {
 			onended?.();
 			currentTime = 0;
 		}
@@ -111,7 +100,7 @@
 	};
 
 	onMount(() => {
-		if ($autoplayFullscreenEnabled) {
+		if (autoplayFullscreenEnabled.value) {
 			animationHandle = requestAnimationFrame(updateSlider);
 		}
 		return on(window, 'keydown', keybinds);

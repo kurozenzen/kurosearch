@@ -3,9 +3,9 @@
 	import TermsOfUseDialog from '$lib/components/kurosearch/dialog-terms-of-use/CookieMessage.svelte';
 	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
 	import MobileHeader from '$lib/components/kurosearch/header/MobileHeader.svelte';
-	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
 	import type { Snippet } from 'svelte';
 	import LayoutCommon from '../layout-common/LayoutCommon.svelte';
+	import { wideLayoutEnabled } from '$lib/store';
 
 	interface Props {
 		children: Snippet;
@@ -20,7 +20,7 @@
 
 	<MobileHeader />
 
-	<main class:extra-wide={$wideLayoutEnabled && page.url.pathname === '/'}>
+	<main class:extra-wide={wideLayoutEnabled.value && page.url.pathname === '/'}>
 		{@render children()}
 	</main>
 

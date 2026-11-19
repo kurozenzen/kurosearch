@@ -1,30 +1,24 @@
+<script lang="ts" module>
+	const getRoutes = () => {
+		const modules = import.meta.glob('/src/routes/**/+page.svelte');
+		const routes = Object.keys(modules).map((filePath) => {
+			let route = filePath.replace('/src/routes', '').replace('/+page.svelte', '');
+			route = route.replace(/\/\([^)]+\)/g, '');
+
+			return route === '' ? '/' : route;
+		});
+
+		return routes;
+	};
+
+	const ROUTES = getRoutes();
+</script>
+
 <script lang="ts">
-	import { version } from '$app/environment';
 	import { resolve } from '$app/paths';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-
-	let message = $state('Update');
-
-	const getLatestCommit = async () => {
-		const response = await fetch('https://api.github.com/repos/kurozenzen/kurosearch/commits/main');
-		if (response.ok) {
-			return response.json();
-		}
-		return '???????';
-	};
-
-	const forceUpdate = async () => {
-		message = 'Updating...';
-		if ('serviceWorker' in navigator) {
-			const registrations = await navigator.serviceWorker.getRegistrations();
-			await Promise.all(registrations.map((r) => r.update()));
-		}
-		window.location.reload();
-		message = 'Done';
-	};
+	import Version from '$lib/components/kurosearch/about-version/Version.svelte';
+	import SectionH3 from '$lib/components/kurosearch/section-docs/SectionH3.svelte';
 </script>
 
 <svelte:head>
@@ -33,79 +27,19 @@
 </svelte:head>
 
 <PageGeneric title="About">
-	<div id="version">
-		<Heading3>Version</Heading3>
-		<section class="info">
-			<img src="/favicon.svg" alt="kuroseach logo" />
-			<h2>kurosearch</h2>
-			<span>
-				Version: {version}
-				{#await getLatestCommit() then commit}
-					, Newest is: {commit?.sha?.substring(0, 7)}
-				{/await}
-			</span>
-		</section>
-		<TextButton title="Force an update of the app" onclick={forceUpdate} class="mixin-accent"
-			>{message}</TextButton
-		>
-	</div>
+	<SectionH3 title="Version">
+		<Version />
+	</SectionH3>
 
-	<div class="more">
-		<Heading3>More Info</Heading3>
-		<IconLink title="Debug Information" className="codicon codicon-link" href={resolve('/debug')}>
-			<p>Debug Information</p>
-		</IconLink>
-		<IconLink
-			title="Rule34.xxx URL Comparison"
-			className="codicon codicon-link"
-			href={resolve('/query')}
-		>
-			<p>Rule34.xxx URL Comparison</p>
-		</IconLink>
-		<IconLink
-			title="Troubleshooting"
-			className="codicon codicon-link"
-			href={resolve('/troubleshoot')}
-		>
-			<p>Troubleshooting</p>
-		</IconLink>
-	</div>
+	<SectionH3 title="Routes">
+		<ul>
+			{#each ROUTES as route}
+				<li>
+					<a href={resolve(route as any)}>
+						{route}
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</SectionH3>
 </PageGeneric>
-
-<style>
-	#version {
-		display: flex;
-		flex-direction: column;
-		gap: var(--grid-gap);
-	}
-
-	.info {
-		display: grid;
-		grid-template-columns: auto auto;
-		grid-template-rows: auto auto;
-		justify-content: center;
-		padding: var(--grid-gap);
-		background-color: var(--background-1);
-		border-radius: var(--border-radius);
-	}
-
-	.more {
-		display: flex;
-		flex-direction: column;
-	}
-	h2 {
-		color: var(--text-highlight);
-		align-self: flex-end;
-	}
-
-	img {
-		width: 60px;
-		height: 60px;
-		grid-row: span 2;
-	}
-
-	p {
-		white-space: nowrap;
-		margin-inline-start: var(--small-gap);
-	}
-</style>

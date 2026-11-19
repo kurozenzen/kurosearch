@@ -4,7 +4,7 @@
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { on } from 'svelte/events';
 	import { keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 
 	interface Props {
 		post: kurosearch.Post;

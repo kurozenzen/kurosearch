@@ -1,26 +1,36 @@
 import { browser } from '$app/environment';
-import type { FilterStoreData } from '$lib/store/filter-store';
-import type { SortStoreData } from '$lib/store/sort-store';
-import { parseShareTags, serializeShareTags } from './share-utils';
+import { type FilterData, type SortData } from '$lib/store';
+import {
+	parseShareTags,
+	serializeShareTags,
+	serializeShareSupertags,
+	parseShareSupertags
+} from './share-utils';
 
 type URLSettings = {
 	tags: kurosearch.SearchableTag[];
-	sort: SortStoreData;
-	filter: Partial<FilterStoreData>;
+	supertags: kurosearch.Supertag[];
+	sort: SortData;
+	filter: Partial<FilterData>;
 };
 
 export const parseUrlSettings = (searchParams: URLSearchParams): Partial<URLSettings> => ({
 	tags: parseShareTags(searchParams.get('tags') ?? ''),
+	supertags: parseShareSupertags(searchParams.get('supertags') ?? ''),
 	sort: parseUrlSort(searchParams),
 	filter: parseUrlFilter(searchParams)
 });
 
 export const serializeUrlSettings = (urlSettings: Partial<URLSettings>): URLSearchParams => {
 	const searchParams = new URLSearchParams();
-	const { tags, sort, filter } = urlSettings;
+	const { tags, supertags, sort, filter } = urlSettings;
 
 	if (tags && tags.length > 0) {
 		searchParams.append('tags', serializeShareTags(tags));
+	}
+
+	if (supertags && supertags.length) {
+		searchParams.append('supertags', serializeShareSupertags(supertags));
 	}
 
 	if (sort && (sort.property !== 'id' || sort?.direction !== 'desc')) {
@@ -37,8 +47,8 @@ export const serializeUrlSettings = (urlSettings: Partial<URLSettings>): URLSear
 	return searchParams;
 };
 
-const serializeUrlSort = (sort: SortStoreData) => sort.property + ':' + sort.direction;
-const serializeUrlFilter = (filter: Partial<FilterStoreData>) => {
+const serializeUrlSort = (sort: SortData) => sort.property + ':' + sort.direction;
+const serializeUrlFilter = (filter: Partial<FilterData>) => {
 	const parts = [];
 	if (filter.rating !== 'all') {
 		const ratingString = 'rating:' + filter.rating;
@@ -78,7 +88,7 @@ const parseUrlFilter = (searchParams: URLSearchParams) => {
 		const filterString = searchParams.get('filter') ?? '';
 		const parts = filterString.split(';');
 
-		let filter: Partial<FilterStoreData> = {};
+		let filter: Partial<FilterData> = {};
 		parts.forEach((part) => {
 			if (part.startsWith('rating:')) {
 				const [, rating] = part.split(':');
@@ -109,8 +119,9 @@ const parseUrlFilter = (searchParams: URLSearchParams) => {
 
 export const getShareUrl = (
 	tags: kurosearch.ModifiedTag[],
-	sort: SortStoreData,
-	filter: FilterStoreData
+	supertags: kurosearch.Supertag[],
+	sort: SortData,
+	filter: FilterData
 ) => {
 	if (!browser) {
 		return '';
@@ -119,6 +130,7 @@ export const getShareUrl = (
 	const url = new URL(location.protocol + '//' + location.host + '/share');
 	const searchParams = serializeUrlSettings({
 		tags,
+		supertags,
 		sort,
 		filter
 	});

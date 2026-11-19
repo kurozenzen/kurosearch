@@ -3,31 +3,30 @@ import { type IndexedPost } from '$lib/indexeddb/idb';
 import type { SettingsObject } from '$lib/logic/file-utils';
 import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
 import { saveDriveBackup } from '$lib/logic/firebase/drive-storage';
-import blockedContent from '$lib/store/blocked-content-store';
-import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-import resultColumns from '$lib/store/result-columns-store';
-import { StoreKey } from '$lib/store/store-keys';
-import type { SupertagsStore } from '$lib/store/supertags-store';
-import theme from '$lib/store/theme-store';
-import { get } from 'svelte/store';
+import { blockedContent, resultColumns, theme } from '$lib/store';
+import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
+import { StorageKey } from '$lib/store/storage-keys';
 import { getAuth } from 'firebase/auth';
 
 let queuedSync = Promise.resolve();
 
 export const buildSettingsObject = (
-	supertags: SupertagsStore,
+	supertags: kurosearch.Supertag[],
 	favourites: IndexedPost[]
 ): SettingsObject => ({
-	[StoreKey.BackupTimestamp]: new Date().toISOString(),
-	[StoreKey.LocalstorageEnabled]: get(localstorageEnabled),
-	[StoreKey.Theme]: get(theme),
-	[StoreKey.BlockedContent]: get(blockedContent),
-	[StoreKey.ResultColumns]: get(resultColumns),
-	[StoreKey.Supertags]: structuredClone(supertags),
-	[StoreKey.Favourites]: structuredClone(favourites)
+	[StorageKey.BackupTimestamp]: new Date().toISOString(),
+	[StorageKey.LocalStorageEnabled]: semiPersistentStorage.localStorageEnabled,
+	[StorageKey.Theme]: theme.value,
+	[StorageKey.BlockedContent]: blockedContent.value,
+	[StorageKey.ResultColumns]: `${resultColumns.value}`,
+	[StorageKey.Supertags]: { items: structuredClone(supertags) },
+	[StorageKey.Favourites]: structuredClone(favourites)
 });
 
-export const queueDriveBackupSync = (supertags: SupertagsStore, favourites: IndexedPost[]) => {
+export const queueDriveBackupSync = (
+	supertags: kurosearch.Supertag[],
+	favourites: IndexedPost[]
+) => {
 	if (!browser || !getAuth().currentUser) {
 		return queuedSync;
 	}

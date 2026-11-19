@@ -4,13 +4,11 @@
 	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
 	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { getFirstPage, getNextPage, getPage } from '$lib/logic/search';
-	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
-	import resultColumns from '$lib/store/result-columns-store';
-	import results from '$lib/store/results-store';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import { getFirstPage, getNextPage, jumpToPage } from '$lib/logic/search.svelte';
+	import { pageNavigationEnabled, resultColumns, results } from '$lib/store';
 	import { onMount, type Snippet } from 'svelte';
+	import Loading from '$lib/components/kurosearch/loading/Loading.svelte';
 
 	interface Props {
 		children: Snippet;
@@ -18,41 +16,33 @@
 
 	let { children }: Props = $props();
 
-	const onpagejump = async (pid: number) => {
-		await getPage(pid);
-		document.getElementById('result-header')?.scrollIntoView();
-	};
 
 	onMount(() => {
-		if (!$results.hasPage) {
+		if (!results.value.hasPage) {
 			getFirstPage();
 		}
 	});
 </script>
 
-{#if $results.error}
-	<SearchError error={$results.error} />
-{:else if $results.hasPage}
-	{#if $results.postCount === 0 && !$results.loading}
+{#if results.value.error}
+	<SearchError error={results.value.error} />
+{:else if results.value.hasPage}
+	{#if results.value.postCount === 0 && !results.value.loading}
 		<ZeroResults onsortfilterupdate={getFirstPage} />
 	{:else}
 		{@render children()}
-		{#if $results.hasLastPage}
+		{#if results.value.hasLastPage}
 			<NoMoreResults />
-		{:else if $pageNavigationEnabled}
-			<PageNavigation onpagechange={onpagejump} />
+		{:else if pageNavigationEnabled.value}
+			<PageNavigation onpagechange={jumpToPage} />
 		{:else}
 			<IntersectionDetector
 				absoluteTop={undefined}
-				rootMargin="{1000 / Number($resultColumns)}px"
+				rootMargin="{1000 / resultColumns.value}px"
 				onintersection={getNextPage}
 			/>
 			<TextButton title="Load more posts" class="mixin-accent" onclick={getNextPage}>
-				{#if $results.loading}
-					<LoadingAnimation />
-				{:else}
-					Load more
-				{/if}
+				<Loading loading={results.value.loading}>Load more</Loading>
 			</TextButton>
 		{/if}
 	{/if}

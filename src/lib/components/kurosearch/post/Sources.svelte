@@ -47,7 +47,7 @@
 		<li>
 			<a
 				href={link.toString()}
-				class="codicon codicon-link-external {foreground}"
+				class="codicon codicon-link-external mixin-shape-item {foreground}"
 				style="background-color: {background}; color: {foreground};"
 			>
 				{label}
@@ -111,9 +111,6 @@
 	ol a {
 		display: flex;
 		align-items: center;
-		height: var(--line-height);
-		padding-inline: var(--small-gap);
-		border-radius: var(--border-radius);
 	}
 
 	ol a::before {

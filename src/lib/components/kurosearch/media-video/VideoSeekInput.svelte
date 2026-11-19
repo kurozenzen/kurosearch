@@ -1,9 +1,11 @@
 <script lang="ts">
+	import type { ClassValue } from "svelte/elements";
+
 	interface Props {
 		currentTime: number;
 		bufferedTime: number;
 		duration: number;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { currentTime = $bindable(), bufferedTime, duration, ...rest }: Props = $props();

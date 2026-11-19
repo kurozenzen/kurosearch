@@ -16,7 +16,3 @@ export const onpopstate = (_node: HTMLElement, onPopState: () => void) => {
 		};
 	}
 };
-
-export const addHistory = (state: string) => {
-	window.history.pushState(state, '', null);
-};

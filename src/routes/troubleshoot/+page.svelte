@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import H3 from '$lib/components/pure/heading/H3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import { apiUrl } from '$lib/logic/api-client/url';
 </script>
@@ -11,7 +11,7 @@
 
 <PageGeneric title="Troubleshooting">
 	<section>
-		<Heading3>Network Checks</Heading3>
+		<H3 title="Network Checks" />
 		<ol>
 			<li>
 				<span>api.rule34.xxx ...</span>
@@ -59,7 +59,7 @@
 	</section>
 
 	<section>
-		<Heading3>Is rule34.xxx fully operational?</Heading3>
+		<H3 title="Is rule34.xxx fully operational?" />
 		<iframe src="https://rule34.xxx/index.php?page=post&s=list" title="rule34.xxx"></iframe>
 	</section>
 </PageGeneric>

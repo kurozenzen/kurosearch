@@ -1,9 +1,7 @@
 <script lang="ts">
-	import NumberInput from './NumberInput.svelte';
+	import NumberInput from '../../pure/input-number/NumberInput.svelte';
 	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
-	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/filter-store';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
@@ -14,17 +12,18 @@
 		LABELS_SORT_DIRECTION,
 		LABELS_SORT_PROPERTY
 	} from '../sort-filter-config/sortfilter';
+	import { filter, sort } from '$lib/store';
 
 	interface Props {
-		dialog: HTMLDialogElement;
+		open: boolean;
 		onclose: () => void;
 	}
 
-	let { dialog = $bindable(), onclose }: Props = $props();
+	let { open = $bindable(), onclose }: Props = $props();
 
-	const oncloseinternal = () => {
-		dialog.close();
-		onclose();
+	const close = () => {
+		console.log('Close button clicked');
+		open = false;
 	};
 
 	const reset = () => {
@@ -33,15 +32,15 @@
 	};
 </script>
 
-<Dialog bind:dialog onclose={oncloseinternal}>
+<Dialog bind:open {onclose}>
 	<div class="container">
 		<div class="row">
 			<h3>Sorting and Filtering</h3>
 			<div class="spacer"></div>
 			<button
 				type="button"
-				class="codicon codicon-close"
-				onclick={oncloseinternal}
+				class="mixin-hover mixin-invisible codicon codicon-close"
+				onclick={close}
 				aria-label="Close"
 			>
 			</button>
@@ -49,8 +48,16 @@
 		<div>
 			<b>Sorting</b>
 			<div class="row">
-				<RotatingIconSelect bind:value={$sort.direction} options={LABELS_SORT_DIRECTION} />
-				<Select bind:value={$sort.property} options={LABELS_SORT_PROPERTY} />
+				<RotatingIconSelect
+					id="sort-direction"
+					bind:value={sort.value.direction}
+					options={LABELS_SORT_DIRECTION}
+				/>
+				<Select
+					id="sort-property"
+					bind:value={sort.value.property}
+					options={LABELS_SORT_PROPERTY}
+				/>
 			</div>
 		</div>
 
@@ -58,21 +65,26 @@
 			<b>Filtering by Score</b>
 			<div class="row">
 				<RotatingTextSelect
-					bind:value={$filter.scoreComparator}
+					id="filter-comparator"
+					bind:value={filter.value.scoreComparator}
 					options={LABELS_SCORE_COMPARATOR}
 				/>
-				<NumberInput bind:value={$filter.scoreValue} min={0} max={10000} step={1} />
+				<NumberInput
+					id="filter-score"
+					bind:value={filter.value.scoreValue}
+					min={0}
+					max={10000}
+					step={1}
+				/>
 			</div>
 		</div>
 
 		<div>
 			<b>Rating</b>
-			<RadioGroup name="rating" options={LABELS_RATING} bind:value={$filter.rating} />
+			<RadioGroup name="rating" options={LABELS_RATING} bind:value={filter.value.rating} />
 		</div>
 
-		<TextButton title="Return to searching" class="mixin-accent" onclick={oncloseinternal}>
-			Done
-		</TextButton>
+		<TextButton title="Return to searching" class="mixin-accent" onclick={close}>Done</TextButton>
 		<TextButton title="Reset sort and filter" class="mixin-secondary" onclick={reset}>
 			Reset
 		</TextButton>

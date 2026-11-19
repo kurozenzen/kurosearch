@@ -7,7 +7,7 @@
 	import { calculateAspectRatio } from '../post/ratio';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import DataSavingImage from '../img-data-saver/DataSavingImage.svelte';
 
 	const maxRatio = 1 / 2;
@@ -101,7 +101,7 @@
 		height: 100%;
 
 		background-color: var(--background-1);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 	}
 
 	:global(.post-media) {

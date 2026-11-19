@@ -44,7 +44,6 @@
 		padding-left: 6px;
 		padding-right: 12px;
 		user-select: none;
-		contain: content;
 	}
 
 	.no-icon {

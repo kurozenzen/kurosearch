@@ -13,15 +13,6 @@ export const apiUrl = () => {
 	return API_URLS[currentUrlIndex];
 };
 
-export const switchApiUrl = () => {
-	currentUrlIndex = Math.min(currentUrlIndex + 1, API_URLS.length - 1);
-	sessionStorage.setItem('kurosearch:api-index', currentUrlIndex.toString());
-	console.warn(`Switched API URL to ${apiUrl()}`);
-};
-
-/**
- * Only for debugging. Cycles through API URLs in a loop.
- */
 export const cycleApiUrl = () => {
 	currentUrlIndex = (currentUrlIndex + 1) % API_URLS.length;
 	sessionStorage.setItem('kurosearch:api-index', currentUrlIndex.toString());

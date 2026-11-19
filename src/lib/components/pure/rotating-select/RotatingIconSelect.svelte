@@ -1,12 +1,12 @@
 <script lang="ts">
+	import type { ClassValue } from 'svelte/elements';
 	import IconButton from '../button-icon/IconButton.svelte';
+	import type { InputProps } from '../types';
 
-	interface Props {
-		id?: string;
+	interface Props extends InputProps {
 		options: Record<string, string>;
 		value: string;
-		'aria-label'?: string;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { id, options, value = $bindable(), ...rest }: Props = $props();
@@ -23,7 +23,9 @@
 
 <IconButton
 	{id}
-	class="mixin-primary {icon} {rest.class}"
+	class={['mixin-primary', rest.class]}
 	onclick={rotate}
 	aria-label={rest['aria-label']}
-/>
+>
+	<i class={icon}></i>
+</IconButton>

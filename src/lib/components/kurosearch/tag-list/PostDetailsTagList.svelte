@@ -1,7 +1,7 @@
 <script lang="ts">
-	import activeTagsStore from '$lib/store/active-tags-store';
+	import { activeSupertags, activeTags } from '$lib/store';
+	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
 	import SimpleTag from '../tag-simple/SimpleTag.svelte';
-	import activeSuperTagsStore from '$lib/store/active-supertags-store';
 
 	interface Props {
 		tags: kurosearch.Tag[];
@@ -12,15 +12,16 @@
 
 <ul class="tags">
 	{#each tags as tag}
-		{@const active = $activeTagsStore.find((t) => t.name === tag.name) !== undefined}
-		{@const activeInSuperTag =
-			$activeSuperTagsStore.find((st) => st.tags.find((t) => t.name === tag.name)) !== undefined}
+		{@const active = activeTags.value.some((t) => t.name === tag.name)}
+		{@const activeInSuperTag = activeSupertags.value.some((st) =>
+			st.tags.some((t) => t.name === tag.name)
+		)}
 		<SimpleTag
 			{tag}
 			onclick={() =>
 				active
-					? activeTagsStore.removeByName(tag.name)
-					: activeTagsStore.addOrReplace({ ...tag, modifier: '+' })}
+					? removeByName(activeTags.value, tag.name)
+					: addOrReplace(activeTags.value, { ...tag, modifier: '+' })}
 			{active}
 			{activeInSuperTag}
 		/>

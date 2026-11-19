@@ -1,36 +1,68 @@
 <script lang="ts">
-	import { onpopstate } from '$lib/logic/attachments/onpopstate';
-	import { onMount, type Snippet } from 'svelte';
-	import { on } from 'svelte/events';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/state';
+	import { type Snippet } from 'svelte';
 
 	interface Props {
-		dialog: HTMLDialogElement;
+		open: boolean;
 		onclose?: () => void;
 		children: Snippet;
 	}
 
-	let { dialog = $bindable(), onclose, children }: Props = $props();
+	let { open = $bindable(), onclose, children }: Props = $props();
 
-	const onPopState = () => {
-		dialog.close();
-	};
+	let dialog: HTMLDialogElement | undefined = $state();
 
-	const listener = (event: MouseEvent) => {
-		const rect = dialog.getBoundingClientRect();
-		const isInDialog =
-			rect.top <= event.clientY &&
-			event.clientY <= rect.top + rect.height &&
-			rect.left <= event.clientX &&
-			event.clientX <= rect.left + rect.width;
-		if (event.target === dialog && !isInDialog) {
-			dialog?.close();
+	let pushed = false;
+	let downOnBackdrop = false;
+
+	$effect(() => {
+		if (!dialog) return;
+		if (open) {
+			if (!dialog.open) dialog.showModal();
+			if (!pushed) {
+				pushState('', { dialog: true });
+				pushed = true;
+			}
+		} else {
+			if (dialog.open) dialog.close();
+			if (pushed) {
+				pushed = false;
+				history.back();
+			}
 		}
-	};
+	});
 
-	onMount(() => on(dialog, 'click', listener));
+	$effect(() => () => {
+		if (pushed && page.state?.dialog) history.back();
+	});
+
+	$effect(() => {
+		if (!page.state.dialog && pushed && open) {
+			pushed = false;
+			open = false;
+		}
+	});
+
+	const handleClose = () => {
+		open = false;
+		onclose?.();
+	};
 </script>
 
-<dialog bind:this={dialog} {onclose} use:onpopstate={onPopState}>
+<dialog
+	bind:this={dialog}
+	onclose={handleClose}
+	onpointerdown={(e) => {
+		downOnBackdrop = e.target === dialog;
+	}}
+	onclick={(e) => {
+		if (downOnBackdrop && e.target === dialog) {
+			open = false;
+		}
+		downOnBackdrop = false;
+	}}
+>
 	{@render children()}
 </dialog>
 

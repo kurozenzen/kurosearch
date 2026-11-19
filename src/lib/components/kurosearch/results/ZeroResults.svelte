@@ -71,13 +71,9 @@
 
 <script lang="ts">
 	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { BLOCKING_GROUP_TAGS } from '$lib/logic/blocking-group-data';
-	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import filter from '$lib/store/filter-store';
-	import sort from '$lib/store/sort-store';
+	import { activeSupertags, activeTags, blockedContent, filter, sort } from '$lib/store';
 
 	interface Props {
 		onsortfilterupdate: () => void;
@@ -86,7 +82,7 @@
 	let { onsortfilterupdate }: Props = $props();
 
 	let conflictingTags = $derived(
-		validateTags($activeTagsStore, $blockedContent, $activeSupertagsStore)
+		validateTags(activeTags.value, blockedContent.value, activeSupertags.value)
 	);
 </script>
 
@@ -115,8 +111,8 @@
 			title="In case your filter caused all posts to vanish. Reset it."
 			class="mixin-secondary"
 			onclick={() => {
-				sort.reset();
 				filter.reset();
+				sort.reset();
 				onsortfilterupdate();
 			}}
 		>
@@ -126,8 +122,8 @@
 			title="Tag combinations that are too specific will not yield results."
 			class="mixin-secondary"
 			onclick={() => {
-				activeTagsStore.reset();
-				activeSupertagsStore.reset();
+				filter.reset();
+				sort.reset();
 			}}
 		>
 			Reset Tags
@@ -145,6 +141,7 @@
 		align-items: center;
 		gap: var(--grid-gap);
 		border-radius: var(--border-radius-large);
+		margin: auto;
 	}
 	img {
 		display: block;
@@ -180,7 +177,7 @@
 		background-color: #413c26;
 		color: #ffe169;
 		padding: var(--small-gap);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		display: flex;
 		gap: var(--small-gap);
 		align-items: center;

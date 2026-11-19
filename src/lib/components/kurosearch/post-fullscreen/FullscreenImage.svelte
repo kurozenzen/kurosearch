@@ -1,27 +1,19 @@
 <script module lang="ts">
-	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
-	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
+	import {
+		autoplayFullscreenDelay,
+		autoplayFullscreenEnabled,
+		highResolutionEnabled
+	} from '$lib/store';
 
-	let enabled = false;
-	let delay = 15;
-
-	let duration: number | undefined = $state(undefined);
-
-	autoplayFullscreenEnabled.subscribe((value) => {
-		enabled = value;
-		duration = enabled ? delay : undefined;
-	});
-	autoplayFullscreenDelay.subscribe((value) => {
-		delay = value;
-		duration = enabled ? delay : undefined;
-	});
+	let duration = $derived(
+		autoplayFullscreenEnabled.value ? autoplayFullscreenDelay.value : undefined
+	);
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
 	import { onDestroy, onMount } from 'svelte';
 	import { on } from 'svelte/events';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
@@ -36,11 +28,13 @@
 	let { post, postId = -1, onended, ondetails }: Props = $props();
 
 	let sources = $derived(
-		highResolutionEnabled ? [post.sample_url, post.file_url] : [post.preview_url, post.sample_url]
+		highResolutionEnabled.value
+			? [post.sample_url, post.file_url]
+			: [post.preview_url, post.sample_url]
 	);
 
 	let currentTime = $state(0);
-	let paused = $state(!$autoplayFullscreenEnabled);
+	let paused = $state(!autoplayFullscreenEnabled.value);
 	let loading = $state(true);
 
 	let overlayHidden = $state(true);
@@ -63,7 +57,7 @@
 			currentTime += difference / 1000;
 		}
 
-		if (currentTime >= $autoplayFullscreenDelay) {
+		if (currentTime >= autoplayFullscreenDelay.value) {
 			onended?.();
 			currentTime = 0;
 		}
@@ -114,7 +108,7 @@
 	};
 
 	onMount(() => {
-		if ($autoplayFullscreenEnabled) {
+		if (autoplayFullscreenEnabled.value) {
 			animationHandle = requestAnimationFrame(updateSlider);
 		}
 		return on(window, 'keydown', keybinds);
@@ -146,7 +140,7 @@
 <PostOverlay
 	hidden={overlayHidden}
 	mediaType="img"
-	paused={$autoplayFullscreenEnabled ? paused : undefined}
+	paused={autoplayFullscreenEnabled.value ? paused : undefined}
 	{loading}
 	{ontoggleplay}
 	bind:currentTime

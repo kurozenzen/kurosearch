@@ -1,4 +1,5 @@
 <script lang="ts">
+	import H2 from '$lib/components/pure/heading/H2.svelte';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -7,17 +8,10 @@
 		children: Snippet;
 	}
 
-	let { title, id, children }: Props = $props();
+	let { title, children }: Props = $props();
 </script>
 
 <section>
-	<h2 {id}>{title}</h2>
+	<H2 {title} />
 	{@render children()}
 </section>
-
-<style>
-	h2 {
-		color: var(--text-highlight);
-		font-size: 2.25em;
-	}
-</style>

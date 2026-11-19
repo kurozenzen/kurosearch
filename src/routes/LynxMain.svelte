@@ -65,7 +65,7 @@
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		display: flex;
 		gap: var(--small-gap);
 		border: solid 2px currentColor;

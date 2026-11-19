@@ -1,16 +1,7 @@
-import { persistentWritable } from './persistent-store';
-import { StoreKey } from './store-keys';
-
-export type SupertagsStore = {
-	items: kurosearch.Supertag[];
-};
-
-const getInitial = (): SupertagsStore => ({
-	items: []
-});
+import { StorageKey } from './storage-keys';
 
 const createSupertagsStore = () => {
-	const { subscribe, set, update } = persistentWritable(StoreKey.Supertags, getInitial());
+	const { subscribe, set, update } = persistentWritable(StorageKey.Supertags, getInitial());
 
 	return {
 		subscribe,

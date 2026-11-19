@@ -1,225 +1,125 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import { getTagDetails } from '$lib/logic/api-client/ApiClient';
 	import {
-		keybindBlur,
 		keybindFocusSearchbar,
 		keybindModifier,
 		keybindNextSuggestion,
 		keybindPrevSuggestion,
 		keybindSearchbarSubmit
 	} from '$lib/logic/keybinds/keyboard-utils';
-	import { targetVideo } from '$lib/store/active-video.svelte';
-	import apiKey from '$lib/store/api-key-store';
-	import userId from '$lib/store/user-id-store';
 	import { onMount } from 'svelte';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
-	import Suggestion from './Suggestion.svelte';
 	import { on } from 'svelte/events';
-	import { nextModifier } from '$lib/logic/modifier-utils';
+	import { SearchBarState } from './searchbar.state.svelte';
+	import SuggestionList from './SuggestionList.svelte';
+	import { ID_SEARCHBAR } from '$lib/logic/well-known-ids';
+	import Dropdown from '$lib/components/pure/dropdown/Dropdown.svelte';
 
 	interface Props {
-		placeholder: string;
 		fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;
-		onpick: (suggestion: kurosearch.Suggestion & { modifier: kurosearch.TagModifier }) => void;
+		onpick: (suggestion: kurosearch.Suggestion, modifier: kurosearch.TagModifier) => void;
 	}
 
-	let { placeholder, fetchSuggestions, onpick }: Props = $props();
+	let { fetchSuggestions, onpick }: Props = $props();
 
-	let searchTerm = $state('');
-	let previousSearchTerm = $state('');
-	let searchPromise: Promise<kurosearch.Suggestion[]> = $state(undefined);
-	let selectedIndex = $state(0);
-	let modifier: kurosearch.TagModifier = $state('+');
-	let focusInside = $state(false);
-	let hasDropdownContent = $state(false);
+	// svelte-ignore state_referenced_locally
+	let searchbarState = new SearchBarState(fetchSuggestions);
 
-	// hacky, I'd like to avoid caching this but i need it in the keydown handler
-	let suggestionItems: kurosearch.Suggestion[] = [];
-
-	const search = () => {
-		if (searchTerm !== '' && searchTerm !== previousSearchTerm) {
-			selectedIndex = 0;
-			previousSearchTerm = searchTerm;
-			hasDropdownContent = true;
-			searchPromise = fetchSuggestions(searchTerm);
-			searchPromise.then((s) => (suggestionItems = s)).catch(() => (suggestionItems = []));
-		}
+	const submitAll = () => {
+		searchbarState.getSuggestions().forEach((x) => onpick(x, searchbarState.modifier));
+		searchbarState.reset();
 	};
 
-	const pick = (suggestion: kurosearch.Suggestion) => {
-		onpick({ modifier, ...suggestion });
-		searchTerm = '';
-		selectedIndex = 0;
-		hasDropdownContent = false;
+	const submitOne = (suggestion: kurosearch.Suggestion) => {
+		onpick(suggestion, searchbarState.modifier);
+		searchbarState.reset();
 	};
 
-	const close = () => {
-		focusInside = false;
-	};
-
-	const closeIfFocusOutside = (event: FocusEvent) => {
-		if (
-			!event.relatedTarget ||
-			!(event.target as HTMLElement | null)?.parentNode?.contains(
-				event.relatedTarget as HTMLElement
-			)
-		) {
-			focusInside = false;
-		}
-	};
-
-	const focus = (e: FocusEvent) => {
-		targetVideo(undefined);
-		focusInside = true;
-		(e.target as HTMLElement | null)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-	};
-
-	const handleKeyDown = async (event: any) => {
-		if (keybindSearchbarSubmit(event) && searchTerm !== '') {
-			if (suggestionItems.length > selectedIndex) {
-				pick(suggestionItems[selectedIndex]);
-			} else {
-				const tags = searchTerm.split(';').map((x) => x.trim().replaceAll(' ', '_'));
-				const details = await Promise.all(
-					tags.map((name) => getTagDetails(name, $apiKey, $userId))
-				);
-				tags
-					.map((name) => {
-						const detail = details.find((x) => x?.name === name);
-						return {
-							type: detail?.type ?? 'tag',
-							label: name,
-							count: detail?.count ?? 0
-						};
-					})
-					.forEach(pick);
-			}
-		} else if (keybindBlur(event) && event.target instanceof HTMLInputElement) {
-			event.target.blur();
-		} else if (keybindPrevSuggestion(event) && suggestionItems.length > 0) {
-			selectedIndex = (selectedIndex + suggestionItems.length - 1) % suggestionItems.length;
-		} else if (keybindNextSuggestion(event) && suggestionItems.length > 0) {
-			selectedIndex = (selectedIndex + 1) % suggestionItems.length;
+	const handleKeyDown = async (event: KeyboardEvent) => {
+		if (keybindSearchbarSubmit(event)) {
+			submitAll();
+		} else if (keybindPrevSuggestion(event)) {
+			searchbarState.selectPrevSuggestion();
+		} else if (keybindNextSuggestion(event)) {
+			searchbarState.selectNextSuggestion();
 		}
 	};
 
 	onMount(() =>
 		on(window, 'keydown', (event) => {
 			if (keybindModifier(event)) {
-				modifier = nextModifier(modifier);
+				searchbarState.rotateModifier();
 			}
 			if (keybindFocusSearchbar(event)) {
-				document.getElementById('searchbar')?.focus();
+				document.getElementById(ID_SEARCHBAR)?.focus();
 			}
 		})
 	);
 </script>
 
-<div class="searchbar" class:open={focusInside && hasDropdownContent} onblur={close}>
-	<ModifierSelect bind:modifier />
-	<input
-		type="text"
-		name="searchbar"
-		id="searchbar"
-		{placeholder}
-		autocomplete="off"
-		bind:value={searchTerm}
-		onfocus={focus}
-		onblur={closeIfFocusOutside}
-		onkeydown={handleKeyDown}
-		onkeyup={search}
-		aria-label="Search for tags."
-	/>
+<Dropdown class="searchbar-container">
+	{#snippet summary(open)}
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div class="searchbar" class:open>
+			<ModifierSelect bind:modifier={searchbarState.modifier} />
+			<input
+				type="text"
+				name="searchbar"
+				id="searchbar"
+				placeholder="Search for tags"
+				autocomplete="off"
+				bind:value={searchbarState.searchTerm}
+				onkeydown={handleKeyDown}
+				onkeyup={() => searchbarState.search()}
+				aria-label="Search for tags."
+			/>
 
-	<CodiconLink
-		title="More information on tags."
-		href="{resolve('/help')}#search"
-		icon="codicon codicon-question"
-	/>
-	<ol class:open={focusInside && hasDropdownContent}>
-		{#await searchPromise}
-			<div class="suggestion-footer">
-				<LoadingAnimation />
-			</div>
-		{:then suggestions}
-			{#if Array.isArray(suggestions)}
-				{#each suggestions as suggestion, index}
-					<Suggestion
-						{suggestion}
-						onclick={() => pick(suggestion)}
-						selected={index === selectedIndex}
-					/>
-				{/each}
-			{/if}
-			<div class="suggestion-footer"></div>
-		{:catch error}
-			<div class="suggestion-footer">
-				<i class={`codicon codicon-error`}></i>
-				<span>{error.message}</span>
-			</div>
-		{/await}
-	</ol>
-</div>
+			<CodiconLink
+				title="More information on tags."
+				href={resolve('/help#tags')}
+				icon="codicon codicon-question"
+			/>
+		</div>
+	{/snippet}
+
+	{#snippet details()}
+		<SuggestionList
+			promise={searchbarState.suggestionPromise}
+			onclick={submitOne}
+			selectedIndex={searchbarState.selectedSuggestionIndex}
+		/>
+	{/snippet}
+</Dropdown>
 
 <style>
+	:global(.searchbar-container) {
+		--border-radius: calc(var(--line-height-large) / 2);
+
+		width: 100%;
+		max-width: 512px;
+	}		
+
 	.searchbar {
 		display: flex;
 		align-items: center;
+		gap: var(--small-gap);
 		height: var(--line-height-large);
-		background-color: var(--background-1);
-		padding-inline: calc((var(--line-height-large) - 32px) / 2);
-		border-radius: calc(var(--line-height-large) / 2);
 		width: 100%;
-		max-width: 512px;
-		margin: 0 auto;
-		position: relative;
-		isolation: isolate;
-		z-index: var(--z-searchbar);
-		gap: 8px;
+		padding-inline: calc((var(--line-height-large) - 32px) / 2);
+		background-color: var(--background-1);
+		border-radius: var(--border-radius);
+
+		&.open {
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+		}
 	}
 
 	input {
 		font-size: var(--text-size);
 		background-color: transparent;
-		border: none;
-		color: var(--text);
-		flex-grow: 1;
 		outline: none;
-		min-width: 0;
 		height: 100%;
-		padding: unset;
-	}
-
-	.searchbar.open {
-		border-radius: 22px 22px 0 0;
-		filter: drop-shadow(0px 3px 5px black);
-	}
-
-	ol.open {
-		display: block;
-	}
-
-	ol {
-		display: none;
-		box-sizing: border-box;
-		position: absolute;
-		top: var(--line-height-large);
-		left: 0;
-		width: 100%;
-		background-color: var(--background-1);
-		border-radius: 0 0 22px 22px;
-		overflow: hidden;
-		min-height: 22px;
-	}
-
-	.suggestion-footer {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 8px;
-		gap: var(--small-gap);
+		flex-grow: 1;
 	}
 </style>

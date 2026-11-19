@@ -7,9 +7,10 @@
 <script lang="ts">
 	import VolumeIcon from './VolumeIcon.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import type { ClassValue } from 'svelte/elements';
 
 	interface Props {
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let props: Props = $props();
@@ -19,7 +20,7 @@
 
 <IconButton
 	id="volume-button"
-	class="mixin-shade {props.class}"
+	class={['mixin-shade', props.class]}
 	onclick={() => {
 		isVolumeVisible = !isVolumeVisible;
 	}}

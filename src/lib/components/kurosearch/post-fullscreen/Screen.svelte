@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { observer } from '$lib/logic/attachments/observer';
-
-	import results from '$lib/store/results-store';
+	import { results } from '$lib/store';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 
 	interface Props {
@@ -34,8 +33,8 @@
 	);
 </script>
 
-{#if thisIndex >= 0 && thisIndex < $results.posts.length}
-	{@const post = $results.posts[thisIndex]}
+{#if thisIndex >= 0 && thisIndex < results.value.posts.length}
+	{@const post = results.value.posts[thisIndex]}
 	<!-- <p style="left:calc({offset} * 33vw);" class:active={thisIndex === index}>
 		[DEBUG {offset}]<br />IDX: {index}<br />DISP: {thisIndex}
 	</p> -->

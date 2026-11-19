@@ -1,8 +1,7 @@
 <script lang="ts">
-	import userId from '$lib/store/user-id-store';
-	import apiKey from '$lib/store/api-key-store';
 	import type { ClipboardEventHandler } from 'svelte/elements';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import { apiKey, userId } from '$lib/store';
 
 	const pasteHandler: ClipboardEventHandler<HTMLElement> = (event) => {
 		const pastedText = event.clipboardData?.getData('text/plain') ?? '';
@@ -12,7 +11,7 @@
 			const match = pastedText.match(apiKeyRegex);
 			if (match && match[1]) {
 				const apiKeyValue = match[1];
-				apiKey.set(apiKeyValue);
+				apiKey.value = apiKeyValue;
 				event.stopPropagation();
 				event.preventDefault();
 			}
@@ -22,15 +21,15 @@
 			const match = pastedText.match(userIdRegex);
 			if (match && match[1]) {
 				const userIdValue = match[1];
-				userId.set(userIdValue);
+				userId.value = userIdValue;
 				event.stopPropagation();
 				event.preventDefault();
 			}
 		}
 	};
 
-	let userIdValid = $derived($userId.length > 0 && !isNaN(Number($userId)));
-	let apiKeyValid = $derived($apiKey.length > 0 && /^[A-z0-9]+$/.test($apiKey));
+	let userIdValid = $derived(userId.value.length > 0 && !isNaN(Number(userId.value)));
+	let apiKeyValid = $derived(apiKey.value.length > 0 && /^[A-z0-9]+$/.test(apiKey.value));
 </script>
 
 <div>
@@ -39,7 +38,7 @@
 		<input
 			name="user_id"
 			type="text"
-			bind:value={$userId}
+			bind:value={userId.value}
 			placeholder="Paste credential here"
 			autocomplete="off"
 			onpaste={pasteHandler}
@@ -49,7 +48,7 @@
 		<input
 			name="api_key"
 			type="text"
-			bind:value={$apiKey}
+			bind:value={apiKey.value}
 			placeholder=""
 			autocomplete="off"
 			onpaste={pasteHandler}
@@ -60,8 +59,8 @@
 	<IconButton
 		class="mixin-invisible"
 		onclick={() => {
-			$apiKey = '';
-			$userId = '';
+			apiKey.value = '';
+			userId.value = '';
 		}}
 	>
 		<i class="codicon codicon-close"></i>
@@ -77,7 +76,7 @@
 		display: grid;
 		grid-template-columns: auto 1fr;
 		grid-template-rows: auto auto;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		background-color: var(--background-1);
 		padding-inline: var(--grid-gap);
 

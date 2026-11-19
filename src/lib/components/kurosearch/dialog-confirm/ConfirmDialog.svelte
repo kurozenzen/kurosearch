@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import H3 from '$lib/components/pure/heading/H3.svelte';
 
 	interface Props {
-		dialog: HTMLDialogElement;
+		open: boolean;
 		title: string;
 		warning: string;
 		labelConfirm: string;
@@ -14,7 +14,7 @@
 	}
 
 	let {
-		dialog = $bindable(),
+		open = $bindable(),
 		title,
 		warning,
 		labelConfirm,
@@ -25,13 +25,13 @@
 
 	const confirmAndClose = () => {
 		onconfirm();
-		dialog.close();
+		open = false;
 	};
 </script>
 
-<Dialog {onclose} bind:dialog>
+<Dialog {onclose} bind:open>
 	<div>
-		<Heading3>{title}</Heading3>
+		<H3 {title} />
 		<span>{warning}</span>
 		<TextButton title="Delete supertag" class="mixin-accent" onclick={confirmAndClose}>
 			{labelConfirm}

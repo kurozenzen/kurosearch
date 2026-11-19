@@ -1,13 +1,9 @@
 <script lang="ts">
 	import QuickSearchTag from './QuickSearchTag.svelte';
 	import QuickSearchGroup from './QuickSearchGroup.svelte';
-	import activeTags from '$lib/store/active-tags-store';
-	import activeSupertags from '$lib/store/active-supertags-store';
-	import results from '$lib/store/results-store';
 	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
-	import sortsStore from '$lib/store/sort-store';
 	import QuickSearchList from './QuickSearchList.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import {
 		LABELS_AI,
 		LABELS_MEDIA,
@@ -17,6 +13,13 @@
 		TAGS_AI,
 		TAGS_MEDIA
 	} from './quick-search-data';
+	import {
+		activeTags,
+		createTagFromName,
+		results,
+		sort as sortState,
+	} from '$lib/store';
+	import { addOrReplace } from '$lib/logic/array-ops';
 
 	interface Props {
 		onSubmit?: () => void;
@@ -56,29 +59,33 @@
 		}
 	};
 
-	const submit = (tags: kurosearch.SearchableTag[]) => {
+	const addByName = async (name: string, modifier: kurosearch.TagModifier) => {
+		let tag = await createTagFromName(name, modifier);
+		addOrReplace(activeTags.value, tag);
+	};
+
+	const submit = async (tags: kurosearch.SearchableTag[]) => {
 		activeTags.reset();
-		activeSupertags.reset();
 		results.reset();
 
 		for (const { name, modifier } of TAGS_AI[ai]) {
-			activeTags.addByName(name, modifier);
+			await addByName(name, modifier);
 		}
 
 		for (const { name, modifier } of TAGS_MEDIA[mediaType]) {
-			activeTags.addByName(name, modifier);
+			await addByName(name, modifier);
 		}
 
-		sortsStore.set(SORT_VALUES[sort]);
+		sortState.value = SORT_VALUES[sort];
 
 		for (const key in checkedTags) {
 			for (const { name, modifier } of checkedTags[key]) {
-				activeTags.addByName(name, modifier);
+				await addByName(name, modifier);
 			}
 		}
 
 		for (const { name, modifier } of tags) {
-			activeTags.addByName(name, modifier);
+			await addByName(name, modifier);
 		}
 
 		onSubmit?.();

@@ -4,5 +4,5 @@ export const observer =
 	(observer: IntersectionObserver): Attachment =>
 	(node) => {
 		observer.observe(node);
-		return () => observer.disconnect();
+		return () => observer.unobserve(node);
 	};

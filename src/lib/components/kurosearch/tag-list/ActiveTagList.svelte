@@ -3,15 +3,26 @@
 	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
 	import ShareButton from '../button-share/ShareButton.svelte';
 	import { supportsUrlSharing } from '$lib/logic/feature-support';
+	import { activeSupertags, activeTags } from '$lib/store';
+	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
+	import { nextModifier } from '$lib/logic/modifier-utils';
 
 	interface Props {
-		tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>;
-		oncontextmenu: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
-		onclick: (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => void;
 		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;
 	}
 
-	let { tags, oncontextmenu, onclick, oncreateSupertag: createSupertag }: Props = $props();
+	let { oncreateSupertag: createSupertag }: Props = $props();
+
+	let tags = $derived([...activeTags.value, ...activeSupertags.value]);
+
+	const removeTag = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) =>
+		removeByName('description' in tag ? activeSupertags.value : activeTags.value, tag.name);
+	const rotateModifier = (tag: kurosearch.ModifiedTag | kurosearch.Supertag) => {
+		if (!('description' in tag)) {
+			tag.modifier = nextModifier(tag.modifier);
+			addOrReplace(activeTags.value, tag);
+		}
+	};
 </script>
 
 <ul>
@@ -20,15 +31,14 @@
 			{#if 'description' in tag}
 				<DetailedTag
 					tag={{ name: tag.name, type: 'supertag', modifier: '+', count: tag.tags.length }}
-					onclick={() => onclick(tag)}
-					oncontextmenu={() => oncontextmenu(tag)}
+					onclick={() => removeTag(tag)}
 					active
 				/>
 			{:else}
 				<DetailedTag
 					{tag}
-					onclick={() => onclick(tag)}
-					oncontextmenu={() => oncontextmenu(tag)}
+					onclick={() => removeTag(tag)}
+					oncontextmenu={() => rotateModifier(tag)}
 					active
 				/>
 			{/if}

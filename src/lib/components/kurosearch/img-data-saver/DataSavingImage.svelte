@@ -1,5 +1,6 @@
 <script lang="ts">
-	import dataSaverStore, { checkImgBandwith } from '$lib/store/data-saver-store';
+	import { dataSaver } from '$lib/store';
+	import { checkImgBandwith } from '$lib/store/data-saver-store';
 	import type { HTMLImgAttributes } from 'svelte/elements';
 
 	let props: HTMLImgAttributes = $props();
@@ -8,7 +9,7 @@
 	let clicked = $state(false);
 
 	let { src, onclick } = $derived(
-		$dataSaverStore && isHeavy && !clicked
+		dataSaver.value && isHeavy && !clicked
 			? {
 					src: undefined,
 					onclick: (e: MouseEvent) => {

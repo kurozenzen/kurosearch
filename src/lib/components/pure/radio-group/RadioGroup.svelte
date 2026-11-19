@@ -54,12 +54,12 @@
 	}
 
 	label:first-of-type {
-		border-bottom-left-radius: var(--border-radius);
-		border-top-left-radius: var(--border-radius);
+		border-bottom-left-radius: var(--border-radius-small);
+		border-top-left-radius: var(--border-radius-small);
 	}
 
 	label:last-of-type {
-		border-bottom-right-radius: var(--border-radius);
-		border-top-right-radius: var(--border-radius);
+		border-bottom-right-radius: var(--border-radius-small);
+		border-top-right-radius: var(--border-radius-small);
 	}
 </style>

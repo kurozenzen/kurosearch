@@ -1,50 +1,53 @@
 <script lang="ts">
-	import { addHistory } from '$lib/logic/attachments/onpopstate';
-	import filter, { type FilterStoreData } from '$lib/store/filter-store';
-	import sort, { type SortStoreData } from '$lib/store/sort-store';
+	import { filter, sort, type SortFilterData } from '$lib/store';
+	import type { ClassValue } from 'svelte/elements';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 	import ResultHeaderItem from '../results/ResultHeaderItem.svelte';
 	import { getFilterLabel, getSortLabel } from './sortfilter';
 
 	interface Props {
 		onsortfilterupdate: () => void;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { onsortfilterupdate, ...rest }: Props = $props();
 
-	const serializeSortFilter = (sort: SortStoreData, filter: FilterStoreData) =>
-		JSON.stringify(Object.assign({}, sort, filter));
-
-	// svelte-ignore non_reactive_update
-	let dialog: HTMLDialogElement;
-	let sortFilterBefore = '';
-
-	let filterLabel = $derived(
-		getFilterLabel($filter.rating, $filter.scoreValue, $filter.scoreComparator)
-	);
-	let sortLabel = $derived(getSortLabel($sort.property, $sort.direction));
+	let showDialog = $state(false);
+	let before: SortFilterData | undefined;
 </script>
 
 <ResultHeaderItem
 	onclick={() => {
-		sortFilterBefore = serializeSortFilter($sort, $filter);
-		dialog.showModal();
-		addHistory('dialog');
+		before = {
+			sort: $state.snapshot(sort.value),
+			filter: $state.snapshot(filter.value)
+		};
+		showDialog = true;
 	}}
 	class={rest.class}
 >
 	<i class="codicon codicon-filter"></i>
-	<span>{filterLabel}</span>
+	<span
+		>{getFilterLabel(
+			filter.value.rating,
+			filter.value.scoreValue,
+			filter.value.scoreComparator
+		)}</span
+	>
 	<i class="codicon codicon-arrow-swap"></i>
-	<span>{sortLabel}</span>
+	<span>{getSortLabel(sort.value.property, sort.value.direction)}</span>
 </ResultHeaderItem>
 
 <SortFilterDialog
-	bind:dialog
+	bind:open={showDialog}
 	onclose={() => {
-		const sortFilterAfter = serializeSortFilter($sort, $filter);
-		if (sortFilterAfter !== sortFilterBefore) {
+		if (
+			before?.sort.direction !== sort.value.direction ||
+			before?.sort.property !== sort.value.property ||
+			before.filter.rating !== filter.value.rating ||
+			before.filter.scoreComparator !== filter.value.scoreComparator ||
+			before.filter.scoreValue !== filter.value.scoreValue
+		) {
 			onsortfilterupdate();
 		}
 	}}

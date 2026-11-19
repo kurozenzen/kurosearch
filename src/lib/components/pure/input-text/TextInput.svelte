@@ -1,31 +1,33 @@
 <script lang="ts">
 	import { blurOnEnter, blurOnEsc } from '$lib/logic/keybinds/blur';
-	import type { FullAutoFill } from 'svelte/elements';
+	import type { ClassValue, FullAutoFill } from 'svelte/elements';
+	import type { InputProps } from '../types';
 
-	interface Props {
+	interface Props extends InputProps {
+		class: ClassValue;
 		placeholder?: string;
 		value?: string;
 		autocomplete?: FullAutoFill;
 	}
 
-	let { placeholder = '', value = $bindable(), autocomplete = 'off' }: Props = $props();
+	let {
+		id,
+		placeholder = '',
+		value = $bindable(),
+		autocomplete = 'off',
+		disabled,
+		...rest
+	}: Props = $props();
 </script>
 
 <input
+	class={['mixin-shape-item mixin-hover', rest.class]}
+	{id}
 	type="text"
 	bind:value
 	{placeholder}
 	{autocomplete}
 	onkeydown={blurOnEsc}
 	onkeyup={blurOnEnter}
+	{disabled}
 />
-
-<style>
-	input {
-		display: block;
-		height: var(--box-height);
-		padding-inline: var(--grid-gap);
-		border-radius: var(--border-radius);
-		background-color: var(--background-1);
-	}
-</style>

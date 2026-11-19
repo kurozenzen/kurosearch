@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import Heading1 from '../heading/Heading1.svelte';
+	import H2 from '../heading/H2.svelte';
 
 	interface Props {
 		title: string;
@@ -11,7 +11,7 @@
 </script>
 
 <section>
-	<Heading1>{title}</Heading1>
+	<H2 {title} />
 	{@render children()}
 </section>
 

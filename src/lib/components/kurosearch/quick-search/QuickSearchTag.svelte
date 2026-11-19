@@ -30,7 +30,7 @@
 		justify-content: center;
 		padding: var(--small-gap);
 		gap: var(--small-gap);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		color: white;
 		border: 0px solid var(--background-2);
 		background-color: var(--background-1);

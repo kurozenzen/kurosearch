@@ -7,38 +7,40 @@
 	import Supertag from '$lib/components/kurosearch/supertag/Supertag.svelte';
 	import PageList from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { type IndexedPost } from '$lib/indexeddb/idb';
-	import { addHistory } from '$lib/logic/attachments/onpopstate';
 	import { loadFile, saveFile, type SettingsObject } from '$lib/logic/file-utils';
 	import { signIn, signOut } from '$lib/logic/firebase/authentication';
 	import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
 	import { getSettingsFromDriveBackup, loadDriveBackup } from '$lib/logic/firebase/drive-storage';
 	import { buildSettingsObject, queueDriveBackupSync } from '$lib/logic/firebase/drive-sync';
 	import { getSettingsAndSupertags } from '$lib/logic/firebase/storage';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import firebaseLoggedIn from '$lib/store/firebase-login-store';
-	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-	import resultColumns from '$lib/store/result-columns-store';
-	import { StoreKey } from '$lib/store/store-keys';
-	import supertags from '$lib/store/supertags-store';
-	import theme from '$lib/store/theme-store';
+	import { StorageKey } from '$lib/store/storage-keys';
+	import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
+	import { blockedContent, resultColumns, supertags, theme } from '$lib/store';
+	import { removeByName, setByName } from '$lib/logic/array-ops';
+	import EditSupertagDialog from '$lib/components/kurosearch/dialog-edit-supertag/EditSupertagDialog.svelte';
+	import ApiCredentialInput from '../preferences/ApiCredentialInput.svelte';
+	import { parseNumber } from '$lib/store/persistent.state.svelte';
 
-	const reset = () => {
-		supertags.reset();
-	};
+	let showEditDialog = $state(false);
+	let showDeleteDialog = $state(false);
+	let selectedSupertag = $state<kurosearch.Supertag | undefined>();
 
 	const getSettingsObject = (): SettingsObject =>
-		buildSettingsObject($supertags, favouritePostsStore.getAll());
+		buildSettingsObject(supertags.value, favouritePostsStore.posts);
 
 	const applySettingsObject = async (config: SettingsObject) => {
-		$localstorageEnabled = config[StoreKey.LocalstorageEnabled];
-		$theme = config[StoreKey.Theme];
-		$blockedContent = config[StoreKey.BlockedContent];
-		$resultColumns = config[StoreKey.ResultColumns];
-		supertags.set(config[StoreKey.Supertags]);
-		await favouritePostsStore.restoreAll(normalizeIndexedPosts(config[StoreKey.Favourites] ?? []));
+		semiPersistentStorage.localStorageEnabled = config[StorageKey.LocalStorageEnabled];
+		theme.value = config[StorageKey.Theme];
+		blockedContent.value = config[StorageKey.BlockedContent];
+		resultColumns.value = parseNumber(config[StorageKey.ResultColumns]);
+		supertags.value = config[StorageKey.Supertags].items;
+		await favouritePostsStore.restoreAll(
+			normalizeIndexedPosts(config[StorageKey.Favourites] ?? [])
+		);
 	};
 
 	const normalizeIndexedPosts = (posts: IndexedPost[]): IndexedPost[] =>
@@ -123,7 +125,7 @@
 
 		try {
 			await migrateFirebaseStorageToDriveIfNeeded();
-			await queueDriveBackupSync($supertags, favouritePostsStore.getAll());
+			await queueDriveBackupSync(supertags.value, favouritePostsStore.posts);
 			cloudStatusMessage = 'Saved backup to Google Drive.';
 		} catch (error) {
 			cloudErrorMessage = getErrorMessage(error);
@@ -197,9 +199,9 @@
 		}
 	};
 
-	let cloudPullDialog = $state<HTMLDialogElement>(null!);
-	let cloudPushDialog = $state<HTMLDialogElement>(null!);
-	let resetDialog = $state<HTMLDialogElement>(null!);
+	let showCloudPullDialog = $state(false);
+	let showCloudPushDialog = $state(false);
+	let showResetDialog = $state(false);
 </script>
 
 <svelte:head>
@@ -209,10 +211,20 @@
 
 <PageList title="Account">
 	<Preference
+		title="API Key"
+		description="Use your own API key to rule34.xxx. This can speed up loading times. Having your own key makes you unaffected by some issues."
+	>
+		<ApiCredentialInput />
+		<span>
+			How to get an API key? Check here:
+			<a href="/help#using-your-own-api-key">Documentation &gt; Using your own API key</a>
+		</span>
+	</Preference>
+	<Preference
 		title="Supertags"
 		description="Supertags are groups of tags that you can create to organize your searches. Can be created from main search page."
 	>
-		{#if $supertags.items.length === 0}
+		{#if supertags.value.length === 0}
 			<p>
 				You don't have any supertags yet. You can create them when you have more than one tag
 				active.
@@ -222,16 +234,47 @@
 			</p>
 		{/if}
 		<ul>
-			{#each $supertags.items as supertag}
+			{#each supertags.value as supertag (supertag.name)}
 				<Supertag
 					{supertag}
-					onremove={(supertag) => supertags.remove(supertag)}
-					onedit={(oldName, newSupertag) => {
-						supertags.update(oldName, newSupertag);
+					onremove={() => {
+						selectedSupertag = supertag;
+						showDeleteDialog = true;
+					}}
+					onedit={() => {
+						selectedSupertag = supertag;
+						showEditDialog = true;
 					}}
 				/>
 			{/each}
 		</ul>
+
+		<ConfirmDialog
+			bind:open={showDeleteDialog}
+			title="Delete Supertag"
+			warning="Are you sure? You will not be able to undo it."
+			labelCancel="No, keep it!"
+			labelConfirm="Yes, delete it."
+			onconfirm={() => {
+				if (selectedSupertag === undefined) {
+					throw new Error('Failed to delete Supertag');
+				}
+				removeByName(supertags.value, selectedSupertag.name);
+				selectedSupertag = undefined;
+			}}
+		/>
+
+		<EditSupertagDialog
+			bind:open={showEditDialog}
+			supertag={selectedSupertag}
+			onedit={(newSupertag) => {
+				if (selectedSupertag === undefined) {
+					throw new Error('Failed to delete Supertag');
+				}
+				setByName(supertags.value, newSupertag, selectedSupertag.name);
+				selectedSupertag = undefined;
+			}}
+		/>
 	</Preference>
 
 	<Preference
@@ -260,8 +303,7 @@
 				title="Delete all your data."
 				class="mixin-accent"
 				onclick={() => {
-					resetDialog?.showModal();
-					addHistory('dialog');
+					showResetDialog = true;
 				}}
 			>
 				Reset Data
@@ -292,8 +334,8 @@
 					title="Load Settings"
 					onclick={() => {
 						resetCloudMessages();
-						cloudPullDialog?.showModal();
-						addHistory('dialog');
+
+						showCloudPullDialog = true;
 					}}
 				>
 					<span class="codicon codicon-cloud-download">Load Settings</span>
@@ -303,8 +345,8 @@
 					title="Save settings"
 					onclick={() => {
 						resetCloudMessages();
-						cloudPushDialog?.showModal();
-						addHistory('dialog');
+
+						showCloudPushDialog = true;
 					}}
 				>
 					<span class="codicon codicon-cloud-upload">Save Settings</span>
@@ -377,7 +419,7 @@
 </PageList>
 
 <ConfirmDialog
-	bind:dialog={cloudPullDialog}
+	bind:open={showCloudPullDialog}
 	title="Load Data"
 	warning="This will replace all your current settings with settings saved online. Are you sure you want to do that?"
 	labelConfirm="Yes, load settings."
@@ -386,7 +428,7 @@
 />
 
 <ConfirmDialog
-	bind:dialog={cloudPushDialog}
+	bind:open={showCloudPushDialog}
 	title="Save data online"
 	warning="This will save the current settings and supertags online. BUT it will also overwrite anything currently stored in the cloud. Are you sure you want to do this?"
 	labelConfirm="Yes, backup online"
@@ -395,12 +437,12 @@
 />
 
 <ConfirmDialog
-	bind:dialog={resetDialog}
+	bind:open={showResetDialog}
 	title="Delete Data"
 	warning="This will delete all your data. This includes supertags. You will not be able to recover it. Are you sure you want to delete it?"
 	labelConfirm="Yes, delete it."
 	labelCancel="Cancel"
-	onconfirm={reset}
+	onconfirm={supertags.reset}
 />
 
 <style>

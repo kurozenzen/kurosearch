@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatCount } from '$lib/logic/format-count';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import type { MouseEventHandler } from 'svelte/elements';
 
 	interface Props {
@@ -9,7 +9,7 @@
 
 	let { post }: Props = $props();
 
-	let isFavourite = $derived($favouritePostsStore.ids.has(post.id));
+	let isFavourite = $derived(favouritePostsStore.ids.has(post.id));
 	let score = $derived(isFavourite ? post.score + 1 : post.score);
 
 	const onclick: MouseEventHandler<HTMLButtonElement> = (event) => {

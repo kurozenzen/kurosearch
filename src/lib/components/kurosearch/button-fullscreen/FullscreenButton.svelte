@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { ClassValue } from 'svelte/elements';
+
 	interface Props {
-		class?: string;
+		class?: ClassValue;
 		onclick?: () => void;
 	}
 
@@ -12,9 +14,8 @@
 	title="Enter Fullscreen mode"
 	{onclick}
 	aria-label="Enter Fullscreen mode"
-	class="mixin-circle mixin-shade mixin-hover {rest.class}"
+	class={['mixin-circle mixin-shade mixin-hover codicon codicon-screen-full', rest.class]}
 >
-	<i class="codicon codicon-screen-full"></i>
 </button>
 
 <style>

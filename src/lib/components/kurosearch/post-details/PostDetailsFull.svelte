@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { partitionTagsByType } from '$lib/logic/tag-utils';
+	import type { ClassValue } from 'svelte/elements';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
@@ -11,7 +12,7 @@
 
 	interface Props {
 		post: kurosearch.Post;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { post, ...rest }: Props = $props();
@@ -19,7 +20,7 @@
 	let tagsByType = $derived(partitionTagsByType(post.tags));
 </script>
 
-<div class="details {rest.class}">
+<div class={['details', rest.class]}>
 	<h1>Post <b>#{post.id}</b></h1>
 	<div class="flex-row">
 		<Rating value={post.rating} />

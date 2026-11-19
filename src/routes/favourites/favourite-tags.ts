@@ -7,7 +7,7 @@ export const TAG_FILTER_OPTIONS = Object.freeze({
 	tag: 'General Tags'
 });
 export const TAG_SORT_OPTIONS = Object.freeze({
-	'relative-popularity': 'Relative Popularity',
+	ratio: 'Ratio',
 	count: 'Count'
 });
 export const TAG_LIMIT_OPTIONS = Object.freeze({
@@ -64,7 +64,7 @@ export const countTagsOnPosts = (
 
 export const orderTags = (tagCounts: Record<string, FavouriteTag>, sort: FavouriteTagSort) => {
 	switch (sort) {
-		case 'relative-popularity':
+		case 'ratio':
 			return orderByRelativePopularity(tagCounts);
 		case 'count':
 			return orderByCount(tagCounts);
@@ -101,10 +101,5 @@ export const computeFavourteTags = (
 	const filtered = countTagsOnPosts(posts, filter);
 	const ordered = orderTags(filtered, sort);
 	const limited = limitTags(ordered, limit);
-
-	console.log(
-		`Computed favourite tags with filter=${filter}, sort=${sort}, limit=${limit}:`,
-		limited
-	);
 	return limited;
 };

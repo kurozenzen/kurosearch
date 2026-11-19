@@ -1,8 +1,10 @@
 import { BLOCKING_GROUP_TAGS } from './blocking-group-data';
+import { insertHtmlEntities } from './replace-html-entities';
 
 export const serializeModifier = (value: kurosearch.TagModifier) => (value === '-' ? '-' : '');
 
-export const serializeTagName = (value: string) => value.replaceAll(' ', '_');
+export const serializeTagName = (value: string) =>
+	insertHtmlEntities(value.trim().replaceAll(' ', '_'));
 
 export const serializeSearchableTag = (tag: kurosearch.SearchableTag) =>
 	`${serializeModifier(tag.modifier)}${serializeTagName(tag.name)}`;

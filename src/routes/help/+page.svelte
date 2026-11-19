@@ -1,9 +1,10 @@
 <script>
+	import { resolve } from '$app/paths';
 	import DocsSection from '$lib/components/kurosearch/section-docs/DocsSection.svelte';
 	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
 	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
 	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
-	import Heading3 from '$lib/components/pure/heading/Heading3.svelte';
+	import H3 from '$lib/components/pure/heading/H3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import SummaryCard from '$lib/components/pure/summary-card/SummaryCard.svelte';
 	import { MODIFIERS_ICONS } from '$lib/logic/tag-modifier-data';
@@ -21,7 +22,7 @@
 <PageGeneric title="Documentation">
 	<div class="cards">
 		<SummaryCard
-			id="search"
+			id="searching"
 			icon="search"
 			title="Searching"
 			description="Explains how the searching in the app works on a high level."
@@ -33,7 +34,7 @@
 			description="Get information on tags, the different types and how to use them in a search."
 		/>
 		<SummaryCard
-			id="account"
+			id="account-and-data"
 			icon="account"
 			title="Account & Data"
 			description="Understand what data is collected from you, where it is stored and how you can control it."
@@ -63,7 +64,7 @@
 			without any tags, you will get all posts.
 		</p>
 
-		<Heading3>Number Of Results</Heading3>
+		<H3 title="Number Of Results" />
 
 		<p>
 			In addition to the posts themselves you can also see how many posts matched your search. The
@@ -75,7 +76,7 @@
 			any posts in common. You will also get a cute error message saying so.
 		</p>
 
-		<Heading3>Sorting results</Heading3>
+		<H3 title="Sorting results" />
 
 		<p>
 			Once you have searched, you can sort your results by using the selector above the first post.
@@ -105,7 +106,7 @@
 			</li>
 		</ul>
 
-		<Heading3>Filtering results</Heading3>
+		<H3 title="Filtering results" />
 
 		<p>
 			In addition to sorting kurosearch also support a simple form of filtering. Currently, only
@@ -114,7 +115,7 @@
 
 		<p>The filter selection is located at the top right of the first post</p>
 
-		<Heading3>Keyboard Navigation</Heading3>
+		<H3 title="Keyboard Navigation" />
 
 		<ul class="keyboard-shortcuts" id="keyboard-shortcuts">
 			<li><span>General</span><span></span></li>
@@ -173,7 +174,7 @@
 			<li>Modifier</li>
 		</ul>
 
-		<Heading3>Name</Heading3>
+		<H3 title="Name" />
 
 		<p>
 			The name of the tag is what you actually search for. It is usually pretty descriptive and well
@@ -181,7 +182,7 @@
 			of trial and error to find the best one for you.
 		</p>
 
-		<Heading3>Type</Heading3>
+		<H3 title="Type" />
 
 		<p>
 			The type indicates what kind of tag it is. It is displayed in form of an icon right before the
@@ -231,13 +232,13 @@
 			</li>
 		</ul>
 
-		<Heading3>Count</Heading3>
+		<H3 title="Count" />
 
 		<p>The count of a tag displays how many post are tagged with it.</p>
 
 		<p>For supertags the count shows how many tags are in it.</p>
 
-		<Heading3>Modifier</Heading3>
+		<H3 title="Modifier" />
 
 		<p>
 			In kurosearch tags can have modifiers that change how they influence your search. You can
@@ -313,7 +314,7 @@
 			Drive so you can access them from any device.
 		</p>
 
-		<Heading3 id="using-your-own-api-key">Using your own API key</Heading3>
+		<H3 title="Using your own API key" />
 
 		<p>
 			For this you need to have an account on <a href="https://rule34.xxx">rule34.xxx</a>. If you
@@ -337,16 +338,14 @@
 			</li>
 			<li>
 				Copy the entire text in the field (eg
-				<code>
-					&api_key=0123456789abcdef123456789abcdef0123456789abcdef123456789abcdef&user_id=1234567
-				</code>)
+				<code> &api_key=0123456789...abcd&user_id=1234567 </code>)
 			</li>
 			<li>
-				Paste it as is into the "API Key" field in the preferences. The app will do the rest.
+				Paste it as is into the "API Key" field in <a href={resolve('/account#api-key')}>
+					/account#api-key
+				</a>. The app will do the rest.
 			</li>
-			<li>
-				You're done. Happy Kurosearching!
-			</li>
+			<li>You're done. Happy Kurosearching!</li>
 		</ol>
 	</DocsSection>
 
@@ -387,7 +386,7 @@
 	kbd {
 		background-color: var(--background-1);
 		border: 1px solid var(--background-2);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		padding: 0.2rem 0.5rem;
 		font-size: var(--text-size-small);
 		font-family: var(--font-monospace);
@@ -428,7 +427,7 @@
 		list-style: decimal;
 	}
 	code {
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		background-color: var(--background-1);
 	}
 </style>

@@ -16,6 +16,15 @@
 	--hover-lighten: 10%;
 }
 
+:root[data-accent='lynx'] {
+	--accent-color: hsl(287, 83%, 84%);
+	--h: 287;
+	--s: 83%;
+	--l: 84%;
+	--text-accent: #000;
+	--hover-lighten: 10%;
+}
+
 :root[data-accent='purple'] {
 	--accent-color: #610030;
 	--h: 330;
@@ -57,9 +66,11 @@
 	--background-1: #151520;
 	--background-2: #303040;
 	--background-3: #454560;
+	--background-disabled: #444;
 	--text: #aaa;
 	--text-highlight: #fff;
 	--text-muted: #777;
+	--text-disabled: #000;
 	color-scheme: dark;
 
 	/* Tag Types*/
@@ -78,9 +89,12 @@
 	--background-1: #ddd;
 	--background-2: #bbb;
 	--background-3: #999;
+	--background-disabled: #bbb;
 	--text: #444;
 	--text-highlight: #000;
 	--text-muted: #888;
+	--text-disabled: #fff;
+
 	color-scheme: light;
 
 	/* Tag Types*/
@@ -99,9 +113,11 @@
 	--background-1: #3f3535;
 	--background-2: #655555;
 	--background-3: #8b7575;
+	--background-disabled: #444;
 	--text: #aaa;
 	--text-highlight: #fff;
 	--text-muted: #555;
+	--text-disabled: #000;
 	color-scheme: dark;
 
 	/* Tag Types*/
@@ -120,10 +136,12 @@
 	--background-1: #93c393;
 	--background-2: #7fb17e;
 	--background-3: #63a263;
+	--background-disabled: #bbb;
 	--text: #000;
 	--text-highlight: #000;
 	--text-muted: #888;
 	--text-link: #000099;
+	--text-disabled: #fff;
 	color-scheme: light;
 
 	/* Tag Types*/
@@ -142,10 +160,12 @@
 	--background-1: #c785ec;
 	--background-2: #a86add;
 	--background-3: #8549a7;
+	--background-disabled: #bbb;
 	--text: #000;
 	--text-highlight: #5f0030;
 	--text-muted: #372841;
 	--text-link: #000099;
+	--text-disabled: #fff;
 	color-scheme: light;
 
 	/* Tag Types*/
@@ -169,12 +189,11 @@
 	--grid-gap: 1rem;
 	--small-gap: 0.5rem;
 	--tiny-gap: 4px;
-	--icon-size: 32px;
 	--body-width: 800px;
 	--icon-size: 16px;
 
 	/* Rounding */
-	--border-radius: 5px;
+	--border-radius-small: 5px;
 	--border-radius-large: 10px;
 	--border-radius-full: 100px;
 
@@ -186,6 +205,7 @@
 	--text-size: 14px;
 	--text-size-large: 16px;
 	--text-size-h1: 3.75rem;
+	--text-size-h2: 2.25em;
 	--text-size-h3: 1.5rem;
 
 	/* Transitions */
@@ -222,24 +242,29 @@ html {
 
 /* Shapes */
 .mixin-circle {
+	contain: content;
 	width: var(--size);
 	height: var(--size);
 	border-radius: var(--size);
 }
 
 .mixin-tag-shape {
+	contain: content;
 	height: var(--line-height-small);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-small);
 }
 
 .mixin-shape-item {
+	contain: content;
 	height: var(--line-height);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-small);
+	padding-inline: var(--small-gap);
 }
 
 .mixin-shape-box {
+	contain: content;
 	height: var(--box-height);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-small);
 }
 
 /* Colors */
@@ -268,14 +293,25 @@ html {
 	background-color: #0008;
 }
 
+.mixin-outline {
+	color: var(--text);
+	background-color: var(--background-0);
+	border: 2px solid var(--background-1);
+}
+
+:disabled {
+	background-color: var(--background-disabled);
+	color: var(--text-disabled);
+	cursor: not-allowed;
+
+	&::placeholder {
+		color: var(--text-disabled);
+	}
+}
+
 @media (hover: hover) {
 	.mixin-hover {
 		transition: all var(--default-transition-behaviour);
-
-		&:disabled {
-			background-color: var(--background-2);
-			cursor: not-allowed;
-		}
 
 		&:not(:disabled) {
 			&.mixin-accent {
@@ -331,6 +367,18 @@ html {
 
 				&:active {
 					background-color: #000;
+				}
+			}
+
+			&.mixin-outline {
+				&:hover {
+					border-color: var(--background-2);
+					color: var(--text-highlight);
+				}
+
+				&:active {
+					border-color: var(--background-1);
+					color: var(--text-highlight);
 				}
 			}
 		}

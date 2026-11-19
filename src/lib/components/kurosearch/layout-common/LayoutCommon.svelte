@@ -12,8 +12,8 @@
 
 	// Imports
 	import { browser } from '$app/environment';
-	import theme from '$lib/store/theme-store';
 	import type { Snippet } from 'svelte';
+	import { theme as themeState } from '$lib/store';
 
 	interface Props {
 		children: Snippet;
@@ -21,9 +21,9 @@
 
 	const { children }: Props = $props();
 
-	theme.subscribe((value) => {
+	$effect(() => {
 		if (browser) {
-			const [accent, theme] = value.split(' ');
+			const [accent, theme] = themeState.value.split(' ');
 			document.documentElement.dataset.theme = theme;
 			document.documentElement.dataset.accent = accent;
 		}

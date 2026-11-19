@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import { ApiError } from '$lib/logic/api-client/tags/ApiError';
+	import { apiUrl, cycleApiUrl } from '$lib/logic/api-client/url';
 
 	interface NiceError {
 		title: string;
@@ -12,25 +15,27 @@
 	}
 
 	const resolveError = (error: Error): NiceError => {
-		if (error.message === 'Failed to fetch') {
-			return {
-				title: 'Connection Error',
-				message: 'Failed to connect to the server',
-				icon: 'codicon codicon-debug-disconnect'
-			};
-		} else if (error.message.includes('JSON')) {
-			return {
-				title: 'Data Error',
-				message: 'Received malformed data from the server',
-				icon: 'codicon codicon-error'
-			};
-		} else {
-			return {
-				title: 'Application Error',
-				message: error.message,
-				icon: 'codicon codicon-error'
-			};
+		if (error instanceof ApiError) {
+			if (error.name === 'fetch-error') {
+				return {
+					title: 'Connection Error',
+					message: 'Failed to connect to the server',
+					icon: 'codicon codicon-debug-disconnect'
+				};
+			}
+			if (error.name === 'parse-error') {
+				return {
+					title: 'Data Error',
+					message: 'Received malformed data from the server',
+					icon: 'codicon codicon-error'
+				};
+			}
 		}
+		return {
+			title: 'Application Error',
+			message: error.message,
+			icon: 'codicon codicon-error'
+		};
 	};
 
 	let { error }: Props = $props();
@@ -38,18 +43,41 @@
 	let { title, icon, message } = $derived(resolveError(error));
 </script>
 
-<div class="error">
-	<div class="icon">
-		<i class={icon}></i>
+{#if title === 'Connection Error'}
+	<div class="error">
+		<div class="icon">
+			<i class={icon}></i>
+		</div>
+		<div>
+			<h3>{title}</h3>
+			<p>{message}</p>
+			<p>Currently connected to: {apiUrl()}</p>
+			<TextButton
+				id="btn-next-api"
+				title="Switch to next server"
+				class="mixin-accent"
+				onclick={cycleApiUrl}>Switch Server</TextButton
+			>
+
+			<p>
+				Use the <a href={resolve('/troubleshoot')}>Troubleshooting Page</a> to get more details
+			</p>
+		</div>
 	</div>
-	<div>
-		<h3>{title}</h3>
-		<p>{message}</p>
-		<p>
-			Use the <a href={resolve('/troubleshoot')}>Troubleshooting Page</a> to get more details
-		</p>
+{:else}
+	<div class="error">
+		<div class="icon">
+			<i class={icon}></i>
+		</div>
+		<div>
+			<h3>{title}</h3>
+			<p>{message}</p>
+			<p>
+				Use the <a href={resolve('/troubleshoot')}>Troubleshooting Page</a> to get more details
+			</p>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.error {
@@ -60,7 +88,7 @@
 		margin-block: var(--huge-gap);
 		gap: 2rem;
 		padding: var(--grid-gap);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		background-color: var(--background-1);
 	}
 
@@ -71,7 +99,7 @@
 		height: 64px;
 		flex-shrink: 0;
 		border: 2px solid var(--background-2);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 	}
 	div p {
 		margin-top: 4px;

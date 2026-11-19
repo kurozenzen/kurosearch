@@ -7,7 +7,7 @@ import {
 	loadDriveBackup,
 	saveDriveBackup
 } from '$lib/logic/firebase/drive-storage';
-import { StoreKey } from '$lib/store/store-keys';
+import { StorageKey } from '$lib/store/storage-keys';
 import { getAuth } from 'firebase/auth';
 
 const MIGRATION_VERSION = 1;
@@ -47,10 +47,10 @@ export const migrateFirebaseStorageToDriveIfNeeded = async () => {
 	}
 
 	const settings = structuredClone(legacyBackup.settings ?? {}) as Partial<SettingsObject>;
-	if (!settings[StoreKey.Supertags]) {
-		settings[StoreKey.Supertags] = { items: legacyBackup.supertags ?? [] };
+	if (!settings[StorageKey.Supertags]) {
+		settings[StorageKey.Supertags] = { items: legacyBackup.supertags ?? [] };
 	}
-	settings[StoreKey.Favourites] = favourites;
+	settings[StorageKey.Favourites] = favourites;
 
 	await saveDriveBackup(settings as SettingsObject);
 

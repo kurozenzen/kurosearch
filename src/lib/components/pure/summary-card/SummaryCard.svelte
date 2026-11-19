@@ -19,7 +19,7 @@
 	.card {
 		padding: 1.5rem;
 		border: 2px solid var(--background-1);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		display: flex;
 		gap: 1.5rem;
 		transition: all var(--default-transition-behaviour);
@@ -44,7 +44,7 @@
 		display: grid;
 		place-items: center;
 		border: 2px solid var(--background-1);
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-small);
 		transition: border-color var(--default-transition-behaviour);
 	}
 

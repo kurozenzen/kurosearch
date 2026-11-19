@@ -1,10 +1,11 @@
 <script lang="ts">
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
 	import { MODIFIERS_ICONS } from '$lib/logic/tag-modifier-data';
+	import type { ClassValue } from 'svelte/elements';
 
 	interface Props {
 		modifier: kurosearch.TagModifier;
-		class?: string;
+		class?: ClassValue;
 	}
 
 	let { modifier = $bindable(), ...rest }: Props = $props();

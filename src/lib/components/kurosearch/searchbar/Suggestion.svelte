@@ -5,7 +5,7 @@
 	interface Props {
 		suggestion: kurosearch.Suggestion;
 		selected?: boolean;
-		onclick: (suggestion: kurosearch.Suggestion) => void;
+		onclick: () => void;
 	}
 
 	let { suggestion, selected = false, onclick }: Props = $props();
@@ -14,9 +14,10 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <li
+	class="suggestion"
 	role="button"
-	tabindex="0"
-	onclick={() => onclick(suggestion)}
+	tabindex="-1"
+	{onclick}
 	title={suggestion.label}
 	class:selected
 >

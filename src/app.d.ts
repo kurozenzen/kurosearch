@@ -10,10 +10,9 @@ interface ImportMeta {
 
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
+		interface PageState {
+			dialog?: boolean;
+		}
 	}
 
 	namespace kurosearch {
@@ -118,5 +117,11 @@ declare global {
 		};
 	}
 }
+
+type DataKeys<T> = {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+	[K in keyof T]: T[K] extends Function ? never : K;
+}[keyof T];
+export type DataOnly<T> = Pick<T, DataKeys<T>>;
 
 export {};

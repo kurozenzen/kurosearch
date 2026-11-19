@@ -3,13 +3,12 @@ import type { IndexedPost } from '$lib/indexeddb/idb';
 import type { SettingsObject } from '$lib/logic/file-utils';
 import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
 import { getSettingsFromDriveBackup, loadDriveBackup } from '$lib/logic/firebase/drive-storage';
-import blockedContent from '$lib/store/blocked-content-store';
-import { favouritePostsStore } from '$lib/store/favourite-posts-store';
-import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-import resultColumns from '$lib/store/result-columns-store';
-import { StoreKey } from '$lib/store/store-keys';
+import { blockedContent, resultColumns, theme } from '$lib/store';
+import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
+import { parseNumber } from '$lib/store/persistent.state.svelte';
+import { StorageKey } from '$lib/store/storage-keys';
 import supertags from '$lib/store/supertags-store';
-import theme from '$lib/store/theme-store';
 import { getAuth } from 'firebase/auth';
 
 let restoredUid: string | undefined;
@@ -23,32 +22,32 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 	typeof value === 'object' && value !== null;
 
 const applySettingsObject = async (config: SettingsObject) => {
-	const localstorage = config[StoreKey.LocalstorageEnabled];
+	const localstorage = config[StorageKey.LocalStorageEnabled];
 	if (typeof localstorage === 'boolean') {
-		localstorageEnabled.set(localstorage);
+		semiPersistentStorage.localStorageEnabled = localstorage;
 	}
 
-	const selectedTheme = config[StoreKey.Theme];
+	const selectedTheme = config[StorageKey.Theme];
 	if (typeof selectedTheme === 'string') {
-		theme.set(selectedTheme);
+		theme.value = selectedTheme;
 	}
 
-	const blocked = config[StoreKey.BlockedContent];
+	const blocked = config[StorageKey.BlockedContent];
 	if (isRecord(blocked)) {
-		blockedContent.set(blocked as Record<kurosearch.BlockingGroup, boolean>);
+		blockedContent.value = blocked as Record<kurosearch.BlockingGroup, boolean>;
 	}
 
-	const columns = config[StoreKey.ResultColumns];
+	const columns = config[StorageKey.ResultColumns];
 	if (typeof columns === 'string') {
-		resultColumns.set(columns);
+		resultColumns.value = typeof columns === 'number' ? columns : parseNumber(columns);
 	}
 
-	const supertagState = config[StoreKey.Supertags];
+	const supertagState = config[StorageKey.Supertags];
 	if (isRecord(supertagState) && Array.isArray(supertagState.items)) {
 		supertags.set({ items: supertagState.items as kurosearch.Supertag[] });
 	}
 
-	await favouritePostsStore.restoreAll(normalizeIndexedPosts(config[StoreKey.Favourites] ?? []));
+	await favouritePostsStore.restoreAll(normalizeIndexedPosts(config[StorageKey.Favourites] ?? []));
 };
 
 const normalizeIndexedPosts = (posts: IndexedPost[]): IndexedPost[] =>

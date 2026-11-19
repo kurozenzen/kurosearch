@@ -3,11 +3,10 @@
 	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
-	import activeTagsStore from '$lib/store/active-tags-store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
 	import {
-		computeFavourteTags,
+		computeFavourteTags as computeFavouriteTags,
 		TAG_FILTER_OPTIONS,
 		TAG_LIMIT_OPTIONS,
 		TAG_SORT_OPTIONS,
@@ -15,14 +14,16 @@
 		type FavouriteTagSort,
 		type TagTypeFilter
 	} from './favourite-tags';
+	import { activeTags } from '$lib/store';
+	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
 
 	let message = $derived.by(() => {
-		if ($favouritePostsStore.ids.size == 0) {
+		if (favouritePostsStore.ids.size == 0) {
 			return "You haven't got any favourites yet";
-		} else if ($favouritePostsStore.ids.size === 1) {
+		} else if (favouritePostsStore.ids.size === 1) {
 			return 'You have exactly one favourite post';
 		} else {
-			return `You have ${$favouritePostsStore.ids.size} favourite posts`;
+			return `You have ${favouritePostsStore.ids.size} favourite posts`;
 		}
 	});
 
@@ -31,7 +32,7 @@
 	let tagLimit = $state<FavouriteTagLimit>('20');
 
 	const favouriteTags = $derived(
-		computeFavourteTags($favouritePostsStore.posts, tagFilter, tagSort, tagLimit)
+		computeFavouriteTags(favouritePostsStore.posts, tagFilter, tagSort, tagLimit)
 	);
 </script>
 
@@ -43,9 +44,9 @@
 <PageGeneric title="Favourites">
 	<Preference title="Info" description={message}></Preference>
 
-	{#if $favouritePostsStore.posts.length > 0}
+	{#if favouritePostsStore.posts.length > 0}
 		<Preference title="Tags" description="Browse tags that appear on your favourite posts.">
-			<div>
+			<div class="row">
 				<label>
 					Filter Tags
 					<Select options={TAG_FILTER_OPTIONS} bind:value={tagFilter} />
@@ -58,18 +59,31 @@
 					Limit Tags
 					<Select options={TAG_LIMIT_OPTIONS} bind:value={tagLimit} />
 				</label>
+				{#if tagSort === 'ratio'}
+					<div class="entry">
+						Ratio
+						<math>
+							<mi>ratio</mi>
+							<mo>=</mo>
+							<mfrac>
+								<mi>Nr favourites with tag</mi>
+								<mi>Nr posts with tag</mi>
+							</mfrac>
+						</math>
+					</div>
+				{/if}
 			</div>
 			<ol class="tags">
 				{#each favouriteTags as tag}
-					{@const active = $activeTagsStore.find((t) => t.name === tag.name) !== undefined}
+					{@const active = activeTags.value.some((t) => t.name === tag.name)}
 					<SimpleTag
 						{tag}
 						{active}
 						onclick={() => {
 							if (active) {
-								activeTagsStore.removeByName(tag.name);
+								removeByName(activeTags.value, tag.name);
 							} else {
-								activeTagsStore.addOrReplace({ ...tag, modifier: '+' });
+								addOrReplace(activeTags.value, { ...tag, modifier: '+' });
 							}
 						}}
 						topLevel
@@ -80,7 +94,7 @@
 
 		<Preference title="Posts" description="All your favourite posts are listed here.">
 			<ol class="single-column">
-				{#each $favouritePostsStore.posts as post (post.id)}
+				{#each favouritePostsStore.posts as post (post.id)}
 					<SingleColumnPost {post} onfullscreen={() => {}} />
 				{/each}
 			</ol>
@@ -103,16 +117,21 @@
 		gap: var(--grid-gap);
 	}
 
-	label {
+	label,
+	.entry {
 		color: var(--text-highlight);
 		display: inline-flex;
 		flex-direction: column;
 		gap: var(--small-gap);
 	}
 
-	div {
+	.row {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--grid-gap);
+	}
+
+	math {
+		color: var(--text);
 	}
 </style>

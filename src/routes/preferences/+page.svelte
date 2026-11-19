@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	const THEME_OPTIONS = Object.freeze({
 		'crimson dark': 'Dark',
 		'crimson light': 'Light',
@@ -8,54 +8,48 @@
 		'green rule34': 'Classic Rule34',
 		'white dark': 'Monochrome Dark',
 		'black light': 'Monochrome Light',
-		'purple purple': 'Purple'
-	});
-	const RESULT_COLUMNS_OPTIONS = Object.freeze({
-		'1': 'Single Column',
-		'2': 'Two Columns',
-		'3': 'Three Columns',
-		'4': 'Four Columns'
+		'purple purple': 'Purple',
+		'lynx dark': 'Lynx'
 	});
 </script>
 
 <script lang="ts">
 	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
-	import NumberInput from '$lib/components/kurosearch/dialog-sort-filter/NumberInput.svelte';
+	import NumberInput from '$lib/components/pure/input-number/NumberInput.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
+	import FlexRow from '$lib/components/pure/flex-row/FlexRow.svelte';
 	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import { addHistory } from '$lib/logic/attachments/onpopstate';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
-	import activeSupertagsStore from '$lib/store/active-supertags-store';
-	import activeTagsStore from '$lib/store/active-tags-store';
-	import alwaysLoop from '$lib/store/always-loop-store';
-	import apiKey from '$lib/store/api-key-store';
-	import autoplayFullscreenDelay from '$lib/store/autoplay-fullscreen-delay-store';
-	import autoplayFullscreenEnabled from '$lib/store/autoplay-fullscreen-enabled-store';
-	import blockedContent from '$lib/store/blocked-content-store';
-	import cookiesAccepted from '$lib/store/cookies-accepted-store';
-	import dataSaverStore from '$lib/store/data-saver-store';
-	import gifPreloadEnabled from '$lib/store/gif-preload-enabled-store';
-	import highResolutionEnabled from '$lib/store/high-resolution-enabled';
-	import localstorageEnabled from '$lib/store/localstorage-enabled-store';
-	import pageNavigationEnabled from '$lib/store/page-navigation-enabled-store';
-	import resultColumns from '$lib/store/result-columns-store';
-	import resultsStore from '$lib/store/results-store';
-	import openTagsOnPostClick from '$lib/store/tags-shortcut-store';
-	import theme from '$lib/store/theme-store';
-	import userId from '$lib/store/user-id-store';
-	import wideLayoutEnabled from '$lib/store/wide-layout-enabled-store';
-	import ApiCredentialInput from './ApiCredentialInput.svelte';
+	import {
+		activeSupertags,
+		activeTags,
+		alwaysLoop,
+		autoplayFullscreenDelay,
+		autoplayFullscreenEnabled,
+		blockedContent,
+		cookiesAccepted,
+		dataSaver,
+		gifPreloadEnabled,
+		highResolutionEnabled,
+		pageNavigationEnabled,
+		resultColumns,
+		results,
+		tagsShortcut,
+		theme,
+		wideLayoutEnabled
+	} from '$lib/store';
+	import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
 
-	let resetDialog: HTMLDialogElement;
+	let showResetDialog = $state(false);
 
 	const reset = () => {
 		theme.reset();
-		localstorageEnabled.reset();
+		semiPersistentStorage.localStorageEnabled = false;
 		blockedContent.reset();
 		alwaysLoop.reset();
 		resultColumns.reset();
@@ -63,9 +57,11 @@
 		highResolutionEnabled.reset();
 		wideLayoutEnabled.reset();
 		gifPreloadEnabled.reset();
-		apiKey.reset();
-		userId.reset();
 		pageNavigationEnabled.reset();
+		autoplayFullscreenEnabled.reset();
+		autoplayFullscreenDelay.reset();
+		dataSaver.reset();
+		tagsShortcut.reset();
 	};
 
 	let searchTerm = $state('');
@@ -88,8 +84,12 @@
 
 <PageGeneric title="Preferences">
 	<Preference title="Search" description="Search for preferences by name.">
-		<div class="button-row">
-			<TextInput bind:value={searchTerm} placeholder="Enter preference name" />
+		<FlexRow>
+			<TextInput
+				bind:value={searchTerm}
+				placeholder="Enter preference name"
+				class="mixin-outline"
+			/>
 			{#if searchTerm.trim() !== ''}
 				<IconButton
 					class="mixin-invisible"
@@ -100,7 +100,7 @@
 					<i class="codicon codicon-close"></i>
 				</IconButton>
 			{/if}
-		</div>
+		</FlexRow>
 	</Preference>
 
 	<Preference
@@ -108,19 +108,7 @@
 		display={checkDisplay('Theme')}
 		description="Change the look of the app."
 	>
-		<Select bind:value={$theme} options={THEME_OPTIONS} />
-	</Preference>
-
-	<Preference
-		title="API Key"
-		display={checkDisplay('API Key')}
-		description="Use your own API key to rule34.xxx. This can speed up loading times. Having your own key makes you unaffected by some issues."
-	>
-		<ApiCredentialInput />
-		<span>
-			How to get an API key? Check here:
-			<a href="/help#using-your-own-api-key">Documentation &gt; Using your own API key</a>
-		</span>
+		<Select bind:value={theme.value} options={THEME_OPTIONS} />
 	</Preference>
 
 	<Preference
@@ -128,22 +116,25 @@
 		display={checkDisplay('Save Tags & Posts')}
 		description="Save active tags and posts between sessions. Note: This does not work well if you use multipe tabs frequently."
 	>
-		<Checkbox id="checkbox-localstorage-enabled" bind:checked={$localstorageEnabled}>Save</Checkbox>
-		<div class="button-row">
-			<TextButton title="Reset Posts" class="mixin-secondary" onclick={() => resultsStore.reset()}>
+		<Checkbox
+			id="checkbox-localstorage-enabled"
+			bind:checked={semiPersistentStorage.localStorageEnabled}>Save</Checkbox
+		>
+		<FlexRow>
+			<TextButton title="Reset Posts" class="mixin-secondary" onclick={() => results.reset()}>
 				Reset Posts
 			</TextButton>
 			<TextButton
 				title="Reset Tags"
 				class="mixin-secondary"
 				onclick={() => {
-					activeTagsStore.reset();
-					activeSupertagsStore.reset();
+					activeTags.reset();
+					activeSupertags.reset();
 				}}
 			>
 				Reset Tags
 			</TextButton>
-		</div>
+		</FlexRow>
 	</Preference>
 
 	<Preference
@@ -153,7 +144,7 @@
 	>
 		<div>
 			{#each ALL_BLOCKING_GROUPS as groupName}
-				<Checkbox id={`checkbox-${groupName}`} bind:checked={$blockedContent[groupName]}>
+				<Checkbox id={`checkbox-${groupName}`} bind:checked={blockedContent.value[groupName]}>
 					{groupName}
 				</Checkbox>
 			{/each}
@@ -165,7 +156,7 @@
 		display={checkDisplay('Loop Videos')}
 		description="By default only videos with the 'loop' tag are looped. When this setting is enabled, all videos are looped."
 	>
-		<Checkbox id="checkbox-always-loop" bind:checked={$alwaysLoop}>Always Loop</Checkbox>
+		<Checkbox id="checkbox-always-loop" bind:checked={alwaysLoop.value}>Always Loop</Checkbox>
 	</Preference>
 
 	<Preference
@@ -173,13 +164,13 @@
 		display={checkDisplay('Autoscroll in Fullscreen')}
 		description="When enabled, fullscreen view will scroll automatically."
 	>
-		<div class="button-row">
-			<Checkbox id="checkbox-fullscreen-autplay" bind:checked={$autoplayFullscreenEnabled}>
+		<FlexRow>
+			<Checkbox id="checkbox-fullscreen-autplay" bind:checked={autoplayFullscreenEnabled.value}>
 				Scroll automatically
 			</Checkbox>
-			<NumberInput bind:value={$autoplayFullscreenDelay} min={1} max={60} step={1} />
-			<span> After {$autoplayFullscreenDelay} seconds</span>
-		</div>
+			<NumberInput bind:value={autoplayFullscreenDelay.value} min={1} max={60} step={1} />
+			<span> After {autoplayFullscreenDelay.value} seconds</span>
+		</FlexRow>
 	</Preference>
 
 	<Preference
@@ -187,12 +178,12 @@
 		display={checkDisplay('Result layout')}
 		description="Choose how results are arranged."
 	>
-		<div class="button-row">
-			<Select bind:value={$resultColumns} options={RESULT_COLUMNS_OPTIONS} />
-			<Checkbox id="checkbox-wide-layout" bind:checked={$wideLayoutEnabled}>
+		<FlexRow>
+			<NumberInput min={1} max={10} step={1} bind:value={resultColumns.value} />
+			<Checkbox id="checkbox-wide-layout" bind:checked={wideLayoutEnabled.value}>
 				Extend horizontally
 			</Checkbox>
-		</div>
+		</FlexRow>
 	</Preference>
 
 	<Preference
@@ -200,11 +191,9 @@
 		display={checkDisplay('Page Navigation')}
 		description="Navigate using pages instead of infinite scrolling."
 	>
-		<div class="button-row">
-			<Checkbox id="checkbox-page-navigation" bind:checked={$pageNavigationEnabled}>
-				Use page navigation
-			</Checkbox>
-		</div>
+		<Checkbox id="checkbox-page-navigation" bind:checked={pageNavigationEnabled.value}>
+			Use page navigation
+		</Checkbox>
 	</Preference>
 
 	<Preference
@@ -212,7 +201,7 @@
 		display={checkDisplay('Higher Resolution')}
 		description="When enabled, the app will always load the highest resolution available. This causes increased network consumption and can impact performance."
 	>
-		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$highResolutionEnabled}>
+		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={highResolutionEnabled.value}>
 			Enable high resolution
 		</Checkbox>
 	</Preference>
@@ -222,7 +211,7 @@
 		display={checkDisplay('Data Saver')}
 		description="When enabled, the app will only load comics on demand."
 	>
-		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={$dataSaverStore}>
+		<Checkbox id="checkbox-high-resolution-enabled" bind:checked={dataSaver.value}>
 			Enable data saver
 		</Checkbox>
 	</Preference>
@@ -232,7 +221,7 @@
 		display={checkDisplay('Gif Preload')}
 		description="When enabled, GIFs will load faster if you have a powerful internet connection but consume more bandwidth. Do not enable with limited bandwidth."
 	>
-		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={$gifPreloadEnabled}>
+		<Checkbox id="checkbox-gif-preload-enabled" bind:checked={gifPreloadEnabled.value}>
 			Preload GIFs
 		</Checkbox>
 	</Preference>
@@ -242,11 +231,9 @@
 		display={checkDisplay('[LEGACY] Open tags on click')}
 		description="When enabled, clicking a post will immediately display the tags. This confilicts with other features. Use at your own risk."
 	>
-		<div class="button-row">
-			<Checkbox id="checkbox-tags-shortcut" bind:checked={$openTagsOnPostClick}>
-				Open tags on click
-			</Checkbox>
-		</div>
+		<Checkbox id="checkbox-tags-shortcut" bind:checked={tagsShortcut.value}>
+			Open tags on click
+		</Checkbox>
 	</Preference>
 
 	<Preference
@@ -258,8 +245,7 @@
 			title="Reset preferences"
 			class="mixin-accent"
 			onclick={() => {
-				resetDialog.showModal();
-				addHistory('dialog');
+				showResetDialog = true;
 			}}
 		>
 			Reset
@@ -268,19 +254,10 @@
 </PageGeneric>
 
 <ConfirmDialog
-	bind:dialog={resetDialog}
+	bind:open={showResetDialog}
 	title="Reset Preferences"
 	warning="This will reset all your settings to default values. Are you sure you want to do that?"
 	labelConfirm="Yes, reset"
 	labelCancel="Cancel"
 	onconfirm={reset}
 />
-
-<style>
-	.button-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--grid-gap);
-		align-items: center;
-	}
-</style>

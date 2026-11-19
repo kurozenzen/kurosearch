@@ -2,7 +2,7 @@ import { type IndexedPost } from '$lib/indexeddb/idb';
 import type { SettingsObject } from '$lib/logic/file-utils';
 import { ensureGoogleAccessToken } from '$lib/logic/firebase/authentication';
 import { getGapi, setupGoogleDriveAtPageLoad } from '$lib/logic/firebase/drive';
-import { StoreKey } from '$lib/store/store-keys';
+import { StorageKey } from '$lib/store/storage-keys';
 
 const APPDATA_FILE_NAME = 'kurosearch-appdata-v1.json';
 
@@ -26,29 +26,29 @@ export const getSettingsFromDriveBackup = (backup: unknown): SettingsObject | un
 
 		return {
 			...legacy.preferences,
-			[StoreKey.Supertags]: legacy.preferences[StoreKey.Supertags] ?? {
+			[StorageKey.Supertags]: legacy.preferences[StorageKey.Supertags] ?? {
 				items: legacy.supertags ?? []
 			},
-			[StoreKey.Favourites]: legacy.favourites ?? legacy.preferences[StoreKey.Favourites] ?? []
+			[StorageKey.Favourites]: legacy.favourites ?? legacy.preferences[StorageKey.Favourites] ?? []
 		};
 	}
 
 	if (
-		hasOwn(backup, StoreKey.LocalstorageEnabled) &&
-		hasOwn(backup, StoreKey.Theme) &&
-		hasOwn(backup, StoreKey.BlockedContent) &&
-		hasOwn(backup, StoreKey.ResultColumns) &&
-		hasOwn(backup, StoreKey.Supertags) &&
-		hasOwn(backup, StoreKey.Favourites)
+		hasOwn(backup, StorageKey.LocalStorageEnabled) &&
+		hasOwn(backup, StorageKey.Theme) &&
+		hasOwn(backup, StorageKey.BlockedContent) &&
+		hasOwn(backup, StorageKey.ResultColumns) &&
+		hasOwn(backup, StorageKey.Supertags) &&
+		hasOwn(backup, StorageKey.Favourites)
 	) {
 		return {
-			[StoreKey.BackupTimestamp]: (backup as SettingsObject)[StoreKey.BackupTimestamp],
-			[StoreKey.LocalstorageEnabled]: (backup as SettingsObject)[StoreKey.LocalstorageEnabled],
-			[StoreKey.Theme]: (backup as SettingsObject)[StoreKey.Theme],
-			[StoreKey.BlockedContent]: (backup as SettingsObject)[StoreKey.BlockedContent],
-			[StoreKey.ResultColumns]: (backup as SettingsObject)[StoreKey.ResultColumns],
-			[StoreKey.Supertags]: (backup as SettingsObject)[StoreKey.Supertags],
-			[StoreKey.Favourites]: (backup as SettingsObject)[StoreKey.Favourites]
+			[StorageKey.BackupTimestamp]: (backup as SettingsObject)[StorageKey.BackupTimestamp],
+			[StorageKey.LocalStorageEnabled]: (backup as SettingsObject)[StorageKey.LocalStorageEnabled],
+			[StorageKey.Theme]: (backup as SettingsObject)[StorageKey.Theme],
+			[StorageKey.BlockedContent]: (backup as SettingsObject)[StorageKey.BlockedContent],
+			[StorageKey.ResultColumns]: (backup as SettingsObject)[StorageKey.ResultColumns],
+			[StorageKey.Supertags]: (backup as SettingsObject)[StorageKey.Supertags],
+			[StorageKey.Favourites]: (backup as SettingsObject)[StorageKey.Favourites]
 		};
 	}
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import TextButton from '$lib/components/pure/text-button/TextButton.svelte';
-	import cookiesAccepted from '$lib/store/cookies-accepted-store';
+	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import { cookiesAccepted } from '$lib/store';
 	import LynxMain from '../../../../routes/LynxMain.svelte';
 
 	const accept = () => {
-		$cookiesAccepted = true;
+		cookiesAccepted.value = true;
 		document.documentElement.dataset.cookies = 'true';
 	};
 

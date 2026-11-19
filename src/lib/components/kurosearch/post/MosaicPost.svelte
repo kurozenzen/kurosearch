@@ -76,7 +76,7 @@
 		background-color: #0008;
 		padding: var(--tiny-gap);
 		color: white;
-		border-radius: var(--border-radius) 0 0 0;
+		border-radius: var(--border-radius-small) 0 0 0;
 	}
 
 	.type {
@@ -85,6 +85,6 @@
 		background-color: #0008;
 		padding: var(--tiny-gap);
 		color: white;
-		border-radius: 0 var(--border-radius) 0 0;
+		border-radius: 0 var(--border-radius-small) 0 0;
 	}
 </style>

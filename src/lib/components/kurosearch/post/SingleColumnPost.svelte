@@ -10,8 +10,8 @@
 		keybindPostTags
 	} from '$lib/logic/keybinds/keyboard-utils';
 	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
-	import alwaysLoop from '$lib/store/always-loop-store';
-	import { favouritePostsStore } from '$lib/store/favourite-posts-store';
+	import { alwaysLoop } from '$lib/store';
+	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import Gif from '../media-gif/Gif.svelte';
 	import Video from '../media-video/Video.svelte';
 	import PostDetailsTab from '../post-details/PostDetailsTab.svelte';
@@ -66,7 +66,7 @@
 				poster={sources.static}
 				width={post.width}
 				height={post.height}
-				loop={$alwaysLoop || isLoop(post.tags)}
+				loop={alwaysLoop.value || isLoop(post.tags)}
 				{onfullscreen}
 			/>
 		{:else}
@@ -81,5 +81,6 @@
 	.post {
 		position: relative;
 		container-type: inline-size;
+		contain: content;
 	}
 </style>

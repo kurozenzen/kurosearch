@@ -1,16 +1,13 @@
 <script lang="ts">
 	import { getShareUrl } from '$lib/logic/url-parsing';
-	import activeTags from '$lib/store/active-tags-store';
-	import sort from '$lib/store/sort-store';
-	import filter from '$lib/store/filter-store';
 	import TagButton from '../button-tag/TagButton.svelte';
-	import shareSrc from '$lib/assets/share.svg';
+	import { activeTags, filter, sort } from '$lib/store';
 
 	const share = async () => {
-		const shareData = {
+		const shareData: ShareData = {
 			title: 'kurosearch',
-			text: 'Saved Search Configuration',
-			url: getShareUrl($activeTags, $sort, $filter).toString()
+			text: `Created ${new Date().toLocaleDateString()}`,
+			url: getShareUrl(activeTags.value, sort.value, filter.value).toString()
 		};
 
 		try {
@@ -22,13 +19,5 @@
 </script>
 
 <TagButton title="Share current search." onclick={share}>
-	<img src={shareSrc} alt="Share current search" width="24" height="24" />
+	<i class="codicon codicon-share"></i>
 </TagButton>
-
-<style>
-	img {
-		width: var(--icon-size);
-		height: var(--icon-size);
-		padding-block: 1px;
-	}
-</style>
