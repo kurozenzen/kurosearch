@@ -10,12 +10,10 @@
 	);
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
@@ -111,12 +109,13 @@
 		if (autoplayFullscreenEnabled.value) {
 			animationHandle = requestAnimationFrame(updateSlider);
 		}
-		return on(window, 'keydown', keybinds);
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
 	});
 </script>
+
+<svelte:window onkeydown={keybinds} />
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->

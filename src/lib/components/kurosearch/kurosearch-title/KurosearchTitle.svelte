@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	const now = new Date();
 	const getTitle = (date: Date) => {
 		const dayMonth = `${date.getDate()}-${date.getMonth()}`;

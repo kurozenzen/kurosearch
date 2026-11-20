@@ -39,7 +39,6 @@ const executeSearch = async (operation: () => Promise<void>) => {
 		await operation();
 		logSearch(pid).catch(() => {});
 	} catch (error) {
-		console.log(error);
 		results.value.error = error as Error;
 	} finally {
 		results.value.loading = false;

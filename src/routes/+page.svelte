@@ -4,7 +4,6 @@
 	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
 	import { getFirstPage } from '$lib/logic/search.svelte';
 	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import LynxMain from './LynxMain.svelte';
 	import SearchForm from './SearchForm.svelte';
 	import { results } from '$lib/store';
@@ -15,7 +14,6 @@
 		if (results.value.postCount === 0) {
 			getFirstPage();
 		}
-		return on(window, 'keydown', keybindsVideo);
 	});
 </script>
 
@@ -27,6 +25,8 @@
 	/>
 	<link rel="canonical" href="https://kurosearch.com" />
 </svelte:head>
+
+<svelte:window onkeydown={keybindsVideo} />
 
 <LayoutMobile>
 	<LynxMain />

@@ -11,8 +11,6 @@
 		keybindSearchbarSubmit
 	} from '$lib/logic/keybinds/keyboard-utils';
 	import { getFirstPage } from '$lib/logic/search.svelte';
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 	import { activeSupertags, activeTags, results } from '$lib/store';
 	import Loading from '../loading/Loading.svelte';
@@ -21,11 +19,8 @@
 	import SuggestionList from './SuggestionList.svelte';
 	import { ID_SEARCHBAR } from '$lib/logic/well-known-ids';
 	import Dropdown from '$lib/components/pure/dropdown/Dropdown.svelte';
-	import { pushState } from '$app/navigation';
 
-	// svelte-ignore non_reactive_update
 	let showCreateSupertagDialog = $state(false);
-
 	let searchbarState = new SearchBarState(fetchCombinedSuggestions);
 	let showActiveTags = $state(false);
 
@@ -58,21 +53,21 @@
 			searchbarState.selectNextSuggestion();
 		}
 	};
-
-	onMount(() =>
-		on(window, 'keydown', (event) => {
-			if (keybindModifier(event)) {
-				searchbarState.rotateModifier();
-			}
-			if (keybindFocusSearchbar(event)) {
-				document.getElementById(ID_SEARCHBAR)?.focus();
-			}
-			if (keybindSearch(event)) {
-				getFirstPage();
-			}
-		})
-	);
 </script>
+
+<svelte:window
+	onkeydown={(event) => {
+		if (keybindModifier(event)) {
+			searchbarState.rotateModifier();
+		}
+		if (keybindFocusSearchbar(event)) {
+			document.getElementById(ID_SEARCHBAR)?.focus();
+		}
+		if (keybindSearch(event)) {
+			getFirstPage();
+		}
+	}}
+/>
 
 <Dropdown
 	class="searchbar-container"

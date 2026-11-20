@@ -1,12 +1,6 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { getExtension } from '$lib/logic/media-utils';
-	import { isValidUrl } from '$lib/logic/url-utils';
-
-	interface Props {
-		post: kurosearch.Post;
-	}
-
-	let { post }: Props = $props();
+	import { getSourcesForPost } from '$lib/logic/svelte/sources.svelte';
 
 	const HOST_COLOR_MAPPING: Record<string, [string, string]> = {
 		'kurosearch.com': ['crimson', 'white'],
@@ -21,18 +15,16 @@
 		'deviantart.com': ['#00c787', 'black'],
 		default: ['var(--background-2)', 'white']
 	};
+</script>
 
-	let links = $derived([
-		new URL(`${window.location.origin}/post?id=${post.id}`),
-		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
-		...(post.source
-			? post.source
-					.split(' ')
-					.filter((x) => isValidUrl(x))
-					.map((x) => new URL(x))
-			: [])
-	]);
+<script lang="ts">
+	interface Props {
+		post: kurosearch.Post;
+	}
 
+	let { post }: Props = $props();
+
+	let links = $derived(getSourcesForPost(post));
 	let fileExt = $derived(getExtension(post.file_url));
 	let previewExt = $derived(getExtension(post.preview_url));
 	let sampleExt = $derived(getExtension(post.sample_url));

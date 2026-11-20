@@ -8,21 +8,18 @@
 	import { getFirstPage } from '$lib/logic/search.svelte';
 	import { activateSuggestion, fetchCombinedSuggestions } from '$lib/logic/suggestions.svelte';
 	import { results } from '$lib/store';
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import Loading from '$lib/components/kurosearch/loading/Loading.svelte';
 
-	// svelte-ignore non_reactive_update
 	let showCreateSupertagDialog = $state(false);
-
-	onMount(() =>
-		on(window, 'keydown', (event) => {
-			if (keybindSearch(event)) {
-				getFirstPage();
-			}
-		})
-	);
 </script>
+
+<svelte:window
+	onkeydown={(event) => {
+		if (keybindSearch(event)) {
+			getFirstPage();
+		}
+	}}
+/>
 
 <section id="search">
 	<KurosearchTitle />

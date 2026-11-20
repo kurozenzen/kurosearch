@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import playSrc from '$lib/assets/play.svg?url';
 	import { getPostId } from '$lib/logic/id-utils';
 	import { keybindFsEnter, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
@@ -10,10 +10,10 @@
 	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
 	import DataSavingImage from '../img-data-saver/DataSavingImage.svelte';
 
-	const maxRatio = 1 / 2;
-	const rowsPerSquare = 3;
+	const MAX_RATIO = 1 / 2;
+	const ROWS_PER_SQUARE = 3;
 
-	const postTypeLabel = (post: kurosearch.Post) => {
+	const postTypeLabel = (post: kurosearch.Post, ratio: number) => {
 		switch (post.type) {
 			case 'image':
 				return ratio < 0.4 ? 'com' : 'img';
@@ -25,7 +25,9 @@
 				return '???';
 		}
 	};
+</script>
 
+<script lang="ts">
 	interface Props {
 		post: kurosearch.Post;
 		onclick?: (event: MouseEvent) => void;
@@ -36,7 +38,7 @@
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let cutoff = $derived(isComic(ratio));
 	let rows = $derived(
-		Math.max(Math.min(Math.round(rowsPerSquare / ratio), rowsPerSquare / maxRatio), 2)
+		Math.max(Math.min(Math.round(ROWS_PER_SQUARE / ratio), ROWS_PER_SQUARE / MAX_RATIO), 2)
 	);
 	let previewSrc = $derived(isImage(post.sample_url) ? post.sample_url : post.preview_url);
 
@@ -82,7 +84,7 @@
 		<div class="indicator">GIF</div>
 	{/if}
 	<div class="summary" class:more={cutoff}>
-		<span class="label">{postTypeLabel(post)}</span>
+		<span class="label">{postTypeLabel(post, ratio)}</span>
 		<p class="spacer"></p>
 		<Score {post} />
 		<span>•</span>

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { resolve } from '$app/paths';
 	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { ApiError } from '$lib/logic/api-client/tags/ApiError';
@@ -37,9 +37,11 @@
 			icon: 'codicon codicon-error'
 		};
 	};
+</script>
 
+<script lang="ts">
 	let { error }: Props = $props();
-
+	
 	let { title, icon, message } = $derived(resolveError(error));
 </script>
 
@@ -56,8 +58,10 @@
 				id="btn-next-api"
 				title="Switch to next server"
 				class="mixin-accent"
-				onclick={cycleApiUrl}>Switch Server</TextButton
+				onclick={cycleApiUrl}
 			>
+				Switch Server
+			</TextButton>
 
 			<p>
 				Use the <a href={resolve('/troubleshoot')}>Troubleshooting Page</a> to get more details

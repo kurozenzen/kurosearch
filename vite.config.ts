@@ -1,4 +1,4 @@
-import { sentrySvelteKit } from '@sentry/sveltekit';
+import { sentrySvelteKit } from '@sentry/sveltekit/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 
@@ -7,9 +7,8 @@ export default defineConfig(({ mode }) => {
 		mode === 'production'
 			? [
 					sentrySvelteKit({
-						sourceMapsUploadOptions: {
-							org: 'kurozenzen',
-							project: 'kurosearch'
+						sourcemaps: {
+							upload: true
 						},
 						telemetry: false
 					})

@@ -33,9 +33,7 @@
 <svelte:head>
 	<script lang="ts">
 		(() => {
-			const [accent, theme] = (localStorage.getItem('kurosearch:theme') ?? 'crimson dark').split(
-				' '
-			);
+			const [accent, theme] = (localStorage['kurosearch:theme'] ?? 'crimson dark').split(' ');
 			document.documentElement.dataset.theme = theme;
 			document.documentElement.dataset.accent = accent;
 		})();

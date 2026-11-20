@@ -6,14 +6,10 @@
 	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
 	import { getFirstPage } from '$lib/logic/search.svelte';
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
 	import { results } from '$lib/store';
 
 	let activePost = $state<kurosearch.Post | undefined>(undefined);
-
-	onMount(() => on(window, 'keydown', keybindsVideo));
 </script>
 
 <svelte:head>
@@ -24,6 +20,8 @@
 	/>
 	<link rel="canonical" href="https://kurosearch.com/desktop" />
 </svelte:head>
+
+<svelte:window onkeydown={keybindsVideo} />
 
 <HeaderDesktop />
 

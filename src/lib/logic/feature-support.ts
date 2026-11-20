@@ -17,8 +17,7 @@ export const supportsFlexGap = (() => {
 	// append to the DOM (needed to obtain scrollHeight)
 	document.body.appendChild(flex);
 	var isSupported = flex.scrollHeight === 1; // flex container should be 1px high from the row-gap
-	//@ts-expect-error
-	flex.parentNode.removeChild(flex);
+	flex.parentNode?.removeChild(flex);
 
 	return isSupported;
 })();

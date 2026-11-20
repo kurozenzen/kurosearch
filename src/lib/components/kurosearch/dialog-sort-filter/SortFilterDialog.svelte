@@ -22,7 +22,6 @@
 	let { open = $bindable(), onclose }: Props = $props();
 
 	const close = () => {
-		console.log('Close button clicked');
 		open = false;
 	};
 

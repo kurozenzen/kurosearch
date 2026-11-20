@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
@@ -57,7 +57,9 @@
 		document.body.removeChild(a);
 		URL.revokeObjectURL(url);
 	};
+</script>
 
+<script lang="ts">
 	let count = $state(0);
 	let disabled = $state(false);
 	let name = $state('');
@@ -112,9 +114,9 @@
 	<Preference title="Input" description="Different input modes">
 		<FlexRow>
 			<Checkbox bind:checked={disabled} id="cb-disabled">Disable Input Controls</Checkbox>
-			<Checkbox bind:checked={disabled} id="cb-disabled-2" {disabled}
-				>Disable Input Controls</Checkbox
-			>
+			<Checkbox bind:checked={disabled} id="cb-disabled-2" {disabled}>
+				Disable Input Controls
+			</Checkbox>
 		</FlexRow>
 		<FlexRow>
 			<Select

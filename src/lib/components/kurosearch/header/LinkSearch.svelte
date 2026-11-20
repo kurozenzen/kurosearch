@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { resolve } from '$app/paths';
 	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
 </script>

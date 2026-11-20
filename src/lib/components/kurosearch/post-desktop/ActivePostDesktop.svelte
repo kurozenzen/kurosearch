@@ -3,8 +3,6 @@
 	import { keybindFsLeave, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources, getVideoSources, isComic, isLoop } from '$lib/logic/media-utils';
 	import { alwaysLoop } from '$lib/store';
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
@@ -24,20 +22,20 @@
 		if (isComic(postAspectRatio)) return 'scrollable';
 		return 'horizontal';
 	});
-
-	onMount(() =>
-		on(window, 'keydown', (event) => {
-			if (keybindFsLeave(event)) {
-				onclose();
-			}
-			if (keybindPostFavourite(event)) {
-				event.preventDefault();
-				event.stopPropagation();
-				favouritePostsStore.toggleFavourite(post);
-			}
-		})
-	);
 </script>
+
+<svelte:window
+	onkeydown={(event) => {
+		if (keybindFsLeave(event)) {
+			onclose();
+		}
+		if (keybindPostFavourite(event)) {
+			event.preventDefault();
+			event.stopPropagation();
+			favouritePostsStore.toggleFavourite(post);
+		}
+	}}
+/>
 
 <section id="active-post" class={format}>
 	<IconButton class="mixin-invisible" onclick={onclose}>

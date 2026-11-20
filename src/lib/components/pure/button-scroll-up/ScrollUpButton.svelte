@@ -1,18 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
-
 	let previousY = $state(0);
 	let visible = $state(false);
-
-	const listener = () => {
-		const currentY = window.scrollY;
-		visible = currentY < previousY && currentY > 0;
-		previousY = currentY;
-	};
-
-	onMount(() => on(window, 'scroll', listener, { passive: true }));
 </script>
+
+<svelte:window
+	onscroll={() => {
+		visible = window.scrollY < previousY && window.scrollY > 0;
+		previousY = window.scrollY;
+	}}
+/>
 
 <button
 	type="button"
@@ -20,9 +16,8 @@
 	title="Go back up"
 	onclick={() => window.scrollTo(0, 0)}
 	class:visible
-	class="mixin-circle mixin-accent mixin-hover"
+	class="mixin-circle mixin-accent mixin-hover codicon codicon-arrow-up"
 >
-	<i class="codicon codicon-arrow-up"></i>
 </button>
 
 <style>

@@ -8,9 +8,7 @@
 		keybindPrevSuggestion,
 		keybindSearchbarSubmit
 	} from '$lib/logic/keybinds/keyboard-utils';
-	import { onMount } from 'svelte';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
-	import { on } from 'svelte/events';
 	import { SearchBarState } from './searchbar.state.svelte';
 	import SuggestionList from './SuggestionList.svelte';
 	import { ID_SEARCHBAR } from '$lib/logic/well-known-ids';
@@ -45,18 +43,18 @@
 			searchbarState.selectNextSuggestion();
 		}
 	};
-
-	onMount(() =>
-		on(window, 'keydown', (event) => {
-			if (keybindModifier(event)) {
-				searchbarState.rotateModifier();
-			}
-			if (keybindFocusSearchbar(event)) {
-				document.getElementById(ID_SEARCHBAR)?.focus();
-			}
-		})
-	);
 </script>
+
+<svelte:window
+	onkeydown={(event) => {
+		if (keybindModifier(event)) {
+			searchbarState.rotateModifier();
+		}
+		if (keybindFocusSearchbar(event)) {
+			document.getElementById(ID_SEARCHBAR)?.focus();
+		}
+	}}
+/>
 
 <Dropdown class="searchbar-container">
 	{#snippet summary(open)}
@@ -98,7 +96,7 @@
 
 		width: 100%;
 		max-width: 512px;
-	}		
+	}
 
 	.searchbar {
 		display: flex;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isValidUrl } from '$lib/logic/url-utils';
+	import { getSourcesForPost } from '$lib/logic/svelte/sources.svelte';
 	import Comments from '../post-comment/Comments.svelte';
 	import Summary from '../post-summary/Summary.svelte';
 	import Sources from '../post/Sources.svelte';
@@ -17,17 +17,7 @@
 		openTab = openTab === tab ? undefined : tab;
 	};
 
-	let links = $derived([
-		new URL(`${window.location.origin}/post?id=${post.id}`),
-		new URL(`https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`),
-		new URL(post.file_url),
-		...(post.source
-			? post.source
-					.split(' ')
-					.filter((x) => isValidUrl(x))
-					.map((x) => new URL(x))
-			: [])
-	]);
+	let links = $derived(getSourcesForPost(post));
 </script>
 
 <div class="details">

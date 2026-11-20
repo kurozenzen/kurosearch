@@ -1,8 +1,6 @@
-<script lang="ts">
+<script lang="ts" module>
 	import { version } from '$app/environment';
 	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-
-	let message = $state('Update');
 
 	const getLatestCommit = async () => {
 		const response = await fetch('https://api.github.com/repos/kurozenzen/kurosearch/commits/main');
@@ -12,12 +10,20 @@
 		return '???????';
 	};
 
-	const forceUpdate = async () => {
-		message = 'Updating...';
+	const removeServiceWorkers = async () => {
 		if ('serviceWorker' in navigator) {
 			const registrations = await navigator.serviceWorker.getRegistrations();
-			await Promise.all(registrations.map((r) => r.unregister()));
+			return Promise.all(registrations.map((r) => r.unregister()));
 		}
+	};
+</script>
+
+<script lang="ts">
+	let message = $state('Update');
+
+	const forceUpdate = async () => {
+		message = 'Updating...';
+		await removeServiceWorkers();
 		window.location.reload();
 		message = 'Done';
 	};
@@ -30,6 +36,8 @@
 		Version: {version}
 		{#await getLatestCommit() then commit}
 			, Newest is: {commit?.sha?.substring(0, 7)}
+		{:catch}
+			, Newest is unknown
 		{/await}
 	</span>
 </div>

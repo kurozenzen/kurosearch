@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import H3 from '$lib/components/pure/heading/H3.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import { apiUrl } from '$lib/logic/api-client/url';

@@ -23,7 +23,7 @@
 
 <style>
 	div {
-		contain: strict;
+		contain: content;
 		height: 100vh;
 		border-radius: var(--border-radius-large);
 		animation: sweep ease-in-out 3s infinite;

@@ -11,7 +11,6 @@
 	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { onDestroy, onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 
 	interface Props {
@@ -103,12 +102,13 @@
 		if (autoplayFullscreenEnabled.value) {
 			animationHandle = requestAnimationFrame(updateSlider);
 		}
-		return on(window, 'keydown', keybinds);
 	});
 	onDestroy(() => {
 		cancelAnimationFrame(animationHandle);
 	});
 </script>
+
+<svelte:window onkeydown={keybinds} />
 
 {#if !paused}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->

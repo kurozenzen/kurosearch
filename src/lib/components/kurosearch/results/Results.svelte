@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { getPostId } from '$lib/logic/id-utils';
 	import { pauseVideo, targetVideo } from '$lib/store/active-video.svelte';
-	import { onMount } from 'svelte';
 	import FullscreenPost from '../post-fullscreen/FullscreenPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
-	import { on } from 'svelte/events';
 	import { keybindResultsNext, keybindResultsPrev } from '$lib/logic/keybinds/keyboard-utils';
 	import { clamp } from '$lib/logic/math';
 	import { resultColumns, results } from '$lib/store';
@@ -23,7 +21,6 @@
 	let fullscreenCurrentTime = $state<undefined | number>(undefined);
 
 	const exitFullscreen = async (index: number) => {
-		console.log(index);
 		fullscreenIndex = undefined;
 		fullscreenCurrentTime = undefined;
 		await focusPost(index);
@@ -83,20 +80,20 @@
 			}
 		}, 0);
 	};
-
-	onMount(() =>
-		on(window, 'keydown', (event) => {
-			if (keybindResultsNext(event)) {
-				focusIndex = nextFocus();
-				focusPost(focusIndex);
-			}
-			if (keybindResultsPrev(event)) {
-				focusIndex = prevFocus();
-				focusPost(focusIndex);
-			}
-		})
-	);
 </script>
+
+<svelte:window
+	onkeydown={(event) => {
+		if (keybindResultsNext(event)) {
+			focusIndex = nextFocus();
+			focusPost(focusIndex);
+		}
+		if (keybindResultsPrev(event)) {
+			focusIndex = prevFocus();
+			focusPost(focusIndex);
+		}
+	}}
+/>
 
 {#if resultColumns.value === 1}
 	<ol class="single-column">

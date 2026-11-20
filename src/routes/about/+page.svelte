@@ -15,7 +15,6 @@
 </script>
 
 <script lang="ts">
-	import { resolve } from '$app/paths';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import Version from '$lib/components/kurosearch/about-version/Version.svelte';
 	import SectionH3 from '$lib/components/kurosearch/section-docs/SectionH3.svelte';
@@ -35,7 +34,7 @@
 		<ul>
 			{#each ROUTES as route}
 				<li>
-					<a href={resolve(route as any)}>
+					<a href={route}>
 						{route}
 					</a>
 				</li>

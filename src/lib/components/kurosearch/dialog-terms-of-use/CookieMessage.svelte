@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
 	import { cookiesAccepted } from '$lib/store';
 	import LynxMain from '../../../../routes/LynxMain.svelte';
@@ -38,9 +38,9 @@
 			<h4>Cookies</h4>
 			<p>This website uses cookies.</p>
 			<div class="row">
-				<TextButton title="Accept terms of use" class="mixin-accent" onclick={accept}
-					>Accept</TextButton
-				>
+				<TextButton title="Accept terms of use" class="mixin-accent" onclick={accept}>
+					Accept
+				</TextButton>
 				<TextButton title="Leave website" class="mixin-secondary" onclick={leave}>Leave</TextButton>
 			</div>
 		</div>

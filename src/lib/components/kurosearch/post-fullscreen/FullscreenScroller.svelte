@@ -2,7 +2,6 @@
 	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
 	import { keybindDetails, keybindFsNext, keybindFsPrev } from '$lib/logic/keybinds/keyboard-utils';
 	import { onMount } from 'svelte';
-	import { on } from 'svelte/events';
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import Screen from './Screen.svelte';
 	import { autoplayFullscreenEnabled, fullscreenHintDone, results } from '$lib/store';
@@ -80,9 +79,11 @@
 				fullscreenHintDone.value = true;
 			}, 2000);
 		}
-		return on(window, 'keydown', keybinds);
 	});
 </script>
+
+<svelte:window onkeydown={keybinds} />
+
 
 <div bind:this={outer} class="root size-screen" class:hint={!fullscreenHintDone.value}>
 	<div bind:this={inner} class="inner size-screen snap-container-y">

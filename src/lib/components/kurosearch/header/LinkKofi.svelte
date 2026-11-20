@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
 </script>
 

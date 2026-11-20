@@ -1,13 +1,3 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-interface ImportMetaEnv {
-	readonly GOOGLE_CLIENT_ID?: string;
-}
-
-interface ImportMeta {
-	readonly env: ImportMetaEnv;
-}
-
 declare global {
 	namespace App {
 		interface PageState {

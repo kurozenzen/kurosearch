@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import LinkKofi from './LinkKofi.svelte';
 	import LinkSearch from './LinkSearch.svelte';
 	import AccountLink from '../link-account/AccountLink.svelte';

@@ -33,3 +33,12 @@
 		</TextButton>
 	{/if}
 {/if}
+
+<style>
+	div {
+		contain: content;
+		height: 100vh;
+		border-radius: var(--border-radius-large);
+		animation: sweep ease-in-out 3s infinite;
+	}
+</style>

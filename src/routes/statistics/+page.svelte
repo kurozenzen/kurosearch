@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" module>
 	import tagData from '$lib/assets/tags.json';
 	import postData from '$lib/assets/posts.json';
 	import { partitionTagsByType } from '$lib/logic/tag-utils';
@@ -12,8 +12,6 @@
 
 		return tagsByType;
 	};
-
-	const tagsByType = computeTags();
 
 	const computeArtists = () => {
 		const artists = tagsByType.artist.map((tag) => ({
@@ -37,8 +35,6 @@
 
 		return artists;
 	};
-
-	const artists = computeArtists();
 
 	const computeAspectRatios = () => {
 		let result = postData.reduce(
@@ -64,9 +60,12 @@
 
 		return sortedResult;
 	};
+</script>
 
+<script lang="ts">
+	const tagsByType = computeTags();
+	const artists = computeArtists();
 	const aspectRatios = computeAspectRatios();
-
 	const maxArCount = Math.max(...Object.values(aspectRatios));
 </script>
 
