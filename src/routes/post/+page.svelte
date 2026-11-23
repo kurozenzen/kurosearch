@@ -32,11 +32,3 @@
 		{/await}
 	{/if}
 </LayoutMobile>
-=
-
-<style>
-	article {
-		background-color: var(--background-1);
-		border-radius: var(--border-radius-small);
-	}
-</style>
