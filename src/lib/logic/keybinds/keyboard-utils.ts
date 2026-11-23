@@ -19,8 +19,9 @@ export const keybindSkipBackward = (event: KeyboardEvent) => ['ArrowLeft', 'j'].
 
 // Fullscreen
 export const keybindFsEnter = (event: KeyboardEvent) =>
-	!isInputFocused() && ['f', 'Enter'].includes(event.key);
-export const keybindFsLeave = (event: KeyboardEvent) => ['f', 'Escape'].includes(event.key);
+	!event.ctrlKey && ['f', 'Enter'].includes(event.key) && !isInputFocused();
+export const keybindFsLeave = (event: KeyboardEvent) =>
+	!event.ctrlKey && ['f', 'Escape'].includes(event.key);
 export const keybindDetails = (event: KeyboardEvent) => event.key === 'd';
 export const keybindFsPrev = (event: KeyboardEvent) => event.key === 'ArrowUp' || event.key === 'u';
 export const keybindFsNext = (event: KeyboardEvent) =>

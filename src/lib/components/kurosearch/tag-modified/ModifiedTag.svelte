@@ -13,7 +13,7 @@
 
 <button
 	type="button"
-	class="mixin-tag-shape mixin-secondary mixin-hover {MODIFIER_NAMES[tag.modifier]}"
+	class="mixin-tag-shape mixin-secondary mixin-hover mixin-icon-text {MODIFIER_NAMES[tag.modifier]}"
 	{onclick}
 	oncontextmenu={(e) => {
 		e.preventDefault();
@@ -25,9 +25,6 @@
 
 <style>
 	button {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--tiny-gap);
 		font-size: var(--text-size-small);
 		padding-left: 12px;
 		padding-right: 12px;

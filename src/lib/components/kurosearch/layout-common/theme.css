@@ -267,6 +267,13 @@ html {
 	border-radius: var(--border-radius-small);
 }
 
+.mixin-icon-text {
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--tiny-gap);
+}
+
 /* Colors */
 .mixin-accent {
 	background-color: var(--accent);

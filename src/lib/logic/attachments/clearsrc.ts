@@ -10,6 +10,7 @@ export const clearsrc: Attachment = (node) => () => {
 	}
 
 	if (node instanceof HTMLImageElement) {
-		node.src = '';
+		node.removeAttribute('src')
+		node.removeAttribute('srcset')
 	}
 };

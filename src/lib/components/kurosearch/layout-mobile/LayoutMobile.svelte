@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import TermsOfUseDialog from '$lib/components/kurosearch/dialog-terms-of-use/CookieMessage.svelte';
 	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
 	import MobileHeader from '$lib/components/kurosearch/header/MobileHeader.svelte';
 	import type { Snippet } from 'svelte';
@@ -14,8 +13,6 @@
 </script>
 
 <LayoutCommon>
-	<TermsOfUseDialog />
-
 	<!-- <News /> -->
 
 	<MobileHeader />

@@ -12,7 +12,10 @@
 </script>
 
 {#if url}
-	<a href={url.toString()} target="_newtab"><i class="codicon codicon-link"></i> {label}</a>
+	<a href={url.toString()} target="_newtab">
+		<i class="mixin-icon-text codicon codicon-link"></i>
+		{label}
+	</a>
 {/if}
 
 <style>
@@ -20,9 +23,5 @@
 		color: var(--text-link);
 		font-size: var(--text-size);
 		text-decoration: none;
-		white-space: nowrap;
-		display: inline-flex;
-		gap: var(--tiny-gap);
-		align-items: center;
 	}
 </style>

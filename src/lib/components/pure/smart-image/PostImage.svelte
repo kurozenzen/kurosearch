@@ -1,118 +1,74 @@
 <script lang="ts">
 	import PostOverlay from '$lib/components/kurosearch/post-overlay/PostOverlay.svelte';
-	import {
-		calculateAspectRatio,
-		calculateAspectRatioCss
-	} from '$lib/components/kurosearch/post/ratio';
-	import { clearsrc } from '$lib/logic/attachments/clearsrc';
-	import { screenintersection } from '$lib/logic/attachments/screenintersection';
-	import { isComic } from '$lib/logic/media-utils';
-	import { highResolutionEnabled } from '$lib/store';
+	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
+	import { observer } from '$lib/logic/attachments/observer';
+	import { calculateSrcSet, isComic } from '$lib/logic/media-utils';
+	import ObsImg from '../media-observed/obs-img.svelte';
 
 	interface Props {
 		post: kurosearch.Post;
-		onclick?: () => void;
 		onfullscreen?: () => void;
 	}
 
-	let { post, onclick, onfullscreen }: Props = $props();
+	let { post, onfullscreen }: Props = $props();
 
-	let visible = $state(false);
 	let open = $state(false);
-	let overlayHidden = $state(true);
-
-	let previewSrc = $derived(post.preview_url);
-	let actualSrc = $derived(highResolutionEnabled.value ? post.file_url : post.sample_url);
-	let alt = $derived(post.id.toString());
 	let ratio = $derived(calculateAspectRatio(post.width, post.height));
 	let canOpen = $derived(isComic(ratio));
-	let cssRation = $derived(calculateAspectRatioCss(post.width, post.height));
-	let estimatedBandwith = $derived((post.width * post.height * 3) / 10); // based on 3 channel PNG estimation
+	let loading = $state(true);
 
-	const onIntersectionChange = (isIntersecting: boolean) => {
-		visible = isIntersecting;
-	};
-
-	const onclickinternal = () => {
-		open = !open;
-		onclick?.();
+	const onclick = (event: MouseEvent) => {
+		if (canOpen) {
+			open = !open;
+			if (!open && event.target instanceof HTMLElement) {
+				event.target?.scrollIntoView();
+			}
+		}
 	};
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-	{@attach screenintersection(0, onIntersectionChange)}
-	class:can-open={canOpen}
-	class:open
-	onclick={onclickinternal}
-	style="aspect-ratio: {cssRation};"
->
-	{#if visible}
-		{#if estimatedBandwith > 1000000}
-			<img
-				{@attach clearsrc}
-				class="post-media"
-				loading="lazy"
-				src={previewSrc}
-				{alt}
-				width={post.width}
-				height={post.height}
-			/>
-		{/if}
-		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-		<img
-			{@attach clearsrc}
-			class="post-media"
-			loading="lazy"
-			tabindex="0"
-			src={actualSrc}
-			{alt}
-			width={post.width}
-			height={post.height}
-		/>
-	{/if}
+<figure class:can-open={canOpen} class:open class:loading-sweep={loading}>
+	<ObsImg
+		srcset={calculateSrcSet(post, ratio)}
+		sizes="(max-width: 800px) 100vw, 800px"
+		alt="Post #{post.id.toString()}"
+		{onclick}
+		onload={() => {
+			loading = false;
+		}}
+		loading="lazy"
+		decoding="async"
+		width={post.width}
+		height={post.height}
+	/>
 
-	<PostOverlay mediaType="img" {onfullscreen} hidden={overlayHidden} />
-</div>
+	<PostOverlay mediaType="img" {onfullscreen} hidden />
+</figure>
 
 <style>
-	div {
+	figure {
 		position: relative;
 	}
 
-	.can-open:not(.open) {
-		width: 100%;
-		max-height: 100vh;
-		overflow: hidden;
-	}
+	.can-open {
+		&:not(.open) {
+			width: 100%;
+			height: 100%;
+			max-height: 100vh;
+			overflow: hidden;
 
-	.can-open:not(.open)::before {
-		position: absolute;
-		z-index: 100;
-		text-align: center;
-		width: 100%;
-		content: 'Show more';
-		padding: var(--grid-gap);
-		background: linear-gradient(0deg, black 0%, transparent 100%);
-		user-select: none;
-		bottom: 0;
-		color: white;
-	}
-
-	img {
-		position: absolute;
-		display: block;
-		width: 100%;
-		height: auto;
-		object-fit: contain;
-		contain: strict;
-		z-index: var(--z-media);
-	}
-
-	@container (min-width: 800px) {
-		img {
-			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+			&::before {
+				position: absolute;
+				z-index: 100;
+				text-align: center;
+				width: 100%;
+				content: 'Show more';
+				padding: var(--grid-gap);
+				background: linear-gradient(0deg, black 0%, transparent 100%);
+				user-select: none;
+				bottom: 0;
+				color: white;
+			}
 		}
 	}
 </style>

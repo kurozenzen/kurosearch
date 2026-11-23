@@ -70,6 +70,7 @@
 />
 
 <Dropdown
+	element="form"
 	class="searchbar-container"
 	onOpenChange={(open) => {
 		if (!open) {
@@ -118,9 +119,9 @@
 		</div>
 	{/snippet}
 
-	{#snippet details()}
+	{#snippet details(className)}
 		{#if showActiveTags && activeTags.value.length + activeSupertags.value.length > 0}
-			<div class="tags">
+			<div class={['tags', className]}>
 				<ActiveTagList
 					oncreateSupertag={() => {
 						showCreateSupertagDialog = true;
@@ -132,6 +133,7 @@
 				promise={searchbarState.suggestionPromise}
 				onclick={submitOne}
 				selectedIndex={searchbarState.selectedSuggestionIndex}
+				class={className}
 			/>
 		{/if}
 	{/snippet}

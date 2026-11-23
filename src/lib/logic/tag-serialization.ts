@@ -3,8 +3,10 @@ import { insertHtmlEntities } from './replace-html-entities';
 
 export const serializeModifier = (value: kurosearch.TagModifier) => (value === '-' ? '-' : '');
 
+export const serializeAutocompleteTag = (value: string) => insertHtmlEntities(value.replaceAll(' ', '_'));
+
 export const serializeTagName = (value: string) =>
-	insertHtmlEntities(value.trim().replaceAll(' ', '_'));
+	encodeURIComponent(value.trim().replaceAll(' ', '_'));
 
 export const serializeSearchableTag = (tag: kurosearch.SearchableTag) =>
 	`${serializeModifier(tag.modifier)}${serializeTagName(tag.name)}`;

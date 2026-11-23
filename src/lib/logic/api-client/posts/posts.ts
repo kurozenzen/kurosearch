@@ -136,7 +136,7 @@ let singlePostAbortController: AbortController | undefined;
 
 export const getPost = async (id: number, apiKey: string = '', userId: string = '') => {
 	if (!browser) {
-		return [];
+		return {} as kurosearch.Post;
 	}
 
 	const indexedPost = await getIndexedPost(id);

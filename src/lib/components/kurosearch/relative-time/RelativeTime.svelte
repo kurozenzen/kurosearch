@@ -8,10 +8,6 @@
 	let { value }: Props = $props();
 </script>
 
-<span>{formatCreatedAt(value)}</span>
-
-<style>
-	span {
-		white-space: nowrap;
-	}
-</style>
+<time datetime={new Date(value).toISOString()} class="mixin-icon-text codicon codicon-calendar">
+	{formatCreatedAt(value)}
+</time>

@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
 import { formatTagname } from '$lib/logic/format-tag';
 import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
-import { serializeTagName } from '$lib/logic/tag-serialization';
+import { serializeAutocompleteTag } from '$lib/logic/tag-serialization';
 import { apiUrl, R34_API_URL } from '../url';
 import { ApiError } from './ApiError';
 
@@ -17,7 +17,7 @@ export const getTagSuggestions = async (term: string): Promise<kurosearch.Sugges
 	abortController = new AbortController();
 
 	const url = new URL('https://api.rule34.xxx/autocomplete.php');
-	url.searchParams.append('q', serializeTagName(term));
+	url.searchParams.append('q', serializeAutocompleteTag(term));
 
 	let res: Response;
 	try {

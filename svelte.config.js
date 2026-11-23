@@ -25,8 +25,7 @@ const config = {
 					'https://apis.google.com',
 					'https://www.googletagmanager.com',
 					'https://accounts.google.com/gsi/client',
-					'sha256-SIdcyjx0kKrzhwggwrHAeqEMP12zoiLgWxFVA05e/bM=', // cookies
-					'sha256-pTmTJ6+DVlqs0UGB55hsliAwnxZn1WdjWP7thCFcr+A=' // theme loading
+					'sha256-pTmTJ6+DVlqs0UGB55hsliAwnxZn1WdjWP7thCFcr+A=' // INIT: theme
 				],
 				'connect-src': [
 					'self',

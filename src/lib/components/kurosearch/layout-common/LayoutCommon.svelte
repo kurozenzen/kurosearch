@@ -1,9 +1,9 @@
 <script lang="ts">
 	// CSS
-	import '$lib/components/kurosearch/layout-common/codicon.css';
+	import '$lib/components/kurosearch/layout-common/reset.css';
 	import '$lib/components/kurosearch/layout-common/defaults.css';
 	import '$lib/components/kurosearch/layout-common/fonts.css';
-	import '$lib/components/kurosearch/layout-common/reset.css';
+	import '$lib/components/kurosearch/layout-common/codicon.css';
 	import '$lib/components/kurosearch/layout-common/scrollbar.css';
 	import '$lib/components/kurosearch/layout-common/theme.css';
 
@@ -14,6 +14,8 @@
 	import { browser } from '$app/environment';
 	import type { Snippet } from 'svelte';
 	import { theme as themeState } from '$lib/store';
+	import CookieDialog from '../dialog-cookie/CookieDialog.svelte';
+	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 
 	interface Props {
 		children: Snippet;
@@ -31,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<script lang="ts">
+	<script>
 		(() => {
 			const [accent, theme] = (localStorage['kurosearch:theme'] ?? 'crimson dark').split(' ');
 			document.documentElement.dataset.theme = theme;
@@ -41,6 +43,8 @@
 </svelte:head>
 
 {@render children()}
+<CookieDialog />
+<ScrollUpButton />
 
 <style>
 	:global(body) {

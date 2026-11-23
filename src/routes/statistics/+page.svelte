@@ -1,7 +1,8 @@
-<script lang="ts" module>
+<script lang="ts">
 	import tagData from '$lib/assets/tags.json';
 	import postData from '$lib/assets/posts.json';
 	import { partitionTagsByType } from '$lib/logic/tag-utils';
+	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
 
 	const computeTags = () => {
 		const tagsByType = partitionTagsByType(tagData as kurosearch.Tag[]);
@@ -12,6 +13,8 @@
 
 		return tagsByType;
 	};
+
+	const tagsByType = computeTags();
 
 	const computeArtists = () => {
 		const artists = tagsByType.artist.map((tag) => ({
@@ -35,6 +38,8 @@
 
 		return artists;
 	};
+
+	const artists = computeArtists();
 
 	const computeAspectRatios = () => {
 		let result = postData.reduce(
@@ -60,53 +65,51 @@
 
 		return sortedResult;
 	};
-</script>
 
-<script lang="ts">
-	const tagsByType = computeTags();
-	const artists = computeArtists();
 	const aspectRatios = computeAspectRatios();
 	const maxArCount = Math.max(...Object.values(aspectRatios));
 </script>
 
-<div>
-	<h2>Character</h2>
-	<ol>
-		{#each tagsByType.character.slice(0, 50) as tag}
-			<li>{tag.name} ({tag.count})</li>
-		{/each}
-	</ol>
-</div>
+<LayoutMobile>
+	<div>
+		<h2>Character</h2>
+		<ol>
+			{#each tagsByType.character.slice(0, 50) as tag}
+				<li>{tag.name} ({tag.count})</li>
+			{/each}
+		</ol>
+	</div>
 
-<div>
-	<h2>Copyright</h2>
-	<ol>
-		{#each tagsByType.copyright.slice(0, 50) as tag}
-			<li>{tag.name} ({tag.count})</li>
-		{/each}
-	</ol>
-</div>
+	<div>
+		<h2>Copyright</h2>
+		<ol>
+			{#each tagsByType.copyright.slice(0, 50) as tag}
+				<li>{tag.name} ({tag.count})</li>
+			{/each}
+		</ol>
+	</div>
 
-<div>
-	<h2>Artists</h2>
-	<ol>
-		{#each artists.slice(0, 50) as artist}
-			<li>{artist.name} ({artist.score})</li>
-		{/each}
-	</ol>
-</div>
+	<div>
+		<h2>Artists</h2>
+		<ol>
+			{#each artists.slice(0, 50) as artist}
+				<li>{artist.name} ({artist.score})</li>
+			{/each}
+		</ol>
+	</div>
 
-<div class="aspect-ratios">
-	<h2>Aspect Ratios</h2>
-	<ol>
-		{#each Object.entries(aspectRatios) as [ratio, count]}
-			<li style="--fraction: {count / maxArCount}">
-				<div></div>
-				<span>{ratio}<br />{count}<br />{Math.round((count / postData.length) * 100)}%</span>
-			</li>
-		{/each}
-	</ol>
-</div>
+	<div class="aspect-ratios">
+		<h2>Aspect Ratios</h2>
+		<ol>
+			{#each Object.entries(aspectRatios) as [ratio, count]}
+				<li style="--fraction: {count / maxArCount}">
+					<div></div>
+					<span>{ratio}<br />{count}<br />{Math.round((count / postData.length) * 100)}%</span>
+				</li>
+			{/each}
+		</ol>
+	</div>
+</LayoutMobile>
 
 <style>
 	ol {

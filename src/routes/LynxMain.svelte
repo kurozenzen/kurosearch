@@ -24,17 +24,10 @@
 	});
 </script>
 
-<div>
+<button onclick={() => (details = !details)}>
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<img
-		id="happy"
-		{src}
-		alt="Helheim Lynx"
-		width="1231"
-		height="864"
-		onclick={() => (details = !details)}
-	/>
+	<img {src} alt="Helheim Lynx" width="1231" height="864" />
 	{#if details}
 		<a
 			href="https://www.twitch.tv/helheim_lynx"
@@ -45,10 +38,10 @@
 			Check out Lynx on Twitch!
 		</a>
 	{/if}
-</div>
+</button>
 
 <style>
-	div {
+	button {
 		position: relative;
 		display: flex;
 		justify-content: center;

@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { formatCount } from '$lib/logic/format-count';
 	import { getSourcesForPost } from '$lib/logic/svelte/sources.svelte';
 	import Comments from '../post-comment/Comments.svelte';
-	import Summary from '../post-summary/Summary.svelte';
 	import Sources from '../post/Sources.svelte';
+	import RelativeTime from '../relative-time/RelativeTime.svelte';
+	import Score from '../score/Score.svelte';
 	import PostDetailsTagList from '../tag-list/PostDetailsTagList.svelte';
 
 	interface Props {
@@ -20,30 +22,60 @@
 	let links = $derived(getSourcesForPost(post));
 </script>
 
-<div class="details">
-	<Summary {post} active={openTab} links={links.length} {ontabselected} />
-	{#if openTab === 'tags'}
-		<PostDetailsTagList tags={post.tags} />
-	{:else if openTab === 'comments'}
-		<Comments id={post.id} />
-	{:else if openTab === 'links'}
-		<Sources {post} />
+{#snippet button(tab: string, icon: string, count: number)}
+	{@const open = openTab === tab}
+	<button
+		type="button"
+		role="tab"
+		name={tab}
+		aria-selected={open}
+		aria-controls={tab}
+		class="mixin-shape-item mixin-secondary mixin-hover mixin-icon-text {icon}"
+		class:active={open}
+		onclick={() => ontabselected(tab)}
+	>
+		{formatCount(count)}
+	</button>
+{/snippet}
+
+<div class="summary">
+	<RelativeTime value={post.change} />
+	<Score {post} />
+	{#if post.comment_count}
+		{@render button('comments', 'codicon codicon-comment', post.comment_count)}
 	{/if}
+	{@render button('links', 'codicon codicon-link', links.length)}
+	{@render button('tags', 'codicon codicon-tag', post.tags.length)}
 </div>
 
+{#if openTab === 'tags'}
+	<PostDetailsTagList tags={post.tags} />
+{:else if openTab === 'comments'}
+	<Comments id={post.id} />
+{:else if openTab === 'links'}
+	<Sources {post} />
+{/if}
+
 <style>
-	.details {
+	.summary {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
 		gap: var(--small-gap);
-		padding: var(--small-gap);
-		background-color: var(--background-1);
+		padding-inline: var(--small-gap);
+
+		button {
+			place-self: end;
+		}
+
+		:global(button:first-of-type) {
+			margin-right: auto;
+		}
 	}
 
-	@container (min-width: 800px) {
-		.details {
-			border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
-		}
+	button.active {
+		background-color: var(--background-3);
+		color: var(--text-highlight);
 	}
 
 	@keyframes slide-down {

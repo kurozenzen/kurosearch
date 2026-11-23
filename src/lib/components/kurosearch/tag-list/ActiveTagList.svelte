@@ -25,7 +25,7 @@
 	};
 </script>
 
-<ul>
+<ul aria-live="polite">
 	{#if tags.length > 0}
 		{#each tags as tag}
 			{#if 'description' in tag}

@@ -25,10 +25,10 @@
 	type="button"
 	title="Click to add tag"
 	{onclick}
+	class={['mixin-icon-text', icon]}
 	class:active
 	class:active-in-supertag={activeInSuperTag}
 	class:top-level={topLevel}
-	class={icon}
 >
 	{formatTagname(tag.name)}
 </button>
@@ -37,9 +37,6 @@
 	button {
 		--background-color: var(--background-2);
 		--background-color-hover: var(--background-3);
-		display: inline-flex;
-		align-items: center;
-		gap: var(--tiny-gap);
 		background-color: var(--background-color);
 		color: var(--text);
 		height: 24px;

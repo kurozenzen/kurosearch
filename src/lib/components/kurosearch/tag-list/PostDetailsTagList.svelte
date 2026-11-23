@@ -10,28 +10,30 @@
 	let { tags }: Props = $props();
 </script>
 
-<ul class="tags">
-	{#each tags as tag}
+<ul>
+	{#each tags as tag (tag.name)}
 		{@const active = activeTags.value.some((t) => t.name === tag.name)}
 		{@const activeInSuperTag = activeSupertags.value.some((st) =>
 			st.tags.some((t) => t.name === tag.name)
 		)}
-		<SimpleTag
-			{tag}
-			onclick={() =>
-				active
-					? removeByName(activeTags.value, tag.name)
-					: addOrReplace(activeTags.value, { ...tag, modifier: '+' })}
-			{active}
-			{activeInSuperTag}
-		/>
+		<li>
+			<SimpleTag
+				{tag}
+				onclick={() =>
+					active
+						? removeByName(activeTags.value, tag.name)
+						: addOrReplace(activeTags.value, { ...tag, modifier: '+' })}
+				{active}
+				{activeInSuperTag}
+			/>
+		</li>
 	{/each}
 </ul>
 
 <style>
-	.tags {
+	ul {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: var(--small-gap);
 	}
 </style>

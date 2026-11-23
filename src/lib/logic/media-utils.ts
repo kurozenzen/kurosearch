@@ -19,3 +19,16 @@ export const isImage = (src: string) =>
 	src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.webp');
 
 export const isComic = (ratio: number) => ratio < 0.4;
+
+const ENFORCE_DATA_SAVING =
+	typeof navigator !== 'undefined' &&
+	// @ts-expect-error - Network Information API is not in all TS DOM libs
+	(navigator?.connection?.saveData || navigator?.connection?.effectiveType?.includes('2g'));
+
+const MAX_THUMBNAIL_SIZE = 250;
+export const calculateSrcSet = (post: kurosearch.Post, aspectRatio: number) => {
+	if (ENFORCE_DATA_SAVING || post.file_url === post.sample_url) {
+		return `${post.sample_url} ${post.width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
+	}
+	return `${post.file_url} ${post.width}w, ${post.sample_url} ${post.sample_width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
+};

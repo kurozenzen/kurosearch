@@ -6,7 +6,7 @@
 	import SearchError from '../error-search/SearchError.svelte';
 	import Loading from '../loading/Loading.svelte';
 	import NoMoreResults from './NoMoreResults.svelte';
-	import Results from './Results.svelte';
+	import PostList from './PostList.svelte';
 	import ZeroResults from './ZeroResults.svelte';
 </script>
 
@@ -17,7 +17,7 @@
 		<SearchError error={results.value.error} />
 	{/if}
 {:else}
-	<Results onendreached={getNextPage} />
+	<PostList onendreached={getNextPage} />
 	{#if results.value.loading}
 		<div></div>
 	{:else if results.value.hasLastPage}

@@ -357,8 +357,6 @@
 	</DocsSection>
 </PageGeneric>
 
-<ScrollUpButton />
-
 <style>
 	em {
 		color: var(--text-highlight);

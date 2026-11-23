@@ -56,7 +56,7 @@
 	}}
 />
 
-<Dropdown class="searchbar-container">
+<Dropdown class="searchbar-container" element="form">
 	{#snippet summary(open)}
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="searchbar" class:open>
@@ -81,11 +81,12 @@
 		</div>
 	{/snippet}
 
-	{#snippet details()}
+	{#snippet details(className)}
 		<SuggestionList
 			promise={searchbarState.suggestionPromise}
 			onclick={submitOne}
 			selectedIndex={searchbarState.selectedSuggestionIndex}
+			class={className}
 		/>
 	{/snippet}
 </Dropdown>

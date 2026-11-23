@@ -1,20 +1,21 @@
 <script lang="ts">
-	export let title: string;
-	export let href: string;
-	export let icon: string;
-	export let label: string;
-	export let target: string = '_self';
+	interface Props {
+		title: string;
+		href: string;
+		icon: string;
+		label: string;
+		target?: string;
+	}
+
+	let { title, href, icon, label, target }: Props = $props();
 </script>
 
-<a {title} {href} {target} class={icon}>
+<a {title} {href} {target} class="mixin-icon-text {icon}">
 	{label}
 </a>
 
 <style>
 	a {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--tiny-gap);
 		color: currentColor;
 		font-size: var(--text-size-small);
 		vertical-align: middle;

@@ -13,7 +13,7 @@
 		'subscribestar.adult': ['#ff4081', 'white'],
 		'redgifs.com': ['#E5194D', 'white'],
 		'deviantart.com': ['#00c787', 'black'],
-		default: ['var(--background-2)', 'white']
+		default: ['var(--background-2)', 'var(--text)']
 	};
 </script>
 
@@ -30,95 +30,95 @@
 	let sampleExt = $derived(getExtension(post.sample_url));
 </script>
 
-<p>Links</p>
-<ol>
-	{#each links as link}
-		{@const host = link.host.replace('www.', '')}
-		{@const [background, foreground] = HOST_COLOR_MAPPING[host] ?? HOST_COLOR_MAPPING['default']}
-		{@const label = host.includes('api-cdn') ? 'File' : host}
-		<li>
-			<a
-				href={link.toString()}
-				class="codicon codicon-link-external mixin-shape-item {foreground}"
-				style="background-color: {background}; color: {foreground};"
-			>
-				{label}
-			</a>
-		</li>
-	{/each}
-</ol>
-
-<p>Files</p>
-<div>
-	<a
-		href={post.file_url}
-		target="_blank"
-		class="codicon codicon-link"
-		download="{post.id}.{fileExt}"
-	>
-		{post.id}.{fileExt}
-	</a>
-	<a
-		href={post.preview_url}
-		target="_blank"
-		class="codicon codicon-link"
-		download="{post.id}_preview.{previewExt}"
-	>
-		{post.id}_preview.{previewExt}
-	</a>
-	<a
-		href={post.sample_url}
-		target="_blank"
-		class="codicon codicon-link"
-		download="{post.id}_sample.{sampleExt}"
-	>
-		{post.id}_sample.{sampleExt}
-	</a>
-</div>
+<ul>
+	<li>
+		<p>Links</p>
+		<ul>
+			{#each links as link}
+				{@const host = link.host.replace('www.', '')}
+				{@const [background, foreground] =
+					HOST_COLOR_MAPPING[host] ?? HOST_COLOR_MAPPING['default']}
+				{@const label = host.includes('api-cdn') ? 'File' : host}
+				<li>
+					<a
+						href={link.toString()}
+						class="codicon codicon-link-external mixin-shape-item mixin-icon-text {foreground}"
+						style="background-color: {background}; color: {foreground};"
+					>
+						{label}
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</li>
+	<li>
+		<p>Files</p>
+		<ul>
+			<li>
+				<a
+					href={post.file_url}
+					target="_blank"
+					class="codicon codicon-link mixin-shape-item mixin-secondary mixin-hover mixin-icon-text"
+					download="{post.id}.{fileExt}"
+				>
+					{post.id}.{fileExt}
+				</a>
+			</li>
+			<li>
+				<a
+					href={post.sample_url}
+					target="_blank"
+					class="codicon codicon-link mixin-shape-item mixin-secondary mixin-hover mixin-icon-text"
+					download="{post.id}_sample.{sampleExt}"
+				>
+					{post.id}_sample.{sampleExt}
+				</a>
+			</li>
+			<li>
+				<a
+					href={post.preview_url}
+					target="_blank"
+					class="codicon codicon-link mixin-shape-item mixin-secondary mixin-hover mixin-icon-text"
+					download="{post.id}_preview.{previewExt}"
+				>
+					{post.id}_thumbnail.{previewExt}
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul>
 
 <style>
-	div {
-		display: flex;
-		flex-direction: column;
-		gap: var(--small-gap);
-	}
-
-	div a {
-		color: var(--text-link);
-		font-size: var(--text-size);
-		text-decoration: none;
-		white-space: nowrap;
-		display: inline-flex;
-		gap: var(--tiny-gap);
-		align-items: center;
-	}
-
-	ol {
+	ul {
 		display: flex;
 		flex-wrap: wrap;
 		list-style-type: none;
-		gap: var(--small-gap);
+		gap: var(--grid-gap);
+
+		ul {
+			gap: var(--small-gap);
+		}
 	}
 
-	ol a {
+	ul a {
 		display: flex;
 		align-items: center;
 	}
 
-	ol a::before {
-		padding-inline-end: var(--small-gap);
+	p {
+		margin-bottom: var(--small-gap);
 	}
 
 	@media (hover: hover) {
-		ol a {
+		ul a {
 			transition: all var(--default-transition-behaviour);
 		}
 
-		ol a.black:hover {
+		ul a.black:hover {
 			filter: brightness(0.7);
 		}
 
-		ol a.white:hover {
+		ul a.white:hover {
 			filter: brightness(1.5);
 		}
 	}

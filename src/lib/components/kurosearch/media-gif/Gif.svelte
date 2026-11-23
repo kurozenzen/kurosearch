@@ -1,6 +1,6 @@
 <script lang="ts">
+	import ObsImg from '$lib/components/pure/media-observed/obs-img.svelte';
 	import { observeGif } from '$lib/logic/gif-observer';
-	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
 	import { getGifSources } from '$lib/logic/media-utils';
 	import { gifPreloadEnabled } from '$lib/store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
@@ -13,7 +13,6 @@
 
 	let { post, onfullscreen }: Props = $props();
 
-	let media: HTMLImageElement;
 	let paused = $state(true);
 	let loading = $state(false);
 	let overlayHidden = $state(true);
@@ -29,46 +28,24 @@
 	};
 
 	let sources = $derived(getGifSources(post.file_url, post.sample_url, post.preview_url));
-	let animatedSource = $derived(sources.animated);
-	let staticSource = $derived(sources.static);
-	let data_src = $derived(paused ? staticSource : animatedSource);
-	$effect(() => {
-		if (media) {
-			media.src = paused ? staticSource : animatedSource;
-		}
-	});
-
-	const onkeydown = (event: KeyboardEvent) => {
-		if (keybindPlay(event)) {
-			event.preventDefault();
-			event.stopPropagation();
-			ontoggleplay();
-		}
-	};
 </script>
 
-<div style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}">
-	<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<img
-		bind:this={media}
+<figure style="aspect-ratio: {calculateAspectRatioCss(post.width, post.height)}">
+	<ObsImg
 		class="post-media media-img"
 		loading="lazy"
-		data-src={data_src}
+		src={paused ? sources.static : sources.animated}
 		alt={post.id.toString()}
 		width={post.width}
 		height={post.height}
-		tabindex="0"
-		{onkeydown}
 		onload={() => (loading = false)}
-		use:observeGif
 		{onclick}
 	/>
 	{#if gifPreloadEnabled.value}
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<img
-			data-src={animatedSource}
+			data-src={sources.animated}
 			loading="lazy"
 			alt="animated source preload"
 			class="animated-preload"
@@ -85,19 +62,16 @@
 		{loading}
 		{ontoggleplay}
 	/>
-</div>
+</figure>
 
 <style>
-	div {
+	figure {
 		position: relative;
 	}
 
 	.media-img {
 		display: block;
 		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		contain: strict;
 	}
 
 	.animated-preload {
@@ -108,11 +82,5 @@
 		pointer-events: none;
 		width: 0;
 		height: 0;
-	}
-
-	@container (min-width: 800px) {
-		img {
-			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
-		}
 	}
 </style>

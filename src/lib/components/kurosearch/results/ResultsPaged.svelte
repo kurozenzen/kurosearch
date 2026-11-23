@@ -3,7 +3,7 @@
 	import { results } from '$lib/store';
 	import SearchError from '../error-search/SearchError.svelte';
 	import PageNavigation from '../page-navigation/PageNavigation.svelte';
-	import Results from './Results.svelte';
+	import PostList from './PostList.svelte';
 	import ZeroResults from './ZeroResults.svelte';
 </script>
 
@@ -16,7 +16,7 @@
 		<SearchError error={results.value.error} />
 	{/if}
 {:else}
-	<Results onendreached={getNextPage} />
+	<PostList onendreached={getNextPage} />
 {/if}
 
 <PageNavigation onpagechange={jumpToPage} />

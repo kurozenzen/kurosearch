@@ -17,7 +17,7 @@
 
 <button
 	type="button"
-	class="mixin-tag-shape mixin-hover {MODIFIER_NAMES[tag.modifier]} {icon}"
+	class="mixin-tag-shape mixin-hover mixin-icon-text {MODIFIER_NAMES[tag.modifier]} {icon}"
 	title="Click to remove tag"
 	class:mixin-secondary={!active}
 	class:mixin-accent={active}
@@ -37,9 +37,6 @@
 
 <style>
 	button {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--tiny-gap);
 		font-size: var(--text-size-small);
 		padding-left: 6px;
 		padding-right: 12px;

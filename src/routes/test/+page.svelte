@@ -77,8 +77,6 @@
 	<meta name="description" content="Frontend test layouts." />
 </svelte:head>
 
-<ScrollUpButton />
-
 <PageGeneric title="UI Test">
 	<Preference title="Buttons" description="Different buttons">
 		<FlexRow>

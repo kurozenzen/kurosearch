@@ -63,10 +63,10 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
+
 <!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<div
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<figure
 	{@attach screenintersection(0, onIntersectionChange)}
 	class={rest.class}
 	style:aspect-ratio="{width}/{height}"
@@ -76,7 +76,6 @@
 		<!-- svelte-ignore a11y_media_has_caption -->
 		<video
 			{@attach clearsrc}
-			tabindex="0"
 			{poster}
 			{loop}
 			{src}
@@ -113,10 +112,10 @@
 			{duration}
 		/>
 	{/if}
-</div>
+</figure>
 
 <style>
-	div {
+	figure {
 		width: 100%;
 		height: 100%;
 		position: relative;
@@ -136,11 +135,5 @@
 
 	.restrict-height {
 		height: 100%;
-	}
-
-	@container (min-width: 800px) {
-		video {
-			border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
-		}
 	}
 </style>

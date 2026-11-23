@@ -1,18 +1,20 @@
 <script lang="ts">
 	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import Suggestion from './Suggestion.svelte';
 
 	interface Props {
+		class?: ClassValue;
 		promise?: Promise<kurosearch.Suggestion[]>;
 		onclick: (suggestion: kurosearch.Suggestion) => void;
 		selectedIndex: number;
 	}
 
-	let { promise, onclick, selectedIndex }: Props = $props();
+	let { promise, onclick, selectedIndex, ...rest }: Props = $props();
 </script>
 
 {#snippet placeholder(icon: string, message: string)}
-	<div class="suggestions placeholder">
+	<div class={['suggestions placeholder', rest.class]}>
 		<i class={icon}></i>
 		<span>{message}</span>
 	</div>
@@ -20,11 +22,11 @@
 
 {#if promise}
 	{#await promise}
-		<div class="suggestions placeholder">
+		<div class={['suggestions placeholder', rest.class]}>
 			<LoadingAnimation />
 		</div>
 	{:then suggestions}
-		<ol class="suggestions">
+		<ol class={['suggestions', rest.class]}>
 			{#each suggestions as suggestion, index (suggestion.label)}
 				<Suggestion
 					{suggestion}

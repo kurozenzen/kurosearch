@@ -6,7 +6,7 @@
 	import ResultCount from './ResultCount.svelte';
 </script>
 
-<div id="result-header">
+<header id="result-header">
 	<div class="left">
 		<ResultCount />
 	</div>
@@ -18,7 +18,7 @@
 	<div class="right">
 		<SortFilterConfig onsortfilterupdate={getFirstPage} />
 	</div>
-</div>
+</header>
 
 <style>
 	#result-header {

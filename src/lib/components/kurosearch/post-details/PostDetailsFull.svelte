@@ -42,14 +42,14 @@
 			<ExternalSource source={post.source} />
 		{/if}
 	</div>
-	<div class="tags">
+	<ul class="tags">
 		{#each Object.entries(tagsByType) as [type, tags] (type)}
-			<div>
+			<li>
 				<h3>{type}</h3>
 				<PostDetailsTagList {tags} />
-			</div>
+			</li>
 		{/each}
-	</div>
+	</ul>
 
 	<h3>Comments</h3>
 	<Comments id={post.id} />
@@ -59,7 +59,6 @@
 	.details {
 		display: flex;
 		flex-direction: column;
-		padding: var(--grid-gap);
 		gap: var(--grid-gap);
 	}
 
@@ -79,7 +78,7 @@
 		gap: var(--grid-gap);
 		flex-wrap: wrap;
 
-		div {
+		li {
 			display: flex;
 			flex-direction: column;
 			gap: var(--small-gap);

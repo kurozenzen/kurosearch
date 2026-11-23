@@ -49,15 +49,15 @@
 			<div class="row">
 				<label>
 					Filter Tags
-					<Select options={TAG_FILTER_OPTIONS} bind:value={tagFilter} />
+					<Select options={TAG_FILTER_OPTIONS} bind:value={tagFilter} id="fav-tag-filter"/>
 				</label>
 				<label>
 					Order Tags
-					<Select options={TAG_SORT_OPTIONS} bind:value={tagSort} />
+					<Select options={TAG_SORT_OPTIONS} bind:value={tagSort} id="fav-tag-order"/>
 				</label>
 				<label>
 					Limit Tags
-					<Select options={TAG_LIMIT_OPTIONS} bind:value={tagLimit} />
+					<Select options={TAG_LIMIT_OPTIONS} bind:value={tagLimit} id="fav-tag-limit"/>
 				</label>
 				{#if tagSort === 'ratio'}
 					<div class="entry">

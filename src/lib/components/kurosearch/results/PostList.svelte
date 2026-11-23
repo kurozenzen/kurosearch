@@ -68,7 +68,7 @@
 	};
 
 	const focusPost = async (index: number) => {
-		const postList = document.getElementsByClassName('post');
+		const postList = document.getElementsByTagName('article');
 		const postElement = postList[index] as HTMLElement;
 		postElement.scrollIntoView();
 		postElement.focus({ focusVisible: true });
@@ -96,17 +96,19 @@
 />
 
 {#if resultColumns.value === 1}
-	<ol class="single-column">
+	<ul class="single-column">
 		{#each results.value.posts as post, index (post.id)}
-			<SingleColumnPost {post} onfullscreen={(currentTime) => onfullscreen(index, currentTime)} />
+			<li>
+				<SingleColumnPost {post} onfullscreen={(currentTime) => onfullscreen(index, currentTime)} />
+			</li>
 		{/each}
-	</ol>
+	</ul>
 {:else}
-	<ol class="multi-column" style="--nr-columns: {resultColumns.value}; ">
+	<ul class="multi-column" style="--nr-columns: {resultColumns.value}; ">
 		{#each results.value.posts as post, index (post.id)}
 			<MosaicPost {post} onclick={() => onfullscreen(index)} />
 		{/each}
-	</ol>
+	</ul>
 {/if}
 
 {#if fullscreenIndex !== undefined}
@@ -124,6 +126,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--grid-gap);
+
+		li {
+			container-type: inline-size;
+		}
 	}
 
 	.multi-column {
