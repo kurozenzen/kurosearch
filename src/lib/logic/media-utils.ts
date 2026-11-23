@@ -26,9 +26,14 @@ const ENFORCE_DATA_SAVING =
 	(navigator?.connection?.saveData || navigator?.connection?.effectiveType?.includes('2g'));
 
 const MAX_THUMBNAIL_SIZE = 250;
-export const calculateSrcSet = (post: kurosearch.Post, aspectRatio: number) => {
-	if (ENFORCE_DATA_SAVING || post.file_url === post.sample_url) {
-		return `${post.sample_url} ${post.width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
+export const calculateSrcSet = (post: kurosearch.Post, aspectRatio: number, saveData: boolean) => {
+	if (post.file_url === post.sample_url) {
+		return `${post.file_url} ${post.width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
 	}
+
+	if (ENFORCE_DATA_SAVING || saveData) {
+		return `${post.sample_url} ${post.sample_width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
+	}
+
 	return `${post.file_url} ${post.width}w, ${post.sample_url} ${post.sample_width}w, ${post.preview_url} ${Math.floor(MAX_THUMBNAIL_SIZE * aspectRatio)}w`;
 };

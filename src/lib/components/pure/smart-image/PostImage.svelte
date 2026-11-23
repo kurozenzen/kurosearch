@@ -3,6 +3,7 @@
 	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
 	import { observer } from '$lib/logic/attachments/observer';
 	import { calculateSrcSet, isComic } from '$lib/logic/media-utils';
+	import { dataSaver } from '$lib/store';
 	import ObsImg from '../media-observed/obs-img.svelte';
 
 	interface Props {
@@ -29,7 +30,7 @@
 
 <figure class:can-open={canOpen} class:open class:loading-sweep={loading}>
 	<ObsImg
-		srcset={calculateSrcSet(post, ratio)}
+		srcset={calculateSrcSet(post, ratio, dataSaver.value)}
 		sizes="(max-width: 800px) 100vw, 800px"
 		alt="Post #{post.id.toString()}"
 		{onclick}
