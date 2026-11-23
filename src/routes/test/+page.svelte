@@ -18,12 +18,12 @@
 	import { resolve } from '$app/paths';
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
 	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
+	import lynxChibiChristmasSrc from '$lib/assets/lynxy-chibi-christmas.webp';
 	import { getAllPosts, getAllTags } from '$lib/indexeddb/idb';
 	import Preference from '$lib/components/pure/preference/Preference.svelte';
 	import FlexRow from '$lib/components/pure/flex-row/FlexRow.svelte';
 	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
 	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
 	import NumberInput from '$lib/components/pure/input-number/NumberInput.svelte';
 
 	const tagTypeLetters = Object.fromEntries(
@@ -167,6 +167,7 @@
 
 <img src={lynxChibiSrc} alt="default lynx" />
 <img src={lynxChibiHalloweenSrc} alt="halloween lynx" />
+<img src={lynxChibiChristmasSrc} alt="christmas lynx" />
 
 <button onclick={downloadIDBTags}> Download IDB Tags </button>
 <button onclick={downloadIDBPosts}> Download IDB Posts </button>
