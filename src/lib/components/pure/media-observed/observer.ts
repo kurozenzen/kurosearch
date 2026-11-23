@@ -11,7 +11,7 @@ const callbackObserver = browser
 					callbacks.get(entry.target)?.(entry);
 				}
 			},
-			{ rootMargin: '0px', threshold: 0 }
+			{ rootMargin: '50% 0px', threshold: 0 }
 		)
 	: (null as unknown as IntersectionObserver);
 
