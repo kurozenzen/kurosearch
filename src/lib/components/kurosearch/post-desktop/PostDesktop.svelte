@@ -1,13 +1,13 @@
 <script lang="ts" module>
-	import playSrc from '$lib/assets/play.svg?url';
-	import { getPostId } from '$lib/logic/id-utils';
-	import { keybindFsEnter, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { isComic, isImage } from '$lib/logic/media-utils';
+	import playSrc from '#lib/assets/play.svg?url';
+	import { getPostId } from '#lib/logic/id-utils';
+	import { keybindFsEnter, keybindPostFavourite } from '#lib/logic/keybinds/keyboard-utils';
+	import { isComic, isImage } from '#lib/logic/media-utils';
 	import type { KeyboardEventHandler } from 'svelte/elements';
 	import { calculateAspectRatio } from '../post/ratio';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';
 	import Score from '../score/Score.svelte';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
 	import DataSavingImage from '../img-data-saver/DataSavingImage.svelte';
 
 	const MAX_RATIO = 1 / 2;

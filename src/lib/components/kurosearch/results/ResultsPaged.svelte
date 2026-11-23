@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getFirstPage, getNextPage, jumpToPage } from '$lib/logic/search.svelte';
-	import { results } from '$lib/store';
+	import { getFirstPage, getNextPage, jumpToPage } from '#lib/logic/search.svelte';
+	import { results } from '#lib/store';
 	import SearchError from '../error-search/SearchError.svelte';
 	import PageNavigation from '../page-navigation/PageNavigation.svelte';
 	import PostList from './PostList.svelte';

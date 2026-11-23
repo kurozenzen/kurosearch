@@ -1,5 +1,5 @@
 <script lang="ts">
-	import H3 from '$lib/components/pure/heading/H3.svelte';
+	import H3 from '#lib/components/pure/heading/H3.svelte';
 	import { type Snippet } from 'svelte';
 
 	interface Props {

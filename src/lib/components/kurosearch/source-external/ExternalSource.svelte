@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isValidUrl } from '$lib/logic/url-utils';
+	import { isValidUrl } from '#lib/logic/url-utils';
 
 	interface Props {
 		source: string;

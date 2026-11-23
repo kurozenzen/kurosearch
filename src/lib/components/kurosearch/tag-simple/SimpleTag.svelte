@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatTagname } from '$lib/logic/format-tag';
-	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
+	import { formatTagname } from '#lib/logic/format-tag';
+	import { TAG_TYPES_WITH_ICONS } from '#lib/logic/tag-type-data';
 
 	interface Props {
 		tag: kurosearch.Tag;

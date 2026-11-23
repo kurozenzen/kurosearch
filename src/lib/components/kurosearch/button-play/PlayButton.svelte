@@ -1,7 +1,7 @@
 <script lang="ts">
-	import loadSrc from '$lib/assets/load.svg?url';
-	import pauseSrc from '$lib/assets/pause.svg?url';
-	import playSrc from '$lib/assets/play.svg?url';
+	import loadSrc from '#lib/assets/load.svg?url';
+	import pauseSrc from '#lib/assets/pause.svg?url';
+	import playSrc from '#lib/assets/play.svg?url';
 	import type { ClassValue } from 'svelte/elements';
 
 	interface Props {

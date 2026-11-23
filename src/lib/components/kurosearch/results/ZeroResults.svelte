@@ -70,10 +70,10 @@
 </script>
 
 <script lang="ts">
-	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { BLOCKING_GROUP_TAGS } from '$lib/logic/blocking-group-data';
-	import { activeSupertags, activeTags, blockedContent, filter, sort } from '$lib/store';
+	import notFoundSrc from '#lib/assets/lynxy-chibi-not-found.webp';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { BLOCKING_GROUP_TAGS } from '#lib/logic/blocking-group-data';
+	import { activeSupertags, activeTags, blockedContent, filter, sort } from '#lib/store';
 
 	interface Props {
 		onsortfilterupdate: () => void;

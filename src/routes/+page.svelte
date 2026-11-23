@@ -1,21 +1,21 @@
 <script lang="ts">
-	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
-	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
-	import { getFirstPage } from '$lib/logic/search.svelte';
+	import LayoutMobile from '#lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
+	import { keybindsVideo } from '#lib/logic/keybinds/keyboard-utils';
+	import { getFirstPage } from '#lib/logic/search.svelte';
 	import { onMount } from 'svelte';
 	import LynxMain from './LynxMain.svelte';
-	import { pageNavigationEnabled, results } from '$lib/store';
-	import ResultHeader from '$lib/components/kurosearch/results/ResultHeader.svelte';
-	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
-	import ResultsPaged from '$lib/components/kurosearch/results/ResultsPaged.svelte';
-	import ResultsInfinite from '$lib/components/kurosearch/results/ResultsInfinite.svelte';
-	import CreateSupertagDialog from '$lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
-	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
-	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { keybindSearch } from '$lib/logic/keybinds/keyboard-utils';
-	import { activateSuggestion, fetchCombinedSuggestions } from '$lib/logic/suggestions.svelte';
-	import Loading from '$lib/components/kurosearch/loading/Loading.svelte';
+	import { pageNavigationEnabled, results } from '#lib/store';
+	import ResultHeader from '#lib/components/kurosearch/results/ResultHeader.svelte';
+	import KurosearchTitle from '#lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
+	import ResultsPaged from '#lib/components/kurosearch/results/ResultsPaged.svelte';
+	import ResultsInfinite from '#lib/components/kurosearch/results/ResultsInfinite.svelte';
+	import CreateSupertagDialog from '#lib/components/kurosearch/dialog-create-supertag/CreateSupertagDialog.svelte';
+	import Searchbar from '#lib/components/kurosearch/searchbar/Searchbar.svelte';
+	import ActiveTagList from '#lib/components/kurosearch/tag-list/ActiveTagList.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { keybindSearch } from '#lib/logic/keybinds/keyboard-utils';
+	import { activateSuggestion, fetchCombinedSuggestions } from '#lib/logic/suggestions.svelte';
+	import Loading from '#lib/components/kurosearch/loading/Loading.svelte';
 
 	let showCreateSupertagDialog = $state(false);
 

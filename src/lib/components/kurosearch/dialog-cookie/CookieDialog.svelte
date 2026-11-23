@@ -1,6 +1,6 @@
 <script lang="ts">
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { cookiesAccepted } from '$lib/store';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { cookiesAccepted } from '#lib/store';
 	import LynxMain from '../../../../routes/LynxMain.svelte';
 
 	let dialog: HTMLDialogElement | undefined = $state();

@@ -1,7 +1,7 @@
 <script>
 	import { resolve } from '$app/paths';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import { results } from '$lib/store';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import { results } from '#lib/store';
 	import LinkHelp from '../header/LinkHelp.svelte';
 	import LinkKofi from '../header/LinkKofi.svelte';
 	import LinkSettings from '../header/LinkSettings.svelte';

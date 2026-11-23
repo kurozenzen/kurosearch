@@ -1,6 +1,6 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import Fullscreen from '$lib/components/pure/fullscreen/Fullscreen.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import Fullscreen from '#lib/components/pure/fullscreen/Fullscreen.svelte';
 	import FullscreenScroller from './FullscreenScroller.svelte';
 
 	interface Props {

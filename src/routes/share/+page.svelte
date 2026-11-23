@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { parseUrlSettings } from '$lib/logic/url-parsing';
+	import { parseUrlSettings } from '#lib/logic/url-parsing';
 	import {
 		activeSupertags as activeSupertagsState,
 		activeTags,
@@ -10,9 +10,9 @@
 		filter as filterState,
 		results,
 		sort as sortState,
-	} from '$lib/store';
-	import { addOrReplace } from '$lib/logic/array-ops';
-	import { createDefaultSearch } from '$lib/logic/search.svelte';
+	} from '#lib/store';
+	import { addOrReplace } from '#lib/logic/array-ops';
+	import { createDefaultSearch } from '#lib/logic/search.svelte';
 
 	const applyUrlSearchParamsToStore = async () => {
 		if (!browser) {

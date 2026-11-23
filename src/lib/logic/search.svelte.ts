@@ -12,7 +12,7 @@ import {
 	setPage,
 	sort,
 	userId
-} from '$lib/store';
+} from '#lib/store';
 import { ID_RESULT_HEADER } from './well-known-ids';
 import { ApiError } from './api-client/tags/ApiError';
 

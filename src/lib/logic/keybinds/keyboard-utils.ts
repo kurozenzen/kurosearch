@@ -1,4 +1,4 @@
-import { SkipDirection, skipVideo, toggleMute, toggleVideo } from '$lib/store/active-video.svelte';
+import { SkipDirection, skipVideo, toggleMute, toggleVideo } from '#lib/store/active-video.svelte';
 
 // Searchbar
 export const keybindFocusSearchbar = (event: KeyboardEvent) =>

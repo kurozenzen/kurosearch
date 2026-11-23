@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
-	import MobileHeader from '$lib/components/kurosearch/header/MobileHeader.svelte';
+	import FooterMobile from '#lib/components/kurosearch/footer/FooterMobile.svelte';
+	import MobileHeader from '#lib/components/kurosearch/header/MobileHeader.svelte';
 	import type { Snippet } from 'svelte';
 	import LayoutCommon from '../layout-common/LayoutCommon.svelte';
-	import { wideLayoutEnabled } from '$lib/store';
+	import { wideLayoutEnabled } from '#lib/store';
 
 	interface Props {
 		children: Snippet;

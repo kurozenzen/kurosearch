@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { observer } from '$lib/logic/attachments/observer';
+	import { observer } from '#lib/logic/attachments/observer';
 
 	interface Props {
 		rootMargin: string;

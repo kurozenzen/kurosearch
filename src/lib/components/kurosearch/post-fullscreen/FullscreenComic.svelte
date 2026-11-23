@@ -1,7 +1,7 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import { highResolutionEnabled } from '$lib/store';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import LoadingAnimation from '#lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import { highResolutionEnabled } from '#lib/store';
 
 	interface Props {
 		post: kurosearch.Post;

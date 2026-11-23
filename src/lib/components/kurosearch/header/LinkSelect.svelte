@@ -1,6 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
-	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
+	import IconLink from '#lib/components/pure/icon-link/IconLink.svelte';
 </script>
 
 <IconLink title="Select" href={resolve('/select')}>

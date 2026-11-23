@@ -1,14 +1,14 @@
 import { browser } from '$app/environment';
-import type { IndexedPost } from '$lib/indexeddb/idb';
-import type { SettingsObject } from '$lib/logic/file-utils';
-import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
-import { getSettingsFromDriveBackup, loadDriveBackup } from '$lib/logic/firebase/drive-storage';
-import { blockedContent, resultColumns, theme } from '$lib/store';
-import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
-import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
-import { parseNumber } from '$lib/store/persistent.state.svelte';
-import { StorageKey } from '$lib/store/storage-keys';
-import supertags from '$lib/store/supertags-store';
+import type { IndexedPost } from '#lib/indexeddb/idb';
+import type { SettingsObject } from '#lib/logic/file-utils';
+import { migrateFirebaseStorageToDriveIfNeeded } from '#lib/logic/firebase/drive-migration';
+import { getSettingsFromDriveBackup, loadDriveBackup } from '#lib/logic/firebase/drive-storage';
+import { blockedContent, resultColumns, theme } from '#lib/store';
+import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
+import { semiPersistentStorage } from '#lib/store/generic/storage-semi.svelte';
+import { parseNumber } from '#lib/store/persistent.state.svelte';
+import { StorageKey } from '#lib/store/storage-keys';
+import supertags from '#lib/store/supertags-store';
 import { getAuth } from 'firebase/auth';
 
 let restoredUid: string | undefined;

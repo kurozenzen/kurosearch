@@ -2,10 +2,10 @@
 	import TagButton from '../button-tag/TagButton.svelte';
 	import DetailedTag from '../tag-detailed/DetailedTag.svelte';
 	import ShareButton from '../button-share/ShareButton.svelte';
-	import { supportsUrlSharing } from '$lib/logic/feature-support';
-	import { activeSupertags, activeTags } from '$lib/store';
-	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
-	import { nextModifier } from '$lib/logic/modifier-utils';
+	import { supportsUrlSharing } from '#lib/logic/feature-support';
+	import { activeSupertags, activeTags } from '#lib/store';
+	import { addOrReplace, removeByName } from '#lib/logic/array-ops';
+	import { nextModifier } from '#lib/logic/modifier-utils';
 
 	interface Props {
 		oncreateSupertag?: (tags: Array<kurosearch.ModifiedTag | kurosearch.Supertag>) => void;

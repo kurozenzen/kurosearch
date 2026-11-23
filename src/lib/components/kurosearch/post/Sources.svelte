@@ -1,6 +1,6 @@
 <script lang="ts" module>
-	import { getExtension } from '$lib/logic/media-utils';
-	import { getSourcesForPost } from '$lib/logic/svelte/sources.svelte';
+	import { getExtension } from '#lib/logic/media-utils';
+	import { getSourcesForPost } from '#lib/logic/svelte/sources.svelte';
 
 	const HOST_COLOR_MAPPING: Record<string, [string, string]> = {
 		'kurosearch.com': ['crimson', 'white'],

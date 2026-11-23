@@ -1,8 +1,8 @@
 import { handleErrorWithSentry } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
 import type { ClientInit } from '@sveltejs/kit';
-import { initIdb } from '$lib/indexeddb/idb';
-import '$lib/logic/firebase/firebase';
+import { initIdb } from '#lib/indexeddb/idb';
+import '#lib/logic/firebase/firebase';
 
 if (import.meta.env.PROD) {
 	Sentry.init({

@@ -1,5 +1,5 @@
-import { nextModifier } from '$lib/logic/modifier-utils';
-import { serializeTagName } from '$lib/logic/tag-serialization';
+import { nextModifier } from '#lib/logic/modifier-utils';
+import { serializeTagName } from '#lib/logic/tag-serialization';
 
 export class SearchBarState {
 	#searchTerm: string;

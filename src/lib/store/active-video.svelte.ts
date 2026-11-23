@@ -1,4 +1,4 @@
-import { clamp } from '$lib/logic/math';
+import { clamp } from '#lib/logic/math';
 
 export interface VideoContext {
 	playingVideo: HTMLVideoElement | undefined;

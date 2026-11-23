@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
+	import LayoutMobile from '#lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
 	import type { Snippet } from 'svelte';
 
 	interface Props {

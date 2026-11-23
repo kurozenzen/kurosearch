@@ -1,8 +1,8 @@
 <script>
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import { getFirstPage, getNextPage } from '$lib/logic/search.svelte';
-	import { resultColumns, results } from '$lib/store';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import IntersectionDetector from '#lib/components/pure/intersection-detector/IntersectionDetector.svelte';
+	import { getFirstPage, getNextPage } from '#lib/logic/search.svelte';
+	import { resultColumns, results } from '#lib/store';
 	import SearchError from '../error-search/SearchError.svelte';
 	import Loading from '../loading/Loading.svelte';
 	import NoMoreResults from './NoMoreResults.svelte';

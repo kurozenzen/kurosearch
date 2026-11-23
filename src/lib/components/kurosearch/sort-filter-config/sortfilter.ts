@@ -1,4 +1,4 @@
-import { formatCount } from '$lib/logic/format-count';
+import { formatCount } from '#lib/logic/format-count';
 
 export const LABELS_SORT: Record<
 	kurosearch.SortProperty,

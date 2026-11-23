@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ClipboardEventHandler } from 'svelte/elements';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import { apiKey, userId } from '$lib/store';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import { apiKey, userId } from '#lib/store';
 
 	const pasteHandler: ClipboardEventHandler<HTMLElement> = (event) => {
 		const pastedText = event.clipboardData?.getData('text/plain') ?? '';

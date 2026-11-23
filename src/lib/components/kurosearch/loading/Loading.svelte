@@ -1,6 +1,6 @@
 <script lang="ts">
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import type { InputProps } from '$lib/components/pure/types';
+	import LoadingAnimation from '#lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import type { InputProps } from '#lib/components/pure/types';
 	import type { Snippet } from 'svelte';
 
 	interface Props extends InputProps {

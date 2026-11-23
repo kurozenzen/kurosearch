@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { getPostId } from '$lib/logic/id-utils';
-	import { pauseVideo, targetVideo } from '$lib/store/active-video.svelte';
+	import { getPostId } from '#lib/logic/id-utils';
+	import { pauseVideo, targetVideo } from '#lib/store/active-video.svelte';
 	import FullscreenPost from '../post-fullscreen/FullscreenPost.svelte';
 	import MosaicPost from '../post/MosaicPost.svelte';
 	import SingleColumnPost from '../post/SingleColumnPost.svelte';
-	import { keybindResultsNext, keybindResultsPrev } from '$lib/logic/keybinds/keyboard-utils';
-	import { clamp } from '$lib/logic/math';
-	import { resultColumns, results } from '$lib/store';
+	import { keybindResultsNext, keybindResultsPrev } from '#lib/logic/keybinds/keyboard-utils';
+	import { clamp } from '#lib/logic/math';
+	import { resultColumns, results } from '#lib/store';
 	import { pushState } from '$app/navigation';
 
 	interface Props {

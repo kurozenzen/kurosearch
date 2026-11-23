@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { filter, sort, type SortFilterData } from '$lib/store';
+	import { filter, sort, type SortFilterData } from '#lib/store';
 	import type { ClassValue } from 'svelte/elements';
 	import SortFilterDialog from '../dialog-sort-filter/SortFilterDialog.svelte';
 	import ResultHeaderItem from '../results/ResultHeaderItem.svelte';

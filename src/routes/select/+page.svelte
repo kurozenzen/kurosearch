@@ -1,6 +1,6 @@
 <script lang="ts">
-	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
-	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
+	import KurosearchTitle from '#lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
+	import QuickSearch from '#lib/components/kurosearch/quick-search/QuickSearch.svelte';
 	import LynxMain from '../LynxMain.svelte';
 	import { goto } from '$app/navigation';
 </script>

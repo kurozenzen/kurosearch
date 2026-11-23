@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { type FilterData, type SortData } from '$lib/store';
+import { type FilterData, type SortData } from '#lib/store';
 import {
 	parseShareTags,
 	serializeShareTags,

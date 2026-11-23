@@ -1,9 +1,9 @@
 <script lang="ts">
-	import PostOverlay from '$lib/components/kurosearch/post-overlay/PostOverlay.svelte';
-	import { calculateAspectRatio } from '$lib/components/kurosearch/post/ratio';
-	import { observer } from '$lib/logic/attachments/observer';
-	import { calculateSrcSet, isComic } from '$lib/logic/media-utils';
-	import { dataSaver } from '$lib/store';
+	import PostOverlay from '#lib/components/kurosearch/post-overlay/PostOverlay.svelte';
+	import { calculateAspectRatio } from '#lib/components/kurosearch/post/ratio';
+	import { observer } from '#lib/logic/attachments/observer';
+	import { calculateSrcSet, isComic } from '#lib/logic/media-utils';
+	import { dataSaver } from '#lib/store';
 	import ObsImg from '../media-observed/obs-img.svelte';
 
 	interface Props {

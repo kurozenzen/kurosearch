@@ -1,12 +1,12 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import { keybindFsLeave, keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { getGifSources, getVideoSources, isComic, isLoop } from '$lib/logic/media-utils';
-	import { alwaysLoop } from '$lib/store';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import { keybindFsLeave, keybindPostFavourite } from '#lib/logic/keybinds/keyboard-utils';
+	import { getGifSources, getVideoSources, isComic, isLoop } from '#lib/logic/media-utils';
+	import { alwaysLoop } from '#lib/store';
 	import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
 	import { calculateAspectRatio } from '../post/ratio';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
 
 	interface Props {
 		post: kurosearch.Post;

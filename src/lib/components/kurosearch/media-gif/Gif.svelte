@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ObsImg from '$lib/components/pure/media-observed/obs-img.svelte';
-	import { observeGif } from '$lib/logic/gif-observer';
-	import { getGifSources } from '$lib/logic/media-utils';
-	import { gifPreloadEnabled } from '$lib/store';
+	import ObsImg from '#lib/components/pure/media-observed/obs-img.svelte';
+	import { observeGif } from '#lib/logic/gif-observer';
+	import { getGifSources } from '#lib/logic/media-utils';
+	import { gifPreloadEnabled } from '#lib/store';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 	import { calculateAspectRatioCss } from '../post/ratio';
 
@@ -67,11 +67,6 @@
 <style>
 	figure {
 		position: relative;
-	}
-
-	.media-img {
-		display: block;
-		width: 100%;
 	}
 
 	.animated-preload {

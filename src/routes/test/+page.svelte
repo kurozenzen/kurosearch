@@ -1,30 +1,30 @@
 <script lang="ts" module>
-	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import RotatingIconSelect from '$lib/components/pure/rotating-select/RotatingIconSelect.svelte';
-	import RotatingTextSelect from '$lib/components/pure/rotating-select/RotatingTextSelect.svelte';
-	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
-	import ToggleIcon from '$lib/components/pure/toggle-icon/ToggleIcon.svelte';
-	import ModifierSelect from '$lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
-	import ActiveTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
-	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
-	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
-	import DiscordLink from '$lib/components/kurosearch/link-discord/DiscordLink.svelte';
-	import AccountLink from '$lib/components/kurosearch/link-account/AccountLink.svelte';
-	import SettingsLink from '$lib/components/kurosearch/header/LinkSettings.svelte';
-	import defaultUserSrc from '$lib/assets/default-user.png';
+	import Checkbox from '#lib/components/pure/checkbox/Checkbox.svelte';
+	import LoadingAnimation from '#lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import RotatingIconSelect from '#lib/components/pure/rotating-select/RotatingIconSelect.svelte';
+	import RotatingTextSelect from '#lib/components/pure/rotating-select/RotatingTextSelect.svelte';
+	import Select from '#lib/components/pure/select/Select.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import TextInput from '#lib/components/pure/input-text/TextInput.svelte';
+	import ToggleIcon from '#lib/components/pure/toggle-icon/ToggleIcon.svelte';
+	import ModifierSelect from '#lib/components/kurosearch/modifier-select/ModifierSelect.svelte';
+	import ActiveTag from '#lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
+	import { TAG_TYPES_WITH_ICONS } from '#lib/logic/tag-type-data';
+	import CodiconLink from '#lib/components/pure/icon-link/CodiconLink.svelte';
+	import DiscordLink from '#lib/components/kurosearch/link-discord/DiscordLink.svelte';
+	import AccountLink from '#lib/components/kurosearch/link-account/AccountLink.svelte';
+	import SettingsLink from '#lib/components/kurosearch/header/LinkSettings.svelte';
+	import defaultUserSrc from '#lib/assets/default-user.png';
 	import { resolve } from '$app/paths';
-	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
-	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
-	import lynxChibiChristmasSrc from '$lib/assets/lynxy-chibi-christmas.webp';
-	import { getAllPosts, getAllTags } from '$lib/indexeddb/idb';
-	import Preference from '$lib/components/pure/preference/Preference.svelte';
-	import FlexRow from '$lib/components/pure/flex-row/FlexRow.svelte';
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import NumberInput from '$lib/components/pure/input-number/NumberInput.svelte';
+	import lynxChibiSrc from '#lib/assets/lynxy-chibi.webp';
+	import lynxChibiHalloweenSrc from '#lib/assets/lynxy-chibi-halloween.webp';
+	import lynxChibiChristmasSrc from '#lib/assets/lynxy-chibi-christmas.webp';
+	import { getAllPosts, getAllTags } from '#lib/indexeddb/idb';
+	import Preference from '#lib/components/pure/preference/Preference.svelte';
+	import FlexRow from '#lib/components/pure/flex-row/FlexRow.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import NumberInput from '#lib/components/pure/input-number/NumberInput.svelte';
 
 	const tagTypeLetters = Object.fromEntries(
 		Object.keys(TAG_TYPES_WITH_ICONS).map((t) => [t, t.charAt(0)])

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
-	import { activeTags } from '$lib/store';
-	import { createNewSupertagFromActiveTags } from '$lib/logic/supertags.svelte';
-	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
+	import Dialog from '#lib/components/pure/dialog/Dialog.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import DetailedTag from '#lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
+	import { activeTags } from '#lib/store';
+	import { createNewSupertagFromActiveTags } from '#lib/logic/supertags.svelte';
+	import TextInput from '#lib/components/pure/input-text/TextInput.svelte';
 
 	interface Props {
 		open: boolean;

@@ -1,5 +1,5 @@
-import type { StorageKey } from '$lib/store/storage-keys';
-import type { IndexedPost } from '$lib/indexeddb/idb';
+import type { StorageKey } from '#lib/store/storage-keys';
+import type { IndexedPost } from '#lib/indexeddb/idb';
 
 export interface SettingsObject {
 	[StorageKey.BackupTimestamp]?: string;

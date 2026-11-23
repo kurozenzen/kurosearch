@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatCount } from '$lib/logic/format-count';
-	import { getSourcesForPost } from '$lib/logic/svelte/sources.svelte';
+	import { formatCount } from '#lib/logic/format-count';
+	import { getSourcesForPost } from '#lib/logic/svelte/sources.svelte';
 	import Comments from '../post-comment/Comments.svelte';
 	import Sources from '../post/Sources.svelte';
 	import RelativeTime from '../relative-time/RelativeTime.svelte';

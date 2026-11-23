@@ -1,7 +1,7 @@
 <script lang="ts">
-	import PostImage from '$lib/components/pure/smart-image/PostImage.svelte';
-	import { getVideoSources, isLoop } from '$lib/logic/media-utils';
-	import { alwaysLoop } from '$lib/store';
+	import PostImage from '#lib/components/pure/smart-image/PostImage.svelte';
+	import { getVideoSources, isLoop } from '#lib/logic/media-utils';
+	import { alwaysLoop } from '#lib/store';
 	import Gif from '../media-gif/Gif.svelte';
 	import Video from '../media-video/Video.svelte';
 

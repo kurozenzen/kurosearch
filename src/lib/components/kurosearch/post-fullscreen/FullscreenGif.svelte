@@ -1,5 +1,5 @@
 <script module lang="ts">
-	import { autoplayFullscreenDelay, autoplayFullscreenEnabled } from '$lib/store';
+	import { autoplayFullscreenDelay, autoplayFullscreenEnabled } from '#lib/store';
 
 	let duration = $derived(
 		autoplayFullscreenEnabled.value ? autoplayFullscreenDelay.value : undefined
@@ -8,8 +8,8 @@
 
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
-	import { getGifSources } from '$lib/logic/media-utils';
+	import { keybindPlay } from '#lib/logic/keybinds/keyboard-utils';
+	import { getGifSources } from '#lib/logic/media-utils';
 	import { onDestroy, onMount } from 'svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 

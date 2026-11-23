@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { clearsrc } from '$lib/logic/attachments/clearsrc';
-	import { screenintersection } from '$lib/logic/attachments/screenintersection';
-	import { getVideoSources } from '$lib/logic/media-utils';
-	import { playVideo, toggleVideo } from '$lib/store/active-video.svelte';
+	import { clearsrc } from '#lib/logic/attachments/clearsrc';
+	import { screenintersection } from '#lib/logic/attachments/screenintersection';
+	import { getVideoSources } from '#lib/logic/media-utils';
+	import { playVideo, toggleVideo } from '#lib/store/active-video.svelte';
 	import { onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';

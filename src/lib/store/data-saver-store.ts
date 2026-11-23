@@ -1,4 +1,4 @@
-import { isComic } from '$lib/logic/media-utils';
+import { isComic } from '#lib/logic/media-utils';
 
 export const DATA_SAVER_THRESHOLD = 1_000_000;
 

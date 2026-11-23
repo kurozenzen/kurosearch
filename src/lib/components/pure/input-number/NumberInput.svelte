@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { blurOnEnter, blurOnEsc } from '$lib/logic/keybinds/blur';
+	import { blurOnEnter, blurOnEsc } from '#lib/logic/keybinds/blur';
 	import type { InputProps } from '../types';
 
 	interface Props extends InputProps {

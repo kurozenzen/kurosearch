@@ -1,8 +1,8 @@
-import { type IndexedPost } from '$lib/indexeddb/idb';
-import type { SettingsObject } from '$lib/logic/file-utils';
-import { ensureGoogleAccessToken } from '$lib/logic/firebase/authentication';
-import { getGapi, setupGoogleDriveAtPageLoad } from '$lib/logic/firebase/drive';
-import { StorageKey } from '$lib/store/storage-keys';
+import { type IndexedPost } from '#lib/indexeddb/idb';
+import type { SettingsObject } from '#lib/logic/file-utils';
+import { ensureGoogleAccessToken } from '#lib/logic/firebase/authentication';
+import { getGapi, setupGoogleDriveAtPageLoad } from '#lib/logic/firebase/drive';
+import { StorageKey } from '#lib/store/storage-keys';
 
 const APPDATA_FILE_NAME = 'kurosearch-appdata-v1.json';
 

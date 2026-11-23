@@ -1,8 +1,8 @@
 <script lang="ts">
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { PAGE_SIZE } from '$lib/logic/api-client/ApiClient';
-	import { jumpToPage } from '$lib/logic/search.svelte';
-	import { results } from '$lib/store';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { PAGE_SIZE } from '#lib/logic/api-client/ApiClient';
+	import { jumpToPage } from '#lib/logic/search.svelte';
+	import { results } from '#lib/store';
 	import NumberInput from '../../pure/input-number/NumberInput.svelte';
 
 	let totalPages = $derived(Math.min(10000, Math.ceil(results.value.postCount / PAGE_SIZE)));

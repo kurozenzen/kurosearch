@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { partitionTagsByType } from '$lib/logic/tag-utils';
+	import { partitionTagsByType } from '#lib/logic/tag-utils';
 	import type { ClassValue } from 'svelte/elements';
 	import Comments from '../post-comment/Comments.svelte';
 	import Rating from '../rating/Rating.svelte';

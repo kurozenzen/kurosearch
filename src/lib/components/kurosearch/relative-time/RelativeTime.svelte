@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatCreatedAt } from '$lib/logic/format-relative-time';
+	import { formatCreatedAt } from '#lib/logic/format-relative-time';
 
 	interface Props {
 		value: number | string;

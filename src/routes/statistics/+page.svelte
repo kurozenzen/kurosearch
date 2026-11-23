@@ -1,8 +1,8 @@
 <script lang="ts">
-	import tagData from '$lib/assets/tags.json';
-	import postData from '$lib/assets/posts.json';
-	import { partitionTagsByType } from '$lib/logic/tag-utils';
-	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
+	import tagData from '#lib/assets/tags.json';
+	import postData from '#lib/assets/posts.json';
+	import { partitionTagsByType } from '#lib/logic/tag-utils';
+	import LayoutMobile from '#lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
 
 	const computeTags = () => {
 		const tagsByType = partitionTagsByType(tagData as kurosearch.Tag[]);

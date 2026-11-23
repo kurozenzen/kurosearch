@@ -5,7 +5,7 @@ import {
 	removeFavouritePost,
 	replaceAllFavouritePosts,
 	type IndexedPost
-} from '$lib/indexeddb/idb';
+} from '#lib/indexeddb/idb';
 import { SvelteSet } from 'svelte/reactivity';
 
 export interface FavouritePostsStore {

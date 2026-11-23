@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { fullscreenelement } from '$lib/logic/attachments/fullscreenelement';
-	import { keybindFsLeave } from '$lib/logic/keybinds/keyboard-utils';
+	import { fullscreenelement } from '#lib/logic/attachments/fullscreenelement';
+	import { keybindFsLeave } from '#lib/logic/keybinds/keyboard-utils';
 	import { type Snippet } from 'svelte';
 
 	interface Props {

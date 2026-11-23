@@ -1,14 +1,14 @@
 <script>
 	import { resolve } from '$app/paths';
-	import DocsSection from '$lib/components/kurosearch/section-docs/DocsSection.svelte';
-	import DetailedTag from '$lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
-	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
-	import ScrollUpButton from '$lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
-	import H3 from '$lib/components/pure/heading/H3.svelte';
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import SummaryCard from '$lib/components/pure/summary-card/SummaryCard.svelte';
-	import { MODIFIERS_ICONS } from '$lib/logic/tag-modifier-data';
-	import { createModifiedTag, createTag } from '$lib/logic/tag-utils';
+	import DocsSection from '#lib/components/kurosearch/section-docs/DocsSection.svelte';
+	import DetailedTag from '#lib/components/kurosearch/tag-detailed/DetailedTag.svelte';
+	import SimpleTag from '#lib/components/kurosearch/tag-simple/SimpleTag.svelte';
+	import ScrollUpButton from '#lib/components/pure/button-scroll-up/ScrollUpButton.svelte';
+	import H3 from '#lib/components/pure/heading/H3.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import SummaryCard from '#lib/components/pure/summary-card/SummaryCard.svelte';
+	import { MODIFIERS_ICONS } from '#lib/logic/tag-modifier-data';
+	import { createModifiedTag, createTag } from '#lib/logic/tag-utils';
 </script>
 
 <svelte:head>

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Dialog from '$lib/components/pure/dialog/Dialog.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import H3 from '$lib/components/pure/heading/H3.svelte';
+	import Dialog from '#lib/components/pure/dialog/Dialog.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import H3 from '#lib/components/pure/heading/H3.svelte';
 
 	interface Props {
 		open: boolean;

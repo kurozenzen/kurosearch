@@ -1,8 +1,8 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
 	import PostDetailsFull from '../post-details/PostDetailsFull.svelte';
-	import { keybindPostFavourite } from '$lib/logic/keybinds/keyboard-utils';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+	import { keybindPostFavourite } from '#lib/logic/keybinds/keyboard-utils';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
 
 	interface Props {
 		post: kurosearch.Post;

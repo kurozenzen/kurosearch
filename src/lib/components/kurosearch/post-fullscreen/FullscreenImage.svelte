@@ -3,7 +3,7 @@
 		autoplayFullscreenDelay,
 		autoplayFullscreenEnabled,
 		highResolutionEnabled
-	} from '$lib/store';
+	} from '#lib/store';
 
 	let duration = $derived(
 		autoplayFullscreenEnabled.value ? autoplayFullscreenDelay.value : undefined
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { keybindPlay } from '$lib/logic/keybinds/keyboard-utils';
+	import { keybindPlay } from '#lib/logic/keybinds/keyboard-utils';
 	import { onDestroy, onMount } from 'svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
 

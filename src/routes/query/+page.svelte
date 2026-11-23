@@ -1,10 +1,10 @@
 <script lang="ts">
-	import KurosearchTitle from '$lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
-	import Searchbar from '$lib/components/kurosearch/searchbar/Searchbar.svelte';
-	import ActiveTagList from '$lib/components/kurosearch/tag-list/ActiveTagList.svelte';
-	import H3 from '$lib/components/pure/heading/H3.svelte';
-	import { createDefaultSearch } from '$lib/logic/search.svelte';
-	import { activateSuggestion, fetchCombinedSuggestions } from '$lib/logic/suggestions.svelte';
+	import KurosearchTitle from '#lib/components/kurosearch/kurosearch-title/KurosearchTitle.svelte';
+	import Searchbar from '#lib/components/kurosearch/searchbar/Searchbar.svelte';
+	import ActiveTagList from '#lib/components/kurosearch/tag-list/ActiveTagList.svelte';
+	import H3 from '#lib/components/pure/heading/H3.svelte';
+	import { createDefaultSearch } from '#lib/logic/search.svelte';
+	import { activateSuggestion, fetchCombinedSuggestions } from '#lib/logic/suggestions.svelte';
 
 	const getQueryUrl = (url: string) => {
 		try {

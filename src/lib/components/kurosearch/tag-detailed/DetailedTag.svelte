@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { formatActiveTag } from '$lib/logic/format-tag';
-	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
-	import { TAG_TYPES_WITH_ICONS } from '$lib/logic/tag-type-data';
+	import { formatActiveTag } from '#lib/logic/format-tag';
+	import { MODIFIER_NAMES } from '#lib/logic/tag-modifier-data';
+	import { TAG_TYPES_WITH_ICONS } from '#lib/logic/tag-type-data';
 
 	interface Props {
 		tag: kurosearch.ModifiedTag;

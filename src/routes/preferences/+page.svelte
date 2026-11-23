@@ -14,17 +14,17 @@
 </script>
 
 <script lang="ts">
-	import ConfirmDialog from '$lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
-	import NumberInput from '$lib/components/pure/input-number/NumberInput.svelte';
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
-	import Checkbox from '$lib/components/pure/checkbox/Checkbox.svelte';
-	import FlexRow from '$lib/components/pure/flex-row/FlexRow.svelte';
-	import TextInput from '$lib/components/pure/input-text/TextInput.svelte';
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import Preference from '$lib/components/pure/preference/Preference.svelte';
-	import Select from '$lib/components/pure/select/Select.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { ALL_BLOCKING_GROUPS } from '$lib/logic/blocking-group-data';
+	import ConfirmDialog from '#lib/components/kurosearch/dialog-confirm/ConfirmDialog.svelte';
+	import NumberInput from '#lib/components/pure/input-number/NumberInput.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
+	import Checkbox from '#lib/components/pure/checkbox/Checkbox.svelte';
+	import FlexRow from '#lib/components/pure/flex-row/FlexRow.svelte';
+	import TextInput from '#lib/components/pure/input-text/TextInput.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import Preference from '#lib/components/pure/preference/Preference.svelte';
+	import Select from '#lib/components/pure/select/Select.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { ALL_BLOCKING_GROUPS } from '#lib/logic/blocking-group-data';
 	import {
 		activeSupertags,
 		activeTags,
@@ -42,8 +42,8 @@
 		tagsShortcut,
 		theme,
 		wideLayoutEnabled
-	} from '$lib/store';
-	import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
+	} from '#lib/store';
+	import { semiPersistentStorage } from '#lib/store/generic/storage-semi.svelte';
 
 	let showResetDialog = $state(false);
 

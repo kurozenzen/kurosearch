@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatCount, formatExactCount } from '$lib/logic/format-count';
-	import { results } from '$lib/store';
+	import { formatCount, formatExactCount } from '#lib/logic/format-count';
+	import { results } from '#lib/store';
 	import ResultHeaderItem from './ResultHeaderItem.svelte';
 
 	let displayExactCount = $state(false);

@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
+	import CodiconLink from '#lib/components/pure/icon-link/CodiconLink.svelte';
 	import {
 		keybindFocusSearchbar,
 		keybindModifier,
 		keybindNextSuggestion,
 		keybindPrevSuggestion,
 		keybindSearchbarSubmit
-	} from '$lib/logic/keybinds/keyboard-utils';
+	} from '#lib/logic/keybinds/keyboard-utils';
 	import ModifierSelect from '../modifier-select/ModifierSelect.svelte';
 	import { SearchBarState } from './searchbar.state.svelte';
 	import SuggestionList from './SuggestionList.svelte';
-	import { ID_SEARCHBAR } from '$lib/logic/well-known-ids';
-	import Dropdown from '$lib/components/pure/dropdown/Dropdown.svelte';
+	import { ID_SEARCHBAR } from '#lib/logic/well-known-ids';
+	import Dropdown from '#lib/components/pure/dropdown/Dropdown.svelte';
 
 	interface Props {
 		fetchSuggestions: (searchTerm: string) => Promise<Array<kurosearch.Suggestion>>;

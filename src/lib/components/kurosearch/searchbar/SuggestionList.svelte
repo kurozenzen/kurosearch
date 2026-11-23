@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import LoadingAnimation from '#lib/components/pure/loading-animation/LoadingAnimation.svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import Suggestion from './Suggestion.svelte';
 

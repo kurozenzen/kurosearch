@@ -1,7 +1,7 @@
 import { browser } from '$app/env';
-import { addIndexedPosts, addIndexedPost, getIndexedPost } from '$lib/indexeddb/idb';
-import { formatTagname } from '$lib/logic/format-tag';
-import { getTagTypePriority } from '$lib/logic/tag-type-data';
+import { addIndexedPosts, addIndexedPost, getIndexedPost } from '#lib/indexeddb/idb';
+import { formatTagname } from '#lib/logic/format-tag';
+import { getTagTypePriority } from '#lib/logic/tag-type-data';
 import { ApiError } from '../tags/ApiError';
 import { apiUrl, R34_API_URL } from '../url';
 

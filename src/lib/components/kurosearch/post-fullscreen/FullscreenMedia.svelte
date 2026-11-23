@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isComic } from '$lib/logic/media-utils';
+	import { isComic } from '#lib/logic/media-utils';
 	import FullscreenComic from './FullscreenComic.svelte';
 	import FullscreenGif from './FullscreenGif.svelte';
 	import FullscreenImage from './FullscreenImage.svelte';

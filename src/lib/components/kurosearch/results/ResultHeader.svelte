@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getFirstPage } from '$lib/logic/search.svelte';
-	import { pageNavigationEnabled } from '$lib/store';
+	import { getFirstPage } from '#lib/logic/search.svelte';
+	import { pageNavigationEnabled } from '#lib/store';
 	import PageJump from '../page-navigation/PageJump.svelte';
 	import SortFilterConfig from '../sort-filter-config/SortFilterConfig.svelte';
 	import ResultCount from './ResultCount.svelte';

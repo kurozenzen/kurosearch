@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatVideoTime } from '$lib/logic/format-time';
+	import { formatVideoTime } from '#lib/logic/format-time';
 
 	interface Props {
 		timeLeft: number;

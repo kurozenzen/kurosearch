@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	import { version } from '$app/environment';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
 
 	const getLatestCommit = async () => {
 		const response = await fetch('https://api.github.com/repos/kurozenzen/kurosearch/commits/main');

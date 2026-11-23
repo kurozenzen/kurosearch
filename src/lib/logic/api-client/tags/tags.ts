@@ -1,8 +1,8 @@
 import { browser } from '$app/environment';
-import { addIndexedTag, getIndexedTag } from '$lib/indexeddb/idb';
-import { formatTagname } from '$lib/logic/format-tag';
-import { replaceHtmlEntities } from '$lib/logic/replace-html-entities';
-import { serializeAutocompleteTag } from '$lib/logic/tag-serialization';
+import { addIndexedTag, getIndexedTag } from '#lib/indexeddb/idb';
+import { formatTagname } from '#lib/logic/format-tag';
+import { replaceHtmlEntities } from '#lib/logic/replace-html-entities';
+import { serializeAutocompleteTag } from '#lib/logic/tag-serialization';
 import { apiUrl, R34_API_URL } from '../url';
 import { ApiError } from './ApiError';
 

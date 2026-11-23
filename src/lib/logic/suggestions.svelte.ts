@@ -3,7 +3,7 @@ import {
 	activeTags,
 	createTagFromName,
 	supertags
-} from '$lib/store';
+} from '#lib/store';
 import { addOrReplace } from './array-ops';
 import { getTagSuggestions } from './api-client/ApiClient';
 

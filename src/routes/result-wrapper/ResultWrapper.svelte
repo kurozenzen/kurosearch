@@ -1,14 +1,14 @@
 <script lang="ts">
-	import SearchError from '$lib/components/kurosearch/error-search/SearchError.svelte';
-	import PageNavigation from '$lib/components/kurosearch/page-navigation/PageNavigation.svelte';
-	import NoMoreResults from '$lib/components/kurosearch/results/NoMoreResults.svelte';
-	import ZeroResults from '$lib/components/kurosearch/results/ZeroResults.svelte';
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { getFirstPage, getNextPage, jumpToPage } from '$lib/logic/search.svelte';
-	import { pageNavigationEnabled, resultColumns, results } from '$lib/store';
+	import SearchError from '#lib/components/kurosearch/error-search/SearchError.svelte';
+	import PageNavigation from '#lib/components/kurosearch/page-navigation/PageNavigation.svelte';
+	import NoMoreResults from '#lib/components/kurosearch/results/NoMoreResults.svelte';
+	import ZeroResults from '#lib/components/kurosearch/results/ZeroResults.svelte';
+	import IntersectionDetector from '#lib/components/pure/intersection-detector/IntersectionDetector.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { getFirstPage, getNextPage, jumpToPage } from '#lib/logic/search.svelte';
+	import { pageNavigationEnabled, resultColumns, results } from '#lib/store';
 	import { onMount, type Snippet } from 'svelte';
-	import Loading from '$lib/components/kurosearch/loading/Loading.svelte';
+	import Loading from '#lib/components/kurosearch/loading/Loading.svelte';
 
 	interface Props {
 		children: Snippet;

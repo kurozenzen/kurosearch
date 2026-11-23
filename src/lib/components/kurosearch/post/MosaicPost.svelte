@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { formatCount } from '$lib/logic/format-count';
-	import { getPostId } from '$lib/logic/id-utils';
-	import { keybindFsEnter } from '$lib/logic/keybinds/keyboard-utils';
-	import { isImage } from '$lib/logic/media-utils';
+	import { formatCount } from '#lib/logic/format-count';
+	import { getPostId } from '#lib/logic/id-utils';
+	import { keybindFsEnter } from '#lib/logic/keybinds/keyboard-utils';
+	import { isImage } from '#lib/logic/media-utils';
 	import { calculateAspectRatio } from './ratio';
 
 	const maxRatio = 1 / 3;

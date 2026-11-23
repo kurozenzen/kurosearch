@@ -1,9 +1,9 @@
 <script>
 	import { browser } from '$app/environment';
-	import FeatureSupportInfo from '$lib/components/kurosearch/feature-support-info/FeatureSupportInfo.svelte';
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { apiUrl, cycleApiUrl } from '$lib/logic/api-client/url';
+	import FeatureSupportInfo from '#lib/components/kurosearch/feature-support-info/FeatureSupportInfo.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { apiUrl, cycleApiUrl } from '#lib/logic/api-client/url';
 	import {
 		supportsAspectRatio,
 		supportsFullscreen,
@@ -11,8 +11,8 @@
 		supportsLocalStorage,
 		supportsObjectFit,
 		supportsSessionStorage
-	} from '$lib/logic/feature-support';
-	import H3 from '$lib/components/pure/heading/H3.svelte';
+	} from '#lib/logic/feature-support';
+	import H3 from '#lib/components/pure/heading/H3.svelte';
 
 	let currentApi = $state(apiUrl());
 

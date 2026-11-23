@@ -1,11 +1,11 @@
 import { browser } from '$app/environment';
-import { type IndexedPost } from '$lib/indexeddb/idb';
-import type { SettingsObject } from '$lib/logic/file-utils';
-import { migrateFirebaseStorageToDriveIfNeeded } from '$lib/logic/firebase/drive-migration';
-import { saveDriveBackup } from '$lib/logic/firebase/drive-storage';
-import { blockedContent, resultColumns, theme } from '$lib/store';
-import { semiPersistentStorage } from '$lib/store/generic/storage-semi.svelte';
-import { StorageKey } from '$lib/store/storage-keys';
+import { type IndexedPost } from '#lib/indexeddb/idb';
+import type { SettingsObject } from '#lib/logic/file-utils';
+import { migrateFirebaseStorageToDriveIfNeeded } from '#lib/logic/firebase/drive-migration';
+import { saveDriveBackup } from '#lib/logic/firebase/drive-storage';
+import { blockedContent, resultColumns, theme } from '#lib/store';
+import { semiPersistentStorage } from '#lib/store/generic/storage-semi.svelte';
+import { StorageKey } from '#lib/store/storage-keys';
 import { getAuth } from 'firebase/auth';
 
 let queuedSync = Promise.resolve();

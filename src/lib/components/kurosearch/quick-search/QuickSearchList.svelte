@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
 
 	let { name, children } = $props();
 

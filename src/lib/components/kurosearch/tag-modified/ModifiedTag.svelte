@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatTagname } from '$lib/logic/format-tag';
-	import { MODIFIER_NAMES } from '$lib/logic/tag-modifier-data';
+	import { formatTagname } from '#lib/logic/format-tag';
+	import { MODIFIER_NAMES } from '#lib/logic/tag-modifier-data';
 
 	interface Props {
 		tag: kurosearch.SearchableTag;

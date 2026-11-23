@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { getGoogleAccounts } from '$lib/logic/firebase/drive';
+import { getGoogleAccounts } from '#lib/logic/firebase/drive';
 import {
 	GoogleAuthProvider,
 	type UserCredential,

@@ -1,6 +1,6 @@
 <script>
 	import { resolve } from '$app/paths';
-	import CodiconTextLink from '$lib/components/pure/icon-link/CodiconTextLink.svelte';
+	import CodiconTextLink from '#lib/components/pure/icon-link/CodiconTextLink.svelte';
 	import Copyright from './Copyright.svelte';
 </script>
 

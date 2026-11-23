@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { StorageKey } from '$lib/store/storage-keys';
+	import { StorageKey } from '#lib/store/storage-keys';
 
 	interface Props {
 		jsonText: string;

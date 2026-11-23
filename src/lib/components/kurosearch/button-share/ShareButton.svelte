@@ -1,7 +1,7 @@
 <script lang="ts" module>
-	import { getShareUrl } from '$lib/logic/url-parsing';
+	import { getShareUrl } from '#lib/logic/url-parsing';
 	import TagButton from '../button-tag/TagButton.svelte';
-	import { activeSupertags, activeTags, filter, sort } from '$lib/store';
+	import { activeSupertags, activeTags, filter, sort } from '#lib/store';
 
 	const share = async () => {
 		const shareData: ShareData = {

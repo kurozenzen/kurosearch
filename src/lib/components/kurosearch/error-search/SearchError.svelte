@@ -1,8 +1,8 @@
 <script lang="ts" module>
 	import { resolve } from '$app/paths';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { ApiError } from '$lib/logic/api-client/tags/ApiError';
-	import { apiUrl, cycleApiUrl } from '$lib/logic/api-client/url';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { ApiError } from '#lib/logic/api-client/tags/ApiError';
+	import { apiUrl, cycleApiUrl } from '#lib/logic/api-client/url';
 
 	interface NiceError {
 		title: string;

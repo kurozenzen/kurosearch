@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { activeSupertags, activeTags } from '$lib/store';
-	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
+	import { activeSupertags, activeTags } from '#lib/store';
+	import { addOrReplace, removeByName } from '#lib/logic/array-ops';
 	import SimpleTag from '../tag-simple/SimpleTag.svelte';
 
 	interface Props {

@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { addIndexedComments, getIndexedComments } from '$lib/indexeddb/idb';
+import { addIndexedComments, getIndexedComments } from '#lib/indexeddb/idb';
 import { apiUrl, R34_API_URL } from '../url';
 
 export type Comment = {

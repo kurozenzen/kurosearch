@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import '$lib/logic/firebase/firebase';
+import '#lib/logic/firebase/firebase';
 import { getAuth } from 'firebase/auth';
 
 const createFirebaseLoginStore = () => {

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { observer } from '$lib/logic/attachments/observer';
-	import { results } from '$lib/store';
+	import { observer } from '#lib/logic/attachments/observer';
+	import { results } from '#lib/store';
 	import FullscreenMedia from './FullscreenMedia.svelte';
 
 	interface Props {

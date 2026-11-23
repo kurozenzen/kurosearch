@@ -1,5 +1,5 @@
 <script>
-	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
+	import IconLink from '#lib/components/pure/icon-link/IconLink.svelte';
 	import DiscordIcon from './DiscordIcon.svelte';
 </script>
 

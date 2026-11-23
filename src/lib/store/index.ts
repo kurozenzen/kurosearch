@@ -1,4 +1,4 @@
-import { getTagDetails } from '$lib/logic/api-client/ApiClient';
+import { getTagDetails } from '#lib/logic/api-client/ApiClient';
 import { semiPersistentStorage } from './generic/storage-semi.svelte';
 import { PersistentState } from './persistent.state.svelte';
 import { StorageKey } from './storage-keys';

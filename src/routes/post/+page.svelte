@@ -1,11 +1,11 @@
 <script>
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import LayoutMobile from '$lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
-	import SingleColumnMedia from '$lib/components/kurosearch/media/SingleColumnMedia.svelte';
-	import PostDetailsFull from '$lib/components/kurosearch/post-details/PostDetailsFull.svelte';
-	import LoadingAnimation from '$lib/components/pure/loading-animation/LoadingAnimation.svelte';
-	import { getPost } from '$lib/logic/api-client/posts/posts';
+	import LayoutMobile from '#lib/components/kurosearch/layout-mobile/LayoutMobile.svelte';
+	import SingleColumnMedia from '#lib/components/kurosearch/media/SingleColumnMedia.svelte';
+	import PostDetailsFull from '#lib/components/kurosearch/post-details/PostDetailsFull.svelte';
+	import LoadingAnimation from '#lib/components/pure/loading-animation/LoadingAnimation.svelte';
+	import { getPost } from '#lib/logic/api-client/posts/posts';
 
 	let idString = $derived(browser ? page.url.searchParams.get('id') : null);
 	let id = $derived(idString ? parseInt(idString) : null);

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatCount } from '$lib/logic/format-count';
-	import { formatTagname } from '$lib/logic/format-tag';
+	import { formatCount } from '#lib/logic/format-count';
+	import { formatTagname } from '#lib/logic/format-tag';
 
 	interface Props {
 		suggestion: kurosearch.Suggestion;

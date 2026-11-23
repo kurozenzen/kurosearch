@@ -1,76 +1,76 @@
 // Categories
-import ahegao from '$lib/assets/build/categories/ahegao.webp';
-import anal from '$lib/assets/build/categories/anal.webp';
-import anthro from '$lib/assets/build/categories/anthro.webp';
-import blowjob from '$lib/assets/build/categories/blowjob.webp';
-import cock_worship from '$lib/assets/build/categories/cock_worship.webp';
-import creampie from '$lib/assets/build/categories/creampie.webp';
-import feet from '$lib/assets/build/categories/feet.webp';
-import femboy from '$lib/assets/build/categories/femboy.webp';
-import femdom from '$lib/assets/build/categories/femdom.webp';
-import footjob from '$lib/assets/build/categories/footjob.webp';
-import furry from '$lib/assets/build/categories/furry.webp';
-import incest from '$lib/assets/build/categories/incest.webp';
-import milf from '$lib/assets/build/categories/milf.webp';
-import paizuri from '$lib/assets/build/categories/paizuri.webp';
-import pov from '$lib/assets/build/categories/pov.webp';
-import rimming from '$lib/assets/build/categories/rimming.webp';
-import romantic from '$lib/assets/build/categories/romantic.webp';
-import succubus from '$lib/assets/build/categories/succubus.webp';
-import tentacle from '$lib/assets/build/categories/tentacle.webp';
-import wholesome from '$lib/assets/build/categories/wholesome.webp';
-import dark_skin from '$lib/assets/build/categories/dark_skin.webp';
-import double_penetration from '$lib/assets/build/categories/double_penetration.webp';
-import tattoo from '$lib/assets/build/categories/tattoo.webp';
-import zoophilia from '$lib/assets/build/categories/zoophilia.webp';
-import watersports from '$lib/assets/build/categories/watersports.webp';
-import gaping from '$lib/assets/build/categories/gaping.webp';
-import prolapse from '$lib/assets/build/categories/prolapse.webp';
-import gangbang from '$lib/assets/build/categories/gangbang.webp';
-import armpit from '$lib/assets/build/categories/armpit.webp';
-import rape from '$lib/assets/build/categories/rape.webp';
+import ahegao from '#lib/assets/build/categories/ahegao.webp';
+import anal from '#lib/assets/build/categories/anal.webp';
+import anthro from '#lib/assets/build/categories/anthro.webp';
+import blowjob from '#lib/assets/build/categories/blowjob.webp';
+import cock_worship from '#lib/assets/build/categories/cock_worship.webp';
+import creampie from '#lib/assets/build/categories/creampie.webp';
+import feet from '#lib/assets/build/categories/feet.webp';
+import femboy from '#lib/assets/build/categories/femboy.webp';
+import femdom from '#lib/assets/build/categories/femdom.webp';
+import footjob from '#lib/assets/build/categories/footjob.webp';
+import furry from '#lib/assets/build/categories/furry.webp';
+import incest from '#lib/assets/build/categories/incest.webp';
+import milf from '#lib/assets/build/categories/milf.webp';
+import paizuri from '#lib/assets/build/categories/paizuri.webp';
+import pov from '#lib/assets/build/categories/pov.webp';
+import rimming from '#lib/assets/build/categories/rimming.webp';
+import romantic from '#lib/assets/build/categories/romantic.webp';
+import succubus from '#lib/assets/build/categories/succubus.webp';
+import tentacle from '#lib/assets/build/categories/tentacle.webp';
+import wholesome from '#lib/assets/build/categories/wholesome.webp';
+import dark_skin from '#lib/assets/build/categories/dark_skin.webp';
+import double_penetration from '#lib/assets/build/categories/double_penetration.webp';
+import tattoo from '#lib/assets/build/categories/tattoo.webp';
+import zoophilia from '#lib/assets/build/categories/zoophilia.webp';
+import watersports from '#lib/assets/build/categories/watersports.webp';
+import gaping from '#lib/assets/build/categories/gaping.webp';
+import prolapse from '#lib/assets/build/categories/prolapse.webp';
+import gangbang from '#lib/assets/build/categories/gangbang.webp';
+import armpit from '#lib/assets/build/categories/armpit.webp';
+import rape from '#lib/assets/build/categories/rape.webp';
 
 // Franchises
-import genshin_impact from '$lib/assets/build/franchises/genshin_impact.webp';
-import league_of_legends from '$lib/assets/build/franchises/league_of_legends.webp';
-import mario from '$lib/assets/build/franchises/mario.webp';
-import marvel_rivals from '$lib/assets/build/franchises/marvel_rivals.webp';
-import marvel from '$lib/assets/build/franchises/marvel.webp';
-import nintendo from '$lib/assets/build/franchises/nintendo.webp';
-import overwatch from '$lib/assets/build/franchises/overwatch.webp';
-import pokemon from '$lib/assets/build/franchises/pokemon.webp';
-import sonic from '$lib/assets/build/franchises/sonic.webp';
-import xenoblade from '$lib/assets/build/franchises/xenoblade.webp';
-import zelda from '$lib/assets/build/franchises/zelda.webp';
-import zenless_zone_zero from '$lib/assets/build/franchises/zenless_zone_zero.webp';
-import teen_titans from '$lib/assets/build/franchises/teen_titans.webp';
+import genshin_impact from '#lib/assets/build/franchises/genshin_impact.webp';
+import league_of_legends from '#lib/assets/build/franchises/league_of_legends.webp';
+import mario from '#lib/assets/build/franchises/mario.webp';
+import marvel_rivals from '#lib/assets/build/franchises/marvel_rivals.webp';
+import marvel from '#lib/assets/build/franchises/marvel.webp';
+import nintendo from '#lib/assets/build/franchises/nintendo.webp';
+import overwatch from '#lib/assets/build/franchises/overwatch.webp';
+import pokemon from '#lib/assets/build/franchises/pokemon.webp';
+import sonic from '#lib/assets/build/franchises/sonic.webp';
+import xenoblade from '#lib/assets/build/franchises/xenoblade.webp';
+import zelda from '#lib/assets/build/franchises/zelda.webp';
+import zenless_zone_zero from '#lib/assets/build/franchises/zenless_zone_zero.webp';
+import teen_titans from '#lib/assets/build/franchises/teen_titans.webp';
 
 // Pairings
-import blacked from '$lib/assets/build/pairings/blacked.webp';
-import futa_on_male from '$lib/assets/build/pairings/futa_on_male.webp';
-import futanari from '$lib/assets/build/pairings/futanari.webp';
-import gay from '$lib/assets/build/pairings/gay.webp';
-import straight from '$lib/assets/build/pairings/straight.webp';
-import yuri from '$lib/assets/build/pairings/yuri.webp';
+import blacked from '#lib/assets/build/pairings/blacked.webp';
+import futa_on_male from '#lib/assets/build/pairings/futa_on_male.webp';
+import futanari from '#lib/assets/build/pairings/futanari.webp';
+import gay from '#lib/assets/build/pairings/gay.webp';
+import straight from '#lib/assets/build/pairings/straight.webp';
+import yuri from '#lib/assets/build/pairings/yuri.webp';
 
 // Characters
 
-import sakura from '$lib/assets/build/characters/sakura.webp';
-import princesszelda from '$lib/assets/build/characters/princesszelda.webp';
-import gardevoir from '$lib/assets/build/characters/gardevoir.webp';
-import loona from '$lib/assets/build/characters/loona.webp';
-import nami from '$lib/assets/build/characters/nami.webp';
-import peach from '$lib/assets/build/characters/peach.webp';
-import rouge from '$lib/assets/build/characters/rouge.webp';
-import tifa from '$lib/assets/build/characters/tifa.webp';
-import hinata from '$lib/assets/build/characters/hinata.webp';
-import yorha2b from '$lib/assets/build/characters/2b.webp';
-import chunli from '$lib/assets/build/characters/chunli.webp';
-import raven from '$lib/assets/build/characters/raven.webp';
-import amy from '$lib/assets/build/characters/amy.webp';
+import sakura from '#lib/assets/build/characters/sakura.webp';
+import princesszelda from '#lib/assets/build/characters/princesszelda.webp';
+import gardevoir from '#lib/assets/build/characters/gardevoir.webp';
+import loona from '#lib/assets/build/characters/loona.webp';
+import nami from '#lib/assets/build/characters/nami.webp';
+import peach from '#lib/assets/build/characters/peach.webp';
+import rouge from '#lib/assets/build/characters/rouge.webp';
+import tifa from '#lib/assets/build/characters/tifa.webp';
+import hinata from '#lib/assets/build/characters/hinata.webp';
+import yorha2b from '#lib/assets/build/characters/2b.webp';
+import chunli from '#lib/assets/build/characters/chunli.webp';
+import raven from '#lib/assets/build/characters/raven.webp';
+import amy from '#lib/assets/build/characters/amy.webp';
 
 // Imports
-import type { SortData } from '$lib/store';
+import type { SortData } from '#lib/store';
 
 export const LABELS_AI = Object.freeze({
 	both: 'both',

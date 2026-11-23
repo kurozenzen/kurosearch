@@ -1,10 +1,10 @@
 <script lang="ts">
-	import IntersectionDetector from '$lib/components/pure/intersection-detector/IntersectionDetector.svelte';
-	import { keybindDetails, keybindFsNext, keybindFsPrev } from '$lib/logic/keybinds/keyboard-utils';
+	import IntersectionDetector from '#lib/components/pure/intersection-detector/IntersectionDetector.svelte';
+	import { keybindDetails, keybindFsNext, keybindFsPrev } from '#lib/logic/keybinds/keyboard-utils';
 	import { onMount } from 'svelte';
 	import FullscreenDetails from './FullscreenDetails.svelte';
 	import Screen from './Screen.svelte';
-	import { autoplayFullscreenEnabled, fullscreenHintDone, results } from '$lib/store';
+	import { autoplayFullscreenEnabled, fullscreenHintDone, results } from '#lib/store';
 
 	interface Props {
 		index: number;

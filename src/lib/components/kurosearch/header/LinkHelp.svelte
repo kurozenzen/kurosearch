@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import CodiconLink from '$lib/components/pure/icon-link/CodiconLink.svelte';
+	import CodiconLink from '#lib/components/pure/icon-link/CodiconLink.svelte';
 </script>
 
 <CodiconLink title="Documentation" href={'/help'} icon="codicon codicon-book" />

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/pure/button-icon/IconButton.svelte';
+	import IconButton from '#lib/components/pure/button-icon/IconButton.svelte';
 	import FullscreenButton from '../button-fullscreen/FullscreenButton.svelte';
 	import PlayButton from '../button-play/PlayButton.svelte';
 	import VideoSeekInput from '../media-video/VideoSeekInput.svelte';

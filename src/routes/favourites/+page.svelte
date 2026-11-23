@@ -1,10 +1,10 @@
 <script lang="ts">
-	import SingleColumnPost from '$lib/components/kurosearch/post/SingleColumnPost.svelte';
-	import SimpleTag from '$lib/components/kurosearch/tag-simple/SimpleTag.svelte';
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import Preference from '$lib/components/pure/preference/Preference.svelte';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
-	import Select from '$lib/components/pure/select/Select.svelte';
+	import SingleColumnPost from '#lib/components/kurosearch/post/SingleColumnPost.svelte';
+	import SimpleTag from '#lib/components/kurosearch/tag-simple/SimpleTag.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import Preference from '#lib/components/pure/preference/Preference.svelte';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
+	import Select from '#lib/components/pure/select/Select.svelte';
 	import {
 		computeFavourteTags as computeFavouriteTags,
 		TAG_FILTER_OPTIONS,
@@ -14,8 +14,8 @@
 		type FavouriteTagSort,
 		type TagTypeFilter
 	} from './favourite-tags';
-	import { activeTags } from '$lib/store';
-	import { addOrReplace, removeByName } from '$lib/logic/array-ops';
+	import { activeTags } from '#lib/store';
+	import { addOrReplace, removeByName } from '#lib/logic/array-ops';
 
 	let message = $derived.by(() => {
 		if (favouritePostsStore.ids.size == 0) {

@@ -15,9 +15,9 @@
 </script>
 
 <script lang="ts">
-	import PageGeneric from '$lib/components/pure/page-generic/PageGeneric.svelte';
-	import Version from '$lib/components/kurosearch/about-version/Version.svelte';
-	import SectionH3 from '$lib/components/kurosearch/section-docs/SectionH3.svelte';
+	import PageGeneric from '#lib/components/pure/page-generic/PageGeneric.svelte';
+	import Version from '#lib/components/kurosearch/about-version/Version.svelte';
+	import SectionH3 from '#lib/components/kurosearch/section-docs/SectionH3.svelte';
 </script>
 
 <svelte:head>

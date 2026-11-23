@@ -1,4 +1,4 @@
-import { supertags } from '$lib/store';
+import { supertags } from '#lib/store';
 import { findItemByName } from './array-ops';
 import { serializeTagName } from './tag-serialization';
 import { createSearchableTag } from './tag-utils';

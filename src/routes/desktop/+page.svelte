@@ -1,13 +1,13 @@
 <script lang="ts">
-	import FooterMobile from '$lib/components/kurosearch/footer/FooterMobile.svelte';
-	import HeaderDesktop from '$lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
-	import ActivePostDesktop from '$lib/components/kurosearch/post-desktop/ActivePostDesktop.svelte';
-	import PostDesktop from '$lib/components/kurosearch/post-desktop/PostDesktop.svelte';
-	import QuickSearch from '$lib/components/kurosearch/quick-search/QuickSearch.svelte';
-	import { keybindsVideo } from '$lib/logic/keybinds/keyboard-utils';
-	import { getFirstPage } from '$lib/logic/search.svelte';
+	import FooterMobile from '#lib/components/kurosearch/footer/FooterMobile.svelte';
+	import HeaderDesktop from '#lib/components/kurosearch/header-desktop/HeaderDesktop.svelte';
+	import ActivePostDesktop from '#lib/components/kurosearch/post-desktop/ActivePostDesktop.svelte';
+	import PostDesktop from '#lib/components/kurosearch/post-desktop/PostDesktop.svelte';
+	import QuickSearch from '#lib/components/kurosearch/quick-search/QuickSearch.svelte';
+	import { keybindsVideo } from '#lib/logic/keybinds/keyboard-utils';
+	import { getFirstPage } from '#lib/logic/search.svelte';
 	import ResultWrapper from '../result-wrapper/ResultWrapper.svelte';
-	import { results } from '$lib/store';
+	import { results } from '#lib/store';
 
 	let activePost = $state<kurosearch.Post | undefined>(undefined);
 </script>

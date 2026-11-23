@@ -1,7 +1,7 @@
 <script>
-	import notFoundSrc from '$lib/assets/lynxy-chibi-not-found.webp';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
-	import { activeTags } from '$lib/store';
+	import notFoundSrc from '#lib/assets/lynxy-chibi-not-found.webp';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
+	import { activeTags } from '#lib/store';
 </script>
 
 <section>

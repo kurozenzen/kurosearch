@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { formatCount } from '$lib/logic/format-count';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+	import { formatCount } from '#lib/logic/format-count';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
 
 	interface Props {
 		post: kurosearch.Post;

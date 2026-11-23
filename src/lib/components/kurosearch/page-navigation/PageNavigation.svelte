@@ -1,8 +1,8 @@
 <script lang="ts">
 	import PageJump from './PageJump.svelte';
-	import { PAGE_SIZE } from '$lib/logic/api-client/ApiClient';
+	import { PAGE_SIZE } from '#lib/logic/api-client/ApiClient';
 	import PageButton, { pageLabel } from './PageButton.svelte';
-	import { results } from '$lib/store';
+	import { results } from '#lib/store';
 
 	interface Props {
 		onpagechange: (newPage: number) => void;

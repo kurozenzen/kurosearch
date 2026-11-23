@@ -1,9 +1,9 @@
 <script lang="ts">
 	import QuickSearchTag from './QuickSearchTag.svelte';
 	import QuickSearchGroup from './QuickSearchGroup.svelte';
-	import RadioGroup from '$lib/components/pure/radio-group/RadioGroup.svelte';
+	import RadioGroup from '#lib/components/pure/radio-group/RadioGroup.svelte';
 	import QuickSearchList from './QuickSearchList.svelte';
-	import TextButton from '$lib/components/pure/button-text/TextButton.svelte';
+	import TextButton from '#lib/components/pure/button-text/TextButton.svelte';
 	import {
 		LABELS_AI,
 		LABELS_MEDIA,
@@ -18,8 +18,8 @@
 		createTagFromName,
 		results,
 		sort as sortState,
-	} from '$lib/store';
-	import { addOrReplace } from '$lib/logic/array-ops';
+	} from '#lib/store';
+	import { addOrReplace } from '#lib/logic/array-ops';
 
 	interface Props {
 		onSubmit?: () => void;

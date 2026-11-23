@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPostId } from '$lib/logic/id-utils';
+	import { getPostId } from '#lib/logic/id-utils';
 	import {
 		isInputFocused,
 		keybindFsEnter,
@@ -7,8 +7,8 @@
 		keybindPostFavourite,
 		keybindPostLinks,
 		keybindPostTags
-	} from '$lib/logic/keybinds/keyboard-utils';
-	import { favouritePostsStore } from '$lib/store/favourite-posts.state.svelte';
+	} from '#lib/logic/keybinds/keyboard-utils';
+	import { favouritePostsStore } from '#lib/store/favourite-posts.state.svelte';
 	import SingleColumnMedia from '../media/SingleColumnMedia.svelte';
 	import PostDetailsTab from '../post-details/PostDetailsTab.svelte';
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { resolve } from '$app/paths';
-	import IconLink from '$lib/components/pure/icon-link/IconLink.svelte';
+	import IconLink from '#lib/components/pure/icon-link/IconLink.svelte';
 	import { getAuth } from 'firebase/auth';
 	import { onMount } from 'svelte';
 
